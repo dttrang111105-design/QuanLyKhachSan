@@ -1,0 +1,72 @@
+﻿@model QuanLyKhachSan.ViewModels.Dashboard.DashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_ReceptionistLayout.cshtml";
+    ViewData["Title"] = "Dashboard Receptionist";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Dashboard Lễ tân</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a asp-controller="Bookings" asp-action="Index" class="text-decoration-none">
+                <div class="card bg-success text-white shadow">
+                    <div class="card-body text-center">
+                        <h1>@Model.TotalBookings</h1>
+                        <h5>Booking</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="Invoices" asp-action="Index" class="text-decoration-none">
+                <div class="card bg-primary text-white shadow">
+                    <div class="card-body text-center">
+                        <h5>Quản lý hóa đơn</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <hr class="my-5" />
+
+    <h4 class="mb-4">Tình trạng phòng</h4>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card border-success shadow-sm">
+                <div class="card-body text-center">
+                    <h1 class="text-success">@Model.AvailableRooms</h1>
+                    <h5>Phòng còn trống</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-danger shadow-sm">
+                <div class="card-body text-center">
+                    <h1 class="text-danger">@Model.OccupiedRooms</h1>
+                    <h5>Đang có khách</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-secondary shadow-sm">
+                <div class="card-body text-center">
+                    <h1 class="text-secondary">@Model.MaintenanceRooms</h1>
+                    <h5>Bảo trì</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

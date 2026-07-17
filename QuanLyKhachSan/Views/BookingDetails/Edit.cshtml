@@ -1,0 +1,84 @@
+@model QuanLyKhachSan.Models.BookingDetail
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>BookingDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="BookingId" class="control-label"></label>
+                <input asp-for="BookingId" class="form-control" />
+                <span asp-validation-for="BookingId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking" class="control-label"></label>
+                <input asp-for="Booking" class="form-control" />
+                <span asp-validation-for="Booking" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomId" class="control-label"></label>
+                <input asp-for="RoomId" class="form-control" />
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room" class="control-label"></label>
+                <input asp-for="Room" class="form-control" />
+                <span asp-validation-for="Room" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePerNight" class="control-label"></label>
+                <input asp-for="PricePerNight" class="form-control" />
+                <span asp-validation-for="PricePerNight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfNights" class="control-label"></label>
+                <input asp-for="NumberOfNights" class="form-control" />
+                <span asp-validation-for="NumberOfNights" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiscountPercent" class="control-label"></label>
+                <input asp-for="DiscountPercent" class="form-control" />
+                <span asp-validation-for="DiscountPercent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedAt" class="control-label"></label>
+                <input asp-for="UpdatedAt" class="form-control" />
+                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsDeleted" class="control-label"></label>
+                <input asp-for="IsDeleted" class="form-check-input" />
+                <span asp-validation-for="IsDeleted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

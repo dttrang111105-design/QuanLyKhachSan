@@ -1,0 +1,60 @@
+﻿@model QuanLyKhachSan.ViewModels.Dashboard.DashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h2>Xin chào @User.Identity?.Name</h2>
+
+    <div class="row g-4 mt-3">
+
+        <div class="col-md-4">
+
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h1>@Model.MyBookings</h1>
+                    <h5>Booking của tôi</h5>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h1>@Model.AvailableRooms</h1>
+                    <h5>Phòng còn trống</h5>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <a asp-controller="Rooms"
+               asp-action="Index"
+               class="text-decoration-none">
+
+                <div class="card bg-warning text-dark">
+
+                    <div class="card-body text-center">
+
+                        <h5>Xem danh sách phòng</h5>
+
+                        <small>Đặt phòng ngay</small>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

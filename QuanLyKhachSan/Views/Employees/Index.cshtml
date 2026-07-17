@@ -1,0 +1,188 @@
+@model IEnumerable<QuanLyKhachSan.Models.Employee>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Quản lý nhân viên";
+    var stt = 1;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">Quản lý nhân viên</h2>
+        <p class="text-muted mb-0">
+            Danh sách nhân viên của khách sạn
+        </p>
+    </div>
+
+    <a asp-controller="Employees"
+       asp-action="Create"
+       class="btn btn-primary">
+        Thêm nhân viên
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-bordered align-middle mb-0">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th class="text-center" style="width: 60px;">
+                            STT
+                        </th>
+
+                        <th>Họ và tên</th>
+
+                        <th>Tài khoản</th>
+
+                        <th>Chức vụ</th>
+
+                        <th>Liên hệ</th>
+
+                        <th class="text-end">Lương</th>
+
+                        <th>Ngày vào làm</th>
+
+                        <th class="text-center">Trạng thái</th>
+
+                        <th class="text-center" style="width: 210px;">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @stt
+                                </td>
+
+                                <td>
+                                    <strong>@item.FullName</strong>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.Gender))
+                                    {
+                                        <div class="small text-muted">
+                                            @item.Gender
+                                        </div>
+                                    }
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        @(item.Account?.Username ?? "Chưa liên kết")
+                                    </strong>
+
+                                    @if (item.Account != null)
+                                    {
+                                        <div class="small text-muted">
+                                            @item.Account.Role
+                                        </div>
+                                    }
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(item.Position)
+                                        ? "Chưa cập nhật"
+                                        : item.Position)
+                                </td>
+
+                                <td>
+                                    <div>
+                                        @(string.IsNullOrWhiteSpace(item.Phone)
+                                            ? "Chưa có SĐT"
+                                            : item.Phone)
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        @(string.IsNullOrWhiteSpace(item.Email)
+                                            ? "Chưa có email"
+                                            : item.Email)
+                                    </div>
+                                </td>
+
+                                <td class="text-end text-danger fw-semibold">
+                                    @item.Salary.ToString("N0") VNĐ
+                                </td>
+
+                                <td>
+                                    @item.HireDate.ToString("dd/MM/yyyy")
+                                </td>
+
+                                <td class="text-center">
+                                    @if (item.Status)
+                                    {
+                                        <span class="badge bg-success">
+                                            Đang làm việc
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Đã nghỉ
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-center text-nowrap">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-info text-white">
+                                        Chi tiết
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-warning">
+                                        Sửa
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-danger">
+                                        Xóa
+                                    </a>
+                                </td>
+                            </tr>
+
+                            stt++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9"
+                                class="text-center text-muted py-4">
+                                Chưa có nhân viên nào.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>

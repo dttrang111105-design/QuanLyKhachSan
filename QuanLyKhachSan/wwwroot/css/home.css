@@ -1,0 +1,117 @@
+﻿body {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    /* HERO */
+
+    .hero {
+        height: 60vh;
+        min-height: 450px;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+
+    .hero-content p {
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+
+    .btn-book {
+        background: #d4a017;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+
+        .btn-book:hover {
+            background: #b88a10;
+            color: white;
+        }
+    /* SECTION */
+
+    .about,
+    .rooms,
+    .services,
+    .reviews,
+    .contact {
+        padding: 60px 0;
+    }
+
+        .about h2,
+        .rooms h2,
+        .services h2,
+        .reviews h2,
+        .contact h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    /* ROOM */
+
+    .room-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+        gap: 25px;
+    }
+
+    .room-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .room-placeholder {
+        height: 220px;
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-weight: bold;
+    }
+    /* SERVICE */
+
+    .service-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+        gap: 20px;
+    }
+
+    .service-item {
+        padding: 25px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: center;
+        background: white;
+        font-size: 18px;
+    }
+    /* REVIEW */
+
+    .review-card {
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 25px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background: white;
+    }
+    /* CONTACT */
+
+    .contact {
+        text-align: center;
+        background: #f8f9fa;
+    }
+}

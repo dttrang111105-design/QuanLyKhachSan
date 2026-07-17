@@ -1,0 +1,124 @@
+@model QuanLyKhachSan.ViewModels.BookingCreateViewModel
+
+@{
+    ViewData["Title"] = "Đặt phòng";
+}
+
+<h2>Đặt phòng</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Create" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="RoomId" type="hidden" />
+
+            <div class="mb-3">
+                <label class="form-label">Phòng</label>
+                <input class="form-control"
+                       value="@Model.RoomNumber"
+                       readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Giá / đêm</label>
+                <input class="form-control"
+                       value="@Model.PricePerNight.ToString("N0") VNĐ"
+                       readonly />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CheckInDate" class="form-label"></label>
+
+                <input asp-for="CheckInDate"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="CheckInDate"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CheckOutDate" class="form-label"></label>
+
+                <input asp-for="CheckOutDate"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="CheckOutDate"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Adult" class="form-label"></label>
+
+                <input asp-for="Adult"
+                       type="number"
+                       min="1"
+                       class="form-control" />
+
+                <span asp-validation-for="Adult"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Children" class="form-label"></label>
+
+                <input asp-for="Children"
+                       type="number"
+                       min="0"
+                       class="form-control" />
+
+                <span asp-validation-for="Children"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Deposit" class="form-label"></label>
+
+                <input asp-for="Deposit"
+                       type="number"
+                       min="0"
+                       class="form-control" />
+
+                <span asp-validation-for="Deposit"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Note" class="form-label"></label>
+
+                <textarea asp-for="Note"
+                          rows="4"
+                          class="form-control"></textarea>
+
+                <span asp-validation-for="Note"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Đặt phòng
+            </button>
+
+            <a asp-action="MyBookings"
+               class="btn btn-secondary">
+                Quay lại
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

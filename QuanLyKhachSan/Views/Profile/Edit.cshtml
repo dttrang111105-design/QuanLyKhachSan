@@ -1,0 +1,119 @@
+﻿@model QuanLyKhachSan.ViewModels.Profile.EditProfileViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning">
+            <h4>Chỉnh sửa thông tin cá nhân</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Edit"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
+
+                @if (!string.IsNullOrEmpty(Model.Avatar))
+                {
+                    <div class="mb-3">
+
+                        <img src="@Model.Avatar"
+                             width="150"
+                             class="img-thumbnail" />
+
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label asp-for="AvatarFile" class="form-label"></label>
+
+                    <input asp-for="AvatarFile"
+                           type="file"
+                           class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label"></label>
+
+                    <input asp-for="FullName"
+                           class="form-control" />
+
+                    <span asp-validation-for="FullName"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+
+                    <input asp-for="Email"
+                           class="form-control" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label"></label>
+
+                    <input asp-for="Phone"
+                           class="form-control" />
+
+                    <span asp-validation-for="Phone"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label"></label>
+
+                    <input asp-for="Address"
+                           class="form-control" />
+
+                    <span asp-validation-for="Address"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DateOfBirth"
+                           class="form-label"></label>
+
+                    <input asp-for="DateOfBirth"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="DateOfBirth"
+                          class="text-danger"></span>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Lưu thay đổi
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Quay lại
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,45 @@
+@model IEnumerable<QuanLyKhachSan.Models.Invoice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Booking</th>
+            <th>Mã Hóa Đơn</th>
+            <th>Ngày lập</th>
+            <th>Tiền phòng</th>
+            <th>Tiền dịch vụ</th>
+            <th>Giảm giá (%)</th>
+            <th>Thuế (%)</th>
+            <th>Tổng tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>@item.Booking?.BookingCode</td>
+                <td>@item.InvoiceCode</td>
+                <td>@item.InvoiceDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.RoomAmount.ToString("N0")</td>
+                <td>@item.ServiceAmount.ToString("N0")</td>
+                <td>@item.DiscountPercent</td>
+                <td>@item.TaxPercent</td>
+                <td>@item.TotalAmount.ToString("N0")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

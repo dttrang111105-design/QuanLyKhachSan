@@ -1,0 +1,63 @@
+@model QuanLyKhachSan.Models.Review
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Review</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label>Khách hàng</label>
+                <select asp-for="CustomerId"
+                        class="form-control"
+                        asp-items="ViewBag.CustomerId">
+                    <option value="">-- Chọn khách hàng --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Phòng</label>
+                <select asp-for="RoomId"
+                        class="form-control"
+                        asp-items="ViewBag.RoomId">
+                    <option value="">-- Chọn phòng --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Đánh giá</label>
+                <select asp-for="Rating" class="form-control">
+                    <option value="1">1 ⭐</option>
+                    <option value="2">2 ⭐⭐</option>
+                    <option value="3">3 ⭐⭐⭐</option>
+                    <option value="4">4 ⭐⭐⭐⭐</option>
+                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nhận xét</label>
+                <textarea asp-for="Comment"
+                          class="form-control"
+                          rows="4"></textarea>
+            </div>
+
+            <div class="form-group mt-2">
+                <input type="submit"
+                       value="Create"
+                       class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

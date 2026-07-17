@@ -1,0 +1,204 @@
+﻿@model QuanLyKhachSan.ViewModels.CustomerBookServiceViewModel
+
+@{
+    ViewData["Title"] = "Đặt dịch vụ";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Đặt dịch vụ khách sạn</h4>
+                </div>
+
+                <div class="card-body">
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["Error"]
+                        </div>
+                    }
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold">
+                            @Model.ServiceName
+                        </h5>
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Description))
+                        {
+                            <p class="text-muted mb-2">
+                                @Model.Description
+                            </p>
+                        }
+
+                        <div>
+                            Đơn giá:
+                            <span class="text-danger fw-bold fs-5">
+                                @Model.Price.ToString("N0") VNĐ
+                            </span>
+                        </div>
+                    </div>
+
+                    @if (Model.ActiveBookings == null ||
+                         !Model.ActiveBookings.Any())
+                    {
+                        <div class="alert alert-warning">
+                            Bạn chưa có phòng đang nhận phòng.
+                            Bạn chỉ có thể đặt dịch vụ khi booking có trạng thái
+                            <strong>CheckedIn</strong>.
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a asp-controller="Bookings"
+                               asp-action="MyBookings"
+                               class="btn btn-primary">
+                                Xem booking của tôi
+                            </a>
+
+                            <a asp-controller="Services"
+                               asp-action="CustomerServices"
+                               class="btn btn-secondary">
+                                Quay lại danh sách dịch vụ
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Services"
+                              asp-action="BookService"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger">
+                            </div>
+
+                            <input asp-for="ServiceId" type="hidden" />
+
+                            <div class="mb-3">
+                                <label asp-for="BookingId"
+                                       class="form-label fw-bold">
+                                    Chọn phòng sử dụng dịch vụ
+                                </label>
+
+                                <select asp-for="BookingId"
+                                        asp-items="Model.ActiveBookings"
+                                        class="form-select">
+                                    <option value="">
+                                        -- Chọn booking/phòng --
+                                    </option>
+                                </select>
+
+                                <span asp-validation-for="BookingId"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Quantity"
+                                       class="form-label fw-bold">
+                                    Số lượng
+                                </label>
+
+                                <input asp-for="Quantity"
+                                       type="number"
+                                       min="1"
+                                       max="100"
+                                       class="form-control"
+                                       id="serviceQuantity" />
+
+                                <span asp-validation-for="Quantity"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <div class="alert alert-light border mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <span>Đơn giá:</span>
+
+                                    <strong>
+                                        @Model.Price.ToString("N0") VNĐ
+                                    </strong>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-2">
+                                    <span>Thành tiền dự kiến:</span>
+
+                                    <strong class="text-danger"
+                                            id="estimatedTotal">
+                                        @Model.Price.ToString("N0") VNĐ
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit"
+                                        class="btn btn-success">
+                                    Xác nhận đặt dịch vụ
+                                </button>
+
+                                <a asp-controller="Services"
+                                   asp-action="CustomerServices"
+                                   class="btn btn-secondary">
+                                    Hủy
+                                </a>
+                            </div>
+                        </form>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const quantityInput =
+                document.getElementById("serviceQuantity");
+
+            const totalElement =
+                document.getElementById("estimatedTotal");
+
+            if (!quantityInput || !totalElement) {
+                return;
+            }
+
+            const servicePrice =
+                @Model.Price.ToString(
+                    System.Globalization.CultureInfo.InvariantCulture
+                );
+
+            function updateEstimatedTotal() {
+                let quantity = parseInt(quantityInput.value);
+
+                if (isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                }
+
+                const total = servicePrice * quantity;
+
+                totalElement.textContent =
+                    new Intl.NumberFormat("vi-VN").format(total)
+                    + " VNĐ";
+            }
+
+            quantityInput.addEventListener(
+                "input",
+                updateEstimatedTotal
+            );
+
+            updateEstimatedTotal();
+        });
+    </script>
+}

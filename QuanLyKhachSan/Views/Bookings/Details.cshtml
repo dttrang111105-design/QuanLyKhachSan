@@ -1,0 +1,338 @@
+@using QuanLyKhachSan.Enums
+@model QuanLyKhachSan.Models.Booking
+
+@{
+    ViewData["Title"] = "Chi tiết Booking";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Chi tiết Booking</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                @Model.BookingCode
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Khách hàng:</strong>
+                        @Model.Customer?.FullName
+                    </p>
+
+                    <p>
+                        <strong>Ngày đặt:</strong>
+                        @Model.BookingDate.ToString("dd/MM/yyyy HH:mm")
+                    </p>
+
+                    <p>
+                        <strong>Nhận phòng:</strong>
+                        @Model.CheckInDate.ToString("dd/MM/yyyy")
+                    </p>
+
+                    <p>
+                        <strong>Trả phòng:</strong>
+                        @Model.CheckOutDate.ToString("dd/MM/yyyy")
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Người lớn:</strong>
+                        @Model.Adult
+                    </p>
+
+                    <p>
+                        <strong>Trẻ em:</strong>
+                        @Model.Children
+                    </p>
+
+                    <p>
+                        <strong>Tiền cọc:</strong>
+                        @Model.Deposit.ToString("N0") VNĐ
+                    </p>
+
+                    <p>
+                        <strong>Tổng tiền:</strong>
+                        @Model.TotalAmount.ToString("N0") VNĐ
+                    </p>
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <h5>Phòng đã đặt</h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Phòng</th>
+                            <th>Giá/đêm</th>
+                            <th>Số đêm</th>
+                            <th>Giảm giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.BookingDetails != null &&
+                             Model.BookingDetails.Any())
+                        {
+                            @foreach (var detail in Model.BookingDetails)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @detail.Room?.RoomNumber
+                                    </td>
+
+                                    <td>
+                                        @detail.PricePerNight.ToString("N0") VNĐ
+                                    </td>
+
+                                    <td>
+                                        @detail.NumberOfNights
+                                    </td>
+
+                                    <td>
+                                        @detail.DiscountPercent %
+                                    </td>
+
+                                    <td>
+                                        @detail.TotalPrice.ToString("N0") VNĐ
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5"
+                                    class="text-center text-muted">
+                                    Không có thông tin phòng.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="mb-0">
+                    Dịch vụ đã sử dụng
+                </h5>
+
+                @if (User.IsInRole("Customer") &&
+                     Model.Status == BookingStatus.CheckedIn)
+                {
+                    <a asp-controller="Services"
+                       asp-action="CustomerServices"
+                       class="btn btn-success btn-sm">
+
+                        <i class="bi bi-cart-plus"></i>
+                        Đặt thêm dịch vụ
+
+                    </a>
+                }
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Dịch vụ</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.ServiceBookings != null &&
+                             Model.ServiceBookings.Any())
+                        {
+                            @foreach (var item in Model.ServiceBookings)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @(item.Service?.ServiceName
+                                            ?? "Không xác định")
+                                    </td>
+
+                                    <td>
+                                        @item.Quantity
+                                    </td>
+
+                                    <td>
+                                        @item.UnitPrice.ToString("N0") VNĐ
+                                    </td>
+
+                                    <td>
+                                        @item.TotalPrice.ToString("N0") VNĐ
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4"
+                                    class="text-center text-muted">
+
+                                    Chưa sử dụng dịch vụ nào.
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <hr />
+
+            <p>
+                <strong>Trạng thái:</strong>
+
+                @switch (Model.Status)
+                {
+                    case BookingStatus.Pending:
+                        <span class="badge bg-warning text-dark">
+                            Chờ xác nhận
+                        </span>
+                        break;
+
+                    case BookingStatus.Confirmed:
+                        <span class="badge bg-info">
+                            Đã xác nhận
+                        </span>
+                        break;
+
+                    case BookingStatus.CheckedIn:
+                        <span class="badge bg-success">
+                            Đang ở
+                        </span>
+                        break;
+
+                    case BookingStatus.CheckedOut:
+                        <span class="badge bg-primary">
+                            Đã trả phòng
+                        </span>
+                        break;
+
+                    case BookingStatus.Cancelled:
+                        <span class="badge bg-danger">
+                            Đã hủy
+                        </span>
+                        break;
+                }
+            </p>
+
+            <p>
+                <strong>Ghi chú:</strong><br />
+
+                @(string.IsNullOrWhiteSpace(Model.Note)
+                    ? "Không có"
+                    : Model.Note)
+            </p>
+
+        </div>
+
+        <div class="card-footer">
+
+            @if ((User.IsInRole("Admin") ||
+                  User.IsInRole("Receptionist")) &&
+                 Model.Status == BookingStatus.CheckedIn)
+            {
+                <a asp-controller="ServiceBookings"
+                   asp-action="Create"
+                   asp-route-bookingId="@Model.Id"
+                   class="btn btn-success">
+
+                    <i class="bi bi-plus-circle"></i>
+                    Thêm dịch vụ
+
+                </a>
+            }
+
+            @if (User.IsInRole("Customer") &&
+                 Model.Status == BookingStatus.CheckedIn)
+            {
+                <a asp-controller="Services"
+                   asp-action="CustomerServices"
+                   class="btn btn-success">
+
+                    <i class="bi bi-cart-plus"></i>
+                    Đặt thêm dịch vụ
+
+                </a>
+            }
+
+            <a asp-controller="Bookings"
+               asp-action="Index"
+               class="btn btn-secondary">
+
+                Quay lại
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

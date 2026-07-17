@@ -1,0 +1,47 @@
+@model QuanLyKhachSan.Models.Invoice
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Invoice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label>Booking</label>
+                <select asp-for="BookingId"
+                        class="form-control"
+                        asp-items="ViewBag.BookingId">
+                    <option value="">-- Chọn Booking --</option>
+                </select>
+                <span asp-validation-for="BookingId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DiscountPercent"></label>
+                <input asp-for="DiscountPercent" class="form-control" />
+                <span asp-validation-for="DiscountPercent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TaxPercent"></label>
+                <input asp-for="TaxPercent" class="form-control" />
+                <span asp-validation-for="TaxPercent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

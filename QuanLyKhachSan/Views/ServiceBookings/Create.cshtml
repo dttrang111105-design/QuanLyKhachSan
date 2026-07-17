@@ -1,0 +1,59 @@
+@model QuanLyKhachSan.ViewModels.ServiceBooking.CreateServiceBookingViewModel
+
+@{
+    ViewData["Title"] = "Thêm dịch vụ";
+}
+
+<h2>Thêm dịch vụ cho Booking</h2>
+
+<form asp-action="Create" method="post">
+
+    <input asp-for="BookingId" type="hidden" />
+
+    <div class="mb-3">
+
+        <label asp-for="ServiceId" class="form-label"></label>
+
+        <select asp-for="ServiceId"
+                asp-items="Model.Services"
+                class="form-select">
+
+            <option value="">-- Chọn dịch vụ --</option>
+
+        </select>
+
+        <span asp-validation-for="ServiceId"
+              class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label asp-for="Quantity" class="form-label"></label>
+
+        <input asp-for="Quantity"
+               class="form-control" />
+
+        <span asp-validation-for="Quantity"
+              class="text-danger"></span>
+
+    </div>
+
+    <button class="btn btn-success">
+        Thêm dịch vụ
+    </button>
+
+    <a asp-controller="Bookings"
+       asp-action="Details"
+       asp-route-id="@Model.BookingId"
+       class="btn btn-secondary">
+        Quay lại
+    </a>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

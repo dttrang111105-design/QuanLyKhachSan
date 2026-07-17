@@ -1,0 +1,281 @@
+@using QuanLyKhachSan.Enums
+@model QuanLyKhachSan.Models.Room
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Thêm phòng mới";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">Thêm phòng mới</h2>
+        <p class="text-muted mb-0">
+            Nhập thông tin phòng khách sạn
+        </p>
+    </div>
+
+    <a asp-controller="Rooms"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Quay lại
+    </a>
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <form asp-controller="Rooms"
+              asp-action="Create"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger">
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="RoomTypeId"
+                           class="form-label">
+                        Loại phòng
+                    </label>
+
+                    <select asp-for="RoomTypeId"
+                            asp-items="ViewBag.RoomTypeId"
+                            class="form-select">
+
+                        <option value="">
+                            -- Chọn loại phòng --
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="RoomTypeId"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="RoomNumber"
+                           class="form-label">
+                        Số phòng
+                    </label>
+
+                    <input asp-for="RoomNumber"
+                           class="form-control"
+                           placeholder="Ví dụ: 101" />
+
+                    <span asp-validation-for="RoomNumber"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Floor"
+                           class="form-label">
+                        Tầng
+                    </label>
+
+                    <input asp-for="Floor"
+                           type="number"
+                           min="1"
+                           class="form-control" />
+
+                    <span asp-validation-for="Floor"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Status"
+                           class="form-label">
+                        Trạng thái
+                    </label>
+
+                    <select asp-for="Status"
+                            class="form-select">
+
+                        <option value="@RoomStatus.Available">
+                            Còn trống
+                        </option>
+
+                        <option value="@RoomStatus.Occupied">
+                            Đang có khách
+                        </option>
+
+                        <option value="@RoomStatus.Maintenance">
+                            Bảo trì
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="Status"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="PriceDay"
+                           class="form-label">
+                        Giá theo ngày
+                    </label>
+
+                    <div class="input-group">
+
+                        <input asp-for="PriceDay"
+                               type="number"
+                               min="0"
+                               step="1000"
+                               class="form-control" />
+
+                        <span class="input-group-text">
+                            VNĐ
+                        </span>
+
+                    </div>
+
+                    <span asp-validation-for="PriceDay"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="PriceWeek"
+                           class="form-label">
+                        Giá theo tuần
+                    </label>
+
+                    <div class="input-group">
+
+                        <input asp-for="PriceWeek"
+                               type="number"
+                               min="0"
+                               step="1000"
+                               class="form-control" />
+
+                        <span class="input-group-text">
+                            VNĐ
+                        </span>
+
+                    </div>
+
+                    <span asp-validation-for="PriceWeek"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="RoomSize"
+                           class="form-label">
+                        Diện tích phòng
+                    </label>
+
+                    <div class="input-group">
+
+                        <input asp-for="RoomSize"
+                               type="number"
+                               min="1"
+                               step="0.1"
+                               class="form-control" />
+
+                        <span class="input-group-text">
+                            m²
+                        </span>
+
+                    </div>
+
+                    <span asp-validation-for="RoomSize"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="MaxOccupancy"
+                           class="form-label">
+                        Số người tối đa
+                    </label>
+
+                    <div class="input-group">
+
+                        <input asp-for="MaxOccupancy"
+                               type="number"
+                               min="1"
+                               max="20"
+                               class="form-control" />
+
+                        <span class="input-group-text">
+                            người
+                        </span>
+
+                    </div>
+
+                    <span asp-validation-for="MaxOccupancy"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-12 mb-3">
+
+                    <label asp-for="Description"
+                           class="form-label">
+                        Mô tả
+                    </label>
+
+                    <textarea asp-for="Description"
+                              rows="4"
+                              class="form-control"
+                              placeholder="Nhập mô tả về phòng...">
+                    </textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+
+                <i class="bi bi-save"></i>
+                Lưu phòng
+
+            </button>
+
+            <a asp-controller="Rooms"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Hủy
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

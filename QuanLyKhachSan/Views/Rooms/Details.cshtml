@@ -1,0 +1,81 @@
+@using QuanLyKhachSan.Enums
+@model QuanLyKhachSan.Models.Room
+
+@{
+    ViewData["Title"] = "Chi Tiết Phòng";
+}
+
+<div class="container mt-5">
+
+    <h1 class="mb-4">
+        Phòng @Model.RoomNumber
+    </h1>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            @if (Model.RoomImages != null && Model.RoomImages.Any())
+            {
+                <img src="@Model.RoomImages.First().ImageUrl"
+                     class="img-fluid rounded" />
+            }
+            else
+            {
+                <div class="room-placeholder">
+                    Chưa có ảnh
+                </div>
+            }
+
+        </div>
+
+        <div class="col-md-6">
+
+            <h3>@Model.RoomType?.Name</h3>
+
+            <p>
+                <strong>Giá:</strong>
+                @Model.RoomType?.BasePrice.ToString("N0") VNĐ
+            </p>
+
+            <p>
+                <strong>Sức chứa:</strong>
+                @Model.RoomType?.MaxOccupancy người
+            </p>
+
+            <p>
+                <strong>Loại giường:</strong>
+                @Model.RoomType?.BedType
+            </p>
+
+            <p>
+                <strong>Diện tích:</strong>
+                @Model.RoomType?.Area m²
+            </p>
+
+            <p>
+                <strong>Mô tả:</strong>
+                @Model.RoomType?.Description
+            </p>
+
+            @if (Model.Status == RoomStatus.Maintenance)
+            {
+                <button class="btn btn-secondary" disabled>
+                    Phòng đang bảo trì
+                </button>
+            }
+            else
+            {
+                <a asp-controller="Bookings"
+                   asp-action="Create"
+                   asp-route-roomId="@Model.Id"
+                   class="btn btn-success">
+                    Đặt phòng
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</div>

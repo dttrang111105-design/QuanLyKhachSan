@@ -1,0 +1,494 @@
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\appsettings.Development.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\appsettings.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.staticwebassets.runtime.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.staticwebassets.endpoints.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.exe
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.deps.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.runtimeconfig.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.pdb
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Azure.Core.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Azure.Identity.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Humanizer.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.Google.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Build.Framework.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Data.SqlClient.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Design.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Extensions.DependencyModel.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Identity.Client.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.SqlServer.Server.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Mono.TextTemplating.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Newtonsoft.Json.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.ClientModel.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.CodeDom.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.AttributedModel.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.Convention.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.Hosting.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.Runtime.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.TypedParts.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Configuration.ConfigurationManager.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Memory.Data.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Security.Cryptography.ProtectedData.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\unix\lib\net9.0\Microsoft.Data.SqlClient.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win\lib\net9.0\Microsoft.Data.SqlClient.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.csproj.AssemblyReference.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rpswa.dswa.cache.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.GeneratedMSBuildEditorConfig.editorconfig
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.AssemblyInfoInputs.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.AssemblyInfo.cs
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.csproj.CoreCompileInputs.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.MvcApplicationPartsAssemblyInfo.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.RazorAssemblyInfo.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.RazorAssemblyInfo.cs
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjimswa.dswa.cache.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\bundle\QuanLyKhachSan.styles.css
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\projectbundle\QuanLyKhachSan.bundle.scp.css
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-8kbkana1p0-8kbkana1p0.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\vptr8b3or4-{0}-dyjx89twm7-dyjx89twm7.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-yohb5l0bak-yohb5l0bak.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-w5ws4us4rz-w5ws4us4rz.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\xrkz46z9ez-{0}-61n19gt1b8-61n19gt1b8.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mumn7hpnkf-{0}-bqjiyaj88i-bqjiyaj88i.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\jrvics53y7-{0}-c2jlpeoesf-c2jlpeoesf.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wtdf6o13q9-{0}-erw9l3u2r3-erw9l3u2r3.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4qhom1fnrt-{0}-aexeepp0ev-aexeepp0ev.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ut1zrdb193-{0}-d7shbmvgxk-d7shbmvgxk.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wh9pmdmwr3-{0}-ausgxo2sd3-ausgxo2sd3.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1a47qev7we-{0}-k8d9w2qqmf-k8d9w2qqmf.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\zro33ffxxb-{0}-cosvhxvwiu-cosvhxvwiu.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\36gqazenb6-{0}-ub07r2b239-ub07r2b239.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\v3cschd9mh-{0}-fvhpjtyr6v-fvhpjtyr6v.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i4jvvbjdh1-{0}-b7pk76d08c-b7pk76d08c.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\439vm3zvpz-{0}-fsbi9cje9m-fsbi9cje9m.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hlzbzo349q-{0}-rzd6atqjts-rzd6atqjts.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\0wxg176bqs-{0}-ee0r1s7dh0-ee0r1s7dh0.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\rqi1j6hco0-{0}-dxx9fxp4il-dxx9fxp4il.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hkkp9hwa3f-{0}-jd9uben2k1-jd9uben2k1.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i5vnpzilhp-{0}-khv3u5hwcm-khv3u5hwcm.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ttfjos3uj0-{0}-r4e9w2rdcm-r4e9w2rdcm.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4b2doqs31v-{0}-lcd1t2u6c8-lcd1t2u6c8.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\66dhd6i9r3-{0}-c2oey78nd0-c2oey78nd0.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4fa10v1ryf-{0}-tdbxkamptv-tdbxkamptv.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\8uupffwd6i-{0}-j5mq2jizvt-j5mq2jizvt.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\w7fhrxpoxt-{0}-06098lyss8-06098lyss8.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\tnxyhadeyx-{0}-nvvlpmu67g-nvvlpmu67g.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\p65ztmut53-{0}-s35ty4nyc5-s35ty4nyc5.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ybedeecm9d-{0}-pj5nd1wqec-pj5nd1wqec.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\lf9olx7teu-{0}-46ein0sx1k-46ein0sx1k.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1yamnx4up8-{0}-v0zj4ognzu-v0zj4ognzu.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\gegvvq971w-{0}-37tfw0ft22-37tfw0ft22.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hyk5f0quh9-{0}-hrwsygsryq-hrwsygsryq.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\sn1clkntgi-{0}-pk9g2wxc8p-pk9g2wxc8p.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wrfsiwblcm-{0}-ft3s53vfgj-ft3s53vfgj.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mccq6vyfjn-{0}-6cfz1n2cew-6cfz1n2cew.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ckkc5c21u4-{0}-6pdc2jztkx-6pdc2jztkx.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hwly4q506w-{0}-493y06b0oq-493y06b0oq.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\09n66eo6d9-{0}-iovd86k7lj-iovd86k7lj.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\fv6pe2lm1u-{0}-vr1egmr9el-vr1egmr9el.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\pgz35m2dy2-{0}-kbrnm935zg-kbrnm935zg.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wgfxdoukcs-{0}-jj8uyg4cgr-jj8uyg4cgr.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i8z1eavu8b-{0}-y7v9cxd14o-y7v9cxd14o.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4e9zvkyoc5-{0}-notf2xhcfb-notf2xhcfb.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hfrqosqvb4-{0}-h1s4sie4z3-h1s4sie4z3.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1vlgrnxyon-{0}-63fj8s7r0e-63fj8s7r0e.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s2bxw1jbm2-{0}-0j3bgjxly4-0j3bgjxly4.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\bz5tkku9mb-{0}-47otxtyo56-47otxtyo56.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\6p8cw2jjix-{0}-4v8eqarkd7-4v8eqarkd7.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\fonhq77prj-{0}-356vix0kms-356vix0kms.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\6gshos8irx-{0}-83jwlth58m-83jwlth58m.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\0rroomcqzc-{0}-mrlpezrjn3-mrlpezrjn3.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ocse1d1n4t-{0}-lzl9nlhx6b-lzl9nlhx6b.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\oy9byw4nza-{0}-ag7o75518u-ag7o75518u.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\8t8k363lz7-{0}-x0q3zqp4vz-x0q3zqp4vz.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\yyq9dc4pdu-{0}-0i3buxo5is-0i3buxo5is.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4nq8m51y7o-{0}-o1o13a6vjx-o1o13a6vjx.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\qq12l3noeu-{0}-ttgo8qnofa-ttgo8qnofa.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\976jzzwmjh-{0}-2z0ns9nrw6-2z0ns9nrw6.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\tr1b9wrt09-{0}-muycvpuwrr-muycvpuwrr.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1jrwmqv9yh-{0}-87fc7y1x7t-87fc7y1x7t.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\8zx2by15qk-{0}-mlv21k5csn-mlv21k5csn.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i6iqlbh796-{0}-crcxh8unae-crcxh8unae.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\qc5v8wruyz-{0}-crcxh8unae-crcxh8unae.gz
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.build.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.build.json.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.development.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\swae.build.ex.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKh.7BBD220C.Up2Date
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\refint\QuanLyKhachSan.dll
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.pdb
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.genruntimeconfig.cache
+E:\Information Technology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\ref\QuanLyKhachSan.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\appsettings.Development.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\appsettings.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.staticwebassets.runtime.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.staticwebassets.endpoints.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Black.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-BlackItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Bold.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-BoldItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-ExtraBold.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-ExtraBoldItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-ExtraLight.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-ExtraLightItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Italic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Light.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-LightItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Medium.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-MediumItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Regular.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-SemiBold.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-SemiBoldItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-Thin.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\Lato-ThinItalic.ttf
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\LatoFont\OFL.txt
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.exe
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.deps.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.runtimeconfig.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.pdb
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Azure.Core.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Azure.Identity.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Humanizer.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.Google.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Build.Framework.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Data.SqlClient.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Design.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Extensions.DependencyModel.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Identity.Client.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.SqlServer.Server.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Mono.TextTemplating.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\Newtonsoft.Json.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\QuestPDF.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.ClientModel.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.CodeDom.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.AttributedModel.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.Convention.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.Hosting.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.Runtime.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Composition.TypedParts.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Configuration.ConfigurationManager.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Memory.Data.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\System.Security.Cryptography.ProtectedData.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\cs\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\de\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\es\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\fr\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\it\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ja\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ko\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pl\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\pt-BR\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\ru\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\tr\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\unix\lib\net9.0\Microsoft.Data.SqlClient.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win\lib\net9.0\Microsoft.Data.SqlClient.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\linux-arm64\native\libQuestPdfSkia.so
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\linux-arm64\native\libqpdf.so
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\linux-musl-x64\native\libQuestPdfSkia.so
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\linux-musl-x64\native\libqpdf.so
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\linux-x64\native\libQuestPdfSkia.so
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\linux-x64\native\libqpdf.so
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\osx-arm64\native\libQuestPdfSkia.dylib
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\osx-arm64\native\libqpdf.dylib
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\osx-x64\native\libQuestPdfSkia.dylib
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\osx-x64\native\libqpdf.dylib
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-arm64\native\QuestPdfSkia.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-arm64\native\qpdf.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x64\native\QuestPdfSkia.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x64\native\qpdf.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x86\native\QuestPdfSkia.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\bin\Debug\net10.0\runtimes\win-x86\native\qpdf.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.csproj.AssemblyReference.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rpswa.dswa.cache.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.GeneratedMSBuildEditorConfig.editorconfig
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.AssemblyInfoInputs.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.AssemblyInfo.cs
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.csproj.CoreCompileInputs.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.MvcApplicationPartsAssemblyInfo.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.RazorAssemblyInfo.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.RazorAssemblyInfo.cs
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjimswa.dswa.cache.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\bundle\QuanLyKhachSan.styles.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\projectbundle\QuanLyKhachSan.bundle.scp.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-8kbkana1p0-8kbkana1p0.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\vptr8b3or4-{0}-dyjx89twm7-dyjx89twm7.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-yohb5l0bak-yohb5l0bak.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-w5ws4us4rz-w5ws4us4rz.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\xrkz46z9ez-{0}-61n19gt1b8-61n19gt1b8.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mumn7hpnkf-{0}-bqjiyaj88i-bqjiyaj88i.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\jrvics53y7-{0}-c2jlpeoesf-c2jlpeoesf.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wtdf6o13q9-{0}-erw9l3u2r3-erw9l3u2r3.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4qhom1fnrt-{0}-aexeepp0ev-aexeepp0ev.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ut1zrdb193-{0}-d7shbmvgxk-d7shbmvgxk.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wh9pmdmwr3-{0}-ausgxo2sd3-ausgxo2sd3.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1a47qev7we-{0}-k8d9w2qqmf-k8d9w2qqmf.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\zro33ffxxb-{0}-cosvhxvwiu-cosvhxvwiu.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\36gqazenb6-{0}-ub07r2b239-ub07r2b239.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\v3cschd9mh-{0}-fvhpjtyr6v-fvhpjtyr6v.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i4jvvbjdh1-{0}-b7pk76d08c-b7pk76d08c.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\439vm3zvpz-{0}-fsbi9cje9m-fsbi9cje9m.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hlzbzo349q-{0}-rzd6atqjts-rzd6atqjts.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\0wxg176bqs-{0}-ee0r1s7dh0-ee0r1s7dh0.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\rqi1j6hco0-{0}-dxx9fxp4il-dxx9fxp4il.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hkkp9hwa3f-{0}-jd9uben2k1-jd9uben2k1.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i5vnpzilhp-{0}-khv3u5hwcm-khv3u5hwcm.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ttfjos3uj0-{0}-r4e9w2rdcm-r4e9w2rdcm.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4b2doqs31v-{0}-lcd1t2u6c8-lcd1t2u6c8.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\66dhd6i9r3-{0}-c2oey78nd0-c2oey78nd0.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4fa10v1ryf-{0}-tdbxkamptv-tdbxkamptv.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\8uupffwd6i-{0}-j5mq2jizvt-j5mq2jizvt.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\w7fhrxpoxt-{0}-06098lyss8-06098lyss8.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\tnxyhadeyx-{0}-nvvlpmu67g-nvvlpmu67g.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\p65ztmut53-{0}-s35ty4nyc5-s35ty4nyc5.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ybedeecm9d-{0}-pj5nd1wqec-pj5nd1wqec.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\lf9olx7teu-{0}-46ein0sx1k-46ein0sx1k.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1yamnx4up8-{0}-v0zj4ognzu-v0zj4ognzu.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\gegvvq971w-{0}-37tfw0ft22-37tfw0ft22.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hyk5f0quh9-{0}-hrwsygsryq-hrwsygsryq.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\sn1clkntgi-{0}-pk9g2wxc8p-pk9g2wxc8p.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wrfsiwblcm-{0}-ft3s53vfgj-ft3s53vfgj.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mccq6vyfjn-{0}-6cfz1n2cew-6cfz1n2cew.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ckkc5c21u4-{0}-6pdc2jztkx-6pdc2jztkx.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hwly4q506w-{0}-493y06b0oq-493y06b0oq.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\09n66eo6d9-{0}-iovd86k7lj-iovd86k7lj.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\fv6pe2lm1u-{0}-vr1egmr9el-vr1egmr9el.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\pgz35m2dy2-{0}-kbrnm935zg-kbrnm935zg.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wgfxdoukcs-{0}-jj8uyg4cgr-jj8uyg4cgr.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i8z1eavu8b-{0}-y7v9cxd14o-y7v9cxd14o.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4e9zvkyoc5-{0}-notf2xhcfb-notf2xhcfb.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\hfrqosqvb4-{0}-h1s4sie4z3-h1s4sie4z3.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1vlgrnxyon-{0}-63fj8s7r0e-63fj8s7r0e.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s2bxw1jbm2-{0}-0j3bgjxly4-0j3bgjxly4.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\bz5tkku9mb-{0}-47otxtyo56-47otxtyo56.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\6p8cw2jjix-{0}-4v8eqarkd7-4v8eqarkd7.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\fonhq77prj-{0}-356vix0kms-356vix0kms.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\6gshos8irx-{0}-83jwlth58m-83jwlth58m.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\0rroomcqzc-{0}-mrlpezrjn3-mrlpezrjn3.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ocse1d1n4t-{0}-lzl9nlhx6b-lzl9nlhx6b.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\oy9byw4nza-{0}-ag7o75518u-ag7o75518u.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\8t8k363lz7-{0}-x0q3zqp4vz-x0q3zqp4vz.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\yyq9dc4pdu-{0}-0i3buxo5is-0i3buxo5is.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\4nq8m51y7o-{0}-o1o13a6vjx-o1o13a6vjx.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\qq12l3noeu-{0}-ttgo8qnofa-ttgo8qnofa.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\976jzzwmjh-{0}-2z0ns9nrw6-2z0ns9nrw6.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\tr1b9wrt09-{0}-muycvpuwrr-muycvpuwrr.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\1jrwmqv9yh-{0}-87fc7y1x7t-87fc7y1x7t.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\8zx2by15qk-{0}-mlv21k5csn-mlv21k5csn.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\i6iqlbh796-{0}-crcxh8unae-crcxh8unae.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\qc5v8wruyz-{0}-crcxh8unae-crcxh8unae.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.build.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.build.json.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.development.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\swae.build.ex.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKh.7BBD220C.Up2Date
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\refint\QuanLyKhachSan.dll
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.pdb
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.genruntimeconfig.cache
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\ref\QuanLyKhachSan.dll

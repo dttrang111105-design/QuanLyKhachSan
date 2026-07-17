@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Luxury Hotel</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/QuanLyKhachSan.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Customer"))
+                    {
+                        <a class="navbar-brand"
+                           asp-controller="Home"
+                           asp-action="Index">
+                            Luxury Hotel
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand"
+                           asp-controller="Home"
+                           asp-action="Dashboard">
+                            Luxury Hotel
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a class="navbar-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        Luxury Hotel
+                    </a>
+                }
+
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- Trang chủ / Dashboard -->
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Home"
+                                   asp-action="Index">
+                                    Trang chủ
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Home"
+                                   asp-action="Dashboard">
+                                    Dashboard
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                Trang chủ
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Danh sách phòng -->
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Rooms"
+                           asp-action="Index">
+                            Phòng
+                        </a>
+                    </li>
+
+                    <!-- Quản lý dịch vụ -->
+                    @if (User.Identity != null && User.Identity.IsAuthenticated &&
+                        (User.IsInRole("Admin") || User.IsInRole("Receptionist")))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Services"
+                               asp-action="Index">
+                                Quản lý dịch vụ
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Dịch vụ dành cho khách -->
+                    @if (User.Identity != null && User.Identity.IsAuthenticated &&
+                        User.IsInRole("Customer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Services"
+                               asp-action="CustomerServices">
+                                Dịch vụ
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Bookings"
+                               asp-action="MyBookings">
+                                Booking của tôi
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Tài khoản -->
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="accountDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown">
+
+                                <i class="bi bi-person-circle"></i>
+                                @User.Identity.Name
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li>
+                                    <h6 class="dropdown-header">
+                                        @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
+                                    </h6>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Profile"
+                                       asp-action="Index">
+
+                                        <i class="bi bi-person"></i>
+
+                                        Hồ sơ cá nhân
+
+                                    </a>
+                                </li>
+
+                                @if (!User.IsInRole("Customer"))
+                                {
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-controller="Home"
+                                           asp-action="Dashboard">
+
+                                            <i class="bi bi-speedometer2"></i>
+
+                                            Dashboard
+
+                                        </a>
+                                    </li>
+                                }
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+
+                                    <a class="dropdown-item text-danger"
+                                       asp-controller="Auth"
+                                       asp-action="Logout">
+
+                                        <i class="bi bi-box-arrow-right"></i>
+
+                                        Đăng xuất
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Auth"
+                               asp-action="Login">
+                                Đăng nhập
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Auth"
+                               asp-action="Register">
+                                Đăng ký
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="border-top text-muted mt-5">
+        <div class="container">
+            &copy; 2026 - QuanLyKhachSan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,93 @@
+﻿@model QuanLyKhachSan.ViewModels.Payment.PaymentQrViewModel
+
+@{
+    ViewData["Title"] = "Thanh toán QR";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h3>
+
+                Thanh toán bằng QR
+
+            </h3>
+
+        </div>
+
+        <div class="card-body text-center">
+
+            <img src="@Model.QrUrl"
+                 width="320"
+                 class="img-thumbnail" />
+
+            <hr />
+
+            <table class="table">
+
+                <tr>
+
+                    <th>Ngân hàng</th>
+
+                    <td>@Model.BankCode</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Số tài khoản</th>
+
+                    <td>@Model.AccountNo</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Chủ tài khoản</th>
+
+                    <td>@Model.AccountName</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Nội dung CK</th>
+
+                    <td>
+
+                        <b>@Model.InvoiceCode</b>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Số tiền</th>
+
+                    <td class="text-danger fs-4">
+
+                        @Model.Amount.ToString("N0") VNĐ
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <a asp-action="ConfirmPayment"
+               asp-route-id="@Model.InvoiceId"
+               class="btn btn-success btn-lg">
+
+                Đã nhận tiền
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

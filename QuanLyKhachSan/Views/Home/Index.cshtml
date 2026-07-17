@@ -1,0 +1,208 @@
+﻿@using QuanLyKhachSan.Enums
+@model IEnumerable<QuanLyKhachSan.Models.Room>
+@{
+    ViewData["Title"] = "Trang Chủ";
+}
+
+<!-- HERO BANNER -->
+<section class="hero">
+    <div class="hero-content">
+
+        <h1>Luxury Hotel</h1>
+
+        <p>Trải nghiệm nghỉ dưỡng đẳng cấp 5 sao</p>
+
+        <a asp-controller="Rooms"
+           asp-action="Index"
+           class="btn-book">
+            Đặt Phòng Ngay
+        </a>
+
+    </div>
+</section>
+
+<!-- GIỚI THIỆU -->
+<section class="about">
+    <div class="container">
+        <h2>Về Chúng Tôi</h2>
+        <p>
+            Luxury Hotel là khách sạn tiêu chuẩn quốc tế,
+            mang đến trải nghiệm nghỉ dưỡng cao cấp,
+            dịch vụ chuyên nghiệp và không gian sang trọng.
+        </p>
+    </div>
+</section>
+
+<!-- PHÒNG -->
+<section class="rooms">
+
+    <div class="container">
+
+        <h2>Phòng Nổi Bật</h2>
+
+        <div class="row">
+
+            @foreach (var room in Model)
+            {
+                <div class="col-md-4 mb-4">
+
+                    <div class="card h-100 shadow">
+
+                        @if (room.RoomImages.Any())
+                        {
+                            <img src="@room.RoomImages.First().ImageUrl"
+                                 class="card-img-top"
+                                 style="height:220px;object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png"
+                                 class="card-img-top"
+                                 style="height:220px;object-fit:cover;" />
+                        }
+
+                        <div class="card-body">
+
+                            <h5>
+                                Phòng @room.RoomNumber
+                            </h5>
+
+                            <p>
+                                Loại:
+                                @room.RoomType?.Name
+                            </p>
+
+                            <p>
+                                Giá:
+                                <strong>
+                                    @room.PriceDay.ToString("N0") VNĐ/đêm
+                                </strong>
+                            </p>
+
+                            <p>
+                                @if (room.Status == RoomStatus.Available)
+                                {
+                                    <span class="badge bg-success">
+                                        Còn trống
+                                    </span>
+                                }
+                                else if (room.Status == RoomStatus.Occupied)
+                                {
+                                    <span class="badge bg-danger">
+                                        Đang có khách
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">
+                                        Bảo trì
+                                    </span>
+                                }
+                            </p>
+
+                        </div>
+
+                        <div class="card-footer text-center">
+
+                            <a asp-controller="Rooms"
+                               asp-action="Details"
+                               asp-route-id="@room.Id"
+                               class="btn btn-primary">
+                                Chi tiết
+                            </a>
+
+                            @if (room.Status == RoomStatus.Maintenance)
+                            {
+                                <button class="btn btn-secondary" disabled>
+                                    Bảo trì
+                                </button>
+                            }
+                            else
+                            {
+                                <a asp-controller="Bookings"
+                                   asp-action="Create"
+                                   asp-route-roomId="@room.Id"
+                                   class="btn btn-success">
+                                    Đặt phòng
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- DỊCH VỤ -->
+<section class="services">
+    <div class="container">
+        <h2>Dịch Vụ</h2>
+
+        <div class="service-list">
+
+            <div class="service-item">
+                🍽 Nhà Hàng
+            </div>
+
+            <div class="service-item">
+                🧖 Spa
+            </div>
+
+            <div class="service-item">
+                🚗 Đưa Đón
+            </div>
+
+            <div class="service-item">
+                🧺 Giặt Là
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ĐÁNH GIÁ -->
+<section class="reviews">
+    <div class="container">
+        <h2>Khách Hàng Nói Gì?</h2>
+
+        <div class="review-card">
+            ⭐⭐⭐⭐⭐
+            <p>
+                Phòng sạch sẽ, nhân viên thân thiện,
+                dịch vụ tuyệt vời.
+            </p>
+            <strong>Nguyễn Văn A</strong>
+        </div>
+
+        <div class="review-card">
+            ⭐⭐⭐⭐⭐
+            <p>
+                View đẹp, đồ ăn ngon,
+                sẽ quay lại lần sau.
+            </p>
+            <strong>Đàm Thu Trang</strong>
+        </div>
+    </div>
+</section>
+
+<!-- LIÊN HỆ -->
+<section class="contact">
+    <div class="container">
+        <h2>Liên Hệ</h2>
+
+        <p>📍 Hà Nội, Việt Nam</p>
+        <p>📞 0123 456 789</p>
+        <p>✉ hotel@gmail.com</p>
+    </div>
+</section>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+}

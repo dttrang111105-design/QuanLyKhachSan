@@ -1,0 +1,115 @@
+﻿@model QuanLyKhachSan.ViewModels.Profile.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+@if (!string.IsNullOrEmpty(Model.Avatar))
+{
+    <img src="@Model.Avatar"
+         width="170"
+         class="rounded-circle mb-3" />
+}
+else
+{
+    <img src="~/images/default-avatar.png"
+         width="170"
+         class="rounded-circle mb-3" />
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>Hồ sơ cá nhân</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3 text-center">
+
+                    <img src="https://ui-avatars.com/api/?name=@Model.FullName&size=180"
+                         class="rounded-circle img-thumbnail" />
+
+                </div>
+
+                <div class="col-md-9">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="220">Tên đăng nhập</th>
+                            <td>@Model.Username</td>
+                        </tr>
+
+                        <tr>
+                            <th>Họ tên</th>
+                            <td>@Model.FullName</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td>@Model.Email</td>
+                        </tr>
+
+                        <tr>
+                            <th>Số điện thoại</th>
+                            <td>@Model.Phone</td>
+                        </tr>
+
+                        <tr>
+                            <th>Địa chỉ</th>
+                            <td>@Model.Address</td>
+                        </tr>
+
+                        <tr>
+                            <th>Ngày sinh</th>
+                            <td>@Model.DateOfBirth?.ToString("dd/MM/yyyy")</td>
+                        </tr>
+
+                        <tr>
+                            <th>Vai trò</th>
+                            <td>
+                                <span class="badge bg-success">
+                                    @Model.Role
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Ngày tạo tài khoản</th>
+                            <td>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+
+                    </table>
+
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <a asp-action="Edit" class="btn btn-warning">
+                            Chỉnh sửa
+                        </a>
+                    }
+
+                    <a asp-action="ChangePassword" class="btn btn-danger">
+                        Đổi mật khẩu
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,234 @@
+@using QuanLyKhachSan.Enums
+@model IEnumerable<QuanLyKhachSan.Models.Booking>
+
+@{
+    ViewData["Title"] = "Danh sách Booking";
+}
+
+<h2 class="mb-3">Danh sách Booking</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>
+    </div>
+}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                @if (!User.IsInRole("Customer"))
+                {
+                    <th>Khách hàng</th>
+                }
+
+                <th>Mã Booking</th>
+                <th>Phòng</th>
+                <th>Ngày đặt</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả</th>
+                <th>Tiền cọc</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th style="min-width: 260px;">Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        @if (!User.IsInRole("Customer"))
+                        {
+                            <td>
+                                @(item.Customer?.FullName
+                                    ?? "Không xác định")
+                            </td>
+                        }
+
+                        <td>
+                            <strong>@item.BookingCode</strong>
+                        </td>
+
+                        <td>
+                            @if (item.BookingDetails != null &&
+                                 item.BookingDetails.Any())
+                            {
+                                @string.Join(
+                                    ", ",
+                                    item.BookingDetails
+                                        .Where(x => x.Room != null)
+                                        .Select(x => x.Room!.RoomNumber)
+                                )
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Chưa có phòng
+                                </span>
+                            }
+                        </td>
+
+                        <td>
+                            @item.BookingDate.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            @item.CheckInDate.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            @item.CheckOutDate.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td class="text-end">
+                            @item.Deposit.ToString("N0") VNĐ
+                        </td>
+
+                        <td class="text-end fw-semibold text-danger">
+                            @item.TotalAmount.ToString("N0") VNĐ
+                        </td>
+
+                        <td>
+                            @switch (item.Status)
+                            {
+                                case BookingStatus.Pending:
+                                    <span class="badge bg-warning text-dark">
+                                        Chờ xác nhận
+                                    </span>
+                                    break;
+
+                                case BookingStatus.Confirmed:
+                                    <span class="badge bg-info text-dark">
+                                        Đã xác nhận
+                                    </span>
+                                    break;
+
+                                case BookingStatus.CheckedIn:
+                                    <span class="badge bg-success">
+                                        Đang ở
+                                    </span>
+                                    break;
+
+                                case BookingStatus.CheckedOut:
+                                    <span class="badge bg-primary">
+                                        Đã trả phòng
+                                    </span>
+                                    break;
+
+                                case BookingStatus.Cancelled:
+                                    <span class="badge bg-danger">
+                                        Đã hủy
+                                    </span>
+                                    break;
+                            }
+                        </td>
+
+                        <td class="text-nowrap">
+
+                            <a asp-controller="Bookings"
+                               asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="btn btn-info btn-sm text-white">
+                                Chi tiết
+                            </a>
+
+                            @if (User.IsInRole("Customer") &&
+                                 item.Status == BookingStatus.Pending)
+                            {
+                                <a asp-controller="Bookings"
+                                   asp-action="Cancel"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-outline-danger btn-sm"
+                                   onclick="return confirm('Bạn có chắc muốn hủy booking này?');">
+                                    Hủy
+                                </a>
+                            }
+
+                            @if (User.IsInRole("Admin") ||
+                                 User.IsInRole("Receptionist"))
+                            {
+                                <a asp-controller="Bookings"
+                                   asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-warning btn-sm">
+                                    Sửa
+                                </a>
+
+                                @if (item.Status == BookingStatus.Pending ||
+                                     item.Status == BookingStatus.Confirmed)
+                                {
+                                    <a asp-controller="Bookings"
+                                       asp-action="CheckIn"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-success btn-sm"
+                                       onclick="return confirm('Xác nhận Check In booking này?');">
+                                        Check In
+                                    </a>
+                                }
+
+                                @if (item.Status == BookingStatus.CheckedIn)
+                                {
+                                    <a asp-controller="Bookings"
+                                       asp-action="CheckOut"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-secondary btn-sm"
+                                       onclick="return confirm('Xác nhận Check Out booking này?');">
+                                        Check Out
+                                    </a>
+                                }
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-controller="Bookings"
+                                       asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-danger btn-sm">
+                                        Xóa
+                                    </a>
+                                }
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10" class="text-center text-muted py-4">
+                        Chưa có booking nào.
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
