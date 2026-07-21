@@ -159,7 +159,7 @@ public class ServicesController : Controller
 
     // XÓA DỊCH VỤ
 
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -181,7 +181,7 @@ public class ServicesController : Controller
     }
 
     [HttpPost, ActionName("Delete")]
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {

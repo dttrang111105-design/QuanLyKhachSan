@@ -16,9 +16,21 @@ public class RoomTypesController : Controller
     }
 
     // GET: ROOMTYPES
-    public async Task<IActionResult> Index()    
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.RoomTypes.ToListAsync());
+        var roomTypes = await _context.RoomTypes
+            .AsNoTracking()
+            .Include(roomType =>
+                roomType.Rooms.Where(room =>
+                    !room.IsDeleted))
+            .Where(roomType =>
+                !roomType.IsDeleted)
+            .OrderBy(roomType =>
+                roomType.Name)
+            .ToListAsync();
+
+        return View(roomTypes);
     }
 
     // GET: ROOMTYPES/Details/5

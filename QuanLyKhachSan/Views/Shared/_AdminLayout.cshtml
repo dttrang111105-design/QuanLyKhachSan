@@ -1,130 +1,459 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using System.Globalization
+
+@{
+    string currentController =
+        ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+
+    string currentAction =
+        ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+
+    string Active(string controller, string? action = null)
+    {
+        bool controllerMatched = string.Equals(
+            currentController,
+            controller,
+            StringComparison.OrdinalIgnoreCase);
+
+        bool actionMatched =
+            string.IsNullOrWhiteSpace(action) ||
+            string.Equals(
+                currentAction,
+                action,
+                StringComparison.OrdinalIgnoreCase);
+
+        return controllerMatched && actionMatched
+            ? "active"
+            : string.Empty;
+    }
+
+    string adminName =
+        User.FindFirst("FullName")?.Value
+        ?? User.Identity?.Name
+        ?? "Quản trị viên";
+
+    string adminInitial =
+        string.IsNullOrWhiteSpace(adminName)
+            ? "A"
+            : adminName.Trim().Substring(0, 1).ToUpper();
+
+    string pageTitle =
+        ViewData["Title"]?.ToString()
+        ?? "Tổng quan hệ thống";
+
+    string currentDate =
+        DateTime.Now.ToString(
+            "dddd, dd/MM/yyyy",
+            new CultureInfo("vi-VN"));
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Admin</title>
-
+    <meta name="description" content="Luxury Hotel - Hệ thống quản trị khách sạn" />
+    <title>@pageTitle - Luxury Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    @RenderSection("Styles", false)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="admin-body">
 
-        <div class="container-fluid">
+    <div class="admin-shell">
 
-            <a class="navbar-brand"
-               asp-controller="Home"
-               asp-action="Dashboard">
-                ADMIN PANEL
-            </a>
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar"
+               id="adminSidebar">
 
-            <button class="navbar-toggler"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarAdmin">
+            <div class="admin-brand">
 
-                <span class="navbar-toggler-icon"></span>
+                <a asp-controller="Home"
+                   asp-action="Dashboard"
+                   class="admin-brand-link">
 
-            </button>
+                    <span class="admin-brand-icon">
+                        <i class="bi bi-buildings-fill"></i>
+                    </span>
 
-            <div class="collapse navbar-collapse"
-                 id="navbarAdmin">
+                    <span class="admin-brand-text">
+                        <strong>LUXURY</strong>
+                        <small>HOTEL ADMIN</small>
+                    </span>
 
-                <ul class="navbar-nav me-auto">
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Accounts"
-                           asp-action="Index">
-                            Tài khoản
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Employees"
-                           asp-action="Index">
-                            Nhân viên
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Customers"
-                           asp-action="Index">
-                            Khách hàng
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="RoomTypes"
-                           asp-action="Index">
-                            Loại phòng
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Rooms"
-                           asp-action="Index">
-                            Phòng
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Bookings"
-                           asp-action="Index">
-                            Booking
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Services"
-                           asp-action="Index">
-                            Dịch vụ
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Invoices"
-                           asp-action="Index">
-                            Hóa đơn
-                        </a>
-                    </li>
-
-                </ul>
-
-                <span class="navbar-text text-white me-3">
-                    👤 @User.Identity!.Name
-                </span>
-
-                <a class="btn btn-danger"
-                   asp-controller="Auth"
-                   asp-action="Logout">
-                    Đăng xuất
                 </a>
+
+                <button type="button"
+                        class="admin-sidebar-close d-lg-none"
+                        id="adminSidebarClose"
+                        aria-label="Đóng menu">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
 
             </div>
 
+            <div class="admin-sidebar-profile">
+
+                <div class="admin-profile-avatar">
+                    @adminInitial
+                </div>
+
+                <div class="admin-profile-content">
+
+                    <span>Đang đăng nhập</span>
+
+                    <strong title="@adminName">
+                        @adminName
+                    </strong>
+
+                    <small>
+                        <i class="bi bi-shield-check"></i>
+                        Quản trị viên
+                    </small>
+
+                </div>
+
+            </div>
+
+            <nav class="admin-navigation">
+
+                <div class="admin-nav-group">
+
+                    <div class="admin-nav-label">
+                        Tổng quan
+                    </div>
+
+                    <a class="admin-nav-link @Active("Home", "Dashboard")"
+                       asp-controller="Home"
+                       asp-action="Dashboard">
+
+                        <i class="bi bi-grid-1x2-fill"></i>
+
+                        <span>Bảng điều khiển</span>
+
+                    </a>
+
+                </div>
+
+                <div class="admin-nav-group">
+
+                    <div class="admin-nav-label">
+                        Vận hành khách sạn
+                    </div>
+
+                    <a class="admin-nav-link @Active("Bookings")"
+                       asp-controller="Bookings"
+                       asp-action="Index">
+
+                        <i class="bi bi-calendar2-check-fill"></i>
+
+                        <span>Quản lý Booking</span>
+
+                        @if (ViewBag.PendingBookingCount is int pendingCount &&
+                             pendingCount > 0)
+                        {
+                            <span class="admin-nav-count">
+                                @pendingCount
+                            </span>
+                        }
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("Rooms")"
+                       asp-controller="Rooms"
+                       asp-action="Index">
+
+                        <i class="bi bi-door-open-fill"></i>
+                        <span>Quản lý phòng</span>
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("RoomTypes")"
+                       asp-controller="RoomTypes"
+                       asp-action="Index">
+
+                        <i class="bi bi-house-gear-fill"></i>
+                        <span>Loại phòng</span>
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("Services")"
+                       asp-controller="Services"
+                       asp-action="Index">
+
+                        <i class="bi bi-bell-fill"></i>
+                        <span>Dịch vụ khách sạn</span>
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("Invoices")"
+                       asp-controller="Invoices"
+                       asp-action="Index">
+
+                        <i class="bi bi-receipt-cutoff"></i>
+                        <span>Hóa đơn</span>
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("Payments")"
+                       asp-controller="Payments"
+                       asp-action="Index">
+
+                        <i class="bi bi-credit-card-2-front-fill"></i>
+                        <span>Thanh toán</span>
+
+                    </a>
+
+                </div>
+
+                <div class="admin-nav-group">
+
+                    <div class="admin-nav-label">
+                        Quản trị hệ thống
+                    </div>
+
+                    <a class="admin-nav-link @Active("Customers")"
+                       asp-controller="Customers"
+                       asp-action="Index">
+
+                        <i class="bi bi-people-fill"></i>
+                        <span>Khách hàng</span>
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("Employees")"
+                       asp-controller="Employees"
+                       asp-action="Index">
+
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Nhân viên</span>
+
+                    </a>
+
+                    <a class="admin-nav-link @Active("Accounts")"
+                       asp-controller="Accounts"
+                       asp-action="Index">
+
+                        <i class="bi bi-person-lock"></i>
+                        <span>Tài khoản</span>
+
+                    </a>
+
+                </div>
+
+            </nav>
+
+        </aside>
+
+        <div class="admin-sidebar-overlay"
+             id="adminSidebarOverlay">
         </div>
 
-    </nav>
+        <!-- MAIN -->
+        <div class="admin-main">
 
-    <div class="container mt-4">
+            <!-- TOPBAR -->
+            <header class="admin-topbar">
 
-        @RenderBody()
+                <div class="admin-topbar-left">
+
+                    <button type="button"
+                            class="admin-sidebar-toggle"
+                            id="adminSidebarToggle"
+                            aria-label="Mở hoặc thu gọn menu">
+
+                        <i class="bi bi-list"></i>
+
+                    </button>
+
+                    <div class="admin-page-heading">
+
+                        <span>Luxury Hotel Management</span>
+
+                        <h1>@pageTitle</h1>
+
+                    </div>
+
+                </div>
+
+                <div class="admin-topbar-right">
+
+                    <div class="admin-current-date d-none d-md-flex">
+
+                        <i class="bi bi-calendar3"></i>
+                        <span>@currentDate</span>
+
+                    </div>
+
+                    <div class="dropdown">
+
+                        <button class="admin-account-button dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+
+                            <span class="admin-account-avatar">
+                                @adminInitial
+                            </span>
+
+                            <span class="admin-account-text d-none d-sm-flex">
+
+                                <small>Quản trị viên</small>
+                                <strong>@adminName</strong>
+
+                            </span>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end admin-account-menu">
+
+                            <li class="admin-account-menu-header">
+
+                                <span class="admin-account-avatar">
+                                    @adminInitial
+                                </span>
+
+                                <div>
+                                    <strong>@adminName</strong>
+                                    <small>@User.Identity?.Name</small>
+                                </div>
+
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item text-danger"
+                                   asp-controller="Auth"
+                                   asp-action="Logout">
+
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Đăng xuất
+
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- CONTENT -->
+            <main class="admin-content">
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show admin-alert"
+                         role="alert">
+
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>@TempData["Success"]</span>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                                aria-label="Đóng">
+                        </button>
+
+                    </div>
+                }
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show admin-alert"
+                         role="alert">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span>@TempData["Error"]</span>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                                aria-label="Đóng">
+                        </button>
+
+                    </div>
+                }
+
+                @RenderBody()
+
+            </main>
+
+        </div>
 
     </div>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js">
+    </script>
 
-    @await RenderSectionAsync("Scripts", false)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js">
+    </script>
+
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const body = document.body;
+                const sidebarToggle = document.getElementById("adminSidebarToggle");
+                const sidebarClose = document.getElementById("adminSidebarClose");
+                const sidebarOverlay = document.getElementById("adminSidebarOverlay");
+                const sidebar = document.getElementById("adminSidebar");
+                function isDesktop() {
+                    return window.innerWidth >= 992;
+                }
+                function closeMobileSidebar() {
+                    body.classList.remove("sidebar-open");
+                }
+                if (sidebarToggle) {
+                    sidebarToggle.addEventListener("click", function () {
+                        if (isDesktop()) {
+                            body.classList.toggle("sidebar-collapsed");
+                        }
+                        else {
+                            body.classList.toggle("sidebar-open");
+                        }
+                    });
+                }
+                if (sidebarClose) {
+                    sidebarClose.addEventListener( "click", closeMobileSidebar );
+                }
+                if (sidebarOverlay) {
+                    sidebarOverlay.addEventListener( "click", closeMobileSidebar );
+                }
+                if (sidebar) {
+                    const navigationLinks = sidebar.querySelectorAll(".admin-nav-link");
+                    navigationLinks.forEach(function (link) {
+                        link.addEventListener("click", function () {
+                            if (!isDesktop()) {
+                                closeMobileSidebar();
+                            }
+                        });
+                    });
+                }
+                window.addEventListener("resize", function () {
+                    if (isDesktop()) {
+                        closeMobileSidebar();
+                    }
+                    else {
+                        body.classList.remove("sidebar-collapsed");
+                    }
+                });
+            });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
+
 </html>

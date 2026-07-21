@@ -1,43 +1,47 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKhachSan.Data;
 using QuanLyKhachSan.Enums;
 using QuanLyKhachSan.Models;
 using QuanLyKhachSan.ViewModels.Payment;
 
-[Authorize(Roles = "Admin,Receptionist")]
+[Authorize]
 public class PaymentsController : Controller
 {
     private readonly ApplicationDbContext _context;
-
     private readonly IConfiguration _configuration;
 
-    public PaymentsController(ApplicationDbContext context, IConfiguration configuration)
+    public PaymentsController(
+        ApplicationDbContext context,
+        IConfiguration configuration)
     {
         _context = context;
         _configuration = configuration;
     }
 
-    // GET: PAYMENTS
+    [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Index()
     {
-        var data = _context.Payments.Include(p => p.Invoice);
+        var payments = await _context.Payments
+            .AsNoTracking()
+            .Include(p => p.Invoice)
+            .Where(p => !p.IsDeleted)
+            .OrderByDescending(p => p.PaymentDate)
+            .ToListAsync();
 
-        return View(await data.ToListAsync());
+        return View(payments);
     }
 
-    // GET: PAYMENTS/Details/5
-    public async Task<IActionResult> Details(int? id)
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> Details(int id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
         var payment = await _context.Payments
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .AsNoTracking()
+            .Include(p => p.Invoice)
+                .ThenInclude(i => i.Booking)
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+
         if (payment == null)
         {
             return NotFound();
@@ -46,19 +50,26 @@ public class PaymentsController : Controller
         return View(payment);
     }
 
-    // GET: PAYMENTS/Create
+    [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Create(int invoiceId)
     {
         var invoice = await _context.Invoices
+            .AsNoTracking()
             .Include(i => i.Booking)
-            .FirstOrDefaultAsync(i => i.Id == invoiceId);
+            .FirstOrDefaultAsync(i =>
+                i.Id == invoiceId &&
+                !i.IsDeleted);
 
         if (invoice == null)
+        {
             return NotFound();
+        }
 
         bool paid = await _context.Payments
-            .AnyAsync(x => x.InvoiceId == invoiceId &&
-                           x.PaymentStatus == PaymentStatus.Paid);
+            .AnyAsync(p =>
+                p.InvoiceId == invoiceId &&
+                !p.IsDeleted &&
+                p.PaymentStatus == PaymentStatus.Paid);
 
         if (paid)
         {
@@ -70,23 +81,20 @@ public class PaymentsController : Controller
                 new { id = invoiceId });
         }
 
-        decimal amountNeedPay = invoice.TotalAmount - invoice.Booking.Deposit;
+        decimal amountNeedPay = invoice.TotalAmount - invoice.Booking!.Deposit;
 
         if (amountNeedPay < 0)
+        {
             amountNeedPay = 0;
+        }
 
-        var model = new PaymentViewModel
+        return View(new PaymentViewModel
         {
             InvoiceId = invoice.Id,
             Amount = amountNeedPay
-        };
-
-        return View(model);
+        });
     }
 
-    // POST: PAYMENTS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin,Receptionist")]
@@ -99,17 +107,20 @@ public class PaymentsController : Controller
 
         var invoice = await _context.Invoices
             .Include(i => i.Booking)
-            .FirstOrDefaultAsync(i => i.Id == model.InvoiceId);
+            .FirstOrDefaultAsync(i =>
+                i.Id == model.InvoiceId &&
+                !i.IsDeleted);
 
         if (invoice == null)
         {
             return NotFound();
         }
 
-        // Kiểm tra hóa đơn đã thanh toán chưa
         bool paid = await _context.Payments
-            .AnyAsync(p => p.InvoiceId == model.InvoiceId &&
-                           p.PaymentStatus == PaymentStatus.Paid);
+            .AnyAsync(p =>
+                p.InvoiceId == model.InvoiceId &&
+                !p.IsDeleted &&
+                p.PaymentStatus == PaymentStatus.Paid);
 
         if (paid)
         {
@@ -121,8 +132,7 @@ public class PaymentsController : Controller
                 new { id = model.InvoiceId });
         }
 
-        // Tính số tiền thực tế cần thanh toán
-        decimal amountNeedPay = invoice.TotalAmount - invoice.Booking.Deposit;
+        decimal amountNeedPay = invoice.TotalAmount - invoice.Booking!.Deposit;
 
         if (amountNeedPay < 0)
         {
@@ -137,11 +147,12 @@ public class PaymentsController : Controller
             PaymentStatus = PaymentStatus.Paid,
             PaymentDate = DateTime.Now,
             TransactionCode = "GD" + DateTime.Now.ToString("yyyyMMddHHmmss"),
-            Note = model.Note
+            Note = model.Note,
+            CreatedAt = DateTime.Now,
+            IsDeleted = false
         };
 
         _context.Payments.Add(payment);
-
         await _context.SaveChangesAsync();
 
         TempData["Success"] = "Thanh toán thành công.";
@@ -152,67 +163,63 @@ public class PaymentsController : Controller
             new { id = invoice.Id });
     }
 
-    // GET: PAYMENTS/Edit/5
-    public async Task<IActionResult> Edit(int? id)
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> Edit(int id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        var payment = await _context.Payments
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
 
-        var payment = await _context.Payments.FindAsync(id);
         if (payment == null)
         {
             return NotFound();
         }
+
         return View(payment);
     }
 
-    // POST: PAYMENTS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("InvoiceId,Invoice,PaymentMethod,PaymentStatus,Amount,TransactionCode,PaymentDate,Note,Id,CreatedAt,UpdatedAt,IsDeleted")] Payment payment)
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> Edit(int id, Payment form)
     {
-        if (id != payment.Id)
-        {
-            return NotFound();
-        }
-
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                _context.Update(payment);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(payment.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        return View(payment);
-    }
-
-    // GET: PAYMENTS/Delete/5
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null)
+        if (id != form.Id)
         {
             return NotFound();
         }
 
         var payment = await _context.Payments
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+
+        if (payment == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(form);
+        }
+
+        payment.PaymentMethod = form.PaymentMethod;
+        payment.PaymentStatus = form.PaymentStatus;
+        payment.Amount = form.Amount;
+        payment.TransactionCode = form.TransactionCode;
+        payment.PaymentDate = form.PaymentDate;
+        payment.Note = form.Note;
+        payment.UpdatedAt = DateTime.Now;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var payment = await _context.Payments
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+
         if (payment == null)
         {
             return NotFound();
@@ -221,51 +228,80 @@ public class PaymentsController : Controller
         return View(payment);
     }
 
-    // POST: PAYMENTS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var payment = await _context.Payments.FindAsync(id);
-        if (payment != null)
+        var payment = await _context.Payments
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+
+        if (payment == null)
         {
-            _context.Payments.Remove(payment);
+            return NotFound();
         }
 
+        payment.IsDeleted = true;
+        payment.UpdatedAt = DateTime.Now;
+
         await _context.SaveChangesAsync();
+
         return RedirectToAction(nameof(Index));
     }
 
-    private bool PaymentExists(int? id)
-    {
-        return _context.Payments.Any(e => e.Id == id);
-    }
-
+    // Khách hàng chỉ được mở QR của hóa đơn thuộc Booking của mình.
+    [Authorize(Roles = "Customer,Admin,Receptionist")]
     public async Task<IActionResult> PaymentQr(int invoiceId)
     {
         var invoice = await _context.Invoices
-            .Include(x => x.Booking)
-            .FirstOrDefaultAsync(x => x.Id == invoiceId);
+            .AsNoTracking()
+            .Include(i => i.Booking)
+                .ThenInclude(b => b.Customer)
+                    .ThenInclude(c => c.Account)
+            .Include(i => i.Payments.Where(p => !p.IsDeleted))
+            .FirstOrDefaultAsync(i =>
+                i.Id == invoiceId &&
+                !i.IsDeleted);
 
         if (invoice == null)
+        {
             return NotFound();
+        }
 
-        decimal amount = invoice.TotalAmount - invoice.Booking.Deposit;
+        if (User.IsInRole("Customer") && !CustomerOwnsInvoice(invoice))
+        {
+            return Forbid();
+        }
+
+        decimal paidAmount = invoice.Payments
+            .Where(p => p.PaymentStatus == PaymentStatus.Paid)
+            .Sum(p => p.Amount);
+
+        decimal amount = invoice.TotalAmount - invoice.Booking!.Deposit - paidAmount;
 
         if (amount < 0)
+        {
             amount = 0;
+        }
 
-        string bankCode = _configuration["BankInfo:BankCode"];
-        string accountNo = _configuration["BankInfo:AccountNo"];
-        string accountName = _configuration["BankInfo:AccountName"];
+        if (amount == 0)
+        {
+            TempData["Success"] = "Hóa đơn đã được thanh toán đầy đủ.";
+
+            return RedirectAfterCustomerAction(invoice.Id);
+        }
+
+        string bankCode = _configuration["BankInfo:BankCode"] ?? string.Empty;
+        string accountNo = _configuration["BankInfo:AccountNo"] ?? string.Empty;
+        string accountName = _configuration["BankInfo:AccountName"] ?? string.Empty;
 
         string qr =
             $"https://img.vietqr.io/image/{bankCode}-{accountNo}-compact2.png" +
-            $"?amount={amount}" +
-            $"&addInfo={invoice.InvoiceCode}" +
+            $"?amount={amount:0}" +
+            $"&addInfo={Uri.EscapeDataString(invoice.InvoiceCode)}" +
             $"&accountName={Uri.EscapeDataString(accountName)}";
 
-        var model = new PaymentQrViewModel
+        return View(new PaymentQrViewModel
         {
             InvoiceId = invoice.Id,
             InvoiceCode = invoice.InvoiceCode,
@@ -274,40 +310,51 @@ public class PaymentsController : Controller
             AccountNo = accountNo,
             BankCode = bankCode,
             QrUrl = qr
-        };
-
-        return View(model);
+        });
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Customer,Admin,Receptionist")]
     public async Task<IActionResult> ConfirmPayment(int id)
     {
         var invoice = await _context.Invoices
             .Include(i => i.Booking)
-            .FirstOrDefaultAsync(i => i.Id == id);
+                .ThenInclude(b => b.Customer)
+                    .ThenInclude(c => c.Account)
+            .Include(i => i.Payments.Where(p => !p.IsDeleted))
+            .FirstOrDefaultAsync(i =>
+                i.Id == id &&
+                !i.IsDeleted);
 
         if (invoice == null)
-            return NotFound();
-
-        bool paid = await _context.Payments
-            .AnyAsync(x => x.InvoiceId == id &&
-                           x.PaymentStatus == PaymentStatus.Paid);
-
-        if (paid)
         {
-            TempData["Error"] = "Hóa đơn đã thanh toán.";
-
-            return RedirectToAction(
-                "Details",
-                "Invoices",
-                new { id });
+            return NotFound();
         }
 
-        decimal amount = invoice.TotalAmount - invoice.Booking.Deposit;
+        if (User.IsInRole("Customer") && !CustomerOwnsInvoice(invoice))
+        {
+            return Forbid();
+        }
+
+        decimal paidAmount = invoice.Payments
+            .Where(p => p.PaymentStatus == PaymentStatus.Paid)
+            .Sum(p => p.Amount);
+
+        decimal amount = invoice.TotalAmount - invoice.Booking!.Deposit - paidAmount;
 
         if (amount < 0)
+        {
             amount = 0;
+        }
 
-        Payment payment = new()
+        if (amount == 0)
+        {
+            TempData["Error"] = "Hóa đơn đã được thanh toán đầy đủ.";
+            return RedirectAfterCustomerAction(invoice.Id);
+        }
+
+        var payment = new Payment
         {
             InvoiceId = invoice.Id,
             Amount = amount,
@@ -315,18 +362,40 @@ public class PaymentsController : Controller
             PaymentStatus = PaymentStatus.Paid,
             PaymentDate = DateTime.Now,
             TransactionCode = "QR" + DateTime.Now.ToString("yyyyMMddHHmmss"),
-            Note = "Thanh toán bằng VietQR"
+            Note = "Thanh toán bằng VietQR",
+            CreatedAt = DateTime.Now,
+            IsDeleted = false
         };
 
         _context.Payments.Add(payment);
-
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Thanh toán thành công.";
+        TempData["Success"] = "Ghi nhận thanh toán QR thành công.";
+
+        return RedirectAfterCustomerAction(invoice.Id);
+    }
+
+    private bool CustomerOwnsInvoice(Invoice invoice)
+    {
+        string? username = User.Identity?.Name;
+
+        return !string.IsNullOrWhiteSpace(username) &&
+               invoice.Booking?.Customer?.Account?.Username == username;
+    }
+
+    private IActionResult RedirectAfterCustomerAction(int invoiceId)
+    {
+        if (User.IsInRole("Customer"))
+        {
+            return RedirectToAction(
+                "MyDetails",
+                "Invoices",
+                new { id = invoiceId });
+        }
 
         return RedirectToAction(
             "Details",
             "Invoices",
-            new { id });
+            new { id = invoiceId });
     }
 }

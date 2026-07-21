@@ -1,90 +1,52 @@
 @model QuanLyKhachSan.Models.Review
 
 @{
-    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Xóa đánh giá";
 }
 
-<h1>Delete</h1>
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white p-4">
+                <h3 class="mb-1">Xóa đánh giá</h3>
+                <p class="mb-0 text-white-50">
+                    Phòng @Model.Room?.RoomNumber - @Model.Room?.RoomType?.Name
+                </p>
+            </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>QuanLyKhachSan.Models.Review</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerId)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomId)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Room)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Room)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <div class="card-body p-4">
+                <div class="alert alert-warning">
+                    Bạn có chắc chắn muốn xóa đánh giá này không?
+                </div>
+
+                <div class="mb-3">
+                    @for (int star = 1; star <= 5; star++)
+                    {
+                        <span class="@(star <= Model.Rating ? "text-warning" : "text-secondary") fs-4">★</span>
+                    }
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Comment))
+                {
+                    <p style="white-space: pre-line;">@Model.Comment</p>
+                }
+
+                <form asp-action="Delete"
+                      asp-route-id="@Model.Id"
+                      method="post"
+                      class="d-flex flex-wrap gap-2 mt-4">
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn btn-danger">
+                        Xác nhận xóa
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        Không xóa
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

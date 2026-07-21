@@ -8,6 +8,7 @@ using QuanLyKhachSan.Enums;
 using QuanLyKhachSan.Models;
 using QuanLyKhachSan.ViewModels.ServiceBooking;
 
+[Authorize(Roles = "Admin,Receptionist")]
 public class ServiceBookingsController : Controller
 {
     private readonly ApplicationDbContext _context;

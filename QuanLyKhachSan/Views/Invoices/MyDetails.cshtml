@@ -1,0 +1,399 @@
+﻿@using QuanLyKhachSan.Enums
+@model QuanLyKhachSan.Models.Invoice
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Chi tiết hóa đơn";
+
+    decimal subTotal = Model.RoomAmount + Model.ServiceAmount;
+    decimal discountAmount = subTotal * Model.DiscountPercent / 100;
+    decimal amountAfterDiscount = subTotal - discountAmount;
+    decimal taxAmount = amountAfterDiscount * Model.TaxPercent / 100;
+
+    decimal amountAfterDeposit = Model.TotalAmount - (Model.Booking?.Deposit ?? 0);
+    if (amountAfterDeposit < 0)
+    {
+        amountAfterDeposit = 0;
+    }
+
+    decimal paidAmount = Model.Payments
+        .Where(p => p.PaymentStatus == PaymentStatus.Paid)
+        .Sum(p => p.Amount);
+
+    decimal remainingAmount = amountAfterDeposit - paidAmount;
+    if (remainingAmount < 0)
+    {
+        remainingAmount = 0;
+    }
+
+    bool isPaid = amountAfterDeposit == 0 || remainingAmount == 0;
+}
+
+@section Styles
+{
+    <style>
+        .invoice-paper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .invoice-summary td,
+        .invoice-summary th {
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
+        }
+
+        @@media print {
+            nav,
+            .invoice-actions,
+            .btn,
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background: #ffffff !important;
+            }
+
+            .invoice-paper {
+                max-width: 100%;
+                box-shadow: none !important;
+                border: 0 !important;
+            }
+        }
+    </style>
+}
+
+<div class="invoice-actions d-flex flex-wrap justify-content-between gap-2 mb-4">
+    <a asp-action="MyInvoices"
+       class="btn btn-outline-secondary">
+        ← Hóa đơn của tôi
+    </a>
+
+    <div class="d-flex flex-wrap gap-2">
+        <button type="button"
+                class="btn btn-outline-dark"
+                onclick="window.print();">
+            In trang
+        </button>
+
+        <a asp-action="MyExportPdf"
+           asp-route-id="@Model.Id"
+           class="btn btn-primary">
+            Tải hóa đơn PDF
+        </a>
+
+        @if (!isPaid)
+        {
+            <a asp-controller="Payments"
+               asp-action="PaymentQr"
+               asp-route-invoiceId="@Model.Id"
+               class="btn btn-success">
+                Thanh toán QR
+            </a>
+        }
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card shadow-sm invoice-paper">
+    <div class="card-header bg-dark text-white p-4">
+        <div class="row align-items-center g-3">
+            <div class="col-md-7">
+                <h2 class="mb-1">HÓA ĐƠN KHÁCH SẠN</h2>
+                <div>Mã hóa đơn: <strong>@Model.InvoiceCode</strong></div>
+            </div>
+
+            <div class="col-md-5 text-md-end">
+                <div>Ngày lập</div>
+                <strong>@Model.InvoiceDate.ToString("dd/MM/yyyy HH:mm")</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <h5>Thông tin khách hàng</h5>
+                <table class="table table-sm table-borderless mb-0">
+                    <tr>
+                        <th style="width: 150px;">Họ tên</th>
+                        <td>@Model.Booking?.Customer?.FullName</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@Model.Booking?.Customer?.Email</td>
+                    </tr>
+                    <tr>
+                        <th>Số điện thoại</th>
+                        <td>@Model.Booking?.Customer?.Phone</td>
+                    </tr>
+                    <tr>
+                        <th>Địa chỉ</th>
+                        <td>@Model.Booking?.Customer?.Address</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-6">
+                <h5>Thông tin Booking</h5>
+                <table class="table table-sm table-borderless mb-0">
+                    <tr>
+                        <th style="width: 150px;">Mã Booking</th>
+                        <td>@Model.Booking?.BookingCode</td>
+                    </tr>
+                    <tr>
+                        <th>Ngày nhận</th>
+                        <td>@(Model.Booking != null ? Model.Booking.CheckInDate.ToString("dd/MM/yyyy") : "-")</td>
+                    </tr>
+                    <tr>
+                        <th>Ngày trả</th>
+                        <td>@(Model.Booking != null ? Model.Booking.CheckOutDate.ToString("dd/MM/yyyy") : "-")</td>
+                    </tr>
+                    <tr>
+                        <th>Số khách</th>
+                        <td>
+                            @(Model.Booking?.Adult ?? 0) người lớn,
+                            @(Model.Booking?.Children ?? 0) trẻ em
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="mb-3">Chi tiết tiền phòng</h5>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Phòng</th>
+                        <th class="text-center">Số đêm</th>
+                        <th class="text-end">Đơn giá</th>
+                        <th class="text-end">Thành tiền</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Booking?.BookingDetails != null &&
+                         Model.Booking.BookingDetails.Any())
+                    {
+                        foreach (var detail in Model.Booking.BookingDetails)
+                        {
+                            <tr>
+                                <td>Phòng @detail.Room?.RoomNumber</td>
+                                <td class="text-center">@detail.NumberOfNights</td>
+                                <td class="text-end">
+                                    @detail.PricePerNight.ToString("N0") VNĐ
+                                </td>
+                                <td class="text-end fw-semibold">
+                                    @detail.TotalPrice.ToString("N0") VNĐ
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                Không có dữ liệu phòng.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <h5 class="mb-3">Dịch vụ đã sử dụng</h5>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Dịch vụ</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-end">Đơn giá</th>
+                        <th class="text-end">Thành tiền</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Booking?.ServiceBookings != null &&
+                         Model.Booking.ServiceBookings.Any())
+                    {
+                        foreach (var serviceBooking in Model.Booking.ServiceBookings)
+                        {
+                            <tr>
+                                <td>@serviceBooking.Service?.ServiceName</td>
+                                <td class="text-center">@serviceBooking.Quantity</td>
+                                <td class="text-end">
+                                    @serviceBooking.UnitPrice.ToString("N0") VNĐ
+                                </td>
+                                <td class="text-end fw-semibold">
+                                    @serviceBooking.TotalPrice.ToString("N0") VNĐ
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                Không sử dụng dịch vụ.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h5>Trạng thái thanh toán</h5>
+
+                @if (isPaid)
+                {
+                    <div class="alert alert-success">
+                        <strong>Đã thanh toán đầy đủ.</strong>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <strong>Chưa thanh toán đủ.</strong><br />
+                        Số tiền còn lại:
+                        <span class="text-danger fw-bold">
+                            @remainingAmount.ToString("N0") VNĐ
+                        </span>
+                    </div>
+                }
+
+                @if (Model.Payments.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ngày</th>
+                                    <th>Phương thức</th>
+                                    <th>Trạng thái</th>
+                                    <th class="text-end">Số tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var payment in Model.Payments
+                                    .OrderByDescending(p => p.PaymentDate))
+                                {
+                                    <tr>
+                                        <td>@payment.PaymentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>
+                                            @switch (payment.PaymentMethod)
+                                            {
+                                                case PaymentMethod.Cash:
+                                                    <text>Tiền mặt</text>
+                                                    break;
+                                                case PaymentMethod.BankTransfer:
+                                                    <text>Chuyển khoản</text>
+                                                    break;
+                                                case PaymentMethod.VNPay:
+                                                    <text>VNPay</text>
+                                                    break;
+                                                case PaymentMethod.Momo:
+                                                    <text>MoMo</text>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td>
+                                            @switch (payment.PaymentStatus)
+                                            {
+                                                case PaymentStatus.Paid:
+                                                    <span class="badge bg-success">Đã thanh toán</span>
+                                                    break;
+                                                case PaymentStatus.Pending:
+                                                    <span class="badge bg-info text-dark">Đang xử lý</span>
+                                                    break;
+                                                case PaymentStatus.Failed:
+                                                    <span class="badge bg-danger">Thất bại</span>
+                                                    break;
+                                                case PaymentStatus.Refunded:
+                                                    <span class="badge bg-secondary">Hoàn tiền</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td class="text-end">
+                                            @payment.Amount.ToString("N0") VNĐ
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-6">
+                <table class="table invoice-summary">
+                    <tr>
+                        <th>Tiền phòng</th>
+                        <td class="text-end">@Model.RoomAmount.ToString("N0") VNĐ</td>
+                    </tr>
+                    <tr>
+                        <th>Tiền dịch vụ</th>
+                        <td class="text-end">@Model.ServiceAmount.ToString("N0") VNĐ</td>
+                    </tr>
+                    <tr>
+                        <th>Tạm tính</th>
+                        <td class="text-end">@subTotal.ToString("N0") VNĐ</td>
+                    </tr>
+                    <tr>
+                        <th>Giảm giá (@Model.DiscountPercent%)</th>
+                        <td class="text-end text-success">
+                            -@discountAmount.ToString("N0") VNĐ
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Thuế VAT (@Model.TaxPercent%)</th>
+                        <td class="text-end">@taxAmount.ToString("N0") VNĐ</td>
+                    </tr>
+                    <tr class="table-light">
+                        <th>Tổng hóa đơn</th>
+                        <td class="text-end fw-bold">
+                            @Model.TotalAmount.ToString("N0") VNĐ
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tiền cọc</th>
+                        <td class="text-end text-success">
+                            -@((Model.Booking?.Deposit ?? 0).ToString("N0")) VNĐ
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Đã thanh toán thêm</th>
+                        <td class="text-end text-success">
+                            -@paidAmount.ToString("N0") VNĐ
+                        </td>
+                    </tr>
+                    <tr class="table-warning">
+                        <th class="fs-5">Còn phải thanh toán</th>
+                        <td class="text-end text-danger fw-bold fs-5">
+                            @remainingAmount.ToString("N0") VNĐ
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

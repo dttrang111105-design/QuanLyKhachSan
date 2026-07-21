@@ -1,63 +1,77 @@
-@model QuanLyKhachSan.Models.Review
+@model QuanLyKhachSan.ViewModels.Reviews.ReviewFormViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Đánh giá phòng";
 }
 
-<h1>Create</h1>
-
-<h4>Review</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label>Khách hàng</label>
-                <select asp-for="CustomerId"
-                        class="form-control"
-                        asp-items="ViewBag.CustomerId">
-                    <option value="">-- Chọn khách hàng --</option>
-                </select>
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white p-4">
+                <h3 class="mb-1">Đánh giá phòng @Model.RoomNumber</h3>
+                <p class="mb-0 text-white-50">
+                    @Model.RoomTypeName
+                    @if (!string.IsNullOrWhiteSpace(Model.BookingCode))
+                    {
+                        <span> · Booking @Model.BookingCode</span>
+                    }
+                </p>
             </div>
 
-            <div class="form-group">
-                <label>Phòng</label>
-                <select asp-for="RoomId"
-                        class="form-control"
-                        asp-items="ViewBag.RoomId">
-                    <option value="">-- Chọn phòng --</option>
-                </select>
-            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                <label>Đánh giá</label>
-                <select asp-for="Rating" class="form-control">
-                    <option value="1">1 ⭐</option>
-                    <option value="2">2 ⭐⭐</option>
-                    <option value="3">3 ⭐⭐⭐</option>
-                    <option value="4">4 ⭐⭐⭐⭐</option>
-                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                </select>
-            </div>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-            <div class="form-group">
-                <label>Nhận xét</label>
-                <textarea asp-for="Comment"
-                          class="form-control"
-                          rows="4"></textarea>
-            </div>
+                    <input asp-for="BookingId" type="hidden" />
+                    <input asp-for="RoomId" type="hidden" />
 
-            <div class="form-group mt-2">
-                <input type="submit"
-                       value="Create"
-                       class="btn btn-primary" />
+                    <div class="mb-4">
+                        <label asp-for="Rating" class="form-label fw-semibold"></label>
+                        <select asp-for="Rating" class="form-select">
+                            <option value="5">5 sao - Tuyệt vời</option>
+                            <option value="4">4 sao - Tốt</option>
+                            <option value="3">3 sao - Bình thường</option>
+                            <option value="2">2 sao - Chưa tốt</option>
+                            <option value="1">1 sao - Rất không hài lòng</option>
+                        </select>
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Comment" class="form-label fw-semibold"></label>
+                        <textarea asp-for="Comment"
+                                  class="form-control"
+                                  rows="6"
+                                  maxlength="1000"
+                                  placeholder="Chia sẻ trải nghiệm của bạn về phòng, vệ sinh, tiện nghi và chất lượng phục vụ..."></textarea>
+                        <div class="form-text">Tối đa 1000 ký tự.</div>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-star-fill me-1"></i>
+                            Gửi đánh giá
+                        </button>
+
+                        <a asp-controller="Bookings"
+                           asp-action="MyBookings"
+                           class="btn btn-outline-secondary">
+                            Quay lại
+                        </a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

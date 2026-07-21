@@ -1,93 +1,98 @@
 ﻿@model QuanLyKhachSan.ViewModels.Payment.PaymentQrViewModel
 
 @{
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (User.IsInRole("Receptionist"))
+    {
+        Layout = "~/Views/Shared/_ReceptionistLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    }
+
     ViewData["Title"] = "Thanh toán QR";
 }
 
-<div class="container mt-4">
-
-    <div class="card shadow">
-
-        <div class="card-header bg-success text-white">
-
-            <h3>
-
-                Thanh toán bằng QR
-
-            </h3>
-
+<div class="container py-4">
+    <div class="card shadow-sm mx-auto" style="max-width: 720px;">
+        <div class="card-header bg-success text-white p-3">
+            <h3 class="mb-0">Thanh toán bằng VietQR</h3>
         </div>
 
-        <div class="card-body text-center">
+        <div class="card-body text-center p-4">
+            <p class="text-muted">
+                Quét mã QR bằng ứng dụng ngân hàng và giữ nguyên nội dung chuyển khoản.
+            </p>
 
             <img src="@Model.QrUrl"
                  width="320"
-                 class="img-thumbnail" />
+                 class="img-thumbnail mb-4"
+                 alt="Mã QR thanh toán hóa đơn @Model.InvoiceCode" />
 
-            <hr />
+            <div class="table-responsive">
+                <table class="table table-bordered text-start align-middle">
+                    <tr>
+                        <th style="width: 190px;">Ngân hàng</th>
+                        <td>@Model.BankCode</td>
+                    </tr>
+                    <tr>
+                        <th>Số tài khoản</th>
+                        <td><strong>@Model.AccountNo</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Chủ tài khoản</th>
+                        <td>@Model.AccountName</td>
+                    </tr>
+                    <tr>
+                        <th>Nội dung chuyển khoản</th>
+                        <td><strong>@Model.InvoiceCode</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Số tiền</th>
+                        <td class="text-danger fs-4 fw-bold">
+                            @Model.Amount.ToString("N0") VNĐ
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-            <table class="table">
+            <form asp-controller="Payments"
+                  asp-action="ConfirmPayment"
+                  asp-route-id="@Model.InvoiceId"
+                  method="post"
+                  class="d-inline">
 
-                <tr>
+                @Html.AntiForgeryToken()
 
-                    <th>Ngân hàng</th>
+                <button type="submit"
+                        class="btn btn-success btn-lg"
+                        onclick="return confirm('Xác nhận bạn đã nhận đúng số tiền và nội dung?');">
+                    Đã nhận tiền
+                </button>
+            </form>
 
-                    <td>@Model.BankCode</td>
-
-                </tr>
-
-                <tr>
-
-                    <th>Số tài khoản</th>
-
-                    <td>@Model.AccountNo</td>
-
-                </tr>
-
-                <tr>
-
-                    <th>Chủ tài khoản</th>
-
-                    <td>@Model.AccountName</td>
-
-                </tr>
-
-                <tr>
-
-                    <th>Nội dung CK</th>
-
-                    <td>
-
-                        <b>@Model.InvoiceCode</b>
-
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <th>Số tiền</th>
-
-                    <td class="text-danger fs-4">
-
-                        @Model.Amount.ToString("N0") VNĐ
-
-                    </td>
-
-                </tr>
-
-            </table>
-
-            <a asp-action="ConfirmPayment"
-               asp-route-id="@Model.InvoiceId"
-               class="btn btn-success btn-lg">
-
-                Đã nhận tiền
-
-            </a>
-
+            @if (User.IsInRole("Customer"))
+            {
+                <a asp-controller="Invoices"
+                   asp-action="MyDetails"
+                   asp-route-id="@Model.InvoiceId"
+                   class="btn btn-outline-secondary btn-lg ms-2">
+                    Quay lại hóa đơn
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Invoices"
+                   asp-action="Details"
+                   asp-route-id="@Model.InvoiceId"
+                   class="btn btn-outline-secondary btn-lg ms-2">
+                    Quay lại hóa đơn
+                </a>
+            }
         </div>
-
     </div>
-
 </div>

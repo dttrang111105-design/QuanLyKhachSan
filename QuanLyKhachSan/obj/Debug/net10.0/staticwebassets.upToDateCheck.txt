@@ -1,5 +1,6 @@
+wwwroot\css\admin.css
 wwwroot\css\home.css
-wwwroot\css\layout.css
+wwwroot\css\receptionist.css
 wwwroot\css\rooms.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
@@ -64,10 +65,6 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\LICENSE.txt
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.js
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.min.map
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.min.js
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.js
@@ -126,6 +123,11 @@ E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\b
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\js\site.js
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\favicon.ico
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\site.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\layout.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\home.css
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\rooms.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\receptionist.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\home.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.js
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.map
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.js
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\admin.css
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\LICENSE.txt

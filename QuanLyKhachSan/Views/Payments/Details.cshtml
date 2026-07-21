@@ -1,7 +1,11 @@
 @model QuanLyKhachSan.Models.Payment
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = User.IsInRole("Admin")
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+
+    ViewData["Title"] = "Chi tiết thanh toán";
 }
 
 <h1>Details</h1>

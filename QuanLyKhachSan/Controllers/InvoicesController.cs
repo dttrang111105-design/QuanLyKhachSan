@@ -7,202 +7,215 @@ using QuanLyKhachSan.Enums;
 using QuanLyKhachSan.Models;
 using QuanLyKhachSan.Services;
 
-
-[Authorize(Roles = "Admin,Receptionist")]
+[Authorize]
 public class InvoicesController : Controller
 {
     private readonly ApplicationDbContext _context;
-
     private readonly InvoicePdfService _pdf;
 
-    public InvoicesController(ApplicationDbContext context, InvoicePdfService pdf)
+    public InvoicesController(
+        ApplicationDbContext context,
+        InvoicePdfService pdf)
     {
         _context = context;
         _pdf = pdf;
     }
 
-    // GET: INVOICES
+
+    [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Index()
     {
-        var data = _context.Invoices
-            .Include(i => i.Booking);
+        var invoices = await _context.Invoices
+            .AsNoTracking()
+            .Include(i => i.Booking)
+                .ThenInclude(b => b.Customer)
+            .Include(i => i.Payments.Where(p => !p.IsDeleted))
+            .Where(i => !i.IsDeleted)
+            .OrderByDescending(i => i.InvoiceDate)
+            .ToListAsync();
 
-        return View(await data.ToListAsync());
+        return View(invoices);
     }
 
-    // GET: INVOICES/Details/5
+    [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Details(int id)
     {
-        var invoice = await _context.Invoices
-         .Include(i => i.Booking)
-             .ThenInclude(b => b.Customer)
-
-         .Include(i => i.Booking)
-             .ThenInclude(b => b.BookingDetails)
-                 .ThenInclude(d => d.Room)
-
-         .Include(i => i.Booking)
-             .ThenInclude(b => b.ServiceBookings)
-                 .ThenInclude(sb => sb.Service)
-
-         .Include(i => i.Payments)
-
-         .FirstOrDefaultAsync(i => i.Id == id);
+        var invoice = await GetInvoiceDetailsQuery()
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
 
         if (invoice == null)
+        {
             return NotFound();
+        }
 
         return View(invoice);
     }
 
-    // GET: INVOICES/Create
+    [Authorize(Roles = "Admin,Receptionist")]
     public IActionResult Create()
     {
-        ViewData["BookingId"] = new SelectList(_context.Bookings, "Id", "BookingCode");
+        ViewData["BookingId"] = new SelectList(
+            _context.Bookings
+                .Where(b => !b.IsDeleted && b.Status == BookingStatus.CheckedOut),
+            "Id",
+            "BookingCode");
 
         return View();
     }
 
-    // POST: INVOICES/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Create(
-    [Bind("BookingId,DiscountPercent,TaxPercent")]
-    Invoice invoice)
+        [Bind("BookingId,DiscountPercent,TaxPercent")]
+        Invoice invoice)
     {
-        invoice.InvoiceCode = "HD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+        invoice.InvoiceCode =
+            "HD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+        invoice.InvoiceDate = DateTime.Now;
+        invoice.CreatedAt = DateTime.Now;
+        invoice.IsDeleted = false;
 
         ModelState.Remove(nameof(Invoice.InvoiceCode));
 
         if (!ModelState.IsValid)
         {
-            ViewData["BookingId"] =
-                new SelectList(_context.Bookings, "Id", "BookingCode", invoice.BookingId);
-
+            await LoadBookingSelectList(invoice.BookingId);
             return View(invoice);
         }
 
-        var existedInvoice = await _context.Invoices
-            .FirstOrDefaultAsync(i => i.BookingId == invoice.BookingId);
-
-        // Lấy booking
         var booking = await _context.Bookings
-            .FirstOrDefaultAsync(x => x.Id == invoice.BookingId);
+            .FirstOrDefaultAsync(b =>
+                b.Id == invoice.BookingId &&
+                !b.IsDeleted);
 
         if (booking == null)
         {
             return NotFound();
         }
 
-        // Chỉ tạo hóa đơn khi khách đã trả phòng
         if (booking.Status != BookingStatus.CheckedOut)
         {
-            ModelState.AddModelError("", "Chỉ được lập hóa đơn khi khách đã trả phòng.");
+            ModelState.AddModelError(
+                string.Empty,
+                "Chỉ được lập hóa đơn khi khách đã trả phòng.");
 
-            ViewData["BookingId"] =
-                new SelectList(_context.Bookings, "Id", "BookingCode", invoice.BookingId);
-
+            await LoadBookingSelectList(invoice.BookingId);
             return View(invoice);
         }
 
-        if (existedInvoice != null)
+        bool existedInvoice = await _context.Invoices
+            .AnyAsync(i =>
+                i.BookingId == invoice.BookingId &&
+                !i.IsDeleted);
+
+        if (existedInvoice)
         {
-            ModelState.AddModelError("", "Booking này đã có hóa đơn.");
+            ModelState.AddModelError(
+                string.Empty,
+                "Booking này đã có hóa đơn.");
 
-            ViewData["BookingId"] =
-                new SelectList(_context.Bookings, "Id", "BookingCode", invoice.BookingId);
-
+            await LoadBookingSelectList(invoice.BookingId);
             return View(invoice);
         }
 
-        var roomAmount = await _context.BookingDetails
-            .Where(x => x.BookingId == invoice.BookingId)
-            .SumAsync(x => x.TotalPrice);
+        decimal roomAmount = await _context.BookingDetails
+            .Where(d =>
+                d.BookingId == invoice.BookingId &&
+                !d.IsDeleted)
+            .SumAsync(d => d.TotalPrice);
 
-        var serviceAmount = await _context.ServiceBookings
-            .Where(x => x.BookingId == invoice.BookingId)
-            .SumAsync(x => x.TotalPrice);
+        decimal serviceAmount = await _context.ServiceBookings
+            .Where(s =>
+                s.BookingId == invoice.BookingId &&
+                !s.IsDeleted)
+            .SumAsync(s => s.TotalPrice);
+
+        decimal subTotal = roomAmount + serviceAmount;
+        decimal discountAmount =
+            subTotal * invoice.DiscountPercent / 100;
+        decimal amountAfterDiscount = subTotal - discountAmount;
+        decimal taxAmount =
+            amountAfterDiscount * invoice.TaxPercent / 100;
 
         invoice.RoomAmount = roomAmount;
         invoice.ServiceAmount = serviceAmount;
-
-        var subtotal = roomAmount + serviceAmount;
-
-        var discount = subtotal * invoice.DiscountPercent / 100;
-        var tax = (subtotal - discount) * invoice.TaxPercent / 100;
-
-        invoice.TotalAmount = subtotal - discount + tax;
+        invoice.TotalAmount = amountAfterDiscount + taxAmount;
 
         _context.Invoices.Add(invoice);
-
         await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(Index));
+        TempData["Success"] = "Tạo hóa đơn thành công.";
+
+        return RedirectToAction(nameof(Details), new { id = invoice.Id });
     }
 
-    // GET: INVOICES/Edit/5
-    public async Task<IActionResult> Edit(int? id)
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> Edit(int id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        var invoice = await _context.Invoices
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
 
-        var invoice = await _context.Invoices.FindAsync(id);
         if (invoice == null)
         {
             return NotFound();
         }
+
         return View(invoice);
     }
 
-    // POST: INVOICES/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("BookingId,Booking,InvoiceCode,InvoiceDate,RoomAmount,ServiceAmount,DiscountPercent,TaxPercent,TotalAmount,Payments,Id,CreatedAt,UpdatedAt,IsDeleted")] Invoice invoice)
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> Edit(
+        int id,
+        [Bind("Id,DiscountPercent,TaxPercent")]
+        Invoice form)
     {
-        if (id != invoice.Id)
-        {
-            return NotFound();
-        }
-
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                _context.Update(invoice);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!InvoiceExists(invoice.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        return View(invoice);
-    }
-
-    // GET: INVOICES/Delete/5
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null)
+        if (id != form.Id)
         {
             return NotFound();
         }
 
         var invoice = await _context.Invoices
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
+
+        if (invoice == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(form);
+        }
+
+        decimal subTotal = invoice.RoomAmount + invoice.ServiceAmount;
+        decimal discountAmount =
+            subTotal * form.DiscountPercent / 100;
+        decimal amountAfterDiscount = subTotal - discountAmount;
+        decimal taxAmount =
+            amountAfterDiscount * form.TaxPercent / 100;
+
+        invoice.DiscountPercent = form.DiscountPercent;
+        invoice.TaxPercent = form.TaxPercent;
+        invoice.TotalAmount = amountAfterDiscount + taxAmount;
+        invoice.UpdatedAt = DateTime.Now;
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = "Cập nhật hóa đơn thành công.";
+
+        return RedirectToAction(nameof(Details), new { id });
+    }
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var invoice = await GetInvoiceDetailsQuery()
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
+
         if (invoice == null)
         {
             return NotFound();
@@ -211,56 +224,178 @@ public class InvoicesController : Controller
         return View(invoice);
     }
 
-    // POST: INVOICES/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var invoice = await _context.Invoices.FindAsync(id);
-        if (invoice != null)
+        var invoice = await _context.Invoices
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
+
+        if (invoice == null)
         {
-            _context.Invoices.Remove(invoice);
+            return NotFound();
         }
 
+        invoice.IsDeleted = true;
+        invoice.UpdatedAt = DateTime.Now;
+
         await _context.SaveChangesAsync();
+
+        TempData["Success"] = "Xóa hóa đơn thành công.";
+
         return RedirectToAction(nameof(Index));
     }
 
-    private bool InvoiceExists(int? id)
-    {
-        return _context.Invoices.Any(e => e.Id == id);
-    }
-
+    [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> ExportPdf(int id)
     {
-        var invoice = await _context.Invoices
-
-            .Include(i => i.Booking)
-
-                .ThenInclude(b => b.Customer)
-
-            .Include(i => i.Booking)
-
-                .ThenInclude(b => b.BookingDetails)
-
-                    .ThenInclude(d => d.Room)
-
-            .Include(i => i.Booking)
-
-                .ThenInclude(b => b.ServiceBookings)
-
-                    .ThenInclude(s => s.Service)
-
-            .FirstOrDefaultAsync(i => i.Id == id);
+        var invoice = await GetInvoiceDetailsQuery()
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
 
         if (invoice == null)
+        {
             return NotFound();
+        }
 
-        var pdf = _pdf.Generate(invoice);
+        byte[] pdf = _pdf.Generate(invoice);
 
         return File(
             pdf,
             "application/pdf",
             $"{invoice.InvoiceCode}.pdf");
+    }
+
+
+    [Authorize(Roles = "Customer")]
+    public async Task<IActionResult> MyInvoices()
+    {
+        var customer = await GetCurrentCustomer();
+
+        if (customer == null)
+        {
+            return NotFound();
+        }
+
+        var invoices = await _context.Invoices
+            .AsNoTracking()
+            .Include(i => i.Booking)
+                .ThenInclude(b => b.BookingDetails.Where(d => !d.IsDeleted))
+                    .ThenInclude(d => d.Room)
+            .Include(i => i.Payments.Where(p => !p.IsDeleted))
+            .Where(i =>
+                !i.IsDeleted &&
+                i.Booking != null &&
+                !i.Booking.IsDeleted &&
+                i.Booking.CustomerId == customer.Id)
+            .OrderByDescending(i => i.InvoiceDate)
+            .ToListAsync();
+
+        return View(invoices);
+    }
+
+    [Authorize(Roles = "Customer")]
+    public async Task<IActionResult> MyDetails(int id)
+    {
+        var customer = await GetCurrentCustomer();
+
+        if (customer == null)
+        {
+            return NotFound();
+        }
+
+        var invoice = await GetInvoiceDetailsQuery()
+            .FirstOrDefaultAsync(i =>
+                i.Id == id &&
+                !i.IsDeleted &&
+                i.Booking != null &&
+                i.Booking.CustomerId == customer.Id);
+
+        if (invoice == null)
+        {
+            return NotFound();
+        }
+
+        return View(invoice);
+    }
+
+    [Authorize(Roles = "Customer")]
+    public async Task<IActionResult> MyExportPdf(int id)
+    {
+        var customer = await GetCurrentCustomer();
+
+        if (customer == null)
+        {
+            return NotFound();
+        }
+
+        var invoice = await GetInvoiceDetailsQuery()
+            .FirstOrDefaultAsync(i =>
+                i.Id == id &&
+                !i.IsDeleted &&
+                i.Booking != null &&
+                i.Booking.CustomerId == customer.Id);
+
+        if (invoice == null)
+        {
+            return NotFound();
+        }
+
+        byte[] pdf = _pdf.Generate(invoice);
+
+        return File(
+            pdf,
+            "application/pdf",
+            $"{invoice.InvoiceCode}.pdf");
+    }
+
+
+    private IQueryable<Invoice> GetInvoiceDetailsQuery()
+    {
+        return _context.Invoices
+            .AsNoTracking()
+            .Include(i => i.Booking)
+                .ThenInclude(b => b.Customer)
+            .Include(i => i.Booking)
+                .ThenInclude(b => b.BookingDetails.Where(d => !d.IsDeleted))
+                    .ThenInclude(d => d.Room)
+            .Include(i => i.Booking)
+                .ThenInclude(b => b.ServiceBookings.Where(s => !s.IsDeleted))
+                    .ThenInclude(s => s.Service)
+            .Include(i => i.Payments.Where(p => !p.IsDeleted));
+    }
+
+    private async Task<Customer?> GetCurrentCustomer()
+    {
+        string? username = User.Identity?.Name;
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            return null;
+        }
+
+        return await _context.Customers
+            .AsNoTracking()
+            .Include(c => c.Account)
+            .FirstOrDefaultAsync(c =>
+                !c.IsDeleted &&
+                c.Account != null &&
+                !c.Account.IsDeleted &&
+                c.Account.Username == username);
+    }
+
+    private async Task LoadBookingSelectList(int selectedId)
+    {
+        ViewData["BookingId"] = new SelectList(
+            await _context.Bookings
+                .AsNoTracking()
+                .Where(b =>
+                    !b.IsDeleted &&
+                    b.Status == BookingStatus.CheckedOut)
+                .OrderByDescending(b => b.BookingDate)
+                .ToListAsync(),
+            "Id",
+            "BookingCode",
+            selectedId);
     }
 }

@@ -1,89 +1,387 @@
 @model QuanLyKhachSan.Models.Account
+@using QuanLyKhachSan.Enums
 
 @{
-    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Chỉnh sửa tài khoản";
 }
 
-<h1>Edit</h1>
+<section class="account-edit-heading">
+    <div>
+        <span>Quản trị hệ thống</span>
+        <h2>Chỉnh sửa tài khoản</h2>
+        <p>Cập nhật thông tin, vai trò, trạng thái hoặc đặt lại mật khẩu.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Quay lại
+    </a>
+</section>
 
-<h4>Account</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+<div class="row g-4">
+    <div class="col-xl-8">
+        <div class="card account-edit-card">
+            <div class="card-header">
+                <div class="account-edit-icon">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <div>
+                    <h4>@Model.Username</h4>
+                    <p>Để trống mật khẩu mới nếu không muốn thay đổi mật khẩu.</p>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PasswordHash" class="control-label"></label>
-                <input asp-for="PasswordHash" class="form-control" />
-                <span asp-validation-for="PasswordHash" class="text-danger"></span>
+
+            <form asp-controller="Accounts" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+
+                <div class="card-body p-4">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label asp-for="Username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                            <div class="account-input-group">
+                                <i class="bi bi-person"></i>
+                                <input asp-for="Username" class="form-control" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="PasswordHash" class="form-label">Mật khẩu mới</label>
+                            <div class="account-input-group">
+                                <i class="bi bi-lock"></i>
+                                <input type="password" id="PasswordHash" name="PasswordHash" class="form-control password-input" placeholder="Để trống nếu không đổi" autocomplete="new-password" />
+                                <button type="button" class="password-toggle" aria-label="Hiện mật khẩu">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="PasswordHash" class="text-danger small"></span>
+                            <small class="text-muted">Mật khẩu mới phải có ít nhất 6 ký tự.</small>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <div class="account-input-group">
+                                <i class="bi bi-envelope"></i>
+                                <input asp-for="Email" type="email" class="form-control" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="PhoneNumber" class="form-label">Số điện thoại</label>
+                            <div class="account-input-group">
+                                <i class="bi bi-telephone"></i>
+                                <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Role" class="form-label">Vai trò <span class="text-danger">*</span></label>
+                            <div class="account-input-group">
+                                <i class="bi bi-shield-check"></i>
+                                <select asp-for="Role" asp-items="Html.GetEnumSelectList<UserRole>()" class="form-select"></select>
+                            </div>
+                            <span asp-validation-for="Role" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label d-block">Trạng thái tài khoản</label>
+                            <div class="account-status-switch">
+                                <div>
+                                    <strong>Cho phép đăng nhập</strong>
+                                    <small>Tắt tùy chọn này để khóa tài khoản.</small>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsActive" class="form-check-input" role="switch" />
+                                </div>
+                            </div>
+                            <span asp-validation-for="IsActive" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Hủy</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-1"></i>Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="card account-information-card">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle me-2"></i>Thông tin hệ thống</h5>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+
+            <div class="card-body">
+                <div class="account-information-row">
+                    <span>Mã tài khoản</span>
+                    <strong>#@Model.Id</strong>
+                </div>
+
+                <div class="account-information-row">
+                    <span>Ngày tạo</span>
+                    <strong>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</strong>
+                </div>
+
+                <div class="account-information-row">
+                    <span>Lần cập nhật</span>
+                    <strong>@(Model.UpdatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa cập nhật")</strong>
+                </div>
+
+                <div class="account-information-row">
+                    <span>Đăng nhập gần nhất</span>
+                    <strong>@(Model.LastLogin?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa đăng nhập")</strong>
+                </div>
+
+                <div class="account-security-note">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <div>
+                        <strong>Lưu ý bảo mật</strong>
+                        <p>Không hiển thị hoặc sao chép giá trị PasswordHash. Khi nhập mật khẩu mới, hệ thống sẽ tự mã hóa trước khi lưu.</p>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <input asp-for="Role" class="form-control" />
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsActive" class="control-label"></label>
-                <input asp-for="IsActive" class="form-check-input" />
-                <span asp-validation-for="IsActive" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastLogin" class="control-label"></label>
-                <input asp-for="LastLogin" class="form-control" />
-                <span asp-validation-for="LastLogin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Customer" class="control-label"></label>
-                <input asp-for="Customer" class="form-control" />
-                <span asp-validation-for="Customer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Employee" class="control-label"></label>
-                <input asp-for="Employee" class="form-control" />
-                <span asp-validation-for="Employee" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Styles {
+    <style>
+        .account-edit-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+            .account-edit-heading > div > span {
+                color: #b58a42;
+                font-size: 11px;
+                font-weight: 800;
+                letter-spacing: 1.7px;
+                text-transform: uppercase;
+            }
+
+            .account-edit-heading h2 {
+                margin: 6px 0;
+                font-weight: 700;
+            }
+
+            .account-edit-heading p,
+            .account-edit-card .card-header p {
+                margin: 0;
+                color: #838897;
+            }
+
+        .account-edit-card,
+        .account-information-card {
+            overflow: hidden;
+            border: 1px solid #e8e9ee;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
+        }
+
+            .account-edit-card .card-header {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 22px 24px;
+                border-bottom: 1px solid #e8e9ee;
+                background: #fff;
+            }
+
+                .account-edit-card .card-header h4 {
+                    margin: 0 0 4px;
+                    font-weight: 700;
+                }
+
+        .account-edit-icon {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #f4ead7;
+            color: #8f692f;
+            font-size: 20px;
+        }
+
+        .account-edit-card .form-label {
+            color: #4d5360;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .account-input-group {
+            position: relative;
+        }
+
+            .account-input-group > i {
+                position: absolute;
+                top: 50%;
+                left: 14px;
+                z-index: 2;
+                color: #9a9fab;
+                transform: translateY(-50%);
+            }
+
+            .account-input-group .form-control,
+            .account-input-group .form-select {
+                min-height: 46px;
+                padding-left: 42px;
+                border-color: #e1e3e9;
+                border-radius: 11px;
+            }
+
+            .account-input-group .password-input {
+                padding-right: 45px;
+            }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            z-index: 3;
+            width: 35px;
+            height: 35px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #858b97;
+            transform: translateY(-50%);
+        }
+
+            .password-toggle:hover {
+                background: #f4ead7;
+                color: #8f692f;
+            }
+
+        .account-status-switch {
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 8px 13px;
+            border: 1px solid #e1e3e9;
+            border-radius: 11px;
+        }
+
+            .account-status-switch > div:first-child {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .account-status-switch strong {
+                font-size: 12px;
+            }
+
+            .account-status-switch small {
+                color: #8b909b;
+                font-size: 9px;
+            }
+
+            .account-status-switch .form-check-input {
+                width: 44px;
+                height: 23px;
+            }
+
+        .account-edit-card .card-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 18px 24px;
+            border-top: 1px solid #e8e9ee;
+            background: #fff;
+        }
+
+        .account-information-card .card-header {
+            padding: 21px;
+            border-bottom: 1px solid #e8e9ee;
+            background: #fff;
+        }
+
+            .account-information-card .card-header h5 {
+                margin: 0;
+                font-weight: 700;
+            }
+
+        .account-information-card .card-body {
+            padding: 21px;
+        }
+
+        .account-information-row {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eeeef2;
+        }
+
+            .account-information-row span {
+                color: #838897;
+                font-size: 10px;
+            }
+
+            .account-information-row strong {
+                color: #424854;
+                font-size: 12px;
+            }
+
+        .account-security-note {
+            display: flex;
+            gap: 11px;
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #fff5e3;
+            color: #8f692f;
+        }
+
+            .account-security-note > i {
+                font-size: 20px;
+            }
+
+            .account-security-note p {
+                margin: 4px 0 0;
+                color: #7d6b4f;
+                font-size: 10px;
+                line-height: 1.6;
+            }
+
+        @@media (max-width: 767.98px) {
+            .account-edit-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".password-toggle").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const input = button.parentElement.querySelector(".password-input");
+                    const icon = button.querySelector("i");
+                    const showPassword = input.type === "password";
+
+                    input.type = showPassword ? "text" : "password";
+                    icon.className = showPassword ? "bi bi-eye-slash" : "bi bi-eye";
+                    button.setAttribute("aria-label", showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu");
+                });
+            });
+        });
+    </script>
 }

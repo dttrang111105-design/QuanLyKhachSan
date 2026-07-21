@@ -413,12 +413,13 @@ E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\bundle\QuanLyKhachSan.styles.css
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\projectbundle\QuanLyKhachSan.bundle.scp.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-8kbkana1p0-8kbkana1p0.gz
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\vptr8b3or4-{0}-dyjx89twm7-dyjx89twm7.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ykdsz8vmrm-{0}-euv7fo3wfm-euv7fo3wfm.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-9h7rj40151-9h7rj40151.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3bmu2ctekg-{0}-fvf6vtqqtz-fvf6vtqqtz.gz
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-yohb5l0bak-yohb5l0bak.gz
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-w5ws4us4rz-w5ws4us4rz.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-0w33h8npc0-0w33h8npc0.gz
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\xrkz46z9ez-{0}-61n19gt1b8-61n19gt1b8.gz
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
+E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-f3p764h0z9-f3p764h0z9.gz
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mumn7hpnkf-{0}-bqjiyaj88i-bqjiyaj88i.gz
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\jrvics53y7-{0}-c2jlpeoesf-c2jlpeoesf.gz
 E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\wtdf6o13q9-{0}-erw9l3u2r3-erw9l3u2r3.gz

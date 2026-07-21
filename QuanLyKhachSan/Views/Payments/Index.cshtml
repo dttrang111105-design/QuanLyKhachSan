@@ -1,80 +1,1107 @@
-@using QuanLyKhachSan.Enums
 @model IEnumerable<QuanLyKhachSan.Models.Payment>
 
+@using QuanLyKhachSan.Enums
+@using QuanLyKhachSan.Models
+
 @{
-    ViewData["Title"] = "Index";
+    bool isAdmin = User.IsInRole("Admin");
+    bool isReceptionist = User.IsInRole("Receptionist");
+
+    Layout = isAdmin
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+
+    ViewData["Title"] = "Quản lý thanh toán";
+
+    List<Payment> payments =
+        Model?.ToList() ?? new List<Payment>();
+
+    int totalPayments = payments.Count;
+
+    int paidPayments = payments.Count(payment =>
+        payment.PaymentStatus == PaymentStatus.Paid);
+
+    int pendingPayments = payments.Count(payment =>
+        payment.PaymentStatus == PaymentStatus.Pending);
+
+    decimal totalPaidAmount = payments
+        .Where(payment =>
+            payment.PaymentStatus == PaymentStatus.Paid)
+        .Sum(payment => payment.Amount);
+
+    decimal paidToday = payments
+        .Where(payment =>
+            payment.PaymentStatus == PaymentStatus.Paid &&
+            payment.PaymentDate.Date == DateTime.Today)
+        .Sum(payment => payment.Amount);
+
+    string PaymentMethodText(PaymentMethod method)
+    {
+        return method switch
+        {
+            PaymentMethod.Cash => "Tiền mặt",
+            PaymentMethod.BankTransfer => "Chuyển khoản",
+            PaymentMethod.Momo => "MoMo",
+            PaymentMethod.VNPay => "VNPay",
+            _ => method.ToString()
+        };
+    }
+
+    string PaymentMethodIcon(PaymentMethod method)
+    {
+        return method switch
+        {
+            PaymentMethod.Cash => "bi-cash-stack",
+            PaymentMethod.BankTransfer => "bi-bank",
+            PaymentMethod.Momo => "bi-phone",
+            PaymentMethod.VNPay => "bi-qr-code",
+            _ => "bi-credit-card"
+        };
+    }
+
+    string PaymentStatusText(PaymentStatus status)
+    {
+        return status switch
+        {
+            PaymentStatus.Paid => "Đã thanh toán",
+            PaymentStatus.Pending => "Đang xử lý",
+            PaymentStatus.Failed => "Thất bại",
+            _ => status.ToString()
+        };
+    }
+
+    string PaymentStatusClass(PaymentStatus status)
+    {
+        return status switch
+        {
+            PaymentStatus.Paid => "payment-status-paid",
+            PaymentStatus.Pending => "payment-status-pending",
+            PaymentStatus.Failed => "payment-status-failed",
+            _ => "payment-status-default"
+        };
+    }
 }
 
-<h1>Index</h1>
+<!-- =====================================================
+     TIÊU ĐỀ
+     ===================================================== -->
+<section class="admin-dashboard-heading">
+
+    <div>
+
+        <span class="admin-dashboard-kicker">
+            Tài chính khách sạn
+        </span>
+
+        <h2>
+            Quản lý thanh toán
+        </h2>
+
+        <p>
+            Theo dõi giao dịch thanh toán từ tiền mặt,
+            chuyển khoản, MoMo, VNPay và VietQR.
+        </p>
+
+    </div>
+
+    <div class="admin-dashboard-actions">
+
+        <a asp-controller="Invoices"
+           asp-action="Index"
+           class="admin-outline-action">
+
+            <i class="bi bi-receipt"></i>
+            Danh sách hóa đơn
+
+        </a>
+
+        <a asp-controller="Home"
+           asp-action="Dashboard"
+           class="admin-primary-action">
+
+            <i class="bi bi-grid-1x2"></i>
+            Tổng quan
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     THÔNG BÁO
+     ===================================================== -->
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show"
+         role="alert">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
         @TempData["Success"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Đóng">
+        </button>
+
     </div>
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mã hóa đơn</th>
-            <th>Phương thức</th>
-            <th>Trạng thái</th>
-            <th>Số tiền</th>
-            <th>Mã giao dịch</th>
-            <th>Ngày thanh toán</th>
-            <th>Ghi chú</th>
-            <th></th>
-        </tr>
-    </thead>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show"
+         role="alert">
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Invoice?.InvoiceCode</td>
-                <td>@item.PaymentMethod</td>
-                <td>
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["Error"]
 
-                    @if (item.PaymentStatus == PaymentStatus.Pending)
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Đóng">
+        </button>
+
+    </div>
+}
+
+<!-- =====================================================
+     THỐNG KÊ
+     ===================================================== -->
+<div class="row g-4 mb-4">
+
+    <!-- Tổng giao dịch -->
+    <div class="col-xl-3 col-md-6">
+
+        <div class="payment-stat-card">
+
+            <div class="payment-stat-header">
+
+                <span class="payment-stat-icon payment-stat-blue">
+                    <i class="bi bi-credit-card-2-front"></i>
+                </span>
+
+                <span class="payment-stat-label">
+                    Tất cả
+                </span>
+
+            </div>
+
+            <span class="payment-stat-title">
+                Tổng giao dịch
+            </span>
+
+            <strong class="payment-stat-value">
+                @totalPayments
+            </strong>
+
+            <small>
+                Giao dịch trong hệ thống
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Đã thanh toán -->
+    <div class="col-xl-3 col-md-6">
+
+        <div class="payment-stat-card">
+
+            <div class="payment-stat-header">
+
+                <span class="payment-stat-icon payment-stat-green">
+                    <i class="bi bi-check-circle"></i>
+                </span>
+
+                <span class="payment-stat-label">
+                    Thành công
+                </span>
+
+            </div>
+
+            <span class="payment-stat-title">
+                Đã thanh toán
+            </span>
+
+            <strong class="payment-stat-value">
+                @paidPayments
+            </strong>
+
+            <small>
+                @pendingPayments giao dịch đang xử lý
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Tổng tiền -->
+    <div class="col-xl-3 col-md-6">
+
+        <div class="payment-stat-card">
+
+            <div class="payment-stat-header">
+
+                <span class="payment-stat-icon payment-stat-gold">
+                    <i class="bi bi-wallet2"></i>
+                </span>
+
+                <span class="payment-stat-label">
+                    Doanh thu
+                </span>
+
+            </div>
+
+            <span class="payment-stat-title">
+                Tổng tiền đã thu
+            </span>
+
+            <strong class="payment-stat-value payment-money-value">
+                @totalPaidAmount.ToString("N0")
+                <small>VNĐ</small>
+            </strong>
+
+            <small>
+                Từ các giao dịch đã thanh toán
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Hôm nay -->
+    <div class="col-xl-3 col-md-6">
+
+        <div class="payment-stat-card">
+
+            <div class="payment-stat-header">
+
+                <span class="payment-stat-icon payment-stat-purple">
+                    <i class="bi bi-calendar-check"></i>
+                </span>
+
+                <span class="payment-stat-label">
+                    Hôm nay
+                </span>
+
+            </div>
+
+            <span class="payment-stat-title">
+                Thu trong ngày
+            </span>
+
+            <strong class="payment-stat-value payment-money-value">
+                @paidToday.ToString("N0")
+                <small>VNĐ</small>
+            </strong>
+
+            <small>
+                Ngày @DateTime.Today.ToString("dd/MM/yyyy")
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     DANH SÁCH THANH TOÁN
+     ===================================================== -->
+<div class="admin-panel">
+
+    <div class="payment-panel-header">
+
+        <div>
+
+            <span class="admin-dashboard-kicker">
+                Lịch sử giao dịch
+            </span>
+
+            <h3>
+                Danh sách thanh toán
+            </h3>
+
+            <p>
+                Có @totalPayments giao dịch được ghi nhận.
+            </p>
+
+        </div>
+
+        <div class="payment-filter-group">
+
+            <div class="payment-search-box">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="paymentSearchInput"
+                       placeholder="Tìm mã hóa đơn, mã giao dịch..." />
+
+            </div>
+
+            <select id="paymentStatusFilter"
+                    class="form-select">
+
+                <option value="">
+                    Tất cả trạng thái
+                </option>
+
+                <option value="Paid">
+                    Đã thanh toán
+                </option>
+
+                <option value="Pending">
+                    Đang xử lý
+                </option>
+
+                <option value="Failed">
+                    Thất bại
+                </option>
+
+            </select>
+
+            <select id="paymentMethodFilter"
+                    class="form-select">
+
+                <option value="">
+                    Tất cả phương thức
+                </option>
+
+                <option value="Cash">
+                    Tiền mặt
+                </option>
+
+                <option value="BankTransfer">
+                    Chuyển khoản
+                </option>
+
+                <option value="Momo">
+                    MoMo
+                </option>
+
+                <option value="VNPay">
+                    VNPay
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    @if (payments.Any())
+    {
+        <div class="table-responsive">
+
+            <table class="table payment-table align-middle mb-0"
+                   id="paymentTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="ps-4">
+                            Mã hóa đơn
+                        </th>
+
+                        <th>
+                            Phương thức
+                        </th>
+
+                        <th>
+                            Trạng thái
+                        </th>
+
+                        <th>
+                            Số tiền
+                        </th>
+
+                        <th>
+                            Mã giao dịch
+                        </th>
+
+                        <th>
+                            Ngày thanh toán
+                        </th>
+
+                        <th>
+                            Ghi chú
+                        </th>
+
+                        <th class="text-end pe-4">
+                            Thao tác
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (Payment payment in payments)
                     {
-                        <span class="badge bg-warning">
-                            Pending
-                        </span>
-                    }
-                    else if (item.PaymentStatus == PaymentStatus.Paid)
-                    {
-                        <span class="badge bg-success">
-                            Paid
-                        </span>
-                    }
-                    else if (item.PaymentStatus == PaymentStatus.Failed)
-                    {
-                        <span class="badge bg-danger">
-                            Failed
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">
-                            Refunded
-                        </span>
+                        string invoiceCode =
+                            payment.Invoice?.InvoiceCode
+                            ?? "Không xác định";
+
+                        <tr class="payment-row"
+                            data-status="@payment.PaymentStatus"
+                            data-method="@payment.PaymentMethod"
+                            data-search="@($"{invoiceCode} {payment.TransactionCode} {payment.Note}".ToLower())">
+
+                            <!-- Mã hóa đơn -->
+                            <td class="ps-4">
+
+                                <div class="payment-invoice-cell">
+
+                                    <span class="payment-invoice-icon">
+                                        <i class="bi bi-receipt"></i>
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            @invoiceCode
+                                        </strong>
+
+                                        <small>
+                                            Thanh toán #@payment.Id
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <!-- Phương thức -->
+                            <td>
+
+                                <span class="payment-method">
+
+                                    <i class="bi @PaymentMethodIcon(
+                                                                               payment.PaymentMethod)">
+                                    </i>
+
+                                    @PaymentMethodText(
+                                        payment.PaymentMethod)
+
+                                </span>
+
+                            </td>
+
+                            <!-- Trạng thái -->
+                            <td>
+
+                                <span class="payment-status
+                                    @PaymentStatusClass(
+                                          payment.PaymentStatus)">
+
+                                    @if (payment.PaymentStatus ==
+                                         PaymentStatus.Paid)
+                                    {
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    }
+                                    else if (payment.PaymentStatus ==
+                                              PaymentStatus.Pending)
+                                    {
+                                        <i class="bi bi-hourglass-split"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-x-circle-fill"></i>
+                                    }
+
+                                    @PaymentStatusText(
+                                        payment.PaymentStatus)
+
+                                </span>
+
+                            </td>
+
+                            <!-- Số tiền -->
+                            <td>
+
+                                <strong class="payment-amount">
+
+                                    @payment.Amount.ToString("N0")
+
+                                    <small>
+                                        VNĐ
+                                    </small>
+
+                                </strong>
+
+                            </td>
+
+                            <!-- Mã giao dịch -->
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(
+                                    payment.TransactionCode))
+                                {
+                                    <code class="payment-transaction-code">
+                                        @payment.TransactionCode
+                                    </code>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Chưa có
+                                    </span>
+                                }
+
+                            </td>
+
+                            <!-- Ngày -->
+                            <td>
+
+                                <div class="payment-date">
+
+                                    <strong>
+                                        @payment.PaymentDate.ToString(
+                                            "dd/MM/yyyy")
+                                    </strong>
+
+                                    <small>
+                                        @payment.PaymentDate.ToString(
+                                            "HH:mm")
+                                    </small>
+
+                                </div>
+
+                            </td>
+
+                            <!-- Ghi chú -->
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(
+                                    payment.Note))
+                                {
+                                    <span class="payment-note"
+                                          title="@payment.Note">
+
+                                        @payment.Note
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        —
+                                    </span>
+                                }
+
+                            </td>
+
+                            <!-- Thao tác -->
+                            <td class="text-end pe-4 text-nowrap">
+
+                                <a asp-controller="Payments"
+                                   asp-action="Details"
+                                   asp-route-id="@payment.Id"
+                                   class="payment-action-button
+                                    payment-action-details"
+                                   title="Xem chi tiết">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
+
+                                <a asp-controller="Payments"
+                                   asp-action="Edit"
+                                   asp-route-id="@payment.Id"
+                                   class="payment-action-button
+                                    payment-action-edit"
+                                   title="Chỉnh sửa">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+                                </a>
+
+                                @if (isAdmin)
+                                {
+                                    <a asp-controller="Payments"
+                                       asp-action="Delete"
+                                       asp-route-id="@payment.Id"
+                                       class="payment-action-button
+                                        payment-action-delete"
+                                       title="Xóa">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </a>
+                                }
+
+                            </td>
+
+                        </tr>
                     }
 
-                </td>
-                @string.Format("{0:N0} VNĐ", item.Amount)
-                <td>@item.TransactionCode</td>
-                <td>@item.PaymentDate.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@item.Note</td>
+                </tbody>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            </table>
+
+        </div>
+
+        <div id="paymentEmptyFilter"
+             class="payment-empty-filter d-none">
+
+            <i class="bi bi-search"></i>
+
+            <strong>
+                Không tìm thấy giao dịch
+            </strong>
+
+            <span>
+                Hãy thử từ khóa hoặc bộ lọc khác.
+            </span>
+
+        </div>
+    }
+    else
+    {
+        <div class="payment-empty-state">
+
+            <i class="bi bi-credit-card"></i>
+
+            <h4>
+                Chưa có giao dịch thanh toán
+            </h4>
+
+            <p>
+                Thanh toán sẽ xuất hiện sau khi một hóa đơn
+                được khách hàng hoặc nhân viên thanh toán.
+            </p>
+
+            <a asp-controller="Invoices"
+               asp-action="Index"
+               class="btn btn-primary">
+
+                <i class="bi bi-receipt me-1"></i>
+                Xem danh sách hóa đơn
+
+            </a>
+
+        </div>
+    }
+
+</div>
+
+@section Styles
+{
+    <style>
+        .payment-stat-card {
+            height: 100%;
+            padding: 22px;
+            border: 1px solid #e8e9ee;
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
-    </tbody>
-</table>
+
+        .payment-stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .payment-stat-icon {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 21px;
+        }
+
+        .payment-stat-blue {
+            background: #eaf0ff;
+            color: #4f6fd8;
+        }
+
+        .payment-stat-green {
+            background: #e4f7ef;
+            color: #27875e;
+        }
+
+        .payment-stat-gold {
+            background: #f4ead7;
+            color: #8f692f;
+        }
+
+        .payment-stat-purple {
+            background: #f0ebff;
+            color: #8567d4;
+        }
+
+        .payment-stat-label {
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #f3f4f7;
+            color: #838897;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .payment-stat-title {
+            display: block;
+            color: #838897;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .payment-stat-value {
+            display: block;
+            margin: 5px 0 13px;
+            color: #242834;
+            font-size: 34px;
+            line-height: 1.15;
+        }
+
+        .payment-money-value {
+            font-size: 25px;
+        }
+
+        .payment-stat-value small {
+            color: #838897;
+            font-size: 10px;
+        }
+
+        .payment-stat-card > small {
+            color: #8b909e;
+            font-size: 11px;
+        }
+
+        .payment-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 22px;
+            border-bottom: 1px solid #e8e9ee;
+        }
+
+            .payment-panel-header h3 {
+                margin: 3px 0;
+                font-family: "Playfair Display", serif;
+                font-size: 21px;
+            }
+
+            .payment-panel-header p {
+                margin: 0;
+                color: #838897;
+                font-size: 12px;
+            }
+
+        .payment-filter-group {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+            .payment-filter-group .form-select {
+                width: 175px;
+                min-height: 42px;
+                border-color: #e1e3e9;
+                border-radius: 11px;
+                font-size: 12px;
+            }
+
+        .payment-search-box {
+            position: relative;
+        }
+
+            .payment-search-box i {
+                position: absolute;
+                top: 50%;
+                left: 13px;
+                color: #989daa;
+                transform: translateY(-50%);
+            }
+
+            .payment-search-box input {
+                width: 250px;
+                min-height: 42px;
+                padding: 9px 13px 9px 38px;
+                border: 1px solid #e1e3e9;
+                border-radius: 11px;
+                outline: none;
+                font-size: 12px;
+            }
+
+                .payment-search-box input:focus,
+                .payment-filter-group .form-select:focus {
+                    border-color: #b58a42;
+                    box-shadow: 0 0 0 3px rgba(181, 138, 66, 0.12);
+                }
+
+        .payment-table thead th {
+            padding: 14px 13px;
+            border-bottom: 1px solid #e8e9ee;
+            background: #fafafb;
+            color: #818795;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .payment-table tbody td {
+            padding: 15px 13px;
+            border-bottom: 1px solid #eff0f3;
+            color: #565c69;
+            font-size: 12px;
+        }
+
+        .payment-table tbody tr:hover {
+            background: #fcfbf9;
+        }
+
+        .payment-invoice-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-invoice-icon {
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: #f4ead7;
+            color: #8f692f;
+        }
+
+        .payment-invoice-cell div,
+        .payment-date {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .payment-invoice-cell strong {
+            color: #303541;
+            font-size: 12px;
+        }
+
+        .payment-invoice-cell small,
+        .payment-date small {
+            color: #9499a5;
+            font-size: 10px;
+        }
+
+        .payment-method {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #505663;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+            .payment-method i {
+                color: #b58a42;
+            }
+
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .payment-status-paid {
+            background: #e3f6ec;
+            color: #258459;
+        }
+
+        .payment-status-pending {
+            background: #fff1d9;
+            color: #b87610;
+        }
+
+        .payment-status-failed {
+            background: #fde7e9;
+            color: #c34c55;
+        }
+
+        .payment-status-default {
+            background: #eceef2;
+            color: #646b79;
+        }
+
+        .payment-amount {
+            color: #252a35;
+            white-space: nowrap;
+        }
+
+            .payment-amount small {
+                color: #969ba7;
+                font-size: 9px;
+            }
+
+        .payment-transaction-code {
+            padding: 5px 7px;
+            border-radius: 7px;
+            background: #f3f4f7;
+            color: #555c69;
+            font-size: 10px;
+        }
+
+        .payment-date strong {
+            color: #484e5a;
+            font-size: 11px;
+        }
+
+        .payment-note {
+            max-width: 190px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .payment-action-button {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 3px;
+            border: 1px solid #e1e3e8;
+            border-radius: 10px;
+            transition: 0.2s ease;
+        }
+
+        .payment-action-details {
+            color: #4f6fd8;
+        }
+
+        .payment-action-edit {
+            color: #b58025;
+        }
+
+        .payment-action-delete {
+            color: #cf535d;
+        }
+
+        .payment-action-details:hover {
+            border-color: #4f6fd8;
+            background: #eaf0ff;
+        }
+
+        .payment-action-edit:hover {
+            border-color: #d49a36;
+            background: #fff3df;
+        }
+
+        .payment-action-delete:hover {
+            border-color: #cf535d;
+            background: #fde9eb;
+        }
+
+        .payment-empty-state,
+        .payment-empty-filter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 70px 20px;
+            color: #858b98;
+            text-align: center;
+        }
+
+            .payment-empty-state i,
+            .payment-empty-filter i {
+                margin-bottom: 12px;
+                color: #c1c5ce;
+                font-size: 48px;
+            }
+
+            .payment-empty-state h4,
+            .payment-empty-filter strong {
+                color: #454b57;
+            }
+
+        @@media (max-width: 1199.98px) {
+            .payment-panel-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .payment-filter-group {
+                width: 100%;
+            }
+
+            .payment-search-box {
+                flex: 1;
+            }
+
+                .payment-search-box input {
+                    width: 100%;
+                }
+        }
+
+        @@media (max-width: 767.98px) {
+            .payment-filter-group {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+                .payment-filter-group .form-select {
+                    width: 100%;
+                }
+        }
+    </style>
+}
+@section Scripts
+{
+    <script>
+        document.addEventListener( "DOMContentLoaded",
+            function () {
+                const searchInput = document.getElementById( "paymentSearchInput" );
+                const statusFilter = document.getElementById( "paymentStatusFilter" );
+                const methodFilter = document.getElementById( "paymentMethodFilter" );
+                const rows = document.querySelectorAll( ".payment-row" );
+                const emptyMessage = document.getElementById( "paymentEmptyFilter" );
+                function filterPayments() {
+                    const searchValue = searchInput?.value.trim().toLowerCase() ?? "";
+                    const statusValue = statusFilter?.value ?? "";
+                    const methodValue = methodFilter?.value ?? "";
+                    let visibleCount = 0;
+                    rows.forEach(function (row) {
+                        const rowSearch = row.dataset.search ?? "";
+                        const rowStatus = row.dataset.status ?? "";
+                        const rowMethod = row.dataset.method ?? "";
+                        const searchMatched = !searchValue || rowSearch.includes( searchValue );
+                        const statusMatched = !statusValue || rowStatus === statusValue;
+                        const methodMatched = !methodValue || rowMethod === methodValue;
+                        const visible = searchMatched && statusMatched && methodMatched;
+                        row.classList.toggle( "d-none", );
+                        if (visible) {
+                            visibleCount++;
+                        }
+                    });
+                    if (emptyMessage) {
+                        emptyMessage.classList.toggle( "d-none", visibleCount > 0 );
+                    }
+                }
+                searchInput?.addEventListener( "input", filterPayments );
+                statusFilter?.addEventListener( "change", filterPayments );
+                methodFilter?.addEventListener( "change", filterPayments );
+
+            }
+        );
+    </script>
+}

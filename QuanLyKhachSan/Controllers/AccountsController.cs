@@ -1,101 +1,220 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKhachSan.Data;
 using QuanLyKhachSan.Models;
+using System.Security.Cryptography;
+using System.Text;
 
-[Authorize(Roles = "Admin")]
-public class AccountsController : Controller
+namespace QuanLyKhachSan.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public AccountsController(ApplicationDbContext context)
+    [Authorize(Roles = "Admin")]
+    public class AccountsController : Controller
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    // GET: ACCOUNTS
-    public async Task<IActionResult> Index()    
-    {
-        return View(await _context.Accounts.ToListAsync());
-    }
-
-    // GET: ACCOUNTS/Details/5
-    public async Task<IActionResult> Details(int? id)
-    {
-        if (id == null)
+        public AccountsController(ApplicationDbContext context)
         {
-            return NotFound();
+            _context = context;
         }
 
-        var account = await _context.Accounts
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (account == null)
+        public async Task<IActionResult> Index()
         {
-            return NotFound();
+            var accounts = await _context.Accounts
+                .AsNoTracking()
+                .Include(a => a.Customer)
+                .Include(a => a.Employee)
+                .Where(a => !a.IsDeleted)
+                .OrderByDescending(a => a.IsActive)
+                .ThenBy(a => a.Username)
+                .ToListAsync();
+
+            return View(accounts);
         }
 
-        return View(account);
-    }
-
-    // GET: ACCOUNTS/Create
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    // POST: ACCOUNTS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Username,PasswordHash,Email,PhoneNumber,Role")] Account account)
-    {
-        if (ModelState.IsValid)
+        public async Task<IActionResult> Details(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = await _context.Accounts
+                .AsNoTracking()
+                .Include(a => a.Customer)
+                .Include(a => a.Employee)
+                .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return View(account);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new Account
+            {
+                IsActive = true
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Username,PasswordHash,Email,PhoneNumber,Role")] Account account)
+        {
+            account.Username = account.Username?.Trim() ?? string.Empty;
+            account.Email = account.Email?.Trim() ?? string.Empty;
+            account.PhoneNumber = account.PhoneNumber?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(account.Username))
+            {
+                ModelState.AddModelError(nameof(account.Username), "Vui lòng nhập tên đăng nhập.");
+            }
+
+            if (string.IsNullOrWhiteSpace(account.PasswordHash))
+            {
+                ModelState.AddModelError(nameof(account.PasswordHash), "Vui lòng nhập mật khẩu.");
+            }
+            else if (account.PasswordHash.Length < 6)
+            {
+                ModelState.AddModelError(nameof(account.PasswordHash), "Mật khẩu phải có ít nhất 6 ký tự.");
+            }
+
+            bool usernameExists = await _context.Accounts
+                .AnyAsync(a => a.Username == account.Username);
+
+            if (usernameExists)
+            {
+                ModelState.AddModelError(nameof(account.Username), "Tên đăng nhập đã tồn tại.");
+            }
+
+            bool emailExists = await _context.Accounts
+                .AnyAsync(a => a.Email == account.Email);
+
+            if (emailExists)
+            {
+                ModelState.AddModelError(nameof(account.Email), "Email đã được sử dụng.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(account);
+            }
+
+            account.PasswordHash = HashPassword(account.PasswordHash);
             account.IsActive = true;
-            _context.Add(account);
+            account.IsDeleted = false;
+            account.CreatedAt = DateTime.Now;
+            account.UpdatedAt = null;
+            account.LastLogin = null;
+
+            _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Tạo tài khoản {account.Username} thành công.";
             return RedirectToAction(nameof(Index));
         }
-        return View(account);
-    }
 
-    // GET: ACCOUNTS/Edit/5
-    public async Task<IActionResult> Edit(int? id)
-    {
-        if (id == null)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
         {
-            return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = await _context.Accounts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            account.PasswordHash = string.Empty;
+            return View(account);
         }
 
-        var account = await _context.Accounts.FindAsync(id);
-        if (account == null)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,PasswordHash,Email,PhoneNumber,Role,IsActive")] Account account)
         {
-            return NotFound();
-        }
-        return View(account);
-    }
+            if (id != account.Id)
+            {
+                return NotFound();
+            }
 
-    // POST: ACCOUNTS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Username,PasswordHash,Email,PhoneNumber,Role,IsActive,LastLogin,Customer,Employee,Id,CreatedAt,UpdatedAt,IsDeleted")] Account account)
-    {
-        if (id != account.Id)
-        {
-            return NotFound();
-        }
+            var existingAccount = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
 
-        if (ModelState.IsValid)
-        {
+            if (existingAccount == null)
+            {
+                return NotFound();
+            }
+
+            account.Username = account.Username?.Trim() ?? string.Empty;
+            account.Email = account.Email?.Trim() ?? string.Empty;
+            account.PhoneNumber = account.PhoneNumber?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(account.PasswordHash))
+            {
+                ModelState.Remove(nameof(account.PasswordHash));
+            }
+            else if (account.PasswordHash.Length < 6)
+            {
+                ModelState.AddModelError(nameof(account.PasswordHash), "Mật khẩu mới phải có ít nhất 6 ký tự.");
+            }
+
+            bool usernameExists = await _context.Accounts
+                .AnyAsync(a => a.Id != id && a.Username == account.Username);
+
+            if (usernameExists)
+            {
+                ModelState.AddModelError(nameof(account.Username), "Tên đăng nhập đã tồn tại.");
+            }
+
+            bool emailExists = await _context.Accounts
+                .AnyAsync(a => a.Id != id && a.Email == account.Email);
+
+            if (emailExists)
+            {
+                ModelState.AddModelError(nameof(account.Email), "Email đã được sử dụng.");
+            }
+
+            bool isCurrentAccount = string.Equals(existingAccount.Username, User.Identity?.Name, StringComparison.OrdinalIgnoreCase);
+
+            if (isCurrentAccount && !account.IsActive)
+            {
+                ModelState.AddModelError(nameof(account.IsActive), "Bạn không thể khóa tài khoản đang đăng nhập.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                account.PasswordHash = string.Empty;
+                return View(account);
+            }
+
+            existingAccount.Username = account.Username;
+            existingAccount.Email = account.Email;
+            existingAccount.PhoneNumber = account.PhoneNumber;
+            existingAccount.Role = account.Role;
+            existingAccount.IsActive = account.IsActive;
+            existingAccount.UpdatedAt = DateTime.Now;
+
+            if (!string.IsNullOrWhiteSpace(account.PasswordHash))
+            {
+                existingAccount.PasswordHash = HashPassword(account.PasswordHash);
+            }
+
             try
             {
-                _context.Update(account);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = $"Cập nhật tài khoản {existingAccount.Username} thành công.";
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -103,51 +222,79 @@ public class AccountsController : Controller
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
+
             return RedirectToAction(nameof(Index));
         }
-        return View(account);
-    }
 
-    // GET: ACCOUNTS/Delete/5
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
         {
-            return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = await _context.Accounts
+                .AsNoTracking()
+                .Include(a => a.Customer)
+                .Include(a => a.Employee)
+                .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            if (string.Equals(account.Username, User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                TempData["Error"] = "Bạn không thể xóa tài khoản đang đăng nhập.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(account);
         }
 
-        var account = await _context.Accounts
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (account == null)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            return NotFound();
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            if (string.Equals(account.Username, User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                TempData["Error"] = "Bạn không thể xóa tài khoản đang đăng nhập.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            account.IsActive = false;
+            account.IsDeleted = true;
+            account.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Đã xóa tài khoản {account.Username}.";
+            return RedirectToAction(nameof(Index));
         }
 
-        return View(account);
-    }
-
-    // POST: ACCOUNTS/Delete/5
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
-    {
-        var account = await _context.Accounts.FindAsync(id);
-        if (account != null)
+        private static string HashPassword(string password)
         {
-            _context.Accounts.Remove(account);
+            using var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(bytes);
         }
 
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-
-    private bool AccountExists(int? id)
-    {
-        return _context.Accounts.Any(e => e.Id == id);
+        private bool AccountExists(int id)
+        {
+            return _context.Accounts.Any(a => a.Id == id && !a.IsDeleted);
+        }
     }
 }

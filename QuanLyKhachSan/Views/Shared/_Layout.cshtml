@@ -1,238 +1,396 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims
+@inject QuanLyKhachSan.Data.ApplicationDbContext DbContext
+
+@{
+    string currentPath = Context.Request.Path.Value?
+        .TrimEnd('/')
+        .ToLowerInvariant() ?? string.Empty;
+
+    bool isHome = string.IsNullOrWhiteSpace(currentPath)
+        || currentPath == "/home"
+        || currentPath == "/home/index";
+
+    string homeUrl = Url.Action("Index", "Home") ?? "/";
+    string displayName = User.Identity?.Name ?? "Tài khoản";
+
+    if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
+    {
+        string? accountIdText = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (int.TryParse(accountIdText, out int accountId))
+        {
+            string? customerName = await DbContext.Customers
+                .AsNoTracking()
+                .Where(x => x.AccountId == accountId && !x.IsDeleted)
+                .Select(x => x.FullName)
+                .FirstOrDefaultAsync();
+
+            if (!string.IsNullOrWhiteSpace(customerName))
+            {
+                displayName = customerName;
+            }
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Luxury Hotel & Resort - Đặt phòng và dịch vụ khách sạn trực tuyến." />
+
     <title>@ViewData["Title"] - Luxury Hotel</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/QuanLyKhachSan.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    @RenderSection("Styles", required: false)
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    @if (isHome)
+    {
+        <link rel="stylesheet"
+              href="~/css/home.css"
+              asp-append-version="true" />
+    }
+
+    @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("Customer"))
-                    {
-                        <a class="navbar-brand"
-                           asp-controller="Home"
-                           asp-action="Index">
-                            Luxury Hotel
-                        </a>
-                    }
-                    else
-                    {
-                        <a class="navbar-brand"
-                           asp-controller="Home"
-                           asp-action="Dashboard">
-                            Luxury Hotel
-                        </a>
-                    }
-                }
-                else
-                {
-                    <a class="navbar-brand"
-                       asp-controller="Home"
-                       asp-action="Index">
-                        Luxury Hotel
-                    </a>
-                }
+<body class="@(isHome ? "public-home-page" : "public-inner-page")">
 
-                <ul class="navbar-nav ms-auto">
+    <header class="public-header">
+        <nav id="mainNavbar"
+             class="navbar navbar-expand-lg fixed-top public-navbar @(isHome ? "public-navbar-home navbar-home" : "public-navbar-solid")">
 
-                    <!-- Trang chủ / Dashboard -->
-                    @if (User.Identity != null && User.Identity.IsAuthenticated)
-                    {
-                        if (User.IsInRole("Customer"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-controller="Home"
-                                   asp-action="Index">
-                                    Trang chủ
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-controller="Home"
-                                   asp-action="Dashboard">
-                                    Dashboard
-                                </a>
-                            </li>
-                        }
-                    }
-                    else
-                    {
+            <div class="container">
+                <a class="navbar-brand public-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <span class="public-brand-icon">
+                        <i class="bi bi-building-fill"></i>
+                    </span>
+
+                    <span class="public-brand-text">
+                        <strong>LUXURY</strong>
+                        <small>HOTEL &amp; RESORT</small>
+                    </span>
+                </a>
+
+                <button class="navbar-toggler public-navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainMenu"
+                        aria-controls="mainMenu"
+                        aria-expanded="false"
+                        aria-label="Mở menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainMenu">
+                    <ul class="navbar-nav mx-auto public-nav-list">
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link @(isHome ? "active" : string.Empty)"
                                asp-controller="Home"
                                asp-action="Index">
                                 Trang chủ
                             </a>
                         </li>
-                    }
 
-                    <!-- Danh sách phòng -->
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Rooms"
-                           asp-action="Index">
-                            Phòng
-                        </a>
-                    </li>
-
-                    <!-- Quản lý dịch vụ -->
-                    @if (User.Identity != null && User.Identity.IsAuthenticated &&
-                        (User.IsInRole("Admin") || User.IsInRole("Receptionist")))
-                    {
                         <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Services"
-                               asp-action="Index">
-                                Quản lý dịch vụ
+                            <a class="nav-link" href="@(homeUrl + "#rooms")">
+                                Phòng
                             </a>
                         </li>
-                    }
 
-                    <!-- Dịch vụ dành cho khách -->
-                    @if (User.Identity != null && User.Identity.IsAuthenticated &&
-                        User.IsInRole("Customer"))
-                    {
                         <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Services"
-                               asp-action="CustomerServices">
+                            <a class="nav-link" href="@(homeUrl + "#services")">
                                 Dịch vụ
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Bookings"
-                               asp-action="MyBookings">
-                                Booking của tôi
+                            <a class="nav-link" href="@(homeUrl + "#promotion")">
+                                Khuyến mãi
                             </a>
                         </li>
-                    }
 
-                    <!-- Tài khoản -->
-                    @if (User.Identity != null && User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item dropdown">
-
-                            <a class="nav-link dropdown-toggle"
-                               href="#"
-                               id="accountDropdown"
-                               role="button"
-                               data-bs-toggle="dropdown">
-
-                                <i class="bi bi-person-circle"></i>
-                                @User.Identity.Name
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="@(homeUrl + "#contact")">
+                                Liên hệ
                             </a>
+                        </li>
+                    </ul>
 
-                            <ul class="dropdown-menu dropdown-menu-end">
+                    <div class="public-navbar-actions">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <div class="dropdown public-account-dropdown">
+                                <button class="btn public-account-button dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <span class="public-account-avatar">
+                                        <i class="bi bi-person-fill"></i>
+                                    </span>
 
-                                <li>
-                                    <h6 class="dropdown-header">
-                                        @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
-                                    </h6>
-                                </li>
+                                    <span class="public-account-copy">
+                                        <small>Xin chào</small>
+                                        <strong>@displayName</strong>
+                                    </span>
+                                </button>
 
-                                <li>
-                                    <a class="dropdown-item"
-                                       asp-controller="Profile"
-                                       asp-action="Index">
+                                <ul class="dropdown-menu dropdown-menu-end public-account-menu">
+                                    <li>
+                                        <div class="public-account-menu-header">
+                                            <span class="public-account-menu-avatar">
+                                                <i class="bi bi-person-fill"></i>
+                                            </span>
+                                            <div>
+                                                <strong>@displayName</strong>
+                                                <small>@User.Identity.Name</small>
+                                            </div>
+                                        </div>
+                                    </li>
 
-                                        <i class="bi bi-person"></i>
+                                    <li><hr class="dropdown-divider" /></li>
 
-                                        Hồ sơ cá nhân
+                                    @if (User.IsInRole("Customer"))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Bookings"
+                                               asp-action="MyBookings">
+                                                <i class="bi bi-calendar-check"></i>
+                                                Booking của tôi
+                                            </a>
+                                        </li>
 
-                                    </a>
-                                </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Invoices"
+                                               asp-action="MyInvoices">
 
-                                @if (!User.IsInRole("Customer"))
-                                {
+                                                <i class="bi bi-receipt"></i>
+                                                <span>Hóa đơn của tôi</span>
+
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Reviews"
+                                               asp-action="Index">
+
+                                                <i class="bi bi-star"></i>
+                                                Đánh giá của tôi
+
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Services"
+                                               asp-action="CustomerServices">
+                                                <i class="bi bi-bag-check"></i>
+                                                Đặt dịch vụ
+                                            </a>
+                                        </li>
+                                    }
+
                                     <li>
                                         <a class="dropdown-item"
-                                           asp-controller="Home"
-                                           asp-action="Dashboard">
-
-                                            <i class="bi bi-speedometer2"></i>
-
-                                            Dashboard
-
+                                           asp-controller="Profile"
+                                           asp-action="Index">
+                                            <i class="bi bi-person-vcard"></i>
+                                            Trang cá nhân
                                         </a>
                                     </li>
-                                }
 
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+                                    <li><hr class="dropdown-divider" /></li>
 
-                                <li>
-
-                                    <a class="dropdown-item text-danger"
-                                       asp-controller="Auth"
-                                       asp-action="Logout">
-
-                                        <i class="bi bi-box-arrow-right"></i>
-
-                                        Đăng xuất
-
-                                    </a>
-
-                                </li>
-
-                            </ul>
-
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Auth"
-                               asp-action="Login">
+                                    <li>
+                                        <a class="dropdown-item public-logout-item"
+                                           asp-controller="Auth"
+                                           asp-action="Logout">
+                                            <i class="bi bi-box-arrow-right"></i>
+                                            Đăng xuất
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth"
+                               asp-action="Login"
+                               class="btn public-login-button">
+                                <i class="bi bi-person"></i>
                                 Đăng nhập
                             </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Auth"
-                               asp-action="Register">
+                            <a asp-controller="Auth"
+                               asp-action="Register"
+                               class="btn public-register-button">
                                 Đăng ký
                             </a>
-                        </li>
-                    }
-
-                </ul>
-
+                        }
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
-    <main role="main">
+
+    <main class="@(isHome ? "public-home-main" : "public-inner-main")">
         @RenderBody()
     </main>
 
-    <footer class="border-top text-muted mt-5">
+    @if (isHome)
+    {
+        <section class="public-feature-bar" aria-label="Tiện ích khách sạn">
+            <div class="container">
+                <div class="row g-3 text-center">
+                    <div class="col-lg col-md-4 col-6">
+                        <div class="public-feature-item">
+                            <i class="bi bi-bell-fill"></i>
+                            <span>Lễ tân 24/7</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg col-md-4 col-6">
+                        <div class="public-feature-item">
+                            <i class="bi bi-cup-hot-fill"></i>
+                            <span>Đồ ăn sáng</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg col-md-4 col-6">
+                        <div class="public-feature-item">
+                            <i class="bi bi-basket2-fill"></i>
+                            <span>Giặt là</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg col-md-4 col-6">
+                        <div class="public-feature-item">
+                            <i class="bi bi-shield-check"></i>
+                            <span>An toàn</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg col-md-4 col-6">
+                        <div class="public-feature-item">
+                            <i class="bi bi-wifi"></i>
+                            <span>Wifi miễn phí</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <footer class="public-footer" id="contact">
         <div class="container">
-            &copy; 2026 - QuanLyKhachSan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row gy-5">
+                <div class="col-lg-4">
+                    <a class="public-footer-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        Luxury Hotel
+                    </a>
+
+                    <p class="public-footer-description">
+                        Khách sạn nghỉ dưỡng hiện đại với hệ thống phòng tiện nghi,
+                        dịch vụ chuyên nghiệp và đội ngũ hỗ trợ khách hàng 24/7.
+                    </p>
+
+                    <div class="public-footer-social">
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-4">
+                    <h5>Liên kết</h5>
+                    <ul class="public-footer-links">
+                        <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li><a href="@(homeUrl + "#about")">Giới thiệu</a></li>
+                        <li><a href="@(homeUrl + "#rooms")">Phòng</a></li>
+                        <li><a href="@(homeUrl + "#services")">Dịch vụ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <h5>Dịch vụ</h5>
+                    <ul class="public-footer-links">
+                        <li>
+                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
+                            {
+                                <a asp-controller="Services" asp-action="CustomerServices">Giặt là</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Auth" asp-action="Login">Giặt là</a>
+                            }
+                        </li>
+                        <li>
+                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
+                            {
+                                <a asp-controller="Services" asp-action="CustomerServices">Đồ ăn sáng</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Auth" asp-action="Login">Đồ ăn sáng</a>
+                            }
+                        </li>
+                        <li><a asp-controller="Rooms" asp-action="Search">Tìm phòng trống</a></li>
+                        <li><a asp-controller="Rooms" asp-action="Index">Danh sách phòng</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <h5>Liên hệ</h5>
+                    <ul class="public-contact-list">
+                        <li><i class="bi bi-geo-alt-fill"></i><span>Hà Nội, Việt Nam</span></li>
+                        <li><i class="bi bi-envelope-fill"></i><span>luxuryhotel@gmail.com</span></li>
+                        <li><i class="bi bi-telephone-fill"></i><span>0123 456 789</span></li>
+                        <li><i class="bi bi-clock-fill"></i><span>Phục vụ 24/7</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="public-footer-divider" />
+
+            <div class="public-footer-bottom">
+                <span>© @DateTime.Now.Year Luxury Hotel. All Rights Reserved.</span>
+                <a href="@(homeUrl + "#top")">Về đầu trang</a>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <button type="button"
+            class="scroll-top"
+            aria-label="Cuộn lên đầu trang">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -6,7 +6,7 @@ namespace QuanLyKhachSan.Models
     public class Customer : BaseEntity
     {
         [ForeignKey(nameof(Account))]
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
 
         public Account? Account { get; set; }
 

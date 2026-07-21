@@ -1,97 +1,869 @@
-﻿@model QuanLyKhachSan.ViewModels.Dashboard.DashboardViewModel
+﻿@using System.Text.Json
+@using QuanLyKhachSan.Enums
+@model QuanLyKhachSan.ViewModels.Dashboard.DashboardViewModel
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewData["Title"] = "Dashboard Admin";
+    ViewData["Title"] = "Tổng quan quản trị";
+
+    double occupancyRate =
+        Model.TotalRooms > 0
+            ? (double)Model.OccupiedRooms / Model.TotalRooms * 100
+            : 0;
+
+    string BookingStatusText(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "Chờ xác nhận",
+            BookingStatus.Confirmed => "Đã xác nhận",
+            BookingStatus.CheckedIn => "Đang lưu trú",
+            BookingStatus.CheckedOut => "Đã trả phòng",
+            BookingStatus.Cancelled => "Đã hủy",
+            _ => status.ToString()
+        };
+    }
+
+    string BookingStatusClass(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "status-pending",
+            BookingStatus.Confirmed => "status-confirmed",
+            BookingStatus.CheckedIn => "status-checkedin",
+            BookingStatus.CheckedOut => "status-checkedout",
+            BookingStatus.Cancelled => "status-cancelled",
+            _ => string.Empty
+        };
+    }
+
+    string Initial(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? "K"
+            : value.Trim().Substring(0, 1).ToUpper();
+    }
+
+    string RoomList(QuanLyKhachSan.Models.Booking booking)
+    {
+        if (booking.BookingDetails == null ||
+            !booking.BookingDetails.Any())
+        {
+            return "Chưa xếp phòng";
+        }
+
+        var roomNumbers = booking.BookingDetails
+            .Where(detail =>
+                !detail.IsDeleted &&
+                detail.Room != null)
+            .Select(detail => detail.Room!.RoomNumber)
+            .Distinct()
+            .ToList();
+
+        return roomNumbers.Any()
+            ? string.Join(", ", roomNumbers)
+            : "Chưa xếp phòng";
+    }
 }
 
-<div class="container mt-4">
+<!-- HEADER -->
+<section class="admin-dashboard-heading">
 
-    <h2 class="mb-4">
-        Dashboard Quản trị viên
-    </h2>
+    <div>
 
-    <div class="row g-4">
+        <span class="admin-dashboard-kicker">
+            Bảng điều khiển
+        </span>
 
-        <div class="col-md-3">
-            <a asp-controller="Rooms" asp-action="Index" class="text-decoration-none">
-                <div class="card bg-primary text-white shadow">
-                    <div class="card-body text-center">
-                        <h1>@Model.TotalRooms</h1>
-                        <h5>Tổng phòng</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
+        <h2>
+            Chào mừng trở lại,
+            @(Model.FullName
+                ?? User.FindFirst("FullName")?.Value
+                ?? User.Identity?.Name
+                ?? "Quản trị viên")
+        </h2>
 
-        <div class="col-md-3">
-            <a asp-controller="Customers" asp-action="Index" class="text-decoration-none">
-                <div class="card bg-success text-white shadow">
-                    <div class="card-body text-center">
-                        <h1>@Model.TotalCustomers</h1>
-                        <h5>Khách hàng</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
+        <p>
+            Theo dõi tình hình vận hành, doanh thu và hoạt động
+            đặt phòng của khách sạn trong một màn hình.
+        </p>
 
-        <div class="col-md-3">
-            <a asp-controller="Employees" asp-action="Index" class="text-decoration-none">
-                <div class="card bg-warning shadow">
-                    <div class="card-body text-center">
-                        <h1>@Model.TotalEmployees</h1>
-                        <h5>Nhân viên</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
+    </div>
 
-        <div class="col-md-3">
-            <a asp-controller="Bookings" asp-action="Index" class="text-decoration-none">
-                <div class="card bg-danger text-white shadow">
-                    <div class="card-body text-center">
-                        <h1>@Model.TotalBookings</h1>
-                        <h5>Booking</h5>
-                    </div>
-                </div>
-            </a>
+    <div class="admin-dashboard-actions">
+
+        <a asp-controller="Bookings"
+           asp-action="Index"
+           class="admin-outline-action">
+
+            <i class="bi bi-calendar2-check"></i>
+            Xem Booking
+
+        </a>
+
+        <a asp-controller="Rooms"
+           asp-action="Create"
+           class="admin-primary-action">
+
+            <i class="bi bi-plus-lg"></i>
+            Thêm phòng
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- STAT CARDS -->
+<section class="row g-4 mb-4">
+
+    <div class="col-xl-3 col-md-6">
+
+        <a asp-controller="Payments"
+           asp-action="Index"
+           class="admin-stat-card stat-revenue">
+
+            <div class="admin-stat-card-top">
+
+                <span class="admin-stat-icon">
+                    <i class="bi bi-wallet2"></i>
+                </span>
+
+                <span class="admin-stat-trend positive">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    Tháng này
+                </span>
+
+            </div>
+
+            <span class="admin-stat-label">
+                Doanh thu tháng
+            </span>
+
+            <strong class="admin-stat-value admin-money-value">
+                @Model.RevenueThisMonth.ToString("N0")
+                <small>VNĐ</small>
+            </strong>
+
+            <div class="admin-stat-footer">
+
+                <span>
+                    Hôm nay:
+                    <b>@Model.RevenueToday.ToString("N0") VNĐ</b>
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <a asp-controller="Bookings"
+           asp-action="Index"
+           class="admin-stat-card stat-booking">
+
+            <div class="admin-stat-card-top">
+
+                <span class="admin-stat-icon">
+                    <i class="bi bi-calendar2-week-fill"></i>
+                </span>
+
+                <span class="admin-stat-trend neutral">
+                    @Model.PendingBookings chờ duyệt
+                </span>
+
+            </div>
+
+            <span class="admin-stat-label">
+                Tổng Booking
+            </span>
+
+            <strong class="admin-stat-value">
+                @Model.TotalBookings
+            </strong>
+
+            <div class="admin-stat-footer">
+
+                <span>
+                    Đã xác nhận:
+                    <b>@Model.ConfirmedBookings</b>
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <a asp-controller="Rooms"
+           asp-action="Index"
+           class="admin-stat-card stat-room">
+
+            <div class="admin-stat-card-top">
+
+                <span class="admin-stat-icon">
+                    <i class="bi bi-door-open-fill"></i>
+                </span>
+
+                <span class="admin-stat-trend neutral">
+                    @occupancyRate.ToString("0.0")% sử dụng
+                </span>
+
+            </div>
+
+            <span class="admin-stat-label">
+                Tổng số phòng
+            </span>
+
+            <strong class="admin-stat-value">
+                @Model.TotalRooms
+            </strong>
+
+            <div class="admin-stat-footer">
+
+                <span>
+                    Còn trống:
+                    <b>@Model.AvailableRooms phòng</b>
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <a asp-controller="Customers"
+           asp-action="Index"
+           class="admin-stat-card stat-customer">
+
+            <div class="admin-stat-card-top">
+
+                <span class="admin-stat-icon">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+
+                <span class="admin-stat-trend positive">
+                    <i class="bi bi-person-check"></i>
+                    Đang hoạt động
+                </span>
+
+            </div>
+
+            <span class="admin-stat-label">
+                Tổng khách hàng
+            </span>
+
+            <strong class="admin-stat-value">
+                @Model.TotalCustomers
+            </strong>
+
+            <div class="admin-stat-footer">
+
+                <span>
+                    Nhân sự:
+                    <b>@Model.TotalEmployees người</b>
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- TODAY SUMMARY -->
+<section class="admin-today-strip mb-4">
+
+    <div class="admin-today-heading">
+
+        <span class="admin-today-icon">
+            <i class="bi bi-sun-fill"></i>
+        </span>
+
+        <div>
+            <strong>Hoạt động hôm nay</strong>
+            <small>Cập nhật theo dữ liệu hiện có</small>
         </div>
 
     </div>
 
-    <hr class="my-5" />
+    <div class="admin-today-items">
 
-    <h4 class="mb-4">Tình trạng phòng</h4>
+        <a asp-controller="Bookings"
+           asp-action="Index"
+           class="admin-today-item">
 
-    <div class="row g-4">
+            <span class="today-item-icon today-checkin">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </span>
 
-        <div class="col-md-4">
-            <div class="card border-success shadow-sm">
-                <div class="card-body text-center">
-                    <h1 class="text-success">@Model.AvailableRooms</h1>
-                    <h5>Phòng còn trống</h5>
-                </div>
+            <div>
+                <strong>@Model.CheckInsToday</strong>
+                <small>Nhận phòng hôm nay</small>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card border-danger shadow-sm">
-                <div class="card-body text-center">
-                    <h1 class="text-danger">@Model.OccupiedRooms</h1>
-                    <h5>Phòng đang có khách</h5>
-                </div>
-            </div>
-        </div>
+        </a>
 
-        <div class="col-md-4">
-            <div class="card border-secondary shadow-sm">
-                <div class="card-body text-center">
-                    <h1 class="text-secondary">@Model.MaintenanceRooms</h1>
-                    <h5>Phòng bảo trì</h5>
-                </div>
+        <a asp-controller="Bookings"
+           asp-action="Index"
+           class="admin-today-item">
+
+            <span class="today-item-icon today-checkout">
+                <i class="bi bi-box-arrow-right"></i>
+            </span>
+
+            <div>
+                <strong>@Model.CheckOutsToday</strong>
+                <small>Trả phòng hôm nay</small>
             </div>
-        </div>
+
+        </a>
+
+        <a asp-controller="Bookings"
+           asp-action="Index"
+           class="admin-today-item">
+
+            <span class="today-item-icon today-pending">
+                <i class="bi bi-hourglass-split"></i>
+            </span>
+
+            <div>
+                <strong>@Model.PendingBookings</strong>
+                <small>Booking chờ xử lý</small>
+            </div>
+
+        </a>
+
+        <a asp-controller="Rooms"
+           asp-action="Index"
+           class="admin-today-item">
+
+            <span class="today-item-icon today-maintenance">
+                <i class="bi bi-tools"></i>
+            </span>
+
+            <div>
+                <strong>@Model.MaintenanceRooms</strong>
+                <small>Phòng đang bảo trì</small>
+            </div>
+
+        </a>
 
     </div>
 
-</div>
+</section>
+
+<!-- CHARTS -->
+<section class="row g-4 mb-4">
+
+    <div class="col-xl-8">
+
+        <article class="admin-panel h-100">
+
+            <div class="admin-panel-header">
+
+                <div>
+                    <span>Phân tích doanh thu</span>
+                    <h3>Doanh thu 7 ngày gần nhất</h3>
+                </div>
+
+                <div class="admin-panel-summary">
+
+                    <small>Doanh thu dịch vụ tháng</small>
+
+                    <strong>
+                        @Model.ServiceRevenueThisMonth.ToString("N0") VNĐ
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="admin-chart-container admin-revenue-chart">
+
+                <canvas id="adminRevenueChart"></canvas>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div class="col-xl-4">
+
+        <article class="admin-panel h-100">
+
+            <div class="admin-panel-header">
+
+                <div>
+                    <span>Tình trạng phòng</span>
+                    <h3>Cơ cấu sử dụng phòng</h3>
+                </div>
+
+            </div>
+
+            <div class="admin-chart-container admin-room-chart">
+
+                <canvas id="adminRoomChart"></canvas>
+
+            </div>
+
+            <div class="admin-room-legend">
+
+                <div>
+
+                    <span class="legend-dot available"></span>
+
+                    <div>
+                        <small>Còn trống</small>
+                        <strong>@Model.AvailableRooms</strong>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <span class="legend-dot occupied"></span>
+
+                    <div>
+                        <small>Đang có khách</small>
+                        <strong>@Model.OccupiedRooms</strong>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <span class="legend-dot maintenance"></span>
+
+                    <div>
+                        <small>Bảo trì</small>
+                        <strong>@Model.MaintenanceRooms</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- QUICK ACTIONS + RECENT BOOKINGS -->
+<section class="row g-4">
+
+    <div class="col-xl-4">
+
+        <article class="admin-panel admin-quick-panel h-100">
+
+            <div class="admin-panel-header">
+
+                <div>
+                    <span>Truy cập nhanh</span>
+                    <h3>Thao tác quản trị</h3>
+                </div>
+
+            </div>
+
+            <div class="admin-quick-actions">
+
+                <a asp-controller="Bookings"
+                   asp-action="Index"
+                   class="admin-quick-action">
+
+                    <span class="quick-action-icon booking">
+                        <i class="bi bi-calendar-plus"></i>
+                    </span>
+
+                    <div>
+                        <strong>Quản lý Booking</strong>
+                        <small>Xác nhận, Check In, Check Out</small>
+                    </div>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+                <a asp-controller="Rooms"
+                   asp-action="Create"
+                   class="admin-quick-action">
+
+                    <span class="quick-action-icon room">
+                        <i class="bi bi-door-open"></i>
+                    </span>
+
+                    <div>
+                        <strong>Thêm phòng mới</strong>
+                        <small>Cập nhật kho phòng khách sạn</small>
+                    </div>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+                <a asp-controller="Employees"
+                   asp-action="Create"
+                   class="admin-quick-action">
+
+                    <span class="quick-action-icon employee">
+                        <i class="bi bi-person-plus"></i>
+                    </span>
+
+                    <div>
+                        <strong>Thêm nhân viên</strong>
+                        <small>Quản lý nhân sự khách sạn</small>
+                    </div>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+                <a asp-controller="Invoices"
+                   asp-action="Index"
+                   class="admin-quick-action">
+
+                    <span class="quick-action-icon invoice">
+                        <i class="bi bi-receipt"></i>
+                    </span>
+
+                    <div>
+                        <strong>Kiểm tra hóa đơn</strong>
+                        <small>Doanh thu và thanh toán</small>
+                    </div>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div class="col-xl-8">
+
+        <article class="admin-panel h-100">
+
+            <div class="admin-panel-header">
+
+                <div>
+                    <span>Hoạt động mới nhất</span>
+                    <h3>Booking gần đây</h3>
+                </div>
+
+                <a asp-controller="Bookings"
+                   asp-action="Index"
+                   class="admin-panel-link">
+
+                    Xem tất cả
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table admin-dashboard-table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Mã Booking</th>
+                            <th>Khách hàng</th>
+                            <th>Phòng</th>
+                            <th>Nhận phòng</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.RecentBookings != null &&
+                             Model.RecentBookings.Any())
+                        {
+                            foreach (var booking in Model.RecentBookings)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <strong class="admin-booking-code">
+                                            @booking.BookingCode
+                                        </strong>
+
+                                        <small>
+                                            @booking.BookingDate.ToString("dd/MM/yyyy HH:mm")
+                                        </small>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="admin-customer-cell">
+
+                                            <span class="admin-customer-avatar">
+                                                @Initial(booking.Customer?.FullName)
+                                            </span>
+
+                                            <div>
+                                                <strong>
+                                                    @(booking.Customer?.FullName
+                                                        ?? "Không xác định")
+                                                </strong>
+
+                                                <small>
+                                                    @(booking.Customer?.Phone
+                                                        ?? "Chưa có SĐT")
+                                                </small>
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        @RoomList(booking)
+                                    </td>
+
+                                    <td>
+                                        @booking.CheckInDate.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td>
+
+                                        <span class="admin-status-badge
+                                            @BookingStatusClass(booking.Status)">
+
+                                            @BookingStatusText(booking.Status)
+
+                                        </span>
+
+                                    </td>
+
+                                    <td class="text-end">
+
+                                        <a asp-controller="Bookings"
+                                           asp-action="Details"
+                                           asp-route-id="@booking.Id"
+                                           class="admin-table-action"
+                                           title="Xem chi tiết">
+
+                                            <i class="bi bi-arrow-up-right"></i>
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+
+                                <td colspan="6"
+                                    class="text-center py-5">
+
+                                    <div class="admin-empty-state">
+
+                                        <i class="bi bi-calendar-x"></i>
+
+                                        <strong>
+                                            Chưa có Booking
+                                        </strong>
+
+                                        <span>
+                                            Booking mới sẽ xuất hiện tại đây.
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const revenueLabels =
+                @Html.Raw(JsonSerializer.Serialize(Model.RevenueLabels));
+
+            const revenueValues =
+                @Html.Raw(JsonSerializer.Serialize(Model.RevenueValues));
+
+            const roomValues = [
+                @Model.AvailableRooms,
+                @Model.OccupiedRooms,
+                @Model.MaintenanceRooms
+            ];
+
+            const revenueCanvas =
+                document.getElementById("adminRevenueChart");
+
+            if (revenueCanvas && window.Chart) {
+                new Chart(revenueCanvas, {
+                    type: "line",
+                    data: {
+                        labels: revenueLabels,
+                        datasets: [
+                            {
+                                label: "Doanh thu",
+                                data: revenueValues,
+                                borderColor: "#b58a42",
+                                backgroundColor: "rgba(181, 138, 66, 0.12)",
+                                pointBackgroundColor: "#ffffff",
+                                pointBorderColor: "#b58a42",
+                                pointBorderWidth: 3,
+                                pointRadius: 5,
+                                pointHoverRadius: 7,
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.38
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            intersect: false,
+                            mode: "index"
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: "#151820",
+                                padding: 13,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function (context) {
+                                        return new Intl.NumberFormat(
+                                            "vi-VN"
+                                        ).format(context.parsed.y) + " VNĐ";
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: "#8a8f9d"
+                                },
+                                border: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: "rgba(31, 35, 48, 0.07)"
+                                },
+                                ticks: {
+                                    color: "#8a8f9d",
+                                    callback: function (value) {
+                                        if (value >= 1000000) {
+                                            return (
+                                                value / 1000000
+                                            ).toLocaleString("vi-VN") + "tr";
+                                        }
+
+                                        if (value >= 1000) {
+                                            return (
+                                                value / 1000
+                                            ).toLocaleString("vi-VN") + "k";
+                                        }
+
+                                        return value;
+                                    }
+                                },
+                                border: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const roomCanvas =
+                document.getElementById("adminRoomChart");
+
+            if (roomCanvas && window.Chart) {
+                new Chart(roomCanvas, {
+                    type: "doughnut",
+                    data: {
+                        labels: [
+                            "Còn trống",
+                            "Đang có khách",
+                            "Bảo trì"
+                        ],
+                        datasets: [
+                            {
+                                data: roomValues,
+                                backgroundColor: [
+                                    "#32b67a",
+                                    "#4f6fd8",
+                                    "#e9a849"
+                                ],
+                                borderColor: "#ffffff",
+                                borderWidth: 5,
+                                hoverOffset: 7
+                            }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: "70%",
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: { backgroundColor: "#151820", padding: 12, callbacks: {
+                                    label: function (context) {
+                                        return ( context.label + ": " + context.parsed + " phòng" );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

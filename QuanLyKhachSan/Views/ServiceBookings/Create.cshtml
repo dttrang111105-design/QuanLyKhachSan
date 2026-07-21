@@ -1,6 +1,9 @@
 @model QuanLyKhachSan.ViewModels.ServiceBooking.CreateServiceBookingViewModel
 
 @{
+    Layout = User.IsInRole("Admin")
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
     ViewData["Title"] = "Thêm dịch vụ";
 }
 

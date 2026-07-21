@@ -1,7 +1,10 @@
 @model QuanLyKhachSan.Models.Payment
 
 @{
-    ViewData["Title"] = "Delete";
+    Layout = User.IsInRole("Admin")
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+    ViewData["Title"] = "Xóa thanh toán";
 }
 
 <h1>Delete</h1>

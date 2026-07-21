@@ -87,6 +87,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/CreateForCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcQ3JlYXRlRm9yQ3VzdG9tZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -147,10 +151,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmRcQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Dashboard/Customer.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmRcQ3VzdG9tZXIuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Dashboard/Receptionist.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmRcUmVjZXB0aW9uaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -177,6 +177,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/MyDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcTXlEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/MyInvoices.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcTXlJbnZvaWNlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Create.cshtml]
@@ -253,6 +261,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcU2VhcmNoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/InformationTechnology/visual tím/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Create.cshtml]

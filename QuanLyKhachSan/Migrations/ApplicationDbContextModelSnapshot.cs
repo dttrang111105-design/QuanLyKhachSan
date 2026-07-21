@@ -70,6 +70,9 @@ namespace QuanLyKhachSan.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Accounts");
                 });
 
@@ -128,6 +131,9 @@ namespace QuanLyKhachSan.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookingCode")
+                        .IsUnique();
+
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Bookings");
@@ -185,7 +191,7 @@ namespace QuanLyKhachSan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
@@ -236,7 +242,8 @@ namespace QuanLyKhachSan.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[AccountId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -360,6 +367,9 @@ namespace QuanLyKhachSan.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId")
+                        .IsUnique();
+
+                    b.HasIndex("InvoiceCode")
                         .IsUnique();
 
                     b.ToTable("Invoices");
@@ -684,7 +694,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Customer", "Customer")
                         .WithMany("Bookings")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -701,7 +711,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Room", "Room")
                         .WithMany("BookingDetails")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Booking");
@@ -714,8 +724,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Account", "Account")
                         .WithOne("Customer")
                         .HasForeignKey("QuanLyKhachSan.Models.Customer", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Account");
                 });
@@ -725,7 +734,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Account", "Account")
                         .WithOne("Employee")
                         .HasForeignKey("QuanLyKhachSan.Models.Employee", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -736,7 +745,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Booking", "Booking")
                         .WithOne("Invoice")
                         .HasForeignKey("QuanLyKhachSan.Models.Invoice", "BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Booking");
@@ -758,13 +767,13 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Customer", "Customer")
                         .WithMany("Reviews")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("QuanLyKhachSan.Models.Room", "Room")
                         .WithMany("Reviews")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -777,7 +786,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
                         .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("RoomType");
@@ -805,7 +814,7 @@ namespace QuanLyKhachSan.Migrations
                     b.HasOne("QuanLyKhachSan.Models.Service", "Service")
                         .WithMany("ServiceBookings")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Booking");

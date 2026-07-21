@@ -17,9 +17,25 @@ public class CustomersController : Controller
     }
 
     // GET: CUSTOMERS
-    public async Task<IActionResult> Index()    
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.Customers.ToListAsync());
+        var customers = await _context.Customers
+            .AsNoTracking()
+            .Include(customer => customer.Account)
+            .Include(customer =>
+                customer.Bookings.Where(booking =>
+                    !booking.IsDeleted))
+            .Include(customer =>
+                customer.Reviews.Where(review =>
+                    !review.IsDeleted))
+            .Where(customer =>
+                !customer.IsDeleted)
+            .OrderByDescending(customer =>
+                customer.CreatedAt)
+            .ToListAsync();
+
+        return View(customers);
     }
 
     // GET: CUSTOMERS/Details/5

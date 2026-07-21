@@ -1,89 +1,1126 @@
 @model IEnumerable<QuanLyKhachSan.Models.RoomType>
 
+@using QuanLyKhachSan.Models
+
 @{
-    ViewData["Title"] = "Index";
+    bool isAdmin = User.IsInRole("Admin");
+    bool isReceptionist = User.IsInRole("Receptionist");
+
+    Layout = isAdmin
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+
+    ViewData["Title"] = isAdmin
+        ? "Quản lý loại phòng"
+        : "Danh sách loại phòng";
+
+    List<RoomType> roomTypes =
+        Model?.ToList() ?? new List<RoomType>();
+
+    int totalRoomTypes = roomTypes.Count;
+
+    int totalRooms = roomTypes.Sum(roomType =>
+        roomType.Rooms?.Count(room => !room.IsDeleted) ?? 0);
+
+    decimal averagePrice = roomTypes.Any()
+        ? roomTypes.Average(roomType => roomType.BasePrice)
+        : 0;
+
+    double averageOccupancy = roomTypes.Any()
+        ? roomTypes.Average(roomType =>
+            Convert.ToDouble(roomType.MaxOccupancy))
+        : 0;
+
+    List<string> bedTypes = roomTypes
+        .Where(roomType =>
+            !string.IsNullOrWhiteSpace(roomType.BedType))
+        .Select(roomType => roomType.BedType!)
+        .Distinct()
+        .OrderBy(bedType => bedType)
+        .ToList();
+
+    int ActiveRoomCount(RoomType roomType)
+    {
+        return roomType.Rooms?
+            .Count(room => !room.IsDeleted)
+            ?? 0;
+    }
 }
 
-<h1>Index</h1>
+<style>
+    .room-type-heading {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 26px;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BasePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxOccupancy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BedType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Area)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.BasePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.MaxOccupancy)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.BedType)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Area)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Rooms)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.IsDeleted)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+        .room-type-heading h2 {
+            margin: 5px 0 7px;
+            color: #252a35;
+            font-weight: 700;
+        }
+
+        .room-type-heading p {
+            margin: 0;
+            color: #838897;
+        }
+
+    .room-type-kicker {
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .room-type-heading-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .room-type-heading-button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 16px;
+        border: 1px solid #e1e3e9;
+        border-radius: 11px;
+        background: #ffffff;
+        color: #555c69;
+        font-size: 13px;
+        font-weight: 700;
+        transition: 0.2s ease;
+    }
+
+        .room-type-heading-button:hover {
+            border-color: #b58a42;
+            color: #8f692f;
+            transform: translateY(-2px);
+        }
+
+        .room-type-heading-button.primary {
+            border-color: #b58a42;
+            background: linear-gradient( 135deg, #c49a51, #8f692f );
+            color: #ffffff;
+            box-shadow: 0 10px 23px rgba(181, 138, 66, 0.2);
+        }
+
+            .room-type-heading-button.primary:hover {
+                color: #ffffff;
+            }
+
+    .room-type-stat-card {
+        height: 100%;
+        padding: 21px;
+        border: 1px solid #e8e9ee;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 18px 45px rgba(34, 38, 51, 0.065);
+    }
+
+    .room-type-stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 17px;
+    }
+
+    .room-type-stat-icon {
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        font-size: 21px;
+    }
+
+        .room-type-stat-icon.blue {
+            background: #eaf0ff;
+            color: #4f6fd8;
+        }
+
+        .room-type-stat-icon.green {
+            background: #e4f7ef;
+            color: #27875e;
+        }
+
+        .room-type-stat-icon.gold {
+            background: #f4ead7;
+            color: #8f692f;
+        }
+
+        .room-type-stat-icon.purple {
+            background: #f0ebff;
+            color: #8567d4;
+        }
+
+    .room-type-stat-tag {
+        padding: 5px 9px;
+        border-radius: 20px;
+        background: #f3f4f7;
+        color: #838897;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .room-type-stat-title {
+        display: block;
+        color: #838897;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .room-type-stat-value {
+        display: block;
+        margin: 5px 0 11px;
+        color: #252a35;
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.15;
+    }
+
+        .room-type-stat-value.money {
+            font-size: 24px;
+        }
+
+        .room-type-stat-value small {
+            color: #8c919d;
+            font-size: 9px;
+        }
+
+    .room-type-stat-card > small {
+        color: #9297a3;
+        font-size: 10px;
+    }
+
+    .room-type-panel {
+        overflow: hidden;
+        border: 1px solid #e8e9ee;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
+    }
+
+    .room-type-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 21px 22px;
+        border-bottom: 1px solid #e8e9ee;
+    }
+
+        .room-type-panel-header h3 {
+            margin: 3px 0;
+            color: #292e39;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .room-type-panel-header p {
+            margin: 0;
+            color: #858a97;
+            font-size: 11px;
+        }
+
+    .room-type-filter-area {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .room-type-search {
+        position: relative;
+    }
+
+        .room-type-search i {
+            position: absolute;
+            top: 50%;
+            left: 13px;
+            color: #999eaa;
+            transform: translateY(-50%);
+        }
+
+        .room-type-search input {
+            width: 280px;
+            min-height: 42px;
+            padding: 9px 13px 9px 38px;
+            border: 1px solid #e1e3e9;
+            border-radius: 11px;
+            outline: none;
+            font-size: 12px;
+        }
+
+    .room-type-filter-area .form-select {
+        width: 185px;
+        min-height: 42px;
+        border-color: #e1e3e9;
+        border-radius: 11px;
+        font-size: 12px;
+    }
+
+        .room-type-search input:focus,
+        .room-type-filter-area .form-select:focus {
+            border-color: #b58a42;
+            box-shadow: 0 0 0 3px rgba(181, 138, 66, 0.12);
+        }
+
+    .room-type-table thead th {
+        padding: 14px 13px;
+        border-bottom: 1px solid #e8e9ee;
+        background: #fafafb;
+        color: #818795;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .room-type-table tbody td {
+        padding: 15px 13px;
+        border-bottom: 1px solid #eff0f3;
+        color: #555b68;
+        font-size: 11px;
+        vertical-align: middle;
+    }
+
+    .room-type-table tbody tr:hover {
+        background: #fcfbf9;
+    }
+
+    .room-type-name-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .room-type-icon {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #f4ead7;
+        color: #8f692f;
+        font-size: 17px;
+    }
+
+    .room-type-name-cell div {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .room-type-name-cell strong {
+        color: #343944;
+        font-size: 12px;
+    }
+
+    .room-type-name-cell small {
+        color: #9297a3;
+        font-size: 9px;
+    }
+
+    .room-type-price {
+        display: block;
+        color: #c34e59;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+        .room-type-price small {
+            color: #989da9;
+            font-size: 8px;
+        }
+
+    .room-type-property {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #555c69;
+        white-space: nowrap;
+    }
+
+        .room-type-property i {
+            color: #b58a42;
+        }
+
+    .room-type-count {
+        min-width: 65px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #eaf0ff;
+        color: #4f6fd8;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .room-type-description {
+        max-width: 260px;
+        display: block;
+        overflow: hidden;
+        color: #777d89;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .room-type-action-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+    .room-type-action {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e1e3e8;
+        border-radius: 9px;
+        background: #ffffff;
+        transition: 0.2s ease;
+    }
+
+        .room-type-action:hover {
+            transform: translateY(-2px);
+        }
+
+        .room-type-action.view {
+            color: #4f6fd8;
+        }
+
+        .room-type-action.edit {
+            color: #b58025;
+        }
+
+        .room-type-action.delete {
+            color: #cf535d;
+        }
+
+        .room-type-action.view:hover {
+            border-color: #4f6fd8;
+            background: #eaf0ff;
+        }
+
+        .room-type-action.edit:hover {
+            border-color: #d49a36;
+            background: #fff3df;
+        }
+
+        .room-type-action.delete:hover {
+            border-color: #cf535d;
+            background: #fde9eb;
+        }
+
+    .room-type-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 70px 20px;
+        color: #858b98;
+        text-align: center;
+    }
+
+        .room-type-empty-state i {
+            margin-bottom: 12px;
+            color: #c1c5ce;
+            font-size: 48px;
+        }
+
+        .room-type-empty-state h4 {
+            color: #454b57;
+        }
+
+    @@media (max-width: 1199.98px) {
+        .room-type-panel-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .room-type-filter-area {
+            width: 100%;
+        }
+
+        .room-type-search {
+            flex: 1;
+        }
+
+            .room-type-search input {
+                width: 100%;
+            }
+    }
+
+    @@media (max-width: 767.98px) {
+        .room-type-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .room-type-heading-actions {
+            width: 100%;
+        }
+
+        .room-type-heading-button {
+            flex: 1;
+        }
+
+        .room-type-filter-area {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+            .room-type-filter-area .form-select {
+                width: 100%;
+            }
+    }
+</style>
+
+<!-- TIÊU ĐỀ -->
+<section class="room-type-heading">
+
+    <div>
+
+        <span class="room-type-kicker">
+            Cấu hình phòng nghỉ
+        </span>
+
+        <h2>
+            @(isAdmin
+                ? "Quản lý loại phòng"
+                : "Danh sách loại phòng")
+        </h2>
+
+        <p>
+            @if (isAdmin)
+            {
+                <text>
+                    Quản lý giá cơ bản, sức chứa, loại giường,
+                    diện tích và các phòng thuộc từng loại.
+                </text>
+            }
+            else
+            {
+                <text>
+                    Theo dõi thông tin và số lượng phòng
+                    trong từng nhóm loại phòng.
+                </text>
+            }
+        </p>
+
+    </div>
+
+    <div class="room-type-heading-actions">
+
+        <a asp-controller="Rooms"
+           asp-action="Index"
+           class="room-type-heading-button">
+
+            <i class="bi bi-door-open"></i>
+            Danh sách phòng
+
+        </a>
+
+        @if (isAdmin)
+        {
+            <a asp-controller="RoomTypes"
+               asp-action="Create"
+               class="room-type-heading-button primary">
+
+                <i class="bi bi-plus-lg"></i>
+                Thêm loại phòng
+
+            </a>
+        }
+
+    </div>
+
+</section>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["Success"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Đóng">
+        </button>
+
+    </div>
 }
-    </tbody>
-</table>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["Error"]
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Đóng">
+        </button>
+
+    </div>
+}
+
+<!-- THỐNG KÊ -->
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="room-type-stat-card">
+
+            <div class="room-type-stat-top">
+
+                <span class="room-type-stat-icon blue">
+                    <i class="bi bi-house-gear"></i>
+                </span>
+
+                <span class="room-type-stat-tag">
+                    Tất cả
+                </span>
+
+            </div>
+
+            <span class="room-type-stat-title">
+                Tổng loại phòng
+            </span>
+
+            <strong class="room-type-stat-value">
+                @totalRoomTypes
+            </strong>
+
+            <small>
+                Loại phòng trong hệ thống
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="room-type-stat-card">
+
+            <div class="room-type-stat-top">
+
+                <span class="room-type-stat-icon green">
+                    <i class="bi bi-door-open"></i>
+                </span>
+
+                <span class="room-type-stat-tag">
+                    Kho phòng
+                </span>
+
+            </div>
+
+            <span class="room-type-stat-title">
+                Tổng số phòng
+            </span>
+
+            <strong class="room-type-stat-value">
+                @totalRooms
+            </strong>
+
+            <small>
+                Phòng thuộc các loại phòng
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="room-type-stat-card">
+
+            <div class="room-type-stat-top">
+
+                <span class="room-type-stat-icon gold">
+                    <i class="bi bi-cash-stack"></i>
+                </span>
+
+                <span class="room-type-stat-tag">
+                    Trung bình
+                </span>
+
+            </div>
+
+            <span class="room-type-stat-title">
+                Giá cơ bản
+            </span>
+
+            <strong class="room-type-stat-value money">
+
+                @averagePrice.ToString("N0")
+
+                <small>VNĐ</small>
+
+            </strong>
+
+            <small>
+                Giá trung bình mỗi loại phòng
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="room-type-stat-card">
+
+            <div class="room-type-stat-top">
+
+                <span class="room-type-stat-icon purple">
+                    <i class="bi bi-people"></i>
+                </span>
+
+                <span class="room-type-stat-tag">
+                    Sức chứa
+                </span>
+
+            </div>
+
+            <span class="room-type-stat-title">
+                Khách trung bình
+            </span>
+
+            <strong class="room-type-stat-value">
+                @averageOccupancy.ToString("0.0")
+            </strong>
+
+            <small>
+                Người trên mỗi loại phòng
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- DANH SÁCH -->
+<div class="room-type-panel">
+
+    <div class="room-type-panel-header">
+
+        <div>
+
+            <span class="room-type-kicker">
+                Danh sách dữ liệu
+            </span>
+
+            <h3>
+                Các loại phòng
+            </h3>
+
+            <p>
+                Có @totalRoomTypes loại phòng được hiển thị.
+            </p>
+
+        </div>
+
+        <div class="room-type-filter-area">
+
+            <div class="room-type-search">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="roomTypeSearch"
+                       placeholder="Tìm tên, giường hoặc mô tả..." />
+
+            </div>
+
+            <select id="bedTypeFilter"
+                    class="form-select">
+
+                <option value="">
+                    Tất cả loại giường
+                </option>
+
+                @foreach (string bedType in bedTypes)
+                {
+                    <option value="@bedType">
+                        @bedType
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+    </div>
+
+    @if (roomTypes.Any())
+    {
+        <div class="table-responsive">
+
+            <table class="table room-type-table align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="ps-4">
+                            Loại phòng
+                        </th>
+
+                        <th>
+                            Giá cơ bản
+                        </th>
+
+                        <th>
+                            Sức chứa
+                        </th>
+
+                        <th>
+                            Loại giường
+                        </th>
+
+                        <th>
+                            Diện tích
+                        </th>
+
+                        <th>
+                            Số phòng
+                        </th>
+
+                        <th>
+                            Mô tả
+                        </th>
+
+                        <th class="text-end pe-4">
+                            Thao tác
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (RoomType roomType in roomTypes)
+                    {
+                        int roomCount =
+                            ActiveRoomCount(roomType);
+
+                        string searchText =
+                            $"{roomType.Name} {roomType.BedType} {roomType.Description}"
+                                .ToLower();
+
+                        <tr class="room-type-row"
+                            data-bed-type="@roomType.BedType"
+                            data-search="@searchText">
+
+                            <td class="ps-4">
+
+                                <div class="room-type-name-cell">
+
+                                    <span class="room-type-icon">
+                                        <i class="bi bi-house-door"></i>
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            @roomType.Name
+                                        </strong>
+
+                                        <small>
+                                            Mã loại: #@roomType.Id
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <span class="room-type-price">
+
+                                    @roomType.BasePrice.ToString("N0")
+
+                                    <small>VNĐ/đêm</small>
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="room-type-property">
+
+                                    <i class="bi bi-people"></i>
+
+                                    @roomType.MaxOccupancy người
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="room-type-property">
+
+                                    <i class="bi bi-moon-stars"></i>
+
+                                    @(string.IsNullOrWhiteSpace(
+                                        roomType.BedType)
+                                        ? "Chưa cập nhật"
+                                        : roomType.BedType)
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="room-type-property">
+
+                                    <i class="bi bi-arrows-angle-expand"></i>
+
+                                    @roomType.Area m²
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="room-type-count">
+
+                                    <i class="bi bi-door-open"></i>
+
+                                    @roomCount phòng
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="room-type-description"
+                                      title="@roomType.Description">
+
+                                    @(string.IsNullOrWhiteSpace(
+                                        roomType.Description)
+                                        ? "Chưa có mô tả"
+                                        : roomType.Description)
+
+                                </span>
+
+                            </td>
+
+                            <td class="text-end pe-4">
+
+                                <div class="room-type-action-group">
+
+                                    <a asp-controller="RoomTypes"
+                                       asp-action="Details"
+                                       asp-route-id="@roomType.Id"
+                                       class="room-type-action view"
+                                       title="Xem chi tiết">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    @if (isAdmin)
+                                    {
+                                        <a asp-controller="RoomTypes"
+                                           asp-action="Edit"
+                                           asp-route-id="@roomType.Id"
+                                           class="room-type-action edit"
+                                           title="Chỉnh sửa">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                        </a>
+
+                                        <a asp-controller="RoomTypes"
+                                           asp-action="Delete"
+                                           asp-route-id="@roomType.Id"
+                                           class="room-type-action delete"
+                                           title="Xóa">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </a>
+                                    }
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div id="roomTypeFilterEmpty"
+             class="room-type-empty-state d-none">
+
+            <i class="bi bi-search"></i>
+
+            <h4>
+                Không tìm thấy loại phòng
+            </h4>
+
+            <p>
+                Hãy thử tên hoặc loại giường khác.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="room-type-empty-state">
+
+            <i class="bi bi-house-x"></i>
+
+            <h4>
+                Chưa có loại phòng
+            </h4>
+
+            <p>
+                Hãy thêm loại phòng trước khi tạo phòng mới.
+            </p>
+
+            @if (isAdmin)
+            {
+                <a asp-controller="RoomTypes"
+                   asp-action="Create"
+                   class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle me-1"></i>
+                    Thêm loại phòng đầu tiên
+
+                </a>
+            }
+
+        </div>
+    }
+
+</div>
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const searchInput =
+                document.getElementById(
+                    "roomTypeSearch"
+                );
+
+            const bedTypeFilter =
+                document.getElementById(
+                    "bedTypeFilter"
+                );
+
+            const rows =
+                document.querySelectorAll(
+                    ".room-type-row"
+                );
+
+            const emptyState =
+                document.getElementById(
+                    "roomTypeFilterEmpty"
+                );
+
+            function filterRoomTypes() {
+
+                const keyword =
+                    searchInput?.value
+                        .trim()
+                        .toLowerCase()
+                    ?? "";
+
+                const selectedBedType =
+                    bedTypeFilter?.value
+                    ?? "";
+
+                let visibleCount = 0;
+
+                rows.forEach(function (row) {
+
+                    const rowSearch =
+                        row.dataset.search
+                        ?? "";
+
+                    const rowBedType =
+                        row.dataset.bedType
+                        ?? "";
+
+                    const searchMatched =
+                        !keyword ||
+                        rowSearch.includes(keyword);
+
+                    const bedTypeMatched =
+                        !selectedBedType ||
+                        rowBedType === selectedBedType;
+
+                    const visible =
+                        searchMatched &&
+                        bedTypeMatched;
+
+                    row.classList.toggle(
+                        "d-none",
+                        !visible
+                    );
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+
+                });
+
+                if (emptyState) {
+                    emptyState.classList.toggle(
+                        "d-none",
+                        visibleCount > 0
+                    );
+                }
+            }
+
+            searchInput?.addEventListener(
+                "input",
+                filterRoomTypes
+            );
+
+            bedTypeFilter?.addEventListener(
+                "change",
+                filterRoomTypes
+            );
+
+        }
+    );
+</script>

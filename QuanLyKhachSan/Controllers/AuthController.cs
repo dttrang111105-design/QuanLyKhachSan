@@ -111,13 +111,18 @@ namespace QuanLyKhachSan.Controllers
                 .FirstOrDefaultAsync(x =>
                     x.Username == model.Username &&
                     x.PasswordHash == passwordHash &&
-                    x.IsActive);
+                    x.IsActive &&
+                    !x.IsDeleted);
 
             if (account == null)
             {
                 ModelState.AddModelError("", "Sai tài khoản hoặc mật khẩu");
                 return View(model);
             }
+
+            account.LastLogin = DateTime.Now;
+            account.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
 
             var claims = new List<Claim>
             {

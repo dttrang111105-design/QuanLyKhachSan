@@ -17,12 +17,15 @@ public class EmployeesController : Controller
     }
 
     // Danh sách nhân viên
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
         var employees = await _context.Employees
-            .Include(e => e.Account)
-            .Where(e => !e.IsDeleted)
-            .OrderBy(e => e.FullName)
+            .AsNoTracking()
+            .Include(employee => employee.Account)
+            .Where(employee => !employee.IsDeleted)
+            .OrderByDescending(employee => employee.Status)
+            .ThenBy(employee => employee.FullName)
             .ToListAsync();
 
         return View(employees);

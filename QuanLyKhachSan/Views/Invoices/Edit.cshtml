@@ -1,6 +1,9 @@
 @model QuanLyKhachSan.Models.Invoice
 
 @{
+    Layout = User.IsInRole("Admin")
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
     ViewData["Title"] = "Edit";
 }
 

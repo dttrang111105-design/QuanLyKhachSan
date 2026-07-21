@@ -2,6 +2,11 @@
 @model QuanLyKhachSan.Models.Invoice
 
 @{
+    Layout = User.IsInRole("Admin")
+       ? "~/Views/Shared/_AdminLayout.cshtml"
+       : User.IsInRole("Receptionist")
+           ? "~/Views/Shared/_ReceptionistLayout.cshtml"
+           : "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Chi tiết hóa đơn";
 
     var payment = Model.Payments

@@ -1,80 +1,66 @@
 @model QuanLyKhachSan.Models.Review
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Chi tiết đánh giá";
 }
 
-<h1>Details</h1>
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+                    <div>
+                        <h2 class="mb-1">Phòng @Model.Room?.RoomNumber</h2>
+                        <p class="text-muted mb-0">
+                            @(Model.Room?.RoomType?.Name ?? "Chưa xác định loại phòng")
+                        </p>
+                    </div>
 
-<div>
-    <h4>Review</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerId)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomId)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Room)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Room)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                    <div class="text-nowrap">
+                        @for (int star = 1; star <= 5; star++)
+                        {
+                            <span class="@(star <= Model.Rating ? "text-warning" : "text-secondary") fs-4">★</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold">Nhận xét</h6>
+                    @if (!string.IsNullOrWhiteSpace(Model.Comment))
+                    {
+                        <p style="white-space: pre-line;">@Model.Comment</p>
+                    }
+                    else
+                    {
+                        <p class="text-muted fst-italic">Không có nội dung nhận xét.</p>
+                    }
+                </div>
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-4">Ngày gửi</dt>
+                    <dd class="col-sm-8">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        <dt class="col-sm-4">Cập nhật lần cuối</dt>
+                        <dd class="col-sm-8">@Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm")</dd>
+                    }
+                </dl>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-warning">
+                        Sửa đánh giá
+                    </a>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Quay lại danh sách
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

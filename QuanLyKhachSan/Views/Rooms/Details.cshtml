@@ -2,80 +2,185 @@
 @model QuanLyKhachSan.Models.Room
 
 @{
-    ViewData["Title"] = "Chi Tiết Phòng";
+    Layout = User.IsInRole("Admin")
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : User.IsInRole("Receptionist")
+            ? "~/Views/Shared/_ReceptionistLayout.cshtml"
+            : User.IsInRole("Customer")
+                ? "~/Views/Shared/_CustomerLayout.cshtml"
+                : "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Chi tiết phòng";
+
+    var activeReviews = Model.Reviews?
+        .Where(review => !review.IsDeleted)
+        .OrderByDescending(review => review.CreatedAt)
+        .ToList()
+        ?? new List<QuanLyKhachSan.Models.Review>();
+
+    double averageRating = activeReviews.Any()
+        ? activeReviews.Average(review => review.Rating)
+        : 0;
 }
 
-<div class="container mt-5">
-
-    <h1 class="mb-4">
-        Phòng @Model.RoomNumber
-    </h1>
-
-    <div class="row">
-
-        <div class="col-md-6">
-
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-6">
             @if (Model.RoomImages != null && Model.RoomImages.Any())
             {
-                <img src="@Model.RoomImages.First().ImageUrl"
-                     class="img-fluid rounded" />
+                var mainImage = Model.RoomImages.FirstOrDefault(image => image.IsMain)
+                                ?? Model.RoomImages.First();
+
+                <img src="@mainImage.ImageUrl"
+                     alt="Phòng @Model.RoomNumber"
+                     class="img-fluid rounded shadow-sm w-100"
+                     style="max-height: 450px; object-fit: cover;" />
             }
             else
             {
-                <div class="room-placeholder">
-                    Chưa có ảnh
+                <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted"
+                     style="min-height: 400px;">
+                    Chưa có ảnh phòng
                 </div>
             }
-
         </div>
 
-        <div class="col-md-6">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                        <div>
+                            <h1 class="mb-1">Phòng @Model.RoomNumber</h1>
+                            <h5 class="text-muted">@Model.RoomType?.Name</h5>
+                        </div>
 
-            <h3>@Model.RoomType?.Name</h3>
+                        @if (activeReviews.Any())
+                        {
+                            <span class="badge bg-warning text-dark fs-6">
+                                ★ @averageRating.ToString("0.0")/5
+                            </span>
+                        }
+                    </div>
 
-            <p>
-                <strong>Giá:</strong>
-                @Model.RoomType?.BasePrice.ToString("N0") VNĐ
-            </p>
+                    <p>
+                        <strong>Giá:</strong>
+                        <span class="text-danger fw-bold">
+                            @Model.PriceDay.ToString("N0") VNĐ/đêm
+                        </span>
+                    </p>
 
-            <p>
-                <strong>Sức chứa:</strong>
-                @Model.RoomType?.MaxOccupancy người
-            </p>
+                    <p><strong>Sức chứa:</strong> @Model.MaxOccupancy người</p>
+                    <p><strong>Loại giường:</strong> @Model.RoomType?.BedType</p>
+                    <p><strong>Diện tích:</strong> @Model.RoomSize m²</p>
+                    <p><strong>Tầng:</strong> @Model.Floor</p>
 
-            <p>
-                <strong>Loại giường:</strong>
-                @Model.RoomType?.BedType
-            </p>
+                    <p>
+                        <strong>Mô tả:</strong><br />
+                        @(string.IsNullOrWhiteSpace(Model.Description)
+                            ? Model.RoomType?.Description
+                            : Model.Description)
+                    </p>
 
-            <p>
-                <strong>Diện tích:</strong>
-                @Model.RoomType?.Area m²
-            </p>
-
-            <p>
-                <strong>Mô tả:</strong>
-                @Model.RoomType?.Description
-            </p>
-
-            @if (Model.Status == RoomStatus.Maintenance)
-            {
-                <button class="btn btn-secondary" disabled>
-                    Phòng đang bảo trì
-                </button>
-            }
-            else
-            {
-                <a asp-controller="Bookings"
-                   asp-action="Create"
-                   asp-route-roomId="@Model.Id"
-                   class="btn btn-success">
-                    Đặt phòng
-                </a>
-            }
-
+                    @if (Model.Status == RoomStatus.Available)
+                    {
+                        if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+                        {
+                            <a asp-controller="Bookings" asp-action="CreateForCustomer" asp-route-roomId="@Model.Id" class="btn btn-success fw-semibold">
+                                <i class="bi bi-person-plus me-1"></i>Đặt phòng cho khách
+                            </a>
+                        }
+                        else if (User.IsInRole("Customer"))
+                        {
+                            <a asp-controller="Bookings" asp-action="Create" asp-route-roomId="@Model.Id" class="btn btn-success fw-semibold">
+                                <i class="bi bi-calendar-plus me-1"></i>Đặt phòng
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-success fw-semibold">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập để đặt phòng
+                            </a>
+                        }
+                    }
+                    else if (Model.Status == RoomStatus.Occupied)
+                    {
+                        <button type="button" class="btn btn-danger" disabled>
+                            <i class="bi bi-person-fill me-1"></i>Phòng đang có khách
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary" disabled>
+                            <i class="bi bi-tools me-1"></i>Phòng đang bảo trì
+                        </button>
+                    }
+                </div>
+            </div>
         </div>
-
     </div>
 
+    <section class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="mb-1">Đánh giá của khách hàng</h3>
+                <p class="text-muted mb-0">
+                    @activeReviews.Count đánh giá
+                    @if (activeReviews.Any())
+                    {
+                        <span> · Trung bình @averageRating.ToString("0.0")/5 sao</span>
+                    }
+                </p>
+            </div>
+        </div>
+
+        @if (activeReviews.Any())
+        {
+            <div class="row g-4">
+                @foreach (var review in activeReviews)
+                {
+                    <div class="col-lg-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            @(review.Customer?.FullName ?? "Khách hàng")
+                                        </h6>
+                                        <small class="text-muted">
+                                            @review.CreatedAt.ToString("dd/MM/yyyy")
+                                        </small>
+                                    </div>
+
+                                    <div class="text-nowrap">
+                                        @for (int star = 1; star <= 5; star++)
+                                        {
+                                            <span class="@(star <= review.Rating ? "text-warning" : "text-secondary")">★</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                @if (!string.IsNullOrWhiteSpace(review.Comment))
+                                {
+                                    <p class="mb-0" style="white-space: pre-line;">
+                                        @review.Comment
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="text-muted fst-italic mb-0">
+                                        Khách hàng không để lại nhận xét.
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Phòng này chưa có đánh giá nào.
+            </div>
+        }
+    </section>
 </div>

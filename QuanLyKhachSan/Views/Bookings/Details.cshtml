@@ -2,6 +2,13 @@
 @model QuanLyKhachSan.Models.Booking
 
 @{
+    Layout = User.IsInRole("Admin")
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : User.IsInRole("Receptionist")
+            ? "~/Views/Shared/_ReceptionistLayout.cshtml"
+            : User.IsInRole("Customer")
+                ? "~/Views/Shared/_CustomerLayout.cshtml"
+                : "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Chi tiết Booking";
 }
 

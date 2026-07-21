@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -68,31 +67,69 @@ public class BookingsController : Controller
 
     // GET: BOOKINGS/Create
     [Authorize(Roles = "Customer")]
-    public IActionResult Create(int roomId)
+    [HttpGet]
+    public async Task<IActionResult> Create(
+    int roomId,
+    DateTime? checkInDate,
+    DateTime? checkOutDate,
+    int adult = 1,
+    int children = 0)
     {
-        var room = _context.Rooms.FirstOrDefault(x => x.Id == roomId);
+        // Tìm phòng theo id.
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(x =>
+                x.Id == roomId &&
+                !x.IsDeleted
+            );
 
         if (room == null)
+        {
             return NotFound();
+        }
 
+        // Không cho đặt phòng đang bảo trì.
         if (room.Status == RoomStatus.Maintenance)
         {
             TempData["Error"] = "Phòng đang bảo trì.";
 
-            return RedirectToAction("Index", "Rooms");
+            return RedirectToAction(
+                "Search",
+                "Rooms"
+            );
         }
 
-        BookingCreateViewModel vm = new()
+        // Lấy ngày nhận được truyền từ trang tìm kiếm.
+        var selectedCheckIn =
+            (checkInDate ?? DateTime.Today).Date;
+
+        // Lấy ngày trả được truyền từ trang tìm kiếm.
+        var selectedCheckOut =
+            (checkOutDate ?? selectedCheckIn.AddDays(1)).Date;
+
+        // Nếu ngày nhận nhỏ hơn hôm nay thì đặt lại thành hôm nay.
+        if (selectedCheckIn < DateTime.Today)
+        {
+            selectedCheckIn = DateTime.Today;
+        }
+
+        // Nếu ngày trả không hợp lệ thì tự tăng thêm một ngày.
+        if (selectedCheckOut <= selectedCheckIn)
+        {
+            selectedCheckOut = selectedCheckIn.AddDays(1);
+        }
+
+        var viewModel = new BookingCreateViewModel
         {
             RoomId = room.Id,
             RoomNumber = room.RoomNumber,
             PricePerNight = room.PriceDay,
-            CheckInDate = DateTime.Today,
-            CheckOutDate = DateTime.Today.AddDays(1),
-            Adult = 1
+            CheckInDate = selectedCheckIn,
+            CheckOutDate = selectedCheckOut,
+            Adult = Math.Max(1, adult),
+            Children = Math.Max(0, children)
         };
 
-        return View(vm);
+        return View(viewModel);
     }
 
     // POST: BOOKINGS/Create
@@ -101,112 +138,218 @@ public class BookingsController : Controller
     [HttpPost]
     [Authorize(Roles = "Customer")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(BookingCreateViewModel vm)
+    public async Task<IActionResult> Create(
+    BookingCreateViewModel vm)
     {
-        if (!ModelState.IsValid)
-            return View(vm);
-
-        var customer = await _context.Customers
-            .Include(x => x.Account)
-            .FirstOrDefaultAsync(x => x.Account!.Username == User.Identity!.Name);
-
-        if (customer == null)
-            return Unauthorized();
-
-        var room = await _context.Rooms.FindAsync(vm.RoomId);
+        // Tìm lại phòng từ database.
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(x =>
+                x.Id == vm.RoomId &&
+                !x.IsDeleted
+            );
 
         if (room == null)
         {
-            ModelState.AddModelError("", "Không tìm thấy phòng.");
+            ModelState.AddModelError(
+                string.Empty,
+                "Không tìm thấy phòng."
+            );
+
             return View(vm);
         }
 
-        // Chỉ cấm phòng đang bảo trì
-        if (room.Status == RoomStatus.Maintenance)
+        /*
+         * Các trường RoomNumber và PricePerNight không cho khách sửa.
+         * Vì vậy phải nạp lại từ database.
+         */
+        vm.RoomNumber = room.RoomNumber;
+        vm.PricePerNight = room.PriceDay;
+
+        vm.CheckInDate = vm.CheckInDate.Date;
+        vm.CheckOutDate = vm.CheckOutDate.Date;
+
+        // Kiểm tra ngày nhận.
+        if (vm.CheckInDate < DateTime.Today)
         {
-            ModelState.AddModelError("", "Phòng đang bảo trì.");
-            return View(vm);
+            ModelState.AddModelError(
+                nameof(vm.CheckInDate),
+                "Ngày nhận phòng không được nhỏ hơn ngày hiện tại."
+            );
         }
 
+        // Kiểm tra ngày trả.
         if (vm.CheckInDate >= vm.CheckOutDate)
         {
-            ModelState.AddModelError("", "Ngày trả phòng phải lớn hơn ngày nhận phòng.");
-            return View(vm);
+            ModelState.AddModelError(
+                nameof(vm.CheckOutDate),
+                "Ngày trả phòng phải lớn hơn ngày nhận phòng."
+            );
         }
 
+        // Kiểm tra phòng bảo trì.
+        if (room.Status == RoomStatus.Maintenance)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                "Phòng đang bảo trì."
+            );
+        }
+
+        // Kiểm tra sức chứa.
         if (vm.Adult + vm.Children > room.MaxOccupancy)
         {
-            ModelState.AddModelError("", "Số lượng khách vượt quá sức chứa của phòng.");
+            ModelState.AddModelError(
+                string.Empty,
+                $"Phòng chỉ chứa tối đa {room.MaxOccupancy} người."
+            );
+        }
+
+        if (!ModelState.IsValid)
+        {
             return View(vm);
         }
 
-        // Kiểm tra trùng lịch
+        // Tìm khách hàng đang đăng nhập.
+        var customer = await _context.Customers
+            .Include(x => x.Account)
+            .FirstOrDefaultAsync(x =>
+                x.Account != null &&
+                x.Account.Username == User.Identity!.Name &&
+                !x.IsDeleted
+            );
+
+        if (customer == null)
+        {
+            return Unauthorized();
+        }
+
+        /*
+         * Kiểm tra lại phòng đã bị người khác đặt chưa.
+         *
+         * Việc kiểm tra lại rất quan trọng vì từ lúc khách tìm phòng
+         * đến lúc khách bấm đặt phòng, một người khác có thể đã đặt.
+         */
         bool booked = await _context.BookingDetails
             .Include(x => x.Booking)
             .AnyAsync(x =>
                 x.RoomId == vm.RoomId &&
-                vm.CheckInDate < x.Booking!.CheckOutDate &&
+                !x.IsDeleted &&
+                x.Booking != null &&
+                !x.Booking.IsDeleted &&
+                vm.CheckInDate < x.Booking.CheckOutDate &&
                 vm.CheckOutDate > x.Booking.CheckInDate &&
                 x.Booking.Status != BookingStatus.Cancelled &&
-                x.Booking.Status != BookingStatus.CheckedOut);
+                x.Booking.Status != BookingStatus.CheckedOut
+            );
 
         if (booked)
         {
-            ModelState.AddModelError("", "Phòng đã được đặt trong khoảng thời gian này.");
+            ModelState.AddModelError(
+                string.Empty,
+                "Phòng đã được đặt trong khoảng thời gian này."
+            );
+
             return View(vm);
         }
 
-        int nights = (vm.CheckOutDate - vm.CheckInDate).Days;
+        // Tính số đêm.
+        int numberOfNights =
+            (vm.CheckOutDate - vm.CheckInDate).Days;
 
-        Booking booking = new Booking
+        // Tính tổng tiền phòng.
+        decimal totalAmount =
+            room.PriceDay * numberOfNights;
+
+        // Tạo Booking.
+        var booking = new Booking
         {
             CustomerId = customer.Id,
-            BookingCode = "BK" + DateTime.Now.ToString("yyyyMMddHHmmss"),
+
+            BookingCode =
+                "BK" + DateTime.Now.ToString("yyyyMMddHHmmss"),
+
             BookingDate = DateTime.Now,
+
             CheckInDate = vm.CheckInDate,
+
             CheckOutDate = vm.CheckOutDate,
+
             Adult = vm.Adult,
+
             Children = vm.Children,
+
             Deposit = vm.Deposit,
-            Note = vm.Note,
+
+            Note = vm.Note?.Trim(),
+
             Status = BookingStatus.Pending,
-            TotalAmount = room.PriceDay * nights
+
+            TotalAmount = totalAmount,
+
+            CreatedAt = DateTime.Now,
+
+            IsDeleted = false
         };
 
-        using var transaction = await _context.Database.BeginTransactionAsync();
+        // Dùng transaction để Booking và BookingDetail được lưu cùng nhau.
+        await using var transaction =
+            await _context.Database.BeginTransactionAsync();
 
         try
         {
+            // Lưu Booking trước để lấy BookingId.
             _context.Bookings.Add(booking);
+
             await _context.SaveChangesAsync();
 
-            BookingDetail detail = new BookingDetail
+            // Tạo chi tiết Booking.
+            var bookingDetail = new BookingDetail
             {
                 BookingId = booking.Id,
+
                 RoomId = room.Id,
+
                 PricePerNight = room.PriceDay,
-                NumberOfNights = nights,
+
+                NumberOfNights = numberOfNights,
+
                 DiscountPercent = 0,
-                TotalPrice = booking.TotalAmount
+
+                TotalPrice = totalAmount,
+
+                CreatedAt = DateTime.Now,
+
+                IsDeleted = false
             };
 
-            _context.BookingDetails.Add(detail);
+            _context.BookingDetails.Add(bookingDetail);
 
-            // KHÔNG đổi trạng thái phòng ở đây
+            /*
+             * Không đổi trạng thái phòng sang Reserved tại đây.
+             *
+             * Khả năng phòng trống được xác định bằng khoảng ngày Booking,
+             * không nên chỉ phụ thuộc vào Room.Status.
+             */
 
             await _context.SaveChangesAsync();
 
             await transaction.CommitAsync();
 
-            TempData["Success"] = "Đặt phòng thành công.";
+            TempData["Success"] =
+                "Đặt phòng thành công.";
 
-            return RedirectToAction(nameof(MyBookings));
+            return RedirectToAction(
+                nameof(MyBookings)
+            );
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
 
-            ModelState.AddModelError("", ex.InnerException?.Message ?? ex.Message);
+            ModelState.AddModelError(
+                string.Empty,
+                ex.InnerException?.Message ?? ex.Message
+            );
 
             return View(vm);
         }
@@ -393,20 +536,47 @@ public class BookingsController : Controller
             .Include(b => b.Customer)
             .Include(b => b.BookingDetails)
                 .ThenInclude(d => d.Room)
-            .Where(b => b.CustomerId == customer.Id)
+            .Where(b =>
+                b.CustomerId == customer.Id &&
+                !b.IsDeleted)
             .OrderByDescending(b => b.BookingDate)
             .ToListAsync();
+
+        var roomIds = bookings
+            .SelectMany(booking => booking.BookingDetails)
+            .Where(detail => !detail.IsDeleted)
+            .Select(detail => detail.RoomId)
+            .Distinct()
+            .ToList();
+
+        var reviewByRoom = await _context.Reviews
+            .AsNoTracking()
+            .Where(review =>
+                review.CustomerId == customer.Id &&
+                roomIds.Contains(review.RoomId) &&
+                !review.IsDeleted)
+            .ToDictionaryAsync(
+                review => review.RoomId,
+                review => review.Id);
+
+        ViewBag.ReviewByRoom = reviewByRoom;
 
         return View("Index", bookings);
     }
 
     private async Task<Customer?> GetCurrentCustomer()
     {
-        var username = User.Identity?.Name;
+        string? username = User.Identity?.Name;
 
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            return null;
+        }
         return await _context.Customers
             .Include(c => c.Account)
-            .FirstOrDefaultAsync(c => c.Account!.Username == username);
+            .FirstOrDefaultAsync(c => !c.IsDeleted &&
+                                      c.Account != null &&
+                                      c.Account.Username == username);
     }
 
     [Authorize(Roles = "Customer")]
@@ -567,4 +737,260 @@ public class BookingsController : Controller
 
         return RedirectToAction("Details", "Invoices", new { id = invoiceId });
     }
+
+    //Hàm tải danh sách khách hàng
+    private async Task LoadStaffBookingFormAsync(BookingCreateViewModel model)
+    {
+        var room = await _context.Rooms
+            .AsNoTracking()
+            .Include(r => r.RoomType)
+            .FirstOrDefaultAsync(r => r.Id == model.RoomId && !r.IsDeleted);
+
+        if (room != null)
+        {
+            model.RoomNumber = room.RoomNumber;
+            model.RoomTypeName = room.RoomType?.Name ?? "Chưa xác định";
+            model.PricePerNight = room.PriceDay;
+            model.MaxOccupancy = room.MaxOccupancy;
+        }
+
+        var customers = await _context.Customers
+            .AsNoTracking()
+            .Where(c => !c.IsDeleted)
+            .OrderBy(c => c.FullName)
+            .Select(c => new
+            {
+                c.Id,
+                DisplayName = c.FullName + " - " + (string.IsNullOrWhiteSpace(c.Phone) ? "Chưa có SĐT" : c.Phone)
+            })
+            .ToListAsync();
+
+        ViewBag.Customers = new SelectList(customers, "Id", "DisplayName", model.CustomerId);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> CreateForCustomer(int roomId)
+    {
+        var room = await _context.Rooms
+            .AsNoTracking()
+            .Include(r => r.RoomType)
+            .FirstOrDefaultAsync(r => r.Id == roomId && !r.IsDeleted);
+
+        if (room == null)
+        {
+            return NotFound();
+        }
+
+        if (room.Status == RoomStatus.Maintenance)
+        {
+            TempData["Error"] = "Phòng đang bảo trì, không thể đặt.";
+            return RedirectToAction("Details", "Rooms", new { id = roomId });
+        }
+
+        var model = new BookingCreateViewModel
+        {
+            RoomId = room.Id,
+            RoomNumber = room.RoomNumber,
+            RoomTypeName = room.RoomType?.Name ?? "Chưa xác định",
+            PricePerNight = room.PriceDay,
+            MaxOccupancy = room.MaxOccupancy,
+            CheckInDate = DateTime.Today,
+            CheckOutDate = DateTime.Today.AddDays(1),
+            Adult = 1,
+            Children = 0,
+            Deposit = 0
+        };
+
+        await LoadStaffBookingFormAsync(model);
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<IActionResult> CreateForCustomer(BookingCreateViewModel model)
+    {
+        var room = await _context.Rooms.Include(r => r.RoomType)
+            .FirstOrDefaultAsync(r => r.Id == model.RoomId && !r.IsDeleted);
+
+        if (room == null)
+        {
+            return NotFound();
+        }
+
+        model.RoomNumber = room.RoomNumber;
+        model.RoomTypeName = room.RoomType?.Name ?? "Chưa xác định";
+        model.PricePerNight = room.PriceDay;
+        model.MaxOccupancy = room.MaxOccupancy;
+        model.CheckInDate = model.CheckInDate.Date;
+        model.CheckOutDate = model.CheckOutDate.Date;
+        model.Note = string.IsNullOrWhiteSpace(model.Note) ? null : model.Note.Trim();
+
+        Customer? selectedCustomer = null;
+
+        if (model.CreateNewCustomer)
+        {
+            model.GuestFullName = model.GuestFullName?.Trim();
+            model.GuestPhone = model.GuestPhone?.Trim();
+            model.GuestEmail = string.IsNullOrWhiteSpace(model.GuestEmail) ? null : model.GuestEmail.Trim();
+            model.GuestCitizenId = string.IsNullOrWhiteSpace(model.GuestCitizenId) ? null : model.GuestCitizenId.Trim();
+            model.GuestAddress = string.IsNullOrWhiteSpace(model.GuestAddress) ? null : model.GuestAddress.Trim();
+            model.GuestGender = string.IsNullOrWhiteSpace(model.GuestGender) ? null : model.GuestGender.Trim();
+
+            if (string.IsNullOrWhiteSpace(model.GuestFullName))
+            {
+                ModelState.AddModelError(nameof(model.GuestFullName), "Vui lòng nhập họ tên khách hàng.");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.GuestPhone))
+            {
+                ModelState.AddModelError(nameof(model.GuestPhone), "Vui lòng nhập số điện thoại.");
+            }
+        }
+        else
+        {
+            if (!model.CustomerId.HasValue || model.CustomerId.Value <= 0)
+            {
+                ModelState.AddModelError(nameof(model.CustomerId), "Vui lòng chọn khách hàng.");
+            }
+            else
+            {
+                selectedCustomer = await _context.Customers
+                    .FirstOrDefaultAsync(c => c.Id == model.CustomerId.Value && !c.IsDeleted);
+
+                if (selectedCustomer == null)
+                {
+                    ModelState.AddModelError(nameof(model.CustomerId), "Khách hàng không tồn tại.");
+                }
+            }
+        }
+
+        if (model.CheckInDate < DateTime.Today)
+        {
+            ModelState.AddModelError(nameof(model.CheckInDate), "Ngày nhận phòng không được nhỏ hơn ngày hiện tại.");
+        }
+
+        if (model.CheckOutDate <= model.CheckInDate)
+        {
+            ModelState.AddModelError(nameof(model.CheckOutDate), "Ngày trả phòng phải lớn hơn ngày nhận phòng.");
+        }
+
+        if (room.Status == RoomStatus.Maintenance)
+        {
+            ModelState.AddModelError(string.Empty, "Phòng đang bảo trì.");
+        }
+
+        if (model.Adult + model.Children <= 0)
+        {
+            ModelState.AddModelError(string.Empty, "Booking phải có ít nhất một khách.");
+        }
+
+        if (model.Adult + model.Children > room.MaxOccupancy)
+        {
+            ModelState.AddModelError(string.Empty, $"Phòng chỉ chứa tối đa {room.MaxOccupancy} người.");
+        }
+
+        int numberOfNights = Math.Max(0, (model.CheckOutDate - model.CheckInDate).Days);
+        decimal totalAmount = room.PriceDay * numberOfNights;
+
+        if (model.Deposit > totalAmount)
+        {
+            ModelState.AddModelError(nameof(model.Deposit), "Tiền cọc không được lớn hơn tổng tiền phòng.");
+        }
+
+        bool isBooked = await _context.BookingDetails.AsNoTracking()
+            .Include(d => d.Booking)
+            .AnyAsync(d => d.RoomId == model.RoomId &&
+                           !d.IsDeleted &&
+                           d.Booking != null &&
+                           !d.Booking.IsDeleted &&
+                           model.CheckInDate < d.Booking.CheckOutDate &&
+                           model.CheckOutDate > d.Booking.CheckInDate &&
+                           d.Booking.Status != BookingStatus.Cancelled &&
+                           d.Booking.Status != BookingStatus.CheckedOut);
+
+        if (isBooked)
+        {
+            ModelState.AddModelError(string.Empty, "Phòng đã được đặt trong khoảng thời gian này.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            await LoadStaffBookingFormAsync(model);
+            return View(model);
+        }
+
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            if (model.CreateNewCustomer)
+            {
+                selectedCustomer = new Customer
+                {
+                    AccountId = null,
+                    FullName = model.GuestFullName!,
+                    Gender = model.GuestGender,
+                    DateOfBirth = model.GuestDateOfBirth,
+                    Phone = model.GuestPhone,
+                    Email = model.GuestEmail,
+                    Address = model.GuestAddress,
+                    CitizenId = model.GuestCitizenId,
+                    CreatedAt = DateTime.Now,
+                    IsDeleted = false
+                };
+
+                _context.Customers.Add(selectedCustomer);
+                await _context.SaveChangesAsync();
+            }
+
+            var booking = new Booking
+            {
+                CustomerId = selectedCustomer!.Id,
+                BookingCode = "BK" + DateTime.Now.ToString("yyyyMMddHHmmssfff"),
+                BookingDate = DateTime.Now,
+                CheckInDate = model.CheckInDate,
+                CheckOutDate = model.CheckOutDate,
+                Adult = model.Adult,
+                Children = model.Children,
+                Deposit = model.Deposit,
+                Note = model.Note,
+                TotalAmount = totalAmount,
+                Status = BookingStatus.Confirmed,
+                CreatedAt = DateTime.Now,
+                IsDeleted = false
+            };
+
+            _context.Bookings.Add(booking);
+            await _context.SaveChangesAsync();
+
+            var bookingDetail = new BookingDetail
+            {
+                BookingId = booking.Id,
+                RoomId = room.Id,
+                PricePerNight = room.PriceDay,
+                NumberOfNights = numberOfNights,
+                DiscountPercent = 0,
+                TotalPrice = totalAmount,
+                CreatedAt = DateTime.Now,
+                IsDeleted = false
+            };
+
+            _context.BookingDetails.Add(bookingDetail);
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+
+            TempData["Success"] = $"Đặt phòng {room.RoomNumber} cho khách {selectedCustomer.FullName} thành công.";
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            ModelState.AddModelError(string.Empty, ex.InnerException?.Message ?? ex.Message);
+            await LoadStaffBookingFormAsync(model);
+            return View(model);
+        }
+    }
+
 }
