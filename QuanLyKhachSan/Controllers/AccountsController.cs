@@ -8,7 +8,7 @@ using System.Text;
 
 namespace QuanLyKhachSan.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admi")]
     public class AccountsController : Controller
     {
         private readonly ApplicationDbContext _context;

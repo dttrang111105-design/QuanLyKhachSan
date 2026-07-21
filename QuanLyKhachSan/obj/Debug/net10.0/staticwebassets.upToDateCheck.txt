@@ -65,69 +65,69 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.min.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\LICENSE.md
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\jquery.validate.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\additional-methods.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\js\site.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\favicon.ico
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\site.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\rooms.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\receptionist.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\home.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.map
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.js
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\admin.css
-E:\InformationTechnology\visual tím\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\LICENSE.txt
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\admin.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\home.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\receptionist.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\rooms.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\css\site.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\favicon.ico
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\js\site.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\additional-methods.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery-validation\LICENSE.md
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.min.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.js
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\dist\jquery.slim.min.map
+D:\QuanLyKhachSan\QuanLyKhachSan\wwwroot\lib\jquery\LICENSE.txt
