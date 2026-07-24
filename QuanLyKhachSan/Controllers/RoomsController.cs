@@ -241,7 +241,7 @@ public class RoomsController : Controller
         return _context.Rooms.Any(e => e.Id == id);
     }
 
-    [Authorize(Roles = "Customer")]
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> Search(RoomSearchViewModel model)
     {

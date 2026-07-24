@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Repository\" />
-    <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 

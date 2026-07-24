@@ -129,7 +129,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="@(homeUrl + "#contact")">
+                            <a class="nav-link" href="tel:0123456789">
                                 Liên hệ
                             </a>
                         </li>
@@ -375,21 +375,46 @@
 
                     <h5>LIÊN KẾT</h5>
 
-                    <ul>
+                   <ul>
 
-                        <li>Trang chủ</li>
+    <li>
+        <a asp-controller="Home" asp-action="Index">
+            Trang chủ
+        </a>
+    </li>
 
-                        <li>Đặt phòng</li>
+    <li>
+        <a asp-controller="Rooms" asp-action="Search">
+            Đặt phòng
+        </a>
+    </li>
 
-                        <li>Danh sách phòng</li>
+    <li>
+        <a asp-controller="Rooms" asp-action="Index">
+            Danh sách phòng
+        </a>
+    </li>
 
-                        <li>Dịch vụ</li>
+    <li>
+        <a href="@($"{homeUrl}#services")">
+            Dịch vụ
+        </a>
+    </li>
 
-                        <li>Khuyến mãi</li>
+    <li>
+        <a href="@($"{homeUrl}#promotion")">
+            Khuyến mãi
+        </a>
+    </li>
 
-                        <li>Liên hệ</li>
+    <li>
+                            <a href="tel:0123456789">
+                                <i class="bi bi-telephone-fill me-1"></i>
+                                Liên hệ
+                            </a>
+    </li>
 
-                    </ul>
+</ul>
 
                 </div>
 
@@ -445,32 +470,47 @@
 
                     <ul>
 
-                        <li>
-                            <i class="bi bi-geo-alt-fill"></i>
-                            Hà Nội, Việt Nam
-                        </li>
+    <li>
+        <i class="bi bi-geo-alt-fill"></i>
 
-                        <li>
-                            <i class="bi bi-envelope-fill"></i>
-                            luxuryhotel@gmail.com
-                        </li>
+        <a href="https://maps.google.com/?q=Hà+Nội+Việt+Nam"
+           target="_blank">
+            Hà Nội, Việt Nam
+        </a>
+    </li>
 
-                        <li>
-                            <i class="bi bi-telephone-fill"></i>
-                            0123 456 789
-                        </li>
+    <li>
+        <i class="bi bi-envelope-fill"></i>
 
-                        <li>
-                            <i class="bi bi-clock-fill"></i>
-                            Phục vụ 24/7
-                        </li>
+        <a href="mailto:luxuryhotel@gmail.com">
+            luxuryhotel@gmail.com
+        </a>
+    </li>
 
-                        <li>
-                            <i class="bi bi-globe"></i>
-                            www.luxuryhotel.vn
-                        </li>
+    <li>
+        <i class="bi bi-telephone-fill"></i>
 
-                    </ul>
+        <a href="tel:0123456789">
+            0123 456 789
+        </a>
+    </li>
+
+    <li>
+        <i class="bi bi-clock-fill"></i>
+
+        Phục vụ 24/7
+    </li>
+
+    <li>
+        <i class="bi bi-globe"></i>
+
+        <a href="https://www.luxuryhotel.vn"
+           target="_blank">
+            www.luxuryhotel.vn
+        </a>
+    </li>
+
+</ul>
 
                 </div>
 

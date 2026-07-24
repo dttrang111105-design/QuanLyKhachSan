@@ -548,7 +548,15 @@ textarea {
         .public-footer-bottom a:hover {
             color: #d4b16a;
         }
+.public-footer a {
+    color: inherit;
+    text-decoration: none;
+    transition: .2s;
+}
 
+    .public-footer a:hover {
+        color: #d4af37;
+    }
 .scroll-top {
     position: fixed;
     right: 23px;
