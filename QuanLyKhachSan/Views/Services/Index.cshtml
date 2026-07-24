@@ -47,26 +47,24 @@
     {
         return category?.Trim().ToLower() switch
         {
-            "laundry" => "Giặt là",
-            "food" => "Đồ ăn",
-            "breakfast" => "Đồ ăn sáng",
-            "spa" => "Spa",
-            "transport" => "Đưa đón",
-            "other" => "Dịch vụ khác",
+            "ăn uống" => "Ăn uống",
+            "chăm sóc" => "Chăm sóc",
+            "giải trí" => "Giải trí",
+            "tiện ích" => "Tiện ích",
+            "trang trí" => "Trang trí",
             null or "" => "Chưa phân loại",
             _ => category!
         };
     }
-
     string CategoryIcon(string? category)
     {
         return category?.Trim().ToLower() switch
         {
-            "laundry" => "bi-basket2-fill",
-            "food" => "bi-cup-hot-fill",
-            "breakfast" => "bi-egg-fried",
-            "spa" => "bi-heart-pulse-fill",
-            "transport" => "bi-car-front-fill",
+            "ăn uống" => "bi-cup-hot-fill",
+            "chăm sóc" => "bi-heart-pulse-fill",
+            "giải trí" => "bi-controller",
+            "tiện ích" => "bi-car-front-fill",
+            "trang trí" => "bi-balloon-heart-fill",
             _ => "bi-bell-fill"
         };
     }
@@ -75,11 +73,11 @@
     {
         return category?.Trim().ToLower() switch
         {
-            "laundry" => "service-category-laundry",
-            "food" => "service-category-food",
-            "breakfast" => "service-category-food",
-            "spa" => "service-category-spa",
-            "transport" => "service-category-transport",
+            "ăn uống" => "service-category-food",
+            "chăm sóc" => "service-category-spa",
+            "giải trí" => "service-category-entertainment",
+            "tiện ích" => "service-category-transport",
+            "trang trí" => "service-category-decoration",
             _ => "service-category-other"
         };
     }
@@ -971,6 +969,16 @@
         .service-category-transport {
             background: #e4f7ef;
             color: #27875e;
+        }
+
+        .service-category-entertainment {
+            background: #e8f4ff;
+            color: #0d6efd;
+        }
+
+        .service-category-decoration {
+            background: #ffe7f1;
+            color: #d63384;
         }
 
         .service-category-other {

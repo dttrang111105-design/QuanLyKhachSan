@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKhachSan.Data;
 using QuanLyKhachSan.Enums;
+using QuanLyKhachSan.Models;
 using QuanLyKhachSan.ViewModels.Dashboard;
 using System.Security.Claims;
 
@@ -177,20 +178,18 @@ namespace QuanLyKhachSan.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var rooms = await _context.Rooms
-                .Include(r => r.RoomType)
-                .Include(r => r.RoomImages)
-                .Where(r => !r.IsDeleted)
-                .OrderBy(r => r.PriceDay)
-                .Take(6)
+            List<Room> rooms = await _context.Rooms
+                .AsNoTracking()
+                .Include(room => room.RoomType)
+                .Include(room => room.RoomImages)
+                .Where(room =>
+                    !room.IsDeleted &&
+                    room.RoomType != null)
+                .OrderBy(room => room.RoomType!.Name)
+                .ThenBy(room => room.PriceDay)
                 .ToListAsync();
 
             return View(rooms);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
     }
 }

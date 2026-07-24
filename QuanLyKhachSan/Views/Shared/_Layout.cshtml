@@ -259,127 +259,255 @@
     </main>
 
     @if (isHome)
-    {
-        <section class="public-feature-bar" aria-label="Tiện ích khách sạn">
-            <div class="container">
-                <div class="row g-3 text-center">
-                    <div class="col-lg col-md-4 col-6">
-                        <div class="public-feature-item">
-                            <i class="bi bi-bell-fill"></i>
-                            <span>Lễ tân 24/7</span>
-                        </div>
-                    </div>
+{
+    <section class="public-feature-bar" aria-label="Tiện ích khách sạn">
 
-                    <div class="col-lg col-md-4 col-6">
-                        <div class="public-feature-item">
-                            <i class="bi bi-cup-hot-fill"></i>
-                            <span>Đồ ăn sáng</span>
-                        </div>
-                    </div>
+        <div class="container">
 
-                    <div class="col-lg col-md-4 col-6">
-                        <div class="public-feature-item">
-                            <i class="bi bi-basket2-fill"></i>
-                            <span>Giặt là</span>
-                        </div>
-                    </div>
+            <div class="row g-4 text-center">
 
-                    <div class="col-lg col-md-4 col-6">
-                        <div class="public-feature-item">
-                            <i class="bi bi-shield-check"></i>
-                            <span>An toàn</span>
-                        </div>
-                    </div>
-
-                    <div class="col-lg col-md-4 col-6">
-                        <div class="public-feature-item">
-                            <i class="bi bi-wifi"></i>
-                            <span>Wifi miễn phí</span>
-                        </div>
+                <!-- Lễ tân -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-bell-fill"></i>
+                        <span>Lễ tân 24/7</span>
                     </div>
                 </div>
+
+                <!-- Buffet -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-cup-hot-fill"></i>
+                        <span>Buffet sáng & tối</span>
+                    </div>
+                </div>
+
+                <!-- Giặt ủi -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-basket2-fill"></i>
+                        <span>Giặt ủi</span>
+                    </div>
+                </div>
+
+                <!-- Spa -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-flower1"></i>
+                        <span>Spa & Massage</span>
+                    </div>
+                </div>
+
+                <!-- Gym -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                        <span>Gym & Hồ bơi</span>
+                    </div>
+                </div>
+
+                <!-- Xe đưa đón -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-car-front-fill"></i>
+                        <span>Xe đưa đón</span>
+                    </div>
+                </div>
+
+                <!-- Trang trí -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-balloon-heart-fill"></i>
+                        <span>Trang trí sự kiện</span>
+                    </div>
+                </div>
+
+                <!-- Wifi -->
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+                    <div class="public-feature-item">
+                        <i class="bi bi-wifi"></i>
+                        <span>Wifi miễn phí</span>
+                    </div>
+                </div>
+
             </div>
-        </section>
-    }
 
-    <footer class="public-footer" id="contact">
+        </div>
+
+    </section>
+}
+      
+
+    <footer class="public-footer">
+
         <div class="container">
-            <div class="row gy-5">
-                <div class="col-lg-4">
-                    <a class="public-footer-brand"
-                       asp-controller="Home"
-                       asp-action="Index">
-                        Luxury Hotel
-                    </a>
 
-                    <p class="public-footer-description">
-                        Khách sạn nghỉ dưỡng hiện đại với hệ thống phòng tiện nghi,
-                        dịch vụ chuyên nghiệp và đội ngũ hỗ trợ khách hàng 24/7.
+            <div class="row gy-5">
+
+                <!-- Giới thiệu -->
+                <div class="col-lg-4 col-md-6">
+
+                    <h2>Luxury Hotel</h2>
+
+                    <p>
+                        Luxury Hotel là khách sạn nghỉ dưỡng 5 sao với hệ thống
+                        phòng hiện đại, không gian sang trọng cùng các dịch vụ
+                        Buffet, Spa, Gym, Hồ bơi, Xe đưa đón và Trang trí sự kiện,
+                        mang đến trải nghiệm nghỉ dưỡng đẳng cấp cho mọi khách hàng.
                     </p>
 
-                    <div class="public-footer-social">
-                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                    <div class="footer-social">
+
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+
+                        <a href="#"><i class="bi bi-tiktok"></i></a>
+
                     </div>
+
                 </div>
 
-                <div class="col-lg-2 col-md-4">
-                    <h5>Liên kết</h5>
-                    <ul class="public-footer-links">
-                        <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                        <li><a href="@(homeUrl + "#about")">Giới thiệu</a></li>
-                        <li><a href="@(homeUrl + "#rooms")">Phòng</a></li>
-                        <li><a href="@(homeUrl + "#services")">Dịch vụ</a></li>
+                <!-- Liên kết -->
+                <div class="col-lg-2 col-md-6">
+
+                    <h5>LIÊN KẾT</h5>
+
+                    <ul>
+
+                        <li>Trang chủ</li>
+
+                        <li>Đặt phòng</li>
+
+                        <li>Danh sách phòng</li>
+
+                        <li>Dịch vụ</li>
+
+                        <li>Khuyến mãi</li>
+
+                        <li>Liên hệ</li>
+
                     </ul>
+
                 </div>
 
-                <div class="col-lg-3 col-md-4">
-                    <h5>Dịch vụ</h5>
-                    <ul class="public-footer-links">
+                <!-- Dịch vụ -->
+                <div class="col-lg-3 col-md-6">
+
+                    <h5>DỊCH VỤ</h5>
+
+                    <ul>
+
                         <li>
-                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
-                            {
-                                <a asp-controller="Services" asp-action="CustomerServices">Giặt là</a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Auth" asp-action="Login">Giặt là</a>
-                            }
+                            <i class="bi bi-basket2-fill"></i>
+                            Giặt ủi quần áo
                         </li>
+
                         <li>
-                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
-                            {
-                                <a asp-controller="Services" asp-action="CustomerServices">Đồ ăn sáng</a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Auth" asp-action="Login">Đồ ăn sáng</a>
-                            }
+                            <i class="bi bi-cup-hot-fill"></i>
+                            Buffet sáng & tối
                         </li>
-                        <li><a asp-controller="Rooms" asp-action="Search">Tìm phòng trống</a></li>
-                        <li><a asp-controller="Rooms" asp-action="Index">Danh sách phòng</a></li>
+
+                        <li>
+                            <i class="bi bi-flower1"></i>
+                            Spa & Massage
+                        </li>
+
+                        <li>
+                            <i class="bi bi-heart-pulse-fill"></i>
+                            Gym & Hồ bơi
+                        </li>
+
+                        <li>
+                            <i class="bi bi-car-front-fill"></i>
+                            Xe đưa đón
+                        </li>
+
+                        <li>
+                            <i class="bi bi-balloon-heart-fill"></i>
+                            Trang trí sinh nhật
+                        </li>
+
+                        <li>
+                            <i class="bi bi-heart-fill"></i>
+                            Tuần trăng mật
+                        </li>
+
                     </ul>
+
+                </div>
+                <!-- Liên hệ -->
+                <div class="col-lg-3 col-md-6">
+
+                    <h5>LIÊN HỆ</h5>
+
+                    <ul>
+
+                        <li>
+                            <i class="bi bi-geo-alt-fill"></i>
+                            Hà Nội, Việt Nam
+                        </li>
+
+                        <li>
+                            <i class="bi bi-envelope-fill"></i>
+                            luxuryhotel@gmail.com
+                        </li>
+
+                        <li>
+                            <i class="bi bi-telephone-fill"></i>
+                            0123 456 789
+                        </li>
+
+                        <li>
+                            <i class="bi bi-clock-fill"></i>
+                            Phục vụ 24/7
+                        </li>
+
+                        <li>
+                            <i class="bi bi-globe"></i>
+                            www.luxuryhotel.vn
+                        </li>
+
+                    </ul>
+
                 </div>
 
-                <div class="col-lg-3 col-md-4">
-                    <h5>Liên hệ</h5>
-                    <ul class="public-contact-list">
-                        <li><i class="bi bi-geo-alt-fill"></i><span>Hà Nội, Việt Nam</span></li>
-                        <li><i class="bi bi-envelope-fill"></i><span>luxuryhotel@gmail.com</span></li>
-                        <li><i class="bi bi-telephone-fill"></i><span>0123 456 789</span></li>
-                        <li><i class="bi bi-clock-fill"></i><span>Phục vụ 24/7</span></li>
-                    </ul>
-                </div>
             </div>
 
-            <hr class="public-footer-divider" />
+            <!-- Footer Bottom -->
 
-            <div class="public-footer-bottom">
-                <span>© @DateTime.Now.Year Luxury Hotel. All Rights Reserved.</span>
-                <a href="@(homeUrl + "#top")">Về đầu trang</a>
+            <div class="footer-bottom">
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-6">
+
+                        <p>
+                            © 2026 Luxury Hotel. All Rights Reserved.
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-6 text-md-end">
+
+                        <a href="#top" class="footer-back-top">
+
+                            <i class="bi bi-arrow-up-circle-fill"></i>
+
+                            Về đầu trang
+
+                        </a>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
+
     </footer>
 
     <button type="button"

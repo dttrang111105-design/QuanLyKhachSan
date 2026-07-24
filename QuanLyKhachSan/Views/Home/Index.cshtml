@@ -1,7 +1,12 @@
 ﻿@using QuanLyKhachSan.Enums
 @model IEnumerable<QuanLyKhachSan.Models.Room>
-
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/rooms.css"
+          asp-append-version="true" />
+}
 @{
+
     ViewData["Title"] = "Trang chủ";
 
     bool isAuthenticated =
@@ -648,9 +653,36 @@
 </section>
 
 <!-- =====================================================
-     PHÒNG NỔI BẬT
-     ===================================================== -->
-<section class="home-rooms home-section"
+     LOẠI PHÒNG NỔI BẬT
+===================================================== -->
+@{
+    var featuredRoomTypes = Model?
+        .Where(room => room.RoomType != null)
+        .GroupBy(room => room.RoomType!.Name)
+        .Select(group => new
+        {
+            Name = group.Key,
+
+            SampleRoom = group
+                .OrderBy(room => room.PriceDay)
+                .First(),
+
+            TotalRooms = group.Count(),
+
+            AvailableRooms = group.Count(room =>
+                room.Status == RoomStatus.Available)
+        })
+        .OrderBy(item =>
+            item.Name == "Standard" ? 1 :
+            item.Name == "Deluxe" ? 2 :
+            item.Name == "Family" ? 3 :
+            item.Name == "VIP Suite" ? 4 : 5)
+        .Take(4)
+        .ToList()
+        ?? new();
+}
+
+<section class="featured-room-types home-section"
          id="rooms">
 
     <div class="container">
@@ -658,92 +690,131 @@
         <div class="home-section-heading text-center">
 
             <span class="home-section-kicker">
-                Phòng nổi bật
+                Không gian nghỉ dưỡng
             </span>
 
             <h2>
-                Không gian nghỉ dưỡng dành cho bạn
+                Các loại phòng nổi bật
             </h2>
 
             <p>
-                Xem thông tin, giá phòng và sức chứa trước khi
-                thực hiện tìm kiếm theo ngày lưu trú.
+                Khám phá 4 loại phòng được thiết kế riêng biệt,
+                phù hợp cho kỳ nghỉ, gia đình và chuyến công tác.
             </p>
 
         </div>
 
-        @if (Model != null && Model.Any())
+        @if (featuredRoomTypes.Any())
         {
-            <div class="row g-4">
+            <div class="row">
 
-                @foreach (var room in Model)
+                @foreach (var roomType in featuredRoomTypes)
                 {
-                    string? mainImage =
-                        room.RoomImages?
-                            .FirstOrDefault(x => x.IsMain)?
-                            .ImageUrl
-                        ?? room.RoomImages?
-                            .FirstOrDefault()?
-                            .ImageUrl;
+                    var room = roomType.SampleRoom;
 
-                    <div class="col-lg-4 col-md-6">
+                    string roomIcon =
+                    roomType.Name == "VIP Suite"
+                    ? "bi-gem"
+                    : roomType.Name == "Family"
+                    ? "bi-people-fill"
+                    : roomType.Name == "Deluxe"
+                    ? "bi-stars"
+                    : "bi-building";
 
-                        <article class="home-room-card">
+                    string bedText =
+                    roomType.Name == "VIP Suite"
+                    ? "King Bed"
+                    : roomType.Name == "Family"
+                    ? "2 Double Beds"
+                    : roomType.Name == "Deluxe"
+                    ? "Queen Bed"
+                    : "Double Bed";
 
-                            <div class="home-room-image">
+                    <div class="col-lg-3">
 
-                                @if (!string.IsNullOrWhiteSpace(mainImage))
+                        <article class="featured-room-type-card">
+
+                            <div class="featured-room-type-visual">
+
+                                <div class="featured-room-type-glow"></div>
+
+                                <span class="featured-room-type-icon">
+                                    <i class="bi @roomIcon"></i>
+                                </span>
+
+                                <span class="featured-room-type-brand">
+                                    Luxury Hotel
+                                </span>
+
+                                @if (roomType.Name == "VIP Suite")
                                 {
-                                    <img src="@mainImage"
-                                         alt="Phòng @room.RoomNumber"
-                                         loading="lazy" />
+                                    <span class="featured-room-type-badge">
+                                        Cao cấp
+                                    </span>
+                                }
+                                else if (roomType.Name == "Family")
+                                {
+                                    <span class="featured-room-type-badge">
+                                        Phù hợp gia đình
+                                    </span>
                                 }
                                 else
                                 {
-                                    <div class="home-room-placeholder">
-
-                                        <i class="bi bi-building"></i>
-                                        <span>Luxury Hotel</span>
-
-                                    </div>
+                                    <span class="featured-room-type-badge">
+                                        Nổi bật
+                                    </span>
                                 }
-
-                                <span class="home-room-price">
-
-                                    @room.PriceDay.ToString("N0")
-
-                                    <small>
-                                        VNĐ/đêm
-                                    </small>
-
-                                </span>
 
                             </div>
 
-                            <div class="home-room-content">
+                            <div class="featured-room-type-content">
 
-                                <span class="home-room-type">
+                                <div class="featured-room-type-header">
 
-                                    @(room.RoomType?.Name
-                                        ?? "Phòng khách sạn")
+                                    <div>
 
-                                </span>
+                                        <span class="featured-room-type-kicker">
+                                            Loại phòng
+                                        </span>
 
-                                <h3>
-                                    Phòng @room.RoomNumber
-                                </h3>
+                                        <h3>
+                                            @roomType.Name
+                                        </h3>
 
-                                <p>
-                                    @(string.IsNullOrWhiteSpace(room.Description)
-                                        ? "Không gian nghỉ ngơi tiện nghi, sạch sẽ và phù hợp với kỳ nghỉ của bạn."
-                                        : room.Description)
+                                    </div>
+
+                                    <div class="featured-room-type-price">
+
+                                        <strong>
+                                            @room.PriceDay.ToString("N0")
+                                        </strong>
+
+                                        <span>
+                                            VNĐ/đêm
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <p class="featured-room-type-description">
+
+                                    @(string.IsNullOrWhiteSpace(room.RoomType?.Description)
+                                                                ? $"Phòng {roomType.Name} được thiết kế sang trọng, đầy đủ tiện nghi và phù hợp với nhu cầu nghỉ dưỡng."
+                                                                : room.RoomType.Description)
+
                                 </p>
 
-                                <div class="home-room-information">
+                                <div class="featured-room-type-information">
 
                                     <span>
                                         <i class="bi bi-people"></i>
                                         @room.MaxOccupancy người
+                                    </span>
+
+                                    <span>
+                                        <i class="bi bi-moon-stars"></i>
+                                        @bedText
                                     </span>
 
                                     <span>
@@ -752,51 +823,41 @@
                                     </span>
 
                                     <span>
-                                        <i class="bi bi-building"></i>
-                                        Tầng @room.Floor
+                                        <i class="bi bi-door-open"></i>
+                                        @roomType.TotalRooms phòng
                                     </span>
 
                                 </div>
 
-                                <div class="home-room-footer">
+                                <div class="featured-room-type-footer">
 
-                                    @if (room.Status == RoomStatus.Available)
+                                    @if (roomType.AvailableRooms > 0)
                                     {
-                                        <span class="home-status
-                                            home-status-available">
+                                        <span class="featured-room-available">
 
-                                            <i class="bi bi-check-circle"></i>
-                                            Còn trống
+                                            <i class="bi bi-check-circle-fill"></i>
 
-                                        </span>
-                                    }
-                                    else if (room.Status == RoomStatus.Occupied)
-                                    {
-                                        <span class="home-status
-                                            home-status-occupied">
-
-                                            <i class="bi bi-person-fill"></i>
-                                            Đang có khách
+                                            Còn @roomType.AvailableRooms phòng trống
 
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="home-status
-                                            home-status-maintenance">
+                                        <span class="featured-room-unavailable">
 
-                                            <i class="bi bi-tools"></i>
-                                            Bảo trì
+                                            <i class="bi bi-x-circle-fill"></i>
+
+                                            Hiện đã hết phòng
 
                                         </span>
                                     }
 
                                     <a asp-controller="Rooms"
-                                       asp-action="Details"
-                                       asp-route-id="@room.Id"
-                                       class="home-room-detail-button">
+                                       asp-action="Search"
+                                       class="featured-room-type-button">
 
-                                        Chi tiết
+                                        Xem phòng
+
                                         <i class="bi bi-arrow-right"></i>
 
                                     </a>
@@ -819,7 +880,7 @@
                    class="home-primary-button">
 
                     <i class="bi bi-search"></i>
-                    Tìm tất cả phòng trống
+                    Khám phá tất cả phòng
 
                 </a>
 
@@ -832,11 +893,11 @@
                 <i class="bi bi-door-closed"></i>
 
                 <h3>
-                    Chưa có phòng để hiển thị
+                    Chưa có loại phòng để hiển thị
                 </h3>
 
                 <p>
-                    Vui lòng thêm dữ liệu phòng trong trang quản trị.
+                    Vui lòng thêm phòng và loại phòng trong trang quản trị.
                 </p>
 
             </div>
@@ -873,61 +934,37 @@
 
         <div class="row g-4 justify-content-center">
 
-            <!-- Giặt là -->
-            <div class="col-lg-5 col-md-6">
-
-                <article class="home-service-card
-                    home-service-laundry">
-
+            <!-- Giặt ủi -->
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <article class="home-service-card home-service-laundry">
                     <div class="home-service-top">
-
                         <span class="home-service-icon">
                             <i class="bi bi-basket2-fill"></i>
                         </span>
-
-                        <span class="home-service-label">
-                            Laundry
-                        </span>
-
+                        <span class="home-service-label">Laundry</span>
                     </div>
 
-                    <h3>
-                        Dịch vụ giặt là
-                    </h3>
+                    <h3>Giặt Ủi Quần Áo</h3>
 
                     <p>
-                        Nhận giặt quần áo, xử lý cẩn thận
-                        và giao lại tận phòng theo Booking đang lưu trú.
+                        Giặt, sấy và ủi quần áo nhanh chóng.
+                        Nhận và giao tận phòng trong ngày.
                     </p>
 
                     <ul class="home-service-benefits">
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            Nhận và giao tận phòng
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            Đặt theo số lượng
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            Tính vào Booking hiện tại
-                        </li>
-
+                        <li><i class="bi bi-check-circle-fill"></i>Giặt & Sấy</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Ủi quần áo</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Giao tận phòng</li>
                     </ul>
 
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
                            asp-action="CustomerServices"
-                           asp-route-category="Laundry"
                            class="home-service-button">
 
-                            <i class="bi bi-bag-plus"></i>
-                            Đặt dịch vụ giặt là
+                            <i class="bi bi-bag-plus-fill"></i>
+                            Đặt dịch vụ
 
                         </a>
                     }
@@ -944,65 +981,40 @@
                     }
 
                 </article>
-
             </div>
 
-            <!-- Đồ ăn sáng -->
-            <div class="col-lg-5 col-md-6">
-
-                <article class="home-service-card
-                    home-service-breakfast">
+            <!-- Buffet -->
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <article class="home-service-card home-service-breakfast">
 
                     <div class="home-service-top">
-
                         <span class="home-service-icon">
                             <i class="bi bi-cup-hot-fill"></i>
                         </span>
-
-                        <span class="home-service-label">
-                            Food
-                        </span>
-
+                        <span class="home-service-label">Food</span>
                     </div>
 
-                    <h3>
-                        Đồ ăn sáng
-                    </h3>
+                    <h3>Buffet Sáng & Tối</h3>
 
                     <p>
-                        Bữa sáng tiện lợi dành cho khách lưu trú,
-                        có thể đặt theo số lượng và gắn trực tiếp
-                        với Booking đang ở.
+                        Thưởng thức buffet hơn 70 món ăn,
+                        đồ uống miễn phí mỗi ngày.
                     </p>
 
                     <ul class="home-service-benefits">
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            Phục vụ khách đang lưu trú
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            Chọn số lượng phù hợp
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            Quản lý cùng hóa đơn phòng
-                        </li>
-
+                        <li><i class="bi bi-check-circle-fill"></i>Buffet sáng</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Buffet tối</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Đồ uống miễn phí</li>
                     </ul>
 
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
                            asp-action="CustomerServices"
-                           asp-route-category="Food"
                            class="home-service-button">
 
-                            <i class="bi bi-bag-plus"></i>
-                            Đặt đồ ăn sáng
+                            <i class="bi bi-bag-plus-fill"></i>
+                            Đặt dịch vụ
 
                         </a>
                     }
@@ -1019,24 +1031,210 @@
                     }
 
                 </article>
+            </div>
 
+            <!-- Spa -->
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <article class="home-service-card home-service-spa">
+
+                    <div class="home-service-top">
+                        <span class="home-service-icon">
+                            <i class="bi bi-flower1"></i>
+                        </span>
+                        <span class="home-service-label">Spa</span>
+                    </div>
+
+                    <h3>Spa & Massage</h3>
+
+                    <p>
+                        Liệu trình chăm sóc sức khỏe,
+                        massage thư giãn cao cấp.
+                    </p>
+
+                    <ul class="home-service-benefits">
+                        <li><i class="bi bi-check-circle-fill"></i>Massage</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Xông hơi</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Chăm sóc da</li>
+                    </ul>
+
+                    @if (canBookService)
+                    {
+                        <a asp-controller="Services"
+                           asp-action="CustomerServices"
+                           class="home-service-button">
+
+                            <i class="bi bi-bag-plus-fill"></i>
+                            Đặt dịch vụ
+
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Auth"
+                           asp-action="Login"
+                           class="home-service-button">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Đăng nhập để đặt dịch vụ
+
+                        </a>
+                    }
+
+                </article>
+            </div>
+
+            <!-- Gym -->
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <article class="home-service-card home-service-gym">
+
+                    <div class="home-service-top">
+                        <span class="home-service-icon">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </span>
+                        <span class="home-service-label">Fitness</span>
+                    </div>
+
+                    <h3>Gym & Hồ Bơi</h3>
+
+                    <p>
+                        Khu tập luyện hiện đại và hồ bơi
+                        ngoài trời dành cho khách lưu trú.
+                    </p>
+
+                    <ul class="home-service-benefits">
+                        <li><i class="bi bi-check-circle-fill"></i>Gym hiện đại</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Hồ bơi</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Khăn miễn phí</li>
+                    </ul>
+
+                    @if (canBookService)
+                    {
+                        <a asp-controller="Services"
+                           asp-action="CustomerServices"
+                           class="home-service-button">
+
+                            <i class="bi bi-bag-plus-fill"></i>
+                            Đặt dịch vụ
+
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Auth"
+                           asp-action="Login"
+                           class="home-service-button">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Đăng nhập để đặt dịch vụ
+
+                        </a>
+                    }
+
+                </article>
+            </div>
+
+            <!-- Xe -->
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <article class="home-service-card home-service-transport">
+
+                    <div class="home-service-top">
+                        <span class="home-service-icon">
+                            <i class="bi bi-car-front-fill"></i>
+                        </span>
+                        <span class="home-service-label">Transport</span>
+                    </div>
+
+                    <h3>Xe Đưa Đón</h3>
+
+                    <p>
+                        Xe đưa đón sân bay và các điểm
+                        du lịch theo yêu cầu.
+                    </p>
+
+                    <ul class="home-service-benefits">
+                        <li><i class="bi bi-check-circle-fill"></i>Xe 4-45 chỗ</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Sân bay</li>
+                        <li><i class="bi bi-check-circle-fill"></i>24/7</li>
+                    </ul>
+
+                    @if (canBookService)
+                    {
+                        <a asp-controller="Services"
+                           asp-action="CustomerServices"
+                           class="home-service-button">
+
+                            <i class="bi bi-bag-plus-fill"></i>
+                            Đặt dịch vụ
+
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Auth"
+                           asp-action="Login"
+                           class="home-service-button">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Đăng nhập để đặt dịch vụ
+
+                        </a>
+                    }
+
+                </article>
+            </div>
+
+            <!-- Trang trí -->
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <article class="home-service-card home-service-decoration">
+
+                    <div class="home-service-top">
+                        <span class="home-service-icon">
+                            <i class="bi bi-balloon-heart-fill"></i>
+                        </span>
+                        <span class="home-service-label">Decoration</span>
+                    </div>
+
+                    <h3>Trang Trí Sự Kiện</h3>
+
+                    <p>
+                        Trang trí sinh nhật và tuần
+                        trăng mật theo yêu cầu.
+                    </p>
+
+                    <ul class="home-service-benefits">
+                        <li><i class="bi bi-check-circle-fill"></i>Sinh nhật</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Tuần trăng mật</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Hoa & Bóng bay</li>
+                    </ul>
+
+                    @if (canBookService)
+                    {
+                        <a asp-controller="Services"
+                           asp-action="CustomerServices"
+                           class="home-service-button">
+
+                            <i class="bi bi-bag-plus-fill"></i>
+                            Đặt dịch vụ
+
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Auth"
+                           asp-action="Login"
+                           class="home-service-button">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Đăng nhập để đặt dịch vụ
+
+                        </a>
+                    }
+
+                </article>
             </div>
 
         </div>
-
-        <div class="home-service-note">
-
-            <i class="bi bi-info-circle-fill"></i>
-
-            <span>
-                Khách hàng cần có Booking đang ở
-                trước khi đặt dịch vụ khách sạn.
-            </span>
-
-        </div>
-
-    </div>
-
+   
 </section>
 
 <!-- =====================================================
@@ -1072,9 +1270,10 @@
 
                     <a asp-controller="Rooms"
                        asp-action="Search"
-                       class="home-promotion-button">
+                       class="featured-room-type-button">
 
-                        Tìm phòng ngay
+                        Xem phòng
+
                         <i class="bi bi-arrow-right"></i>
 
                     </a>

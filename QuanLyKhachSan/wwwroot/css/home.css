@@ -644,152 +644,220 @@
     background: #ffffff;
 }
 
+/*=========================================================
+    SERVICE CARD - ROYAL BLACK GOLD
+=========================================================*/
+
 .home-service-card {
     position: relative;
-    height: 100%;
     overflow: hidden;
+    height: 100%;
     padding: 36px;
-    border: 1px solid var(--home-border);
     border-radius: 22px;
-    background: #ffffff;
-    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.075);
-    transition: 0.32s ease;
+    border: 1px solid rgba(196,150,55,.6);
+    background: linear-gradient(145deg,#0b0b0b,#1b1b1b);
+    box-shadow: 0 18px 40px rgba(0,0,0,.55);
+    transition: .35s;
 }
+
+    .home-service-card:hover {
+        transform: translateY(-8px);
+        border-color: #d7a64a;
+        box-shadow: 0 25px 60px rgba(215,166,74,.45);
+    }
 
     .home-service-card::before {
         content: "";
         position: absolute;
-        top: -65px;
-        right: -65px;
-        width: 180px;
-        height: 180px;
+        width: 240px;
+        height: 240px;
         border-radius: 50%;
-        background: rgba(200, 169, 106, 0.1);
+        top: -110px;
+        right: -110px;
+        background: rgba(215,166,74,.08);
     }
 
-    .home-service-card:hover {
-        border-color: rgba(200, 169, 106, 0.5);
-        transform: translateY(-7px);
-        box-shadow: 0 25px 57px rgba(0, 0, 0, 0.12);
-    }
+/*================ TOP =================*/
 
 .home-service-top {
-    position: relative;
-    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 23px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 28px;
 }
+
+/*================ ICON =================*/
 
 .home-service-icon {
-    width: 70px;
-    height: 70px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    width: 74px;
+    height: 74px;
     border-radius: 18px;
-    background: rgba(200, 169, 106, 0.15);
-    color: #a77c39;
-    font-size: 31px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #d7a64a !important;
+    color: #111 !important;
+    font-size: 32px;
+    box-shadow: 0 10px 25px rgba(215,166,74,.45);
 }
 
+/*================ LABEL =================*/
+
 .home-service-label {
-    padding: 6px 11px;
-    border-radius: 50px;
-    background: #f5efe5;
-    color: #987033;
-    font-size: 10px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(215,166,74,.12) !important;
+    color: #e6bf68 !important;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    letter-spacing: 1px;
 }
+
+/*================ TITLE =================*/
 
 .home-service-card h3 {
     position: relative;
-    z-index: 1;
-    margin-bottom: 13px;
-    color: #242424;
-    font-family: "Cinzel", serif;
+    z-index: 2;
+    margin-bottom: 18px;
+    font-family: "Cinzel",serif;
     font-size: 27px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient( to bottom, #fff9d6 0%, #ffe89a 20%, #f8d66c 38%, #d7a64a 60%, #fff2ba 78%, #fffdf3 100% );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 1px 0 #fff4c8, 0 2px 2px rgba(0,0,0,.35), 0 4px 8px rgba(0,0,0,.45);
 }
 
-.home-service-card > p {
+/*================ DESCRIPTION =================*/
+
+.home-service-card p {
     position: relative;
-    z-index: 1;
-    min-height: 82px;
-    margin-bottom: 20px;
-    color: #707070;
-    line-height: 1.75;
+    z-index: 2;
+    color: #ededed;
+    line-height: 1.8;
+    min-height: 90px;
+    font-size: 17px;
 }
+
+/*================ BENEFITS =================*/
 
 .home-service-benefits {
     position: relative;
-    z-index: 1;
-    display: grid;
-    gap: 10px;
-    margin: 0 0 26px;
-    padding: 0;
+    z-index: 2;
     list-style: none;
-    color: #565656;
-    font-size: 13px;
+    margin: 25px 0;
+    padding: 0;
 }
 
     .home-service-benefits li {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        margin-bottom: 15px;
+        color: #f2f2f2;
+        font-size: 18px;
     }
 
     .home-service-benefits i {
-        color: #198754;
+        color: #d7a64a;
+        font-size: 18px;
     }
+
+/*================ BUTTON =================*/
 
 .home-service-button {
     position: relative;
-    z-index: 1;
-    width: 100%;
-    min-height: 50px;
-    display: inline-flex;
-    align-items: center;
+    z-index: 2;
+    display: flex;
     justify-content: center;
-    gap: 8px;
-    padding: 11px 19px;
-    border-radius: 9px;
-    background: var(--home-gold);
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 600;
-    transition: 0.25s ease;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 56px;
+    border-radius: 12px;
+    background: linear-gradient(180deg,#e8c56d,#c99637);
+    color: #111 !important;
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
+    transition: .3s;
 }
 
     .home-service-button:hover {
-        background: var(--home-gold-dark);
-        color: #ffffff;
-        transform: translateY(-2px);
+        background: linear-gradient(180deg,#f7df95,#d8a94d);
+        color: #000 !important;
     }
 
-.home-service-note {
-    max-width: 900px;
-    display: flex;
-    align-items: flex-start;
-    gap: 11px;
-    margin: 31px auto 0;
-    padding: 16px 18px;
-    border: 1px solid #dfe9f5;
-    border-radius: 11px;
-    background: #f3f8fd;
-    color: #536476;
-    font-size: 12px;
-    line-height: 1.7;
+/*=========================================================
+    TẤT CẢ 6 CARD DÙNG CHUNG MÀU
+=========================================================*/
+
+.home-service-laundry,
+.home-service-breakfast,
+.home-service-spa,
+.home-service-gym,
+.home-service-transport,
+.home-service-decoration {
+    background: linear-gradient(145deg,#0b0b0b,#1b1b1b) !important;
 }
 
-    .home-service-note i {
-        margin-top: 2px;
-        color: #3978b7;
-        font-size: 17px;
+    /* ICON */
+
+    .home-service-laundry .home-service-icon,
+    .home-service-breakfast .home-service-icon,
+    .home-service-spa .home-service-icon,
+    .home-service-gym .home-service-icon,
+    .home-service-transport .home-service-icon,
+    .home-service-decoration .home-service-icon {
+        background: #d7a64a !important;
+        color: #111 !important;
     }
 
+    /* LABEL */
+
+    .home-service-laundry .home-service-label,
+    .home-service-breakfast .home-service-label,
+    .home-service-spa .home-service-label,
+    .home-service-gym .home-service-label,
+    .home-service-transport .home-service-label,
+    .home-service-decoration .home-service-label {
+        background: rgba(215,166,74,.12) !important;
+        color: #e6bf68 !important;
+    }
+
+/*=========================================================
+    RESPONSIVE
+=========================================================*/
+
+@media(max-width:991px) {
+
+    .home-service-card {
+        padding: 28px;
+    }
+}
+
+@media(max-width:768px) {
+
+    .home-service-card {
+        padding: 22px;
+    }
+
+        .home-service-card h3 {
+            font-size: 24px;
+            color: #f5d77b;
+        }
+
+    .home-service-icon {    
+        width: 64px;
+        height: 64px;
+        font-size: 28px;
+    }
+}
 
 .home-promotion {
     padding: 20px 0 100px;
@@ -1038,5 +1106,297 @@
 
     .home-about-main-card h3 {
         font-size: 27px;
+    }
+}
+/* =========================================================
+   LOẠI PHÒNG NỔI BẬT - 2 HÀNG X 2 CỘT
+========================================================= */
+
+.featured-room-types {
+    position: relative;
+    padding: 95px 0;
+    background: radial-gradient( circle at top left, rgba(201, 160, 75, 0.09), transparent 32% ), #f7f4ee;
+}
+
+.featured-room-type-card {
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(187, 145, 61, 0.28);
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 18px 50px rgba(24, 20, 13, 0.1);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+    .featured-room-type-card:hover {
+        transform: translateY(-9px);
+        border-color: rgba(212, 175, 55, 0.8);
+        box-shadow: 0 26px 65px rgba(18, 15, 10, 0.18), 0 0 30px rgba(212, 175, 55, 0.12);
+    }
+
+/* Phần nền đen vàng phía trên */
+
+.featured-room-type-visual {
+    position: relative;
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient( 145deg, #0a0a0a 0%, #18150f 55%, #241c0f 100% );
+}
+
+    .featured-room-type-visual::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 115deg, transparent 20%, rgba(255, 224, 143, 0.07) 48%, transparent 75% );
+        transform: translateX(-100%);
+        transition: transform 0.8s ease;
+    }
+
+.featured-room-type-card:hover
+.featured-room-type-visual::after {
+    transform: translateX(100%);
+}
+
+.featured-room-type-glow {
+    position: absolute;
+    top: 25px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(217, 177, 87, 0.18);
+    filter: blur(35px);
+}
+
+.featured-room-type-icon {
+    position: relative;
+    z-index: 2;
+    width: 78px;
+    height: 78px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 17px;
+    border: 1px solid rgba(255, 221, 141, 0.5);
+    border-radius: 20px;
+    background: linear-gradient( 145deg, #fff2bd, #d7a648 55%, #956516 );
+    color: #201504;
+    font-size: 36px;
+    box-shadow: 0 12px 35px rgba(218, 174, 75, 0.3);
+}
+
+.featured-room-type-brand {
+    position: relative;
+    z-index: 2;
+    color: #e9ca80;
+    font-family: "Cinzel", serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.featured-room-type-badge {
+    position: absolute;
+    z-index: 3;
+    top: 20px;
+    right: 20px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 225, 154, 0.35);
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.14);
+    color: #f2d486;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+}
+
+/* Nội dung */
+
+.featured-room-type-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+    padding: 30px;
+}
+
+.featured-room-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.featured-room-type-kicker {
+    display: block;
+    margin-bottom: 7px;
+    color: #a97c30;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.featured-room-type-header h3 {
+    margin: 0;
+    color: #211d17;
+    font-family: "Cinzel", serif;
+    font-size: 29px;
+    font-weight: 700;
+}
+
+.featured-room-type-price {
+    flex-shrink: 0;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: linear-gradient( 145deg, #f6df9f, #c99a3d );
+    color: #211404;
+    text-align: right;
+    box-shadow: 0 8px 20px rgba(190, 143, 48, 0.2);
+}
+
+    .featured-room-type-price strong {
+        display: block;
+        font-size: 18px;
+        line-height: 1.1;
+    }
+
+    .featured-room-type-price span {
+        display: block;
+        margin-top: 4px;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+.featured-room-type-description {
+    min-height: 78px;
+    margin-bottom: 22px;
+    color: #74706a;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.featured-room-type-information {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 18px 0;
+    border-top: 1px solid #eee9df;
+    border-bottom: 1px solid #eee9df;
+}
+
+    .featured-room-type-information span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #5e5951;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .featured-room-type-information i {
+        color: #bc8b35;
+        font-size: 14px;
+    }
+
+.featured-room-type-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: auto;
+}
+
+.featured-room-available,
+.featured-room-unavailable {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.featured-room-available {
+    color: #198754;
+}
+
+.featured-room-unavailable {
+    color: #c33c3c;
+}
+
+.featured-room-type-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: linear-gradient( 145deg, #1a1a1a, #090909 );
+    color: #f0d07a;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+    .featured-room-type-button:hover {
+        background: linear-gradient( 145deg, #e1bd67, #ad7929 );
+        color: #171008;
+        transform: translateX(3px);
+    }
+
+/* Responsive */
+
+@media (max-width: 991px) {
+    .featured-room-types {
+        padding: 75px 0;
+    }
+
+    .featured-room-type-content {
+        padding: 25px;
+    }
+
+    .featured-room-type-header {
+        flex-direction: column;
+    }
+
+    .featured-room-type-price {
+        text-align: left;
+    }
+}
+
+@media (max-width: 575px) {
+    .featured-room-type-visual {
+        min-height: 200px;
+    }
+
+    .featured-room-type-content {
+        min-height: auto;
+        padding: 22px;
+    }
+
+    .featured-room-type-header h3 {
+        font-size: 24px;
+    }
+
+    .featured-room-type-information {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-room-type-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .featured-room-type-button {
+        width: 100%;
     }
 }

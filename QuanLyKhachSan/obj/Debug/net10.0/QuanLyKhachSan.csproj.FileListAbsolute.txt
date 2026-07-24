@@ -681,10 +681,7 @@ D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\Views\Shared\_Layou
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\bundle\QuanLyKhachSan.styles.css
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\projectbundle\QuanLyKhachSan.bundle.scp.css
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ykdsz8vmrm-{0}-euv7fo3wfm-euv7fo3wfm.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-9h7rj40151-9h7rj40151.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3bmu2ctekg-{0}-fvf6vtqqtz-fvf6vtqqtz.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-yohb5l0bak-yohb5l0bak.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-0w33h8npc0-0w33h8npc0.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\xrkz46z9ez-{0}-61n19gt1b8-61n19gt1b8.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-f3p764h0z9-f3p764h0z9.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mumn7hpnkf-{0}-t1cqhe9u97-t1cqhe9u97.gz
@@ -760,3 +757,6 @@ D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\refint\QuanLyKhachSan.dll
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.pdb
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.genruntimeconfig.cache
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\ref\QuanLyKhachSan.dll
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-eo78ddm06m-eo78ddm06m.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-hzzdlzanb0-hzzdlzanb0.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-an8umxeyct-an8umxeyct.gz
