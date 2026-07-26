@@ -57,6 +57,8 @@
 .home-hero {
     position: relative;
     min-height: 780px;
+    padding-top: 120px;
+    padding-bottom: 150px;
     overflow: hidden;
     background: radial-gradient(circle at 80% 24%, rgba(200, 169, 106, 0.33), transparent 27%), radial-gradient(circle at 63% 78%, rgba(112, 83, 38, 0.18), transparent 26%), linear-gradient(135deg, #090909 0%, #191919 50%, #302719 100%);
 }
@@ -92,7 +94,8 @@
     position: relative;
     z-index: 2;
     max-width: 850px;
-    padding-top: 80px;
+    padding-top: 20px;
+    padding-bottom: 40px;
     color: #ffffff;
 }
 
@@ -198,6 +201,9 @@
     flex-wrap: wrap;
     gap: 38px;
     margin-top: 42px;
+    padding-bottom: 60px;
+    position: relative;
+    z-index: 10;
 }
 
     .home-hero-highlights div {
@@ -220,10 +226,16 @@
 .home-search-section {
     position: relative;
     z-index: 20;
-    margin-top: -72px;
+    margin-top: -75px;
+    padding-bottom: 65px;
+    background: transparent;
 }
 
 .home-search-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
     padding: 30px;
     border: 1px solid rgba(200, 169, 106, 0.18);
     border-radius: 19px;
@@ -283,6 +295,8 @@
 .home-search-button {
     width: 100%;
     min-height: 53px;
+    padding: 12px 14px;
+    white-space: nowrap;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -852,7 +866,7 @@
             color: #f5d77b;
         }
 
-    .home-service-icon {    
+    .home-service-icon {
         width: 64px;
         height: 64px;
         font-size: 28px;
@@ -968,13 +982,16 @@
     }
 
     .home-hero {
-        min-height: 720px;
+        min-height: auto;
+        padding-top: 115px;
+        padding-bottom: 70px;
         text-align: center;
     }
 
     .home-hero-content {
         margin: 0 auto;
-        padding-top: 120px;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 
     .home-hero-actions,
@@ -983,7 +1000,8 @@
     }
 
     .home-search-section {
-        margin-top: -48px;
+        margin-top: 0;
+        padding: 30px 0 55px;
     }
 
     .home-about-content {
@@ -1007,11 +1025,14 @@
         }
 
     .home-hero {
-        min-height: 690px;
+        min-height: auto;
+        padding-top: 105px;
+        padding-bottom: 55px;
     }
 
     .home-hero-content {
-        padding-top: 110px;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
         .home-hero-content > p {
@@ -1399,4 +1420,58 @@
     .featured-room-type-button {
         width: 100%;
     }
+}
+
+
+/* =========================================================
+   FIX HERO VÀ FORM TÌM PHÒNG KHÔNG BỊ CHỒNG LÊN NHAU
+========================================================= */
+.home-hero .min-vh-100 {
+    min-height: auto !important;
+}
+
+.home-hero-highlights {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 10px;
+}
+
+.home-search-section {
+    margin-top: 0 !important;
+}
+
+.home-search-card {
+    transform: none !important;
+}
+
+@media (max-width: 991.98px) {
+    .home-search-section {
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .home-search-section {
+        padding: 25px 0 50px;
+    }
+
+    .home-search-card {
+        padding: 24px 18px;
+        border-radius: 18px;
+    }
+}
+
+
+/* HALF OVER HERO SEARCH */
+.home-search-section {
+    margin-top: -75px !important;
+    background: transparent !important;
+}
+
+.home-hero {
+    padding-bottom: 150px !important;
+}
+
+.home-hero-highlights {
+    padding-bottom: 60px !important;
 }

@@ -66,6 +66,7 @@
             PaymentStatus.Paid => "Đã thanh toán",
             PaymentStatus.Pending => "Đang xử lý",
             PaymentStatus.Failed => "Thất bại",
+            PaymentStatus.Refunded => "Đã hoàn tiền",
             _ => status.ToString()
         };
     }
@@ -77,14 +78,12 @@
             PaymentStatus.Paid => "payment-status-paid",
             PaymentStatus.Pending => "payment-status-pending",
             PaymentStatus.Failed => "payment-status-failed",
+            PaymentStatus.Refunded => "payment-status-refunded",
             _ => "payment-status-default"
         };
     }
 }
 
-<!-- =====================================================
-     TIÊU ĐỀ
-     ===================================================== -->
 <section class="admin-dashboard-heading">
 
     <div>
@@ -128,15 +127,13 @@
 
 </section>
 
-<!-- =====================================================
-     THÔNG BÁO
-     ===================================================== -->
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show"
          role="alert">
 
         <i class="bi bi-check-circle-fill me-2"></i>
+
         @TempData["Success"]
 
         <button type="button"
@@ -154,6 +151,7 @@
          role="alert">
 
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
         @TempData["Error"]
 
         <button type="button"
@@ -165,12 +163,8 @@
     </div>
 }
 
-<!-- =====================================================
-     THỐNG KÊ
-     ===================================================== -->
 <div class="row g-4 mb-4">
 
-    <!-- Tổng giao dịch -->
     <div class="col-xl-3 col-md-6">
 
         <div class="payment-stat-card">
@@ -203,7 +197,6 @@
 
     </div>
 
-    <!-- Đã thanh toán -->
     <div class="col-xl-3 col-md-6">
 
         <div class="payment-stat-card">
@@ -236,7 +229,6 @@
 
     </div>
 
-    <!-- Tổng tiền -->
     <div class="col-xl-3 col-md-6">
 
         <div class="payment-stat-card">
@@ -258,8 +250,11 @@
             </span>
 
             <strong class="payment-stat-value payment-money-value">
+
                 @totalPaidAmount.ToString("N0")
+
                 <small>VNĐ</small>
+
             </strong>
 
             <small>
@@ -270,7 +265,6 @@
 
     </div>
 
-    <!-- Hôm nay -->
     <div class="col-xl-3 col-md-6">
 
         <div class="payment-stat-card">
@@ -292,8 +286,11 @@
             </span>
 
             <strong class="payment-stat-value payment-money-value">
+
                 @paidToday.ToString("N0")
+
                 <small>VNĐ</small>
+
             </strong>
 
             <small>
@@ -306,9 +303,6 @@
 
 </div>
 
-<!-- =====================================================
-     DANH SÁCH THANH TOÁN
-     ===================================================== -->
 <div class="admin-panel">
 
     <div class="payment-panel-header">
@@ -358,6 +352,10 @@
 
                 <option value="Failed">
                     Thất bại
+                </option>
+
+                <option value="Refunded">
+                    Đã hoàn tiền
                 </option>
 
             </select>
@@ -443,15 +441,18 @@
                     @foreach (Payment payment in payments)
                     {
                         string invoiceCode =
-                            payment.Invoice?.InvoiceCode
-                            ?? "Không xác định";
+                        payment.Invoice?.InvoiceCode
+                        ?? "Không xác định";
+
+                        string searchData =
+                        $"{invoiceCode} {payment.TransactionCode} {payment.Note}"
+                        .ToLower();
 
                         <tr class="payment-row"
                             data-status="@payment.PaymentStatus"
                             data-method="@payment.PaymentMethod"
-                            data-search="@($"{invoiceCode} {payment.TransactionCode} {payment.Note}".ToLower())">
+                            data-search="@searchData">
 
-                            <!-- Mã hóa đơn -->
                             <td class="ps-4">
 
                                 <div class="payment-invoice-cell">
@@ -476,71 +477,73 @@
 
                             </td>
 
-                            <!-- Phương thức -->
                             <td>
 
                                 <span class="payment-method">
 
                                     <i class="bi @PaymentMethodIcon(
                                                                                payment.PaymentMethod)">
-                                    </i>
+                            </i>
 
                                     @PaymentMethodText(
-                                        payment.PaymentMethod)
+                                                        payment.PaymentMethod)
 
-                                </span>
+                        </span>
 
-                            </td>
+                    </td>
 
-                            <!-- Trạng thái -->
-                            <td>
+                    <td>
 
-                                <span class="payment-status
+                        <span class="payment-status
                                     @PaymentStatusClass(
-                                          payment.PaymentStatus)">
+                                                                      payment.PaymentStatus)">
 
-                                    @if (payment.PaymentStatus ==
-                                         PaymentStatus.Paid)
+                            @if (payment.PaymentStatus ==
+                                                        PaymentStatus.Paid)
                                     {
                                         <i class="bi bi-check-circle-fill"></i>
                                     }
                                     else if (payment.PaymentStatus ==
-                                              PaymentStatus.Pending)
+                                    PaymentStatus.Pending)
                                     {
                                         <i class="bi bi-hourglass-split"></i>
                                     }
-                                    else
+                                    else if (payment.PaymentStatus ==
+                                    PaymentStatus.Failed)
                                     {
                                         <i class="bi bi-x-circle-fill"></i>
                                     }
+                                    else if (payment.PaymentStatus ==
+                                    PaymentStatus.Refunded)
+                                    {
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    }
 
                                     @PaymentStatusText(
-                                        payment.PaymentStatus)
+                                    payment.PaymentStatus)
 
-                                </span>
+                        </span>
 
-                            </td>
+                    </td>
 
-                            <!-- Số tiền -->
-                            <td>
+                    <td>
 
-                                <strong class="payment-amount">
+                        <strong class="payment-amount">
 
-                                    @payment.Amount.ToString("N0")
+                            @payment.Amount.ToString("N0")
 
-                                    <small>
-                                        VNĐ
-                                    </small>
+                            <small>
+                                VNĐ
+                            </small>
 
-                                </strong>
+                        </strong>
 
-                            </td>
+                    </td>
 
-                            <!-- Mã giao dịch -->
-                            <td>
+                    <td>
 
-                                @if (!string.IsNullOrWhiteSpace(
-                                    payment.TransactionCode))
+                        @if (!string.IsNullOrWhiteSpace(
+                                                payment.TransactionCode))
                                 {
                                     <code class="payment-transaction-code">
                                         @payment.TransactionCode
@@ -555,30 +558,28 @@
 
                             </td>
 
-                            <!-- Ngày -->
                             <td>
 
                                 <div class="payment-date">
 
                                     <strong>
                                         @payment.PaymentDate.ToString(
-                                            "dd/MM/yyyy")
-                                    </strong>
+                                                    "dd/MM/yyyy")
+                            </strong>
 
-                                    <small>
-                                        @payment.PaymentDate.ToString(
-                                            "HH:mm")
-                                    </small>
+                            <small>
+                                @payment.PaymentDate.ToString(
+                                                                                        "HH:mm")
+                            </small>
 
-                                </div>
+                        </div>
 
-                            </td>
+                    </td>
 
-                            <!-- Ghi chú -->
-                            <td>
+                    <td>
 
-                                @if (!string.IsNullOrWhiteSpace(
-                                    payment.Note))
+                        @if (!string.IsNullOrWhiteSpace(
+                                                payment.Note))
                                 {
                                     <span class="payment-note"
                                           title="@payment.Note">
@@ -596,14 +597,13 @@
 
                             </td>
 
-                            <!-- Thao tác -->
                             <td class="text-end pe-4 text-nowrap">
 
                                 <a asp-controller="Payments"
                                    asp-action="Details"
                                    asp-route-id="@payment.Id"
                                    class="payment-action-button
-                                    payment-action-details"
+                                                  payment-action-details"
                                    title="Xem chi tiết">
 
                                     <i class="bi bi-eye"></i>
@@ -614,7 +614,7 @@
                                    asp-action="Edit"
                                    asp-route-id="@payment.Id"
                                    class="payment-action-button
-                                    payment-action-edit"
+                                                  payment-action-edit"
                                    title="Chỉnh sửa">
 
                                     <i class="bi bi-pencil-square"></i>
@@ -627,7 +627,7 @@
                                        asp-action="Delete"
                                        asp-route-id="@payment.Id"
                                        class="payment-action-button
-                                        payment-action-delete"
+                                                          payment-action-delete"
                                        title="Xóa">
 
                                         <i class="bi bi-trash"></i>
@@ -689,7 +689,6 @@
     }
 
 </div>
-
 @section Styles
 {
     <style>
@@ -937,6 +936,11 @@
             color: #c34c55;
         }
 
+        .payment-status-refunded {
+            background: #eaf0ff;
+            color: #4f6fd8;
+        }
+
         .payment-status-default {
             background: #eceef2;
             color: #646b79;
@@ -1065,43 +1069,105 @@
         }
     </style>
 }
+
 @section Scripts
 {
     <script>
-        document.addEventListener( "DOMContentLoaded",
-            function () {
-                const searchInput = document.getElementById( "paymentSearchInput" );
-                const statusFilter = document.getElementById( "paymentStatusFilter" );
-                const methodFilter = document.getElementById( "paymentMethodFilter" );
-                const rows = document.querySelectorAll( ".payment-row" );
-                const emptyMessage = document.getElementById( "paymentEmptyFilter" );
-                function filterPayments() {
-                    const searchValue = searchInput?.value.trim().toLowerCase() ?? "";
-                    const statusValue = statusFilter?.value ?? "";
-                    const methodValue = methodFilter?.value ?? "";
-                    let visibleCount = 0;
-                    rows.forEach(function (row) {
-                        const rowSearch = row.dataset.search ?? "";
-                        const rowStatus = row.dataset.status ?? "";
-                        const rowMethod = row.dataset.method ?? "";
-                        const searchMatched = !searchValue || rowSearch.includes( searchValue );
-                        const statusMatched = !statusValue || rowStatus === statusValue;
-                        const methodMatched = !methodValue || rowMethod === methodValue;
-                        const visible = searchMatched && statusMatched && methodMatched;
-                        row.classList.toggle( "d-none", );
-                        if (visible) {
-                            visibleCount++;
-                        }
-                    });
-                    if (emptyMessage) {
-                        emptyMessage.classList.toggle( "d-none", visibleCount > 0 );
-                    }
-                }
-                searchInput?.addEventListener( "input", filterPayments );
-                statusFilter?.addEventListener( "change", filterPayments );
-                methodFilter?.addEventListener( "change", filterPayments );
+        document.addEventListener("DOMContentLoaded", function () {
 
+            const searchInput =
+                document.getElementById("paymentSearchInput");
+
+            const statusFilter =
+                document.getElementById("paymentStatusFilter");
+
+            const methodFilter =
+                document.getElementById("paymentMethodFilter");
+
+            const rows =
+                document.querySelectorAll(".payment-row");
+
+            const emptyMessage =
+                document.getElementById("paymentEmptyFilter");
+
+            function filterPayments() {
+
+                const searchValue =
+                    searchInput?.value
+                        .trim()
+                        .toLowerCase() ?? "";
+
+                const statusValue =
+                    statusFilter?.value ?? "";
+
+                const methodValue =
+                    methodFilter?.value ?? "";
+
+                let visibleCount = 0;
+
+                rows.forEach(function (row) {
+
+                    const rowSearch =
+                        (row.dataset.search ?? "")
+                            .toLowerCase();
+
+                    const rowStatus =
+                        row.dataset.status ?? "";
+
+                    const rowMethod =
+                        row.dataset.method ?? "";
+
+                    const searchMatched =
+                        searchValue === "" ||
+                        rowSearch.includes(searchValue);
+
+                    const statusMatched =
+                        statusValue === "" ||
+                        rowStatus === statusValue;
+
+                    const methodMatched =
+                        methodValue === "" ||
+                        rowMethod === methodValue;
+
+                    const visible =
+                        searchMatched &&
+                        statusMatched &&
+                        methodMatched;
+
+                    row.classList.toggle(
+                        "d-none",
+                        !visible
+                    );
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+                });
+
+                if (emptyMessage) {
+                    emptyMessage.classList.toggle(
+                        "d-none",
+                        visibleCount > 0
+                    );
+                }
             }
-        );
+
+            searchInput?.addEventListener(
+                "input",
+                filterPayments
+            );
+
+            statusFilter?.addEventListener(
+                "change",
+                filterPayments
+            );
+
+            methodFilter?.addEventListener(
+                "change",
+                filterPayments
+            );
+
+            filterPayments();
+        });
     </script>
 }

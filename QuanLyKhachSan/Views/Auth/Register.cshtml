@@ -1,93 +1,290 @@
 ﻿@model QuanLyKhachSan.ViewModels.Account.RegisterViewModel
 
 @{
-    ViewData["Title"] = "Đăng Ký";
+    ViewData["Title"] = "Đăng ký";
+    Layout = "_CustomerLayout";
 }
 
-<h2>Đăng Ký Tài Khoản</h2>
+<section class="auth-page">
+    <div class="auth-shell auth-shell-register">
+        <div class="auth-visual">
+            <div class="auth-overlay"></div>
+            <div class="auth-brand">
+                <span class="auth-brand-icon">
+                    <i class="bi bi-building-fill"></i>
+                </span>
+                <div>
+                    <strong>LUXURY</strong>
+                    <small>HOTEL &amp; RESORT</small>
+                </div>
+            </div>
 
-<form asp-action="Register" method="post">
+            <div class="auth-visual-content">
+                <span class="auth-kicker">
+                    <i class="bi bi-stars"></i>
+                    Thành viên Luxury Hotel
+                </span>
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <h1>Tạo tài khoản của bạn</h1>
 
-    <div class="mb-3">
-        <label asp-for="Username"></label>
-        <input asp-for="Username" class="form-control" />
-        <span asp-validation-for="Username" class="text-danger"></span>
+                <p>
+                    Đăng ký để đặt phòng nhanh hơn,
+                    quản lý Booking và sử dụng dịch vụ khách sạn.
+                </p>
+
+                <div class="auth-highlights">
+                    <div>
+                        <i class="bi bi-lightning-charge"></i>
+                        <span>Đặt phòng nhanh</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt"></i>
+                        <span>Quản lý hóa đơn</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-bag-check"></i>
+                        <span>Đặt dịch vụ dễ dàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-form-panel">
+            <div class="auth-form-wrap auth-register-wrap">
+                <div class="auth-form-heading">
+                    <span>Đăng ký tài khoản</span>
+                    <h2>Bắt đầu ngay</h2>
+                    <p>Điền đầy đủ thông tin để tạo tài khoản khách hàng.</p>
+                </div>
+
+                <form asp-action="Register" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="auth-validation-summary">
+                    </div>
+
+                    <div class="auth-form-grid">
+                        <div class="auth-field">
+                            <label asp-for="Username">Tên đăng nhập</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input asp-for="Username"
+                                       class="auth-input"
+                                       placeholder="Tên đăng nhập"
+                                       autocomplete="username" />
+                            </div>
+                            <span asp-validation-for="Username"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="FullName">Họ và tên</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-person-vcard"></i>
+                                </span>
+                                <input asp-for="FullName"
+                                       class="auth-input"
+                                       placeholder="Họ và tên đầy đủ"
+                                       autocomplete="name" />
+                            </div>
+                            <span asp-validation-for="FullName"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="Gender">Giới tính</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-gender-ambiguous"></i>
+                                </span>
+                                <select asp-for="Gender"
+                                        class="auth-input auth-select">
+                                    <option value="">-- Chọn giới tính --</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="Gender"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="DateOfBirth">Ngày sinh</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-calendar3"></i>
+                                </span>
+                                <input asp-for="DateOfBirth"
+                                       type="date"
+                                       class="auth-input" />
+                            </div>
+                            <span asp-validation-for="DateOfBirth"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="PhoneNumber">Số điện thoại</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-telephone"></i>
+                                </span>
+                                <input asp-for="PhoneNumber"
+                                       class="auth-input"
+                                       placeholder="Nhập số điện thoại"
+                                       autocomplete="tel" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="Email">Email</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input asp-for="Email"
+                                       type="email"
+                                       class="auth-input"
+                                       placeholder="example@email.com"
+                                       autocomplete="email" />
+                            </div>
+                            <span asp-validation-for="Email"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field auth-field-full">
+                            <label asp-for="Address">Địa chỉ</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </span>
+                                <input asp-for="Address"
+                                       class="auth-input"
+                                       placeholder="Nhập địa chỉ của bạn"
+                                       autocomplete="street-address" />
+                            </div>
+                            <span asp-validation-for="Address"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field auth-field-full">
+                            <label asp-for="CitizenId">CCCD/CMND</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-credit-card-2-front"></i>
+                                </span>
+                                <input asp-for="CitizenId"
+                                       class="auth-input"
+                                       placeholder="Nhập số CCCD/CMND" />
+                            </div>
+                            <span asp-validation-for="CitizenId"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="Password">Mật khẩu</label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input asp-for="Password"
+                                       type="password"
+                                       id="registerPassword"
+                                       class="auth-input auth-password-input"
+                                       placeholder="Tạo mật khẩu"
+                                       autocomplete="new-password" />
+                                <button type="button"
+                                        class="auth-password-toggle"
+                                        data-target="registerPassword"
+                                        aria-label="Hiện hoặc ẩn mật khẩu">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password"
+                                  class="auth-error"></span>
+                        </div>
+
+                        <div class="auth-field">
+                            <label asp-for="ConfirmPassword">
+                                Xác nhận mật khẩu
+                            </label>
+                            <div class="auth-input-group">
+                                <span class="auth-input-icon">
+                                    <i class="bi bi-shield-lock"></i>
+                                </span>
+                                <input asp-for="ConfirmPassword"
+                                       type="password"
+                                       id="confirmPassword"
+                                       class="auth-input auth-password-input"
+                                       placeholder="Nhập lại mật khẩu"
+                                       autocomplete="new-password" />
+                                <button type="button"
+                                        class="auth-password-toggle"
+                                        data-target="confirmPassword"
+                                        aria-label="Hiện hoặc ẩn mật khẩu">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="auth-error"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="auth-primary-button">
+                        <i class="bi bi-person-plus"></i>
+                        Tạo tài khoản
+                    </button>
+
+                    <p class="auth-switch">
+                        Đã có tài khoản?
+                        <a asp-controller="Auth"
+                           asp-action="Login">
+                            Đăng nhập
+                        </a>
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="FullName"></label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Gender"></label>
-        <select asp-for="Gender" class="form-control">
-            <option value="">-- Chọn giới tính --</option>
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-        </select>
-        <span asp-validation-for="Gender" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="DateOfBirth"></label>
-        <input asp-for="DateOfBirth"
-               type="date"
-               class="form-control" />
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="PhoneNumber"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Email"></label>
-        <input asp-for="Email"
-               type="email"
-               class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Address"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="CitizenId"></label>
-        <input asp-for="CitizenId" class="form-control" />
-        <span asp-validation-for="CitizenId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Password"></label>
-        <input asp-for="Password"
-               type="password"
-               class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword"
-               type="password"
-               class="form-control" />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">
-        Đăng Ký
-    </button>
-
-</form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelectorAll(".auth-password-toggle")
+            .forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const input = document.getElementById(
+                        button.dataset.target
+                    );
+
+                    if (!input) {
+                        return;
+                    }
+
+                    const isPassword =
+                        input.type === "password";
+
+                    input.type =
+                        isPassword ? "text" : "password";
+
+                    const icon =
+                        button.querySelector("i");
+
+                    if (icon) {
+                        icon.className =
+                            isPassword
+                                ? "bi bi-eye-slash"
+                                : "bi bi-eye";
+                    }
+                });
+            });
+    </script>
 }

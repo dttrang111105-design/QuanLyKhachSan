@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,8 +15,6 @@ public class CustomersController : Controller
         _context = context;
     }
 
-    // GET: CUSTOMERS
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
         var customers = await _context.Customers
@@ -38,7 +35,6 @@ public class CustomersController : Controller
         return View(customers);
     }
 
-    // GET: CUSTOMERS/Details/5
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -47,7 +43,14 @@ public class CustomersController : Controller
         }
 
         var customer = await _context.Customers
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .AsNoTracking()
+            .Include(x => x.Account)
+            .Include(x => x.Bookings.Where(b => !b.IsDeleted))
+            .Include(x => x.Reviews.Where(r => !r.IsDeleted))
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
         if (customer == null)
         {
             return NotFound();
@@ -56,36 +59,44 @@ public class CustomersController : Controller
         return View(customer);
     }
 
-    // GET: CUSTOMERS/Create
-    public IActionResult Create()
+    [HttpGet]
+    public async Task<IActionResult> Create()
     {
-        ViewData["AccountId"] =
-            new SelectList(_context.Accounts, "Id", "Username");
-
-        return View();
+        await LoadAccountsAsync();
+        return View(new Customer());
     }
 
-    // POST: CUSTOMERS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("AccountId,FullName,Gender,DateOfBirth,Phone,Email,Address,CitizenId,Avatar")] Customer customer)
+    public async Task<IActionResult> Create(
+        [Bind(
+            "AccountId,FullName,Gender,DateOfBirth,Phone," +
+            "Email,Address,CitizenId,Avatar")]
+        Customer model)
     {
-        if (ModelState.IsValid)
+        NormalizeCustomer(model);
+        ValidateCustomer(model);
+
+        if (!ModelState.IsValid)
         {
-            _context.Add(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await LoadAccountsAsync(model.AccountId);
+            return View(model);
         }
 
-        ViewData["AccountId"] =
-            new SelectList(_context.Accounts,"Id","Username",customer.AccountId);
+        model.CreatedAt = DateTime.Now;
+        model.UpdatedAt = DateTime.Now;
+        model.IsDeleted = false;
 
-        return View(customer);
+        _context.Customers.Add(model);
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            $"Thêm khách hàng {model.FullName} thành công.";
+
+        return RedirectToAction(nameof(Index));
     }
 
-    // GET: CUSTOMERS/Edit/5
+    [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -93,50 +104,75 @@ public class CustomersController : Controller
             return NotFound();
         }
 
-        var customer = await _context.Customers.FindAsync(id);
+        var customer = await _context.Customers
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
         if (customer == null)
         {
             return NotFound();
         }
+
+        await LoadAccountsAsync(customer.AccountId);
+
         return View(customer);
     }
 
-    // POST: CUSTOMERS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("AccountId,Account,FullName,Gender,DateOfBirth,Phone,Email,Address,CitizenId,Avatar,Bookings,Reviews,Id,CreatedAt,UpdatedAt,IsDeleted")] Customer customer)
+    public async Task<IActionResult> Edit(
+        int id,
+        [Bind(
+            "Id,AccountId,FullName,Gender,DateOfBirth,Phone," +
+            "Email,Address,CitizenId,Avatar")]
+        Customer model)
     {
-        if (id != customer.Id)
+        if (id != model.Id)
         {
             return NotFound();
         }
 
-        if (ModelState.IsValid)
+        NormalizeCustomer(model);
+        ValidateCustomer(model);
+
+        var customer = await _context.Customers
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
+        if (customer == null)
         {
-            try
-            {
-                _context.Update(customer);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(customer.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
-        return View(customer);
+
+        if (!ModelState.IsValid)
+        {
+            await LoadAccountsAsync(model.AccountId);
+            return View(model);
+        }
+
+        customer.AccountId = model.AccountId;
+        customer.FullName = model.FullName;
+        customer.Gender = model.Gender;
+        customer.DateOfBirth = model.DateOfBirth;
+        customer.Phone = model.Phone;
+        customer.Email = model.Email;
+        customer.Address = model.Address;
+        customer.CitizenId = model.CitizenId;
+        customer.Avatar = model.Avatar;
+        customer.UpdatedAt = DateTime.Now;
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            $"Cập nhật khách hàng {customer.FullName} thành công.";
+
+        return RedirectToAction(nameof(Details), new { id = customer.Id });
     }
 
-    // GET: CUSTOMERS/Delete/5
+    [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -145,7 +181,11 @@ public class CustomersController : Controller
         }
 
         var customer = await _context.Customers
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
         if (customer == null)
         {
             return NotFound();
@@ -154,23 +194,78 @@ public class CustomersController : Controller
         return View(customer);
     }
 
-    // POST: CUSTOMERS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var customer = await _context.Customers.FindAsync(id);
-        if (customer != null)
+        var customer = await _context.Customers
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
+        if (customer == null)
         {
-            _context.Customers.Remove(customer);
+            return NotFound();
         }
 
+        customer.IsDeleted = true;
+        customer.UpdatedAt = DateTime.Now;
+
         await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            $"Xóa khách hàng {customer.FullName} thành công.";
+
         return RedirectToAction(nameof(Index));
     }
 
-    private bool CustomerExists(int? id)
+    private async Task LoadAccountsAsync(int? selectedId = null)
     {
-        return _context.Customers.Any(e => e.Id == id);
+        var accounts = await _context.Accounts
+            .AsNoTracking()
+            .OrderBy(x => x.Username)
+            .ToListAsync();
+
+        ViewData["AccountId"] = new SelectList(
+            accounts,
+            "Id",
+            "Username",
+            selectedId);
+    }
+
+    private static void NormalizeCustomer(Customer model)
+    {
+        model.FullName = model.FullName?.Trim() ?? string.Empty;
+        model.Gender = model.Gender?.Trim();
+        model.Phone = model.Phone?.Trim();
+        model.Email = model.Email?.Trim();
+        model.Address = model.Address?.Trim();
+        model.CitizenId = model.CitizenId?.Trim();
+        model.Avatar = model.Avatar?.Trim();
+    }
+
+    private void ValidateCustomer(Customer model)
+    {
+        if (string.IsNullOrWhiteSpace(model.FullName))
+        {
+            ModelState.AddModelError(
+                nameof(Customer.FullName),
+                "Vui lòng nhập họ tên khách hàng.");
+        }
+
+        if (model.DateOfBirth.HasValue &&
+            model.DateOfBirth.Value.Date > DateTime.Today)
+        {
+            ModelState.AddModelError(
+                nameof(Customer.DateOfBirth),
+                "Ngày sinh không được lớn hơn ngày hiện tại.");
+        }
+    }
+
+    private bool CustomerExists(int id)
+    {
+        return _context.Customers.Any(x =>
+            x.Id == id &&
+            !x.IsDeleted);
     }
 }

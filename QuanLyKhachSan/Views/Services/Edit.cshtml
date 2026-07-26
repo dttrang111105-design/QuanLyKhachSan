@@ -4,79 +4,365 @@
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-    ViewData["Title"] = "Edit";
+
+    ViewData["Title"] = "Chỉnh sửa dịch vụ";
+
+    string previewImage = string.IsNullOrWhiteSpace(Model.ImageUrl)
+        ? "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80"
+        : Model.ImageUrl;
 }
 
-<h1>Edit</h1>
+<style>
+    .service-edit-page {
+        max-width: 1080px;
+        margin: 0 auto;
+    }
 
-<h4>Service</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="ServiceName" class="control-label"></label>
-                <input asp-for="ServiceName" class="form-control" />
-                <span asp-validation-for="ServiceName" class="text-danger"></span>
+    .service-edit-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .service-edit-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .service-edit-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .service-edit-back {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fff;
+        color: #555c69;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .service-edit-card {
+        overflow: hidden;
+        border: 1px solid #e7e9ee;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 22px 55px rgba(34,38,51,.08);
+    }
+
+    .service-edit-card-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 26px 28px;
+        background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111,#332717);
+        color: #fff;
+    }
+
+    .service-edit-icon {
+        width: 56px;
+        height: 56px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 56px;
+        border-radius: 16px;
+        background: linear-gradient(145deg,#e5c470,#ad7729);
+        color: #171008;
+        font-size: 25px;
+    }
+
+    .service-edit-card-header h3 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .service-edit-card-header p {
+        margin: 0;
+        color: rgba(255,255,255,.65);
+    }
+
+    .service-edit-body {
+        padding: 30px;
+    }
+
+    .service-edit-preview {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        background: #f5f5f5;
+    }
+
+    .service-edit-field label {
+        margin-bottom: 7px;
+        color: #3c424d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .service-edit-field .form-control,
+    .service-edit-field .form-select {
+        min-height: 50px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fcfcfd;
+        box-shadow: none;
+    }
+
+    .service-edit-field textarea.form-control {
+        min-height: 145px;
+        resize: vertical;
+    }
+
+    .service-edit-field .form-control:focus,
+    .service-edit-field .form-select:focus {
+        border-color: #b58a42;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(181,138,66,.12);
+    }
+
+    .service-edit-status {
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fcfcfd;
+    }
+
+    .service-edit-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid #eceef2;
+    }
+
+    .service-edit-save,
+    .service-edit-cancel {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 21px;
+        border-radius: 11px;
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .service-edit-save {
+        border: 1px solid #b58a42;
+        background: linear-gradient(145deg,#d8b25e,#a8752d);
+        color: #fff;
+    }
+
+    .service-edit-cancel {
+        border: 1px solid #dfe2e8;
+        background: #fff;
+        color: #555c69;
+    }
+
+    @@media (max-width: 767.98px) {
+        .service-edit-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .service-edit-card-header,
+        .service-edit-body {
+            padding: 22px;
+        }
+
+        .service-edit-actions {
+            flex-direction: column;
+        }
+
+        .service-edit-save,
+        .service-edit-cancel {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="service-edit-page">
+    <div class="service-edit-heading">
+        <div>
+            <span class="service-edit-kicker">Quản lý dịch vụ</span>
+            <h2>Chỉnh sửa dịch vụ</h2>
+        </div>
+
+        <a asp-controller="Services"
+           asp-action="Index"
+           class="service-edit-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="service-edit-card">
+        <div class="service-edit-card-header">
+            <span class="service-edit-icon">
+                <i class="bi bi-bell-fill"></i>
+            </span>
+
+            <div>
+                <h3>@Model.ServiceName</h3>
+                <p>Cập nhật giá, hình ảnh và trạng thái cung cấp.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsAvailable" class="control-label"></label>
-                <input asp-for="IsAvailable" class="form-check-input" />
-                <span asp-validation-for="IsAvailable" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ServiceBookings" class="control-label"></label>
-                <input asp-for="ServiceBookings" class="form-control" />
-                <span asp-validation-for="ServiceBookings" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="service-edit-body">
+            <form asp-controller="Services"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <img id="serviceImagePreview"
+                             src="@previewImage"
+                             class="service-edit-preview"
+                             alt="Ảnh dịch vụ" />
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div class="row g-4">
+                            <div class="col-md-6 service-edit-field">
+                                <label asp-for="ServiceName">Tên dịch vụ</label>
+                                <input asp-for="ServiceName"
+                                       class="form-control"
+                                       placeholder="Nhập tên dịch vụ" />
+                                <span asp-validation-for="ServiceName"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 service-edit-field">
+                                <label asp-for="Category">Danh mục</label>
+                                <input asp-for="Category"
+                                       class="form-control"
+                                       placeholder="Ví dụ: Chăm sóc" />
+                                <span asp-validation-for="Category"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 service-edit-field">
+                                <label asp-for="Price">Giá dịch vụ</label>
+                                <div class="input-group">
+                                    <input asp-for="Price"
+                                           type="number"
+                                           min="0"
+                                           step="1000"
+                                           class="form-control" />
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                                <span asp-validation-for="Price"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 service-edit-field">
+                                <label asp-for="IsAvailable">Trạng thái</label>
+                                <div class="service-edit-status">
+                                    <div class="form-check form-switch mb-0">
+                                        <input asp-for="IsAvailable"
+                                               class="form-check-input" />
+                                        <label asp-for="IsAvailable"
+                                               class="form-check-label">
+                                            Đang cung cấp
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 service-edit-field">
+                                <label asp-for="ImageUrl">Đường dẫn ảnh</label>
+                                <input asp-for="ImageUrl"
+                                       id="serviceImageUrl"
+                                       class="form-control"
+                                       placeholder="https://... hoặc /images/..." />
+                                <span asp-validation-for="ImageUrl"
+                                      class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 service-edit-field">
+                        <label asp-for="Description">Mô tả</label>
+                        <textarea asp-for="Description"
+                                  class="form-control"
+                                  placeholder="Nhập mô tả dịch vụ"></textarea>
+                        <span asp-validation-for="Description"
+                              class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="service-edit-actions">
+                    <button type="submit"
+                            class="service-edit-save">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu thay đổi
+                    </button>
+
+                    <a asp-controller="Services"
+                       asp-action="Details"
+                       asp-route-id="@Model.Id"
+                       class="service-edit-cancel">
+                        <i class="bi bi-x-circle"></i>
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const imageInput =
+                document.getElementById("serviceImageUrl");
+
+            const preview =
+                document.getElementById("serviceImagePreview");
+
+            imageInput?.addEventListener("input", function () {
+                const value = imageInput.value.trim();
+
+                if (value) {
+                    preview.src = value;
+                }
+            });
+        });
+    </script>
 }

@@ -72,12 +72,11 @@
 
                         @if (canBookService)
                         {
-                            <a asp-controller="Services"
-                               asp-action="CustomerServices"
+                            <a href="#services"
                                class="home-secondary-button">
 
                                 <i class="bi bi-bag-check"></i>
-                                Đặt dịch vụ
+                                Chọn dịch vụ
 
                             </a>
                         }
@@ -325,9 +324,9 @@
                             <div class="card-body p-4 text-center">
 
                                 <div class="bg-primary-subtle text-primary
-                                    rounded-circle d-inline-flex
-                                    align-items-center
-                                    justify-content-center mb-3"
+                                            rounded-circle d-inline-flex
+                                            align-items-center
+                                            justify-content-center mb-3"
                                      style="width: 72px; height: 72px;">
 
                                     <i class="bi bi-search fs-2"></i>
@@ -367,9 +366,9 @@
                             <div class="card-body p-4 text-center">
 
                                 <div class="bg-success-subtle text-success
-                                    rounded-circle d-inline-flex
-                                    align-items-center
-                                    justify-content-center mb-3"
+                                            rounded-circle d-inline-flex
+                                            align-items-center
+                                            justify-content-center mb-3"
                                      style="width: 72px; height: 72px;">
 
                                     <i class="bi bi-calendar-check fs-2"></i>
@@ -400,8 +399,7 @@
                 <!-- Đặt dịch vụ -->
                 <div class="col-xl-4 col-md-6">
 
-                    <a asp-controller="Services"
-                       asp-action="CustomerServices"
+                    <a href="#services"
                        class="text-decoration-none">
 
                         <div class="card h-100 border-0 shadow-sm">
@@ -409,9 +407,9 @@
                             <div class="card-body p-4 text-center">
 
                                 <div class="bg-warning-subtle text-warning
-                                    rounded-circle d-inline-flex
-                                    align-items-center
-                                    justify-content-center mb-3"
+                                            rounded-circle d-inline-flex
+                                            align-items-center
+                                            justify-content-center mb-3"
                                      style="width: 72px; height: 72px;">
 
                                     <i class="bi bi-bag-check fs-2"></i>
@@ -428,7 +426,7 @@
                                 </p>
 
                                 <span class="btn btn-outline-warning">
-                                    Xem dịch vụ
+                                    Chọn dịch vụ
                                 </span>
 
                             </div>
@@ -451,9 +449,9 @@
                             <div class="card-body p-4 text-center">
 
                                 <div class="bg-danger-subtle text-danger
-                                    rounded-circle d-inline-flex
-                                    align-items-center
-                                    justify-content-center mb-3"
+                                            rounded-circle d-inline-flex
+                                            align-items-center
+                                            justify-content-center mb-3"
                                      style="width: 72px; height: 72px;">
 
                                     <i class="bi bi-receipt fs-2"></i>
@@ -493,9 +491,9 @@
                             <div class="card-body p-4 text-center">
 
                                 <div class="bg-info-subtle text-info
-                                    rounded-circle d-inline-flex
-                                    align-items-center
-                                    justify-content-center mb-3"
+                                            rounded-circle d-inline-flex
+                                            align-items-center
+                                            justify-content-center mb-3"
                                      style="width: 72px; height: 72px;">
 
                                     <i class="bi bi-star fs-2"></i>
@@ -535,9 +533,9 @@
                             <div class="card-body p-4 text-center">
 
                                 <div class="bg-secondary-subtle text-secondary
-                                    rounded-circle d-inline-flex
-                                    align-items-center
-                                    justify-content-center mb-3"
+                                            rounded-circle d-inline-flex
+                                            align-items-center
+                                            justify-content-center mb-3"
                                      style="width: 72px; height: 72px;">
 
                                     <i class="bi bi-person-vcard fs-2"></i>
@@ -696,10 +694,15 @@
 @{
     var featuredRoomTypes = Model?
         .Where(room => room.RoomType != null)
-        .GroupBy(room => room.RoomType!.Name)
+        .GroupBy(room => new
+        {
+            room.RoomTypeId,
+            room.RoomType!.Name
+        })
         .Select(group => new
         {
-            Name = group.Key,
+            RoomTypeId = group.Key.RoomTypeId,
+            Name = group.Key.Name,
 
             SampleRoom = group
                 .OrderBy(room => room.PriceDay)
@@ -892,6 +895,11 @@
 
                                     <a asp-controller="Rooms"
                                        asp-action="Search"
+                                       asp-route-roomTypeId="@roomType.RoomTypeId"
+                                       asp-route-checkInDate="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       asp-route-checkOutDate="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
+                                       asp-route-adult="1"
+                                       asp-route-children="0"
                                        class="featured-room-type-button">
 
                                         Xem phòng
@@ -998,7 +1006,8 @@
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
-                           asp-action="CustomerServices"
+                           asp-action="BookServiceByName"
+                           asp-route-keyword="giặt"
                            class="home-service-button">
 
                             <i class="bi bi-bag-plus-fill"></i>
@@ -1048,7 +1057,8 @@
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
-                           asp-action="CustomerServices"
+                           asp-action="BookServiceByName"
+                           asp-route-keyword="buffet"
                            class="home-service-button">
 
                             <i class="bi bi-bag-plus-fill"></i>
@@ -1098,7 +1108,8 @@
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
-                           asp-action="CustomerServices"
+                           asp-action="BookServiceByName"
+                           asp-route-keyword="spa"
                            class="home-service-button">
 
                             <i class="bi bi-bag-plus-fill"></i>
@@ -1148,7 +1159,8 @@
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
-                           asp-action="CustomerServices"
+                           asp-action="BookServiceByName"
+                           asp-route-keyword="gym"
                            class="home-service-button">
 
                             <i class="bi bi-bag-plus-fill"></i>
@@ -1198,7 +1210,8 @@
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
-                           asp-action="CustomerServices"
+                           asp-action="BookServiceByName"
+                           asp-route-keyword="xe"
                            class="home-service-button">
 
                             <i class="bi bi-bag-plus-fill"></i>
@@ -1248,7 +1261,8 @@
                     @if (canBookService)
                     {
                         <a asp-controller="Services"
-                           asp-action="CustomerServices"
+                           asp-action="BookServiceByName"
+                           asp-route-keyword="trang trí"
                            class="home-service-button">
 
                             <i class="bi bi-bag-plus-fill"></i>
@@ -1272,7 +1286,7 @@
             </div>
 
         </div>
-   
+
 </section>
 
 <!-- =====================================================

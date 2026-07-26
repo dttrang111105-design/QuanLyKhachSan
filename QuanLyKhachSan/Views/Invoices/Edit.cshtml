@@ -4,94 +4,396 @@
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-    ViewData["Title"] = "Edit";
+
+    ViewData["Title"] = "Chỉnh sửa hóa đơn";
 }
 
-<h1>Edit</h1>
+<style>
+    .invoice-edit-page {
+        max-width: 1080px;
+        margin: 0 auto;
+    }
 
-<h4>Invoice</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="BookingId" class="control-label"></label>
-                <input asp-for="BookingId" class="form-control" />
-                <span asp-validation-for="BookingId" class="text-danger"></span>
+    .invoice-edit-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .invoice-edit-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .invoice-edit-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .invoice-edit-back {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #ffffff;
+        color: #555c69;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .invoice-edit-back:hover {
+        border-color: #b58a42;
+        color: #8f692f;
+    }
+
+    .invoice-edit-card {
+        overflow: hidden;
+        border: 1px solid #e7e9ee;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 22px 55px rgba(34,38,51,.08);
+    }
+
+    .invoice-edit-card-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 26px 28px;
+        background:
+            radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%),
+            linear-gradient(135deg,#111111,#332717);
+        color: #ffffff;
+    }
+
+    .invoice-edit-icon {
+        width: 56px;
+        height: 56px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 56px;
+        border-radius: 16px;
+        background: linear-gradient(145deg,#e5c470,#ad7729);
+        color: #171008;
+        font-size: 25px;
+    }
+
+    .invoice-edit-card-header h3 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .invoice-edit-card-header p {
+        margin: 0;
+        color: rgba(255,255,255,.65);
+    }
+
+    .invoice-edit-body {
+        padding: 30px;
+    }
+
+    .invoice-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3,minmax(0,1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+
+    .invoice-summary-item {
+        padding: 20px;
+        border: 1px solid #e8e9ee;
+        border-radius: 16px;
+        background: #fcfcfd;
+    }
+
+    .invoice-summary-item span {
+        display: block;
+        margin-bottom: 7px;
+        color: #8a909b;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .invoice-summary-item strong {
+        color: #282d38;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .invoice-edit-field label {
+        margin-bottom: 7px;
+        color: #3c424d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .invoice-edit-field .form-control {
+        min-height: 50px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fcfcfd;
+        box-shadow: none;
+    }
+
+    .invoice-edit-field .form-control:focus {
+        border-color: #b58a42;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(181,138,66,.12);
+    }
+
+    .invoice-readonly {
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        border: 1px solid #e2e4e9;
+        border-radius: 11px;
+        background: #f7f8fa;
+        color: #444b58;
+        font-weight: 700;
+    }
+
+    .invoice-total-box {
+        margin-top: 24px;
+        padding: 22px;
+        border: 1px solid rgba(181,138,66,.28);
+        border-radius: 16px;
+        background: linear-gradient(135deg,#fffaf0,#f7efdf);
+    }
+
+    .invoice-total-box span {
+        display: block;
+        margin-bottom: 7px;
+        color: #8f692f;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .invoice-total-box strong {
+        color: #252a35;
+        font-size: 28px;
+        font-weight: 900;
+    }
+
+    .invoice-edit-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid #eceef2;
+    }
+
+    .invoice-edit-save,
+    .invoice-edit-cancel {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 21px;
+        border-radius: 11px;
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .invoice-edit-save {
+        border: 1px solid #b58a42;
+        background: linear-gradient(145deg,#d8b25e,#a8752d);
+        color: #ffffff;
+    }
+
+    .invoice-edit-cancel {
+        border: 1px solid #dfe2e8;
+        background: #ffffff;
+        color: #555c69;
+    }
+
+    @@media (max-width: 991.98px) {
+        .invoice-summary-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .invoice-edit-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .invoice-edit-card-header,
+        .invoice-edit-body {
+            padding: 22px;
+        }
+
+        .invoice-edit-actions {
+            flex-direction: column;
+        }
+
+        .invoice-edit-save,
+        .invoice-edit-cancel {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="invoice-edit-page">
+    <div class="invoice-edit-heading">
+        <div>
+            <span class="invoice-edit-kicker">Quản lý hóa đơn</span>
+            <h2>Chỉnh sửa hóa đơn</h2>
+        </div>
+
+        <a asp-controller="Invoices"
+           asp-action="Index"
+           class="invoice-edit-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="invoice-edit-card">
+        <div class="invoice-edit-card-header">
+            <span class="invoice-edit-icon">
+                <i class="bi bi-receipt-cutoff"></i>
+            </span>
+
+            <div>
+                <h3>@Model.InvoiceCode</h3>
+                <p>
+                    Điều chỉnh phần trăm giảm giá và thuế của hóa đơn.
+                </p>
             </div>
-            <div class="form-group">
-                <label asp-for="Booking" class="control-label"></label>
-                <input asp-for="Booking" class="form-control" />
-                <span asp-validation-for="Booking" class="text-danger"></span>
+        </div>
+
+        <div class="invoice-edit-body">
+            <div class="invoice-summary-grid">
+                <div class="invoice-summary-item">
+                    <span>Mã Booking</span>
+                    <strong>
+                        @(Model.Booking?.BookingCode ?? $"#{Model.BookingId}")
+                    </strong>
+                </div>
+
+                <div class="invoice-summary-item">
+                    <span>Ngày lập hóa đơn</span>
+                    <strong>@Model.InvoiceDate.ToString("dd/MM/yyyy HH:mm")</strong>
+                </div>
+
+                <div class="invoice-summary-item">
+                    <span>Mã hóa đơn</span>
+                    <strong>@Model.InvoiceCode</strong>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="InvoiceCode" class="control-label"></label>
-                <input asp-for="InvoiceCode" class="form-control" />
-                <span asp-validation-for="InvoiceCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvoiceDate" class="control-label"></label>
-                <input asp-for="InvoiceDate" class="form-control" />
-                <span asp-validation-for="InvoiceDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoomAmount" class="control-label"></label>
-                <input asp-for="RoomAmount" class="form-control" />
-                <span asp-validation-for="RoomAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ServiceAmount" class="control-label"></label>
-                <input asp-for="ServiceAmount" class="form-control" />
-                <span asp-validation-for="ServiceAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiscountPercent" class="control-label"></label>
-                <input asp-for="DiscountPercent" class="form-control" />
-                <span asp-validation-for="DiscountPercent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TaxPercent" class="control-label"></label>
-                <input asp-for="TaxPercent" class="form-control" />
-                <span asp-validation-for="TaxPercent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalAmount" class="control-label"></label>
-                <input asp-for="TotalAmount" class="form-control" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Payments" class="control-label"></label>
-                <input asp-for="Payments" class="form-control" />
-                <span asp-validation-for="Payments" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+
+            <form asp-controller="Invoices"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 invoice-edit-field">
+                        <label>Tiền phòng</label>
+                        <div class="invoice-readonly">
+                            @Model.RoomAmount.ToString("N0") VNĐ
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 invoice-edit-field">
+                        <label>Tiền dịch vụ</label>
+                        <div class="invoice-readonly">
+                            @Model.ServiceAmount.ToString("N0") VNĐ
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 invoice-edit-field">
+                        <label asp-for="DiscountPercent">
+                            Giảm giá
+                        </label>
+
+                        <div class="input-group">
+                            <input asp-for="DiscountPercent"
+                                   type="number"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   class="form-control" />
+                            <span class="input-group-text">%</span>
+                        </div>
+
+                        <span asp-validation-for="DiscountPercent"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 invoice-edit-field">
+                        <label asp-for="TaxPercent">
+                            Thuế
+                        </label>
+
+                        <div class="input-group">
+                            <input asp-for="TaxPercent"
+                                   type="number"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   class="form-control" />
+                            <span class="input-group-text">%</span>
+                        </div>
+
+                        <span asp-validation-for="TaxPercent"
+                              class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="invoice-total-box">
+                    <span>Tổng tiền hiện tại</span>
+                    <strong>@Model.TotalAmount.ToString("N0") VNĐ</strong>
+                </div>
+
+                <div class="invoice-edit-actions">
+                    <button type="submit"
+                            class="invoice-edit-save">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu thay đổi
+                    </button>
+
+                    <a asp-controller="Invoices"
+                       asp-action="Details"
+                       asp-route-id="@Model.Id"
+                       class="invoice-edit-cancel">
+                        <i class="bi bi-x-circle"></i>
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

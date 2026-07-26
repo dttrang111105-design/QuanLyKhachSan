@@ -155,7 +155,11 @@ public class InvoicesController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var invoice = await _context.Invoices
-            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted);
+            .AsNoTracking()
+            .Include(i => i.Booking)
+            .FirstOrDefaultAsync(i =>
+                i.Id == id &&
+                !i.IsDeleted);
 
         if (invoice == null)
         {
@@ -186,8 +190,38 @@ public class InvoicesController : Controller
             return NotFound();
         }
 
+        if (form.DiscountPercent < 0 ||
+            form.DiscountPercent > 100)
+        {
+            ModelState.AddModelError(
+                nameof(Invoice.DiscountPercent),
+                "Giảm giá phải nằm trong khoảng từ 0 đến 100%.");
+        }
+
+        if (form.TaxPercent < 0 ||
+            form.TaxPercent > 100)
+        {
+            ModelState.AddModelError(
+                nameof(Invoice.TaxPercent),
+                "Thuế phải nằm trong khoảng từ 0 đến 100%.");
+        }
+
         if (!ModelState.IsValid)
         {
+            form.BookingId = invoice.BookingId;
+            form.Booking = await _context.Bookings
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == invoice.BookingId);
+
+            form.InvoiceCode = invoice.InvoiceCode;
+            form.InvoiceDate = invoice.InvoiceDate;
+            form.RoomAmount = invoice.RoomAmount;
+            form.ServiceAmount = invoice.ServiceAmount;
+            form.TotalAmount = invoice.TotalAmount;
+            form.CreatedAt = invoice.CreatedAt;
+            form.UpdatedAt = invoice.UpdatedAt;
+            form.IsDeleted = invoice.IsDeleted;
+
             return View(form);
         }
 

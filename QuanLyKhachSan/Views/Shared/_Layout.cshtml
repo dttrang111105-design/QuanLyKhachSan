@@ -258,84 +258,7 @@
         @RenderBody()
     </main>
 
-    @if (isHome)
-{
-    <section class="public-feature-bar" aria-label="Tiện ích khách sạn">
-
-        <div class="container">
-
-            <div class="row g-4 text-center">
-
-                <!-- Lễ tân -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-bell-fill"></i>
-                        <span>Lễ tân 24/7</span>
-                    </div>
-                </div>
-
-                <!-- Buffet -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-cup-hot-fill"></i>
-                        <span>Buffet sáng & tối</span>
-                    </div>
-                </div>
-
-                <!-- Giặt ủi -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-basket2-fill"></i>
-                        <span>Giặt ủi</span>
-                    </div>
-                </div>
-
-                <!-- Spa -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-flower1"></i>
-                        <span>Spa & Massage</span>
-                    </div>
-                </div>
-
-                <!-- Gym -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-heart-pulse-fill"></i>
-                        <span>Gym & Hồ bơi</span>
-                    </div>
-                </div>
-
-                <!-- Xe đưa đón -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-car-front-fill"></i>
-                        <span>Xe đưa đón</span>
-                    </div>
-                </div>
-
-                <!-- Trang trí -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-balloon-heart-fill"></i>
-                        <span>Trang trí sự kiện</span>
-                    </div>
-                </div>
-
-                <!-- Wifi -->
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-                    <div class="public-feature-item">
-                        <i class="bi bi-wifi"></i>
-                        <span>Wifi miễn phí</span>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-}
+   
       
 
     <footer class="public-footer">
@@ -426,38 +349,52 @@
                     <ul>
 
                         <li>
-                            <i class="bi bi-basket2-fill"></i>
-                            Giặt ủi quần áo
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-basket2-fill"></i>
+                                Giặt ủi quần áo
+                            </a>
                         </li>
 
                         <li>
-                            <i class="bi bi-cup-hot-fill"></i>
-                            Buffet sáng & tối
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-cup-hot-fill"></i>
+                                Buffet sáng & tối
+                            </a>
                         </li>
 
                         <li>
-                            <i class="bi bi-flower1"></i>
-                            Spa & Massage
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-flower1"></i>
+                                Spa & Massage
+                            </a>
                         </li>
 
                         <li>
-                            <i class="bi bi-heart-pulse-fill"></i>
-                            Gym & Hồ bơi
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-heart-pulse-fill"></i>
+                                Gym & Hồ bơi
+                            </a>
                         </li>
 
                         <li>
-                            <i class="bi bi-car-front-fill"></i>
-                            Xe đưa đón
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-car-front-fill"></i>
+                                Xe đưa đón
+                            </a>
                         </li>
 
                         <li>
-                            <i class="bi bi-balloon-heart-fill"></i>
-                            Trang trí sinh nhật
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-balloon-heart-fill"></i>
+                                Trang trí sinh nhật
+                            </a>
                         </li>
 
                         <li>
-                            <i class="bi bi-heart-fill"></i>
-                            Tuần trăng mật
+                            <a href="@($"{homeUrl}#services")">
+                                <i class="bi bi-heart-fill"></i>
+                                Tuần trăng mật
+                            </a>
                         </li>
 
                     </ul>

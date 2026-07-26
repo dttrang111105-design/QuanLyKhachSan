@@ -17,20 +17,55 @@ public class BookingsController : Controller
     }
 
     [Authorize]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? filter)
     {
         if (User.IsInRole("Customer"))
         {
             return RedirectToAction(nameof(MyBookings));
         }
 
-        var bookings = await _context.Bookings
+        DateTime today = DateTime.Today;
+        DateTime tomorrow = today.AddDays(1);
+        string selectedFilter = filter?.Trim() ?? string.Empty;
+
+        var query = _context.Bookings
+            .AsNoTracking()
             .Include(b => b.Customer)
-            .Include(b => b.BookingDetails)
-                .ThenInclude(x => x.Room)
+            .Include(b => b.BookingDetails.Where(d => !d.IsDeleted))
+                .ThenInclude(d => d.Room)
+            .Where(b => !b.IsDeleted)
+            .AsQueryable();
+
+        switch (selectedFilter.ToLowerInvariant())
+        {
+            case "pending":
+                query = query.Where(b => b.Status == BookingStatus.Pending);
+                selectedFilter = "pending";
+                break;
+            case "checkintoday":
+                query = query.Where(b =>
+                    b.CheckInDate >= today &&
+                    b.CheckInDate < tomorrow &&
+                    b.Status != BookingStatus.Cancelled);
+                selectedFilter = "checkinToday";
+                break;
+            case "checkouttoday":
+                query = query.Where(b =>
+                    b.CheckOutDate >= today &&
+                    b.CheckOutDate < tomorrow &&
+                    b.Status != BookingStatus.Cancelled);
+                selectedFilter = "checkoutToday";
+                break;
+            default:
+                selectedFilter = string.Empty;
+                break;
+        }
+
+        var bookings = await query
             .OrderByDescending(b => b.BookingDate)
             .ToListAsync();
 
+        ViewBag.SelectedFilter = selectedFilter;
         return View(bookings);
     }
 

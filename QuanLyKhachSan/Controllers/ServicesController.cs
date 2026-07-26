@@ -35,6 +35,9 @@ public class ServicesController : Controller
         }
 
         var service = await _context.Services
+            .AsNoTracking()
+            .Include(x => x.ServiceBookings.Where(booking =>
+                !booking.IsDeleted))
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
@@ -46,7 +49,6 @@ public class ServicesController : Controller
 
         return View(service);
     }
-
 
     [Authorize(Roles = "Admin,Receptionist")]
     public IActionResult Create()
@@ -71,15 +73,12 @@ public class ServicesController : Controller
         service.IsDeleted = false;
 
         _context.Services.Add(service);
-
         await _context.SaveChangesAsync();
 
         TempData["Success"] = "Thêm dịch vụ thành công.";
 
         return RedirectToAction(nameof(Index));
     }
-
-    // SỬA DỊCH VỤ
 
     [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Edit(int? id)
@@ -106,37 +105,69 @@ public class ServicesController : Controller
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin,Receptionist")]
     public async Task<IActionResult> Edit(
-        int? id,
+        int id,
         [Bind(
             "Id,ServiceName,Price,Category,ImageUrl," +
-            "Description,IsAvailable,CreatedAt,IsDeleted")]
-        Service service)
+            "Description,IsAvailable")]
+        Service model)
     {
-        if (id == null || id != service.Id)
+        if (id != model.Id)
+        {
+            return NotFound();
+        }
+
+        model.ServiceName =
+            model.ServiceName?.Trim() ?? string.Empty;
+
+        model.Category =
+            model.Category?.Trim();
+
+        model.ImageUrl =
+            model.ImageUrl?.Trim();
+
+        model.Description =
+            model.Description?.Trim();
+
+        if (string.IsNullOrWhiteSpace(model.ServiceName))
+        {
+            ModelState.AddModelError(
+                nameof(Service.ServiceName),
+                "Vui lòng nhập tên dịch vụ.");
+        }
+
+        if (model.Price < 0)
+        {
+            ModelState.AddModelError(
+                nameof(Service.Price),
+                "Giá dịch vụ không được âm.");
+        }
+
+        var service = await _context.Services
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
+        if (service == null)
         {
             return NotFound();
         }
 
         if (!ModelState.IsValid)
         {
-            return View(service);
+            model.CreatedAt = service.CreatedAt;
+            model.UpdatedAt = service.UpdatedAt;
+            model.IsDeleted = service.IsDeleted;
+
+            return View(model);
         }
 
-        var oldService = await _context.Services
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        if (oldService == null)
-        {
-            return NotFound();
-        }
-
-        oldService.ServiceName = service.ServiceName;
-        oldService.Price = service.Price;
-        oldService.Category = service.Category;
-        oldService.ImageUrl = service.ImageUrl;
-        oldService.Description = service.Description;
-        oldService.IsAvailable = service.IsAvailable;
-        oldService.UpdatedAt = DateTime.Now;
+        service.ServiceName = model.ServiceName;
+        service.Price = model.Price;
+        service.Category = model.Category;
+        service.ImageUrl = model.ImageUrl;
+        service.Description = model.Description;
+        service.IsAvailable = model.IsAvailable;
+        service.UpdatedAt = DateTime.Now;
 
         try
         {
@@ -144,7 +175,7 @@ public class ServicesController : Controller
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!ServiceExists(service.Id))
+            if (!ServiceExists(model.Id))
             {
                 return NotFound();
             }
@@ -154,10 +185,10 @@ public class ServicesController : Controller
 
         TempData["Success"] = "Cập nhật dịch vụ thành công.";
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(
+            nameof(Details),
+            new { id = service.Id });
     }
-
-    // XÓA DỊCH VỤ
 
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int? id)
@@ -214,33 +245,82 @@ public class ServicesController : Controller
     public async Task<IActionResult> CustomerServices()
     {
         var services = await _context.Services
-            .Where(x =>
-                x.IsAvailable &&
-                !x.IsDeleted)
-            .OrderBy(x => x.Category)
-            .ThenBy(x => x.ServiceName)
+            .Where(service =>
+                service.IsAvailable &&
+                !service.IsDeleted)
+            .OrderBy(service => service.Category)
+            .ThenBy(service => service.ServiceName)
             .ToListAsync();
 
         return View(services);
     }
 
+
+    // MỞ FORM ĐẶT DỊCH VỤ THEO TÊN TỪ TRANG CHỦ
+
+    [HttpGet]
+    [Authorize(Roles = "Customer")]
+    public async Task<IActionResult> BookServiceByName(string keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword))
+        {
+            TempData["Error"] =
+                "Không xác định được dịch vụ cần đặt.";
+
+            return Redirect(
+                (Url.Action("Index", "Home") ?? "/") +
+                "#services"
+            );
+        }
+
+        keyword = keyword.Trim().ToLower();
+
+        var activeServices = await _context.Services
+            .Where(x =>
+                x.IsAvailable &&
+                !x.IsDeleted)
+            .ToListAsync();
+
+        var service = activeServices.FirstOrDefault(x =>
+            (!string.IsNullOrWhiteSpace(x.ServiceName) &&
+             x.ServiceName.ToLower().Contains(keyword))
+            ||
+            (!string.IsNullOrWhiteSpace(x.Category) &&
+             x.Category.ToLower().Contains(keyword)));
+
+        if (service == null)
+        {
+            TempData["Error"] =
+                "Dịch vụ này chưa được thêm hoặc đang tạm ngừng cung cấp.";
+
+            return Redirect(
+                (Url.Action("Index", "Home") ?? "/") +
+                "#services"
+            );
+        }
+
+        return RedirectToAction(
+            nameof(BookService),
+            new { id = service.Id }
+        );
+    }
+
     // KHÁCH HÀNG: MỞ FORM ĐẶT DỊCH VỤ
-    // GET: Services/BookService/5
 
     [HttpGet]
     [Authorize(Roles = "Customer")]
     public async Task<IActionResult> BookService(int id)
     {
         var service = await _context.Services
-            .FirstOrDefaultAsync(x =>
-                x.Id == id &&
-                x.IsAvailable &&
-                !x.IsDeleted);
+            .FirstOrDefaultAsync(service =>
+                service.Id == id &&
+                service.IsAvailable &&
+                !service.IsDeleted);
 
         if (service == null)
         {
             TempData["Error"] =
-                "Dịch vụ không tồn tại hoặc đã ngừng cung cấp.";
+                "Dịch vụ không tồn tại hoặc đang tạm ngừng hoạt động.";
 
             return RedirectToAction(nameof(CustomerServices));
         }
@@ -252,9 +332,6 @@ public class ServicesController : Controller
             return Unauthorized();
         }
 
-        var activeBookings =
-            await GetActiveBookingsAsync(customer.Id);
-
         var model = new CustomerBookServiceViewModel
         {
             ServiceId = service.Id,
@@ -262,14 +339,14 @@ public class ServicesController : Controller
             Description = service.Description,
             Price = service.Price,
             Quantity = 1,
-            ActiveBookings = activeBookings
+            ActiveBookings =
+                await GetActiveBookingsAsync(customer.Id)
         };
 
         return View(model);
     }
 
     // KHÁCH HÀNG: XÁC NHẬN ĐẶT DỊCH VỤ
-    // POST: Services/BookService
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -293,8 +370,9 @@ public class ServicesController : Controller
         if (service == null)
         {
             ModelState.AddModelError(
-                "",
-                "Dịch vụ không tồn tại hoặc đã ngừng cung cấp.");
+                string.Empty,
+                "Dịch vụ không tồn tại hoặc đã ngừng cung cấp."
+            );
         }
 
         var booking = await _context.Bookings
@@ -307,13 +385,15 @@ public class ServicesController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.BookingId),
-                "Booking không tồn tại hoặc không thuộc tài khoản của bạn.");
+                "Booking không tồn tại hoặc không thuộc tài khoản của bạn."
+            );
         }
         else if (booking.Status != BookingStatus.CheckedIn)
         {
             ModelState.AddModelError(
                 nameof(model.BookingId),
-                "Chỉ booking đang nhận phòng mới được đặt dịch vụ.");
+                "Chỉ Booking đang nhận phòng mới được đặt dịch vụ."
+            );
         }
 
         if (!ModelState.IsValid)
@@ -331,7 +411,6 @@ public class ServicesController : Controller
             return View(model);
         }
 
-         // Kiểm tra dịch vụ này đã được đặt trong booking chưa.
         var existingServiceBooking =
             await _context.ServiceBookings
                 .FirstOrDefaultAsync(x =>
@@ -341,9 +420,7 @@ public class ServicesController : Controller
 
         if (existingServiceBooking != null)
         {
-             // Đã có thì cộng thêm số lượng.
             existingServiceBooking.Quantity += model.Quantity;
-
             existingServiceBooking.UnitPrice = service!.Price;
 
             existingServiceBooking.TotalPrice =
@@ -354,7 +431,6 @@ public class ServicesController : Controller
         }
         else
         {
-             // Chưa có thì tạo ServiceBooking mới.
             var serviceBooking = new ServiceBooking
             {
                 BookingId = model.BookingId,
@@ -380,10 +456,9 @@ public class ServicesController : Controller
             new
             {
                 id = model.BookingId
-            });
+            }
+        );
     }
-
-    // HÀM LẤY KHÁCH HÀNG ĐANG ĐĂNG NHẬP
 
     private async Task<Customer?> GetCurrentCustomerAsync()
     {
@@ -401,8 +476,6 @@ public class ServicesController : Controller
                 x.Account.Username == username &&
                 !x.IsDeleted);
     }
-
-    // LẤY BOOKING ĐANG CHECKED IN CỦA KHÁCH
 
     private async Task<List<SelectListItem>>
         GetActiveBookingsAsync(int customerId)

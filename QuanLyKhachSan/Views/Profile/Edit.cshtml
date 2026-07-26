@@ -1,119 +1,170 @@
 ﻿@model QuanLyKhachSan.ViewModels.Profile.EditProfileViewModel
 
 @{
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (User.IsInRole("Receptionist"))
+    {
+        Layout = "~/Views/Shared/_ReceptionistLayout.cshtml";
+    }
+    else if (User.IsInRole("Customer"))
+    {
+        Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
     ViewData["Title"] = "Chỉnh sửa thông tin";
 }
 
-<div class="container mt-4">
+<div class="container py-4">
+    <div class="mb-4">
+        <a asp-controller="Profile"
+           asp-action="Index"
+           class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left me-2"></i>
+            Quay lại hồ sơ
+        </a>
+    </div>
 
-    <div class="card shadow">
-
-        <div class="card-header bg-warning">
-            <h4>Chỉnh sửa thông tin cá nhân</h4>
+    <div class="card border-0 shadow-lg overflow-hidden">
+        <div class="card-header border-0 text-white p-4"
+             style="background:linear-gradient(135deg,#121212,#3b2d18);">
+            <h3 class="mb-1">
+                <i class="bi bi-pencil-square me-2"></i>
+                Chỉnh sửa thông tin cá nhân
+            </h3>
+            <p class="mb-0 text-white-50">
+                Cập nhật ảnh đại diện và thông tin liên hệ
+            </p>
         </div>
 
-        <div class="card-body">
-
-            <form asp-action="Edit"
+        <div class="card-body p-4 p-lg-5">
+            <form asp-controller="Profile"
+                  asp-action="Edit"
                   method="post"
                   enctype="multipart/form-data">
 
                 @Html.AntiForgeryToken()
 
                 <div asp-validation-summary="ModelOnly"
-                     class="text-danger mb-3"></div>
+                     class="alert alert-danger"></div>
 
-                @if (!string.IsNullOrEmpty(Model.Avatar))
-                {
-                    <div class="mb-3">
+                <div class="row g-4">
+                    <div class="col-lg-4 text-center">
+                        @if (!string.IsNullOrWhiteSpace(Model.Avatar))
+                        {
+                            <img src="@Model.Avatar"
+                                 width="180"
+                                 height="180"
+                                 class="rounded-circle img-thumbnail shadow-sm mb-3"
+                                 style="object-fit:cover;"
+                                 alt="Ảnh đại diện" />
+                        }
+                        else
+                        {
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+                                 style="width:180px;height:180px;background:#f3ead9;color:#9a722d;">
+                                <i class="bi bi-person fs-1"></i>
+                            </div>
+                        }
 
-                        <img src="@Model.Avatar"
-                             width="150"
-                             class="img-thumbnail" />
-
+                        <label asp-for="AvatarFile"
+                               class="form-label fw-semibold">
+                            Ảnh đại diện
+                        </label>
+                        <input asp-for="AvatarFile"
+                               type="file"
+                               accept="image/*"
+                               class="form-control" />
+                        <span asp-validation-for="AvatarFile"
+                              class="text-danger small"></span>
                     </div>
-                }
 
-                <div class="mb-3">
-                    <label asp-for="AvatarFile" class="form-label"></label>
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FullName"
+                                       class="form-label fw-semibold">
+                                    Họ và tên
+                                </label>
+                                <input asp-for="FullName"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="FullName"
+                                      class="text-danger small"></span>
+                            </div>
 
-                    <input asp-for="AvatarFile"
-                           type="file"
-                           class="form-control" />
+                            <div class="col-md-6">
+                                <label asp-for="Email"
+                                       class="form-label fw-semibold">
+                                    Email
+                                </label>
+                                <input asp-for="Email"
+                                       type="email"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="Email"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Phone"
+                                       class="form-label fw-semibold">
+                                    Số điện thoại
+                                </label>
+                                <input asp-for="Phone"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="Phone"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="DateOfBirth"
+                                       class="form-label fw-semibold">
+                                    Ngày sinh
+                                </label>
+                                <input asp-for="DateOfBirth"
+                                       type="date"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="DateOfBirth"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Address"
+                                       class="form-label fw-semibold">
+                                    Địa chỉ
+                                </label>
+                                <input asp-for="Address"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="Address"
+                                      class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <button type="submit"
+                                    class="btn btn-success px-4 py-2">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Lưu thay đổi
+                            </button>
+
+                            <a asp-controller="Profile"
+                               asp-action="Index"
+                               class="btn btn-secondary px-4 py-2">
+                                Hủy
+                            </a>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <label asp-for="FullName" class="form-label"></label>
-
-                    <input asp-for="FullName"
-                           class="form-control" />
-
-                    <span asp-validation-for="FullName"
-                          class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label"></label>
-
-                    <input asp-for="Email"
-                           class="form-control" />
-
-                    <span asp-validation-for="Email"
-                          class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="Phone" class="form-label"></label>
-
-                    <input asp-for="Phone"
-                           class="form-control" />
-
-                    <span asp-validation-for="Phone"
-                          class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="Address" class="form-label"></label>
-
-                    <input asp-for="Address"
-                           class="form-control" />
-
-                    <span asp-validation-for="Address"
-                          class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="DateOfBirth"
-                           class="form-label"></label>
-
-                    <input asp-for="DateOfBirth"
-                           type="date"
-                           class="form-control" />
-
-                    <span asp-validation-for="DateOfBirth"
-                          class="text-danger"></span>
-                </div>
-
-                <button type="submit"
-                        class="btn btn-success">
-                    Lưu thay đổi
-                </button>
-
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-                    Quay lại
-                </a>
-
             </form>
-
         </div>
-
     </div>
-
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

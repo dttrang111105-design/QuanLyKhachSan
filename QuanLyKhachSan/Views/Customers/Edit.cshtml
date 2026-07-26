@@ -2,104 +2,328 @@
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh sửa khách hàng";
 }
 
-<h1>Edit</h1>
+<style>
+    .customer-edit-page {
+        max-width: 1080px;
+        margin: 0 auto;
+    }
 
-<h4>Customer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="AccountId" class="control-label"></label>
-                <input asp-for="AccountId" class="form-control" />
-                <span asp-validation-for="AccountId" class="text-danger"></span>
+    .customer-edit-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .customer-edit-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .customer-edit-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .customer-edit-back {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fff;
+        color: #555c69;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .customer-edit-card {
+        overflow: hidden;
+        border: 1px solid #e7e9ee;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 22px 55px rgba(34,38,51,.08);
+    }
+
+    .customer-edit-card-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 26px 28px;
+        background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111,#332717);
+        color: #fff;
+    }
+
+    .customer-edit-icon {
+        width: 56px;
+        height: 56px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 56px;
+        border-radius: 16px;
+        background: linear-gradient(145deg,#e5c470,#ad7729);
+        color: #171008;
+        font-size: 25px;
+    }
+
+    .customer-edit-card-header h3 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .customer-edit-card-header p {
+        margin: 0;
+        color: rgba(255,255,255,.65);
+    }
+
+    .customer-edit-body {
+        padding: 30px;
+    }
+
+    .customer-edit-field label {
+        margin-bottom: 7px;
+        color: #3c424d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .customer-edit-field .form-control,
+    .customer-edit-field .form-select {
+        min-height: 50px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fcfcfd;
+        box-shadow: none;
+    }
+
+        .customer-edit-field .form-control:focus,
+        .customer-edit-field .form-select:focus {
+            border-color: #b58a42;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(181,138,66,.12);
+        }
+
+    .customer-edit-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid #eceef2;
+    }
+
+    .customer-edit-save,
+    .customer-edit-cancel {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 21px;
+        border-radius: 11px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .customer-edit-save {
+        border: 1px solid #b58a42;
+        background: linear-gradient(145deg,#d8b25e,#a8752d);
+        color: #fff;
+    }
+
+    .customer-edit-cancel {
+        border: 1px solid #dfe2e8;
+        background: #fff;
+        color: #555c69;
+    }
+
+    @@media (max-width: 767.98px) {
+        .customer-edit-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .customer-edit-card-header,
+        .customer-edit-body {
+            padding: 22px;
+        }
+
+        .customer-edit-actions {
+            flex-direction: column;
+        }
+
+        .customer-edit-save,
+        .customer-edit-cancel {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="customer-edit-page">
+    <div class="customer-edit-heading">
+        <div>
+            <span class="customer-edit-kicker">Quản lý khách hàng</span>
+            <h2>Chỉnh sửa khách hàng</h2>
+        </div>
+
+        <a asp-controller="Customers"
+           asp-action="Index"
+           class="customer-edit-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="customer-edit-card">
+        <div class="customer-edit-card-header">
+            <span class="customer-edit-icon">
+                <i class="bi bi-person-lines-fill"></i>
+            </span>
+
+            <div>
+                <h3>@Model.FullName</h3>
+                <p>Cập nhật thông tin liên hệ và hồ sơ khách hàng.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="Account" class="control-label"></label>
-                <input asp-for="Account" class="form-control" />
-                <span asp-validation-for="Account" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CitizenId" class="control-label"></label>
-                <input asp-for="CitizenId" class="form-control" />
-                <span asp-validation-for="CitizenId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input asp-for="Avatar" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bookings" class="control-label"></label>
-                <input asp-for="Bookings" class="form-control" />
-                <span asp-validation-for="Bookings" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Reviews" class="control-label"></label>
-                <input asp-for="Reviews" class="form-control" />
-                <span asp-validation-for="Reviews" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="customer-edit-body">
+            <form asp-controller="Customers"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="AccountId">Tài khoản liên kết</label>
+                        <select asp-for="AccountId"
+                                asp-items="ViewBag.AccountId"
+                                class="form-select">
+                            <option value="">-- Không liên kết tài khoản --</option>
+                        </select>
+                        <span asp-validation-for="AccountId"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="FullName">Họ và tên</label>
+                        <input asp-for="FullName"
+                               class="form-control"
+                               placeholder="Nhập họ tên khách hàng" />
+                        <span asp-validation-for="FullName"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="Gender">Giới tính</label>
+                        <select asp-for="Gender"
+                                class="form-select">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <span asp-validation-for="Gender"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="DateOfBirth">Ngày sinh</label>
+                        <input asp-for="DateOfBirth"
+                               type="date"
+                               class="form-control" />
+                        <span asp-validation-for="DateOfBirth"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="Phone">Số điện thoại</label>
+                        <input asp-for="Phone"
+                               class="form-control"
+                               placeholder="Nhập số điện thoại" />
+                        <span asp-validation-for="Phone"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="Email">Email</label>
+                        <input asp-for="Email"
+                               type="email"
+                               class="form-control"
+                               placeholder="example@email.com" />
+                        <span asp-validation-for="Email"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="CitizenId">CCCD/CMND</label>
+                        <input asp-for="CitizenId"
+                               class="form-control"
+                               placeholder="Nhập số CCCD/CMND" />
+                        <span asp-validation-for="CitizenId"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 customer-edit-field">
+                        <label asp-for="Avatar">Đường dẫn ảnh đại diện</label>
+                        <input asp-for="Avatar"
+                               class="form-control"
+                               placeholder="/uploads/avatar/..." />
+                        <span asp-validation-for="Avatar"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12 customer-edit-field">
+                        <label asp-for="Address">Địa chỉ</label>
+                        <input asp-for="Address"
+                               class="form-control"
+                               placeholder="Nhập địa chỉ khách hàng" />
+                        <span asp-validation-for="Address"
+                              class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="customer-edit-actions">
+                    <button type="submit"
+                            class="customer-edit-save">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu thay đổi
+                    </button>
+
+                    <a asp-controller="Customers"
+                       asp-action="Details"
+                       asp-route-id="@Model.Id"
+                       class="customer-edit-cancel">
+                        <i class="bi bi-x-circle"></i>
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

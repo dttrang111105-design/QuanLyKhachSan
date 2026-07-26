@@ -1,186 +1,200 @@
-@using QuanLyKhachSan.Enums
 @model QuanLyKhachSan.Models.Booking
 
+@using QuanLyKhachSan.Enums
+
 @{
-    Layout = User.IsInRole("Admin")
-        ? "~/Views/Shared/_AdminLayout.cshtml"
-        : User.IsInRole("Receptionist")
-            ? "~/Views/Shared/_ReceptionistLayout.cshtml"
-            : User.IsInRole("Customer")
-                ? "~/Views/Shared/_CustomerLayout.cshtml"
-                : "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Cập nhật Booking";
+    bool isAdmin = User.IsInRole("Admin");
+    bool isReceptionist = User.IsInRole("Receptionist");
+
+    if (isAdmin)
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (isReceptionist)
+    {
+        Layout = "~/Views/Shared/_ReceptionistLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    ViewData["Title"] = "Chỉnh sửa Booking";
 }
 
-<h2 class="mb-4">Cập nhật Booking</h2>
-
-<div class="row">
-
-    <div class="col-md-6">
-
-        <form asp-action="Edit">
-
-            @Html.AntiForgeryToken()
-
-            <input asp-for="Id" type="hidden" />
-
-            <div asp-validation-summary="ModelOnly"
-                 class="text-danger">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">
-                    Mã Booking
-                </label>
-
-                <input class="form-control"
-                       value="@Model.BookingCode"
-                       readonly />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">
-                    Ngày đặt
-                </label>
-
-                <input class="form-control"
-                       value="@Model.BookingDate.ToString("dd/MM/yyyy HH:mm")"
-                       readonly />
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="CheckInDate"
-                       class="form-label">
-                </label>
-
-                <input asp-for="CheckInDate"
-                       type="date"
-                       class="form-control" />
-
-                <span asp-validation-for="CheckInDate"
-                      class="text-danger">
-                </span>
-
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="CheckOutDate"
-                       class="form-label">
-                </label>
-
-                <input asp-for="CheckOutDate"
-                       type="date"
-                       class="form-control" />
-
-                <span asp-validation-for="CheckOutDate"
-                      class="text-danger">
-                </span>
-
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="Adult"
-                       class="form-label">
-                </label>
-
-                <input asp-for="Adult"
-                       class="form-control" />
-
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="Children"
-                       class="form-label">
-                </label>
-
-                <input asp-for="Children"
-                       class="form-control" />
-
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="Deposit"
-                       class="form-label">
-                </label>
-
-                <input asp-for="Deposit"
-                       class="form-control" />
-
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="Status"
-                       class="form-label">
-                </label>
-
-                <select asp-for="Status"
-                        class="form-select">
-
-                    <option value="@BookingStatus.Pending">
-                        Chờ xác nhận
-                    </option>
-
-                    <option value="@BookingStatus.Confirmed">
-                        Đã xác nhận
-                    </option>
-
-                    <option value="@BookingStatus.CheckedIn">
-                        Đang ở
-                    </option>
-
-                    <option value="@BookingStatus.CheckedOut">
-                        Đã trả phòng
-                    </option>
-
-                    <option value="@BookingStatus.Cancelled">
-                        Đã hủy
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="mb-3">
-
-                <label asp-for="Note"
-                       class="form-label">
-                </label>
-
-                <textarea asp-for="Note"
-                          rows="4"
-                          class="form-control">
-                </textarea>
-
-            </div>
-
-            <button class="btn btn-primary" type="submit">
-
-                Lưu
-
-            </button>
-
-            <a asp-action="Index"
-               class="btn btn-secondary">
-
-                Quay lại
-
-            </a>
-
-        </form>
-
+<div class="container py-4">
+    <div class="mb-4">
+        <a asp-controller="Bookings"
+           asp-action="Index"
+           class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left me-2"></i>
+            Quay lại danh sách
+        </a>
     </div>
 
+    <div class="card border-0 shadow-lg overflow-hidden">
+        <div class="card-header border-0 text-white p-4"
+             style="background:linear-gradient(135deg,#121212,#3b2d18);">
+            <div class="d-flex align-items-center gap-3">
+                <span class="d-inline-flex align-items-center justify-content-center rounded-3"
+                      style="width:52px;height:52px;background:#c8a96a;color:#111;">
+                    <i class="bi bi-pencil-square fs-4"></i>
+                </span>
+
+                <div>
+                    <h3 class="mb-1">Chỉnh sửa Booking</h3>
+                    <p class="mb-0 text-white-50">
+                        Mã Booking: @Model.BookingCode
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4 p-lg-5">
+            <form asp-controller="Bookings"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input asp-for="Id" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger">
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Mã Booking
+                        </label>
+                        <input value="@Model.BookingCode"
+                               class="form-control form-control-lg"
+                               disabled />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Status"
+                               class="form-label fw-semibold">
+                            Trạng thái
+                        </label>
+                        <select asp-for="Status"
+                                asp-items="Html.GetEnumSelectList<BookingStatus>()"
+                                class="form-select form-select-lg">
+                        </select>
+                        <span asp-validation-for="Status"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="CheckInDate"
+                               class="form-label fw-semibold">
+                            Ngày nhận phòng
+                        </label>
+                        <input asp-for="CheckInDate"
+                               type="date"
+                               class="form-control form-control-lg" />
+                        <span asp-validation-for="CheckInDate"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="CheckOutDate"
+                               class="form-label fw-semibold">
+                            Ngày trả phòng
+                        </label>
+                        <input asp-for="CheckOutDate"
+                               type="date"
+                               class="form-control form-control-lg" />
+                        <span asp-validation-for="CheckOutDate"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Adult"
+                               class="form-label fw-semibold">
+                            Số người lớn
+                        </label>
+                        <input asp-for="Adult"
+                               type="number"
+                               min="1"
+                               class="form-control form-control-lg" />
+                        <span asp-validation-for="Adult"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Children"
+                               class="form-label fw-semibold">
+                            Số trẻ em
+                        </label>
+                        <input asp-for="Children"
+                               type="number"
+                               min="0"
+                               class="form-control form-control-lg" />
+                        <span asp-validation-for="Children"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Deposit"
+                               class="form-label fw-semibold">
+                            Tiền cọc
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <input asp-for="Deposit"
+                                   type="number"
+                                   min="0"
+                                   step="1000"
+                                   class="form-control" />
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                        <span asp-validation-for="Deposit"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Tổng tiền hiện tại
+                        </label>
+                        <div class="form-control form-control-lg bg-light">
+                            @Model.TotalAmount.ToString("N0") VNĐ
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Note"
+                               class="form-label fw-semibold">
+                            Ghi chú
+                        </label>
+                        <textarea asp-for="Note"
+                                  rows="4"
+                                  class="form-control"
+                                  placeholder="Nhập ghi chú cho Booking"></textarea>
+                        <span asp-validation-for="Note"
+                              class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button type="submit"
+                            class="btn btn-warning px-4 py-2 fw-semibold">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Lưu thay đổi
+                    </button>
+
+                    <a asp-controller="Bookings"
+                       asp-action="Index"
+                       class="btn btn-secondary px-4 py-2">
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-@section Scripts
-{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

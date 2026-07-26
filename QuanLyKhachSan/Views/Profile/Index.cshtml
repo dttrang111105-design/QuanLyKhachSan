@@ -1,115 +1,196 @@
 ﻿@model QuanLyKhachSan.ViewModels.Profile.ProfileViewModel
 
 @{
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (User.IsInRole("Receptionist"))
+    {
+        Layout = "~/Views/Shared/_ReceptionistLayout.cshtml";
+    }
+    else if (User.IsInRole("Customer"))
+    {
+        Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
     ViewData["Title"] = "Hồ sơ cá nhân";
 }
+
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle-fill me-2"></i>
         @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
-@if (!string.IsNullOrEmpty(Model.Avatar))
+
+@if (TempData["Error"] != null)
 {
-    <img src="@Model.Avatar"
-         width="170"
-         class="rounded-circle mb-3" />
-}
-else
-{
-    <img src="~/images/default-avatar.png"
-         width="170"
-         class="rounded-circle mb-3" />
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 }
 
-<div class="container mt-5">
+<div class="container py-4">
+    <div class="mb-4">
+        @if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+        {
+            <a asp-controller="Home"
+               asp-action="Dashboard"
+               class="btn btn-outline-dark rounded-pill px-4 py-2">
+                <i class="bi bi-arrow-left me-2"></i>
+                Quay về bảng điều khiển
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-outline-dark rounded-pill px-4 py-2">
+                <i class="bi bi-arrow-left me-2"></i>
+                Quay về trang chủ
+            </a>
+        }
+    </div>
 
-    <div class="card shadow">
-
-        <div class="card-header bg-primary text-white">
-
-            <h3>Hồ sơ cá nhân</h3>
-
+    <div class="card border-0 shadow-lg overflow-hidden">
+        <div class="card-header border-0 text-white p-4"
+             style="background:linear-gradient(135deg,#121212,#3b2d18);">
+            <div class="d-flex align-items-center gap-3">
+                <span class="d-inline-flex align-items-center justify-content-center rounded-3"
+                      style="width:52px;height:52px;background:#c8a96a;color:#111;">
+                    <i class="bi bi-person-vcard fs-4"></i>
+                </span>
+                <div>
+                    <h3 class="mb-1">Hồ sơ cá nhân</h3>
+                    <p class="mb-0 text-white-50">
+                        Xem và quản lý thông tin tài khoản của bạn
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="card-body">
-
-            <div class="row">
-
-                <div class="col-md-3 text-center">
-
-                    <img src="https://ui-avatars.com/api/?name=@Model.FullName&size=180"
-                         class="rounded-circle img-thumbnail" />
-
-                </div>
-
-                <div class="col-md-9">
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th width="220">Tên đăng nhập</th>
-                            <td>@Model.Username</td>
-                        </tr>
-
-                        <tr>
-                            <th>Họ tên</th>
-                            <td>@Model.FullName</td>
-                        </tr>
-
-                        <tr>
-                            <th>Email</th>
-                            <td>@Model.Email</td>
-                        </tr>
-
-                        <tr>
-                            <th>Số điện thoại</th>
-                            <td>@Model.Phone</td>
-                        </tr>
-
-                        <tr>
-                            <th>Địa chỉ</th>
-                            <td>@Model.Address</td>
-                        </tr>
-
-                        <tr>
-                            <th>Ngày sinh</th>
-                            <td>@Model.DateOfBirth?.ToString("dd/MM/yyyy")</td>
-                        </tr>
-
-                        <tr>
-                            <th>Vai trò</th>
-                            <td>
-                                <span class="badge bg-success">
-                                    @Model.Role
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <th>Ngày tạo tài khoản</th>
-                            <td>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
-                        </tr>
-
-                    </table>
-
-                    @if (User.IsInRole("Customer"))
+        <div class="card-body p-4 p-lg-5">
+            <div class="row g-5 align-items-start">
+                <div class="col-lg-4 text-center">
+                    @if (!string.IsNullOrWhiteSpace(Model.Avatar))
                     {
-                        <a asp-action="Edit" class="btn btn-warning">
-                            Chỉnh sửa
-                        </a>
+                        <img src="@Model.Avatar"
+                             width="190"
+                             height="190"
+                             class="rounded-circle img-thumbnail shadow-sm"
+                             style="object-fit:cover;"
+                             alt="Ảnh đại diện" />
+                    }
+                    else
+                    {
+                        <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(Model.FullName ?? Model.Username)&size=190&background=c8a96a&color=111111"
+                             width="190"
+                             height="190"
+                             class="rounded-circle img-thumbnail shadow-sm"
+                             style="object-fit:cover;"
+                             alt="Ảnh đại diện" />
                     }
 
-                    <a asp-action="ChangePassword" class="btn btn-danger">
-                        Đổi mật khẩu
-                    </a>
-
+                    <h4 class="mt-3 mb-1">@Model.FullName</h4>
+                    <p class="text-muted mb-2">@@@Model.Username</p>
+                    <span class="badge rounded-pill px-3 py-2"
+                          style="background:#c8a96a;color:#111;">
+                        @Model.Role
+                    </span>
                 </div>
 
+                <div class="col-lg-8">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle mb-4">
+                            <tbody>
+                                <tr>
+                                    <th class="text-muted py-3" style="width:210px;">
+                                        <i class="bi bi-person me-2"></i>
+                                        Tên đăng nhập
+                                    </th>
+                                    <td class="fw-semibold">@Model.Username</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-person-badge me-2"></i>
+                                        Họ tên
+                                    </th>
+                                    <td class="fw-semibold">@Model.FullName</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-envelope me-2"></i>
+                                        Email
+                                    </th>
+                                    <td>@Model.Email</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-telephone me-2"></i>
+                                        Số điện thoại
+                                    </th>
+                                    <td>@Model.Phone</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-geo-alt me-2"></i>
+                                        Địa chỉ
+                                    </th>
+                                    <td>@Model.Address</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-calendar3 me-2"></i>
+                                        Ngày sinh
+                                    </th>
+                                    <td>@Model.DateOfBirth?.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-shield-check me-2"></i>
+                                        Vai trò
+                                    </th>
+                                    <td>
+                                        <span class="badge bg-success">@Model.Role</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted py-3">
+                                        <i class="bi bi-clock-history me-2"></i>
+                                        Ngày tạo tài khoản
+                                    </th>
+                                    <td>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a asp-controller="Profile"
+                           asp-action="Edit"
+                           class="btn btn-warning px-4">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            Chỉnh sửa thông tin
+                        </a>
+
+                        <a asp-controller="Profile"
+                           asp-action="ChangePassword"
+                           class="btn btn-danger px-4">
+                            <i class="bi bi-key me-2"></i>
+                            Đổi mật khẩu
+                        </a>
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </div>
-
 </div>

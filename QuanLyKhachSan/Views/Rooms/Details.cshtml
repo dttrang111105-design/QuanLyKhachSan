@@ -1,6 +1,5 @@
 @using QuanLyKhachSan.Enums
 @model QuanLyKhachSan.Models.Room
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
@@ -10,26 +9,27 @@
                 ? "~/Views/Shared/_CustomerLayout.cshtml"
                 : "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Chi tiết phòng";
-
     var activeReviews = Model.Reviews?
         .Where(review => !review.IsDeleted)
         .OrderByDescending(review => review.CreatedAt)
         .ToList()
         ?? new List<QuanLyKhachSan.Models.Review>();
-
     double averageRating = activeReviews.Any()
         ? activeReviews.Average(review => review.Rating)
         : 0;
 }
-
 <div class="container py-5">
+    <div class="mb-4">
+        <button type="button" class="btn btn-light border shadow-sm rounded-pill px-4 py-2 fw-semibold" onclick="goBackToPreviousPage()">
+            <i class="bi bi-arrow-left me-2"></i>Quay trở lại
+        </button>
+    </div>
     <div class="row g-4">
         <div class="col-lg-6">
             @if (Model.RoomImages != null && Model.RoomImages.Any())
             {
                 var mainImage = Model.RoomImages.FirstOrDefault(image => image.IsMain)
-                                ?? Model.RoomImages.First();
-
+                ?? Model.RoomImages.First();
                 <img src="@mainImage.ImageUrl"
                      alt="Phòng @Model.RoomNumber"
                      class="img-fluid rounded shadow-sm w-100"
@@ -43,7 +43,6 @@
                 </div>
             }
         </div>
-
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-4">
@@ -52,7 +51,6 @@
                             <h1 class="mb-1">Phòng @Model.RoomNumber</h1>
                             <h5 class="text-muted">@Model.RoomType?.Name</h5>
                         </div>
-
                         @if (activeReviews.Any())
                         {
                             <span class="badge bg-warning text-dark fs-6">
@@ -60,26 +58,22 @@
                             </span>
                         }
                     </div>
-
                     <p>
                         <strong>Giá:</strong>
                         <span class="text-danger fw-bold">
                             @Model.PriceDay.ToString("N0") VNĐ/đêm
                         </span>
                     </p>
-
                     <p><strong>Sức chứa:</strong> @Model.MaxOccupancy người</p>
                     <p><strong>Loại giường:</strong> @Model.RoomType?.BedType</p>
                     <p><strong>Diện tích:</strong> @Model.RoomSize m²</p>
                     <p><strong>Tầng:</strong> @Model.Floor</p>
-
                     <p>
                         <strong>Mô tả:</strong><br />
                         @(string.IsNullOrWhiteSpace(Model.Description)
-                            ? Model.RoomType?.Description
-                            : Model.Description)
+                                                ? Model.RoomType?.Description
+                                                : Model.Description)
                     </p>
-
                     @if (Model.Status == RoomStatus.Available)
                     {
                         if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
@@ -117,7 +111,6 @@
             </div>
         </div>
     </div>
-
     <section class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
@@ -131,7 +124,6 @@
                 </p>
             </div>
         </div>
-
         @if (activeReviews.Any())
         {
             <div class="row g-4">
@@ -149,7 +141,6 @@
                                             @review.CreatedAt.ToString("dd/MM/yyyy")
                                         </small>
                                     </div>
-
                                     <div class="text-nowrap">
                                         @for (int star = 1; star <= 5; star++)
                                         {
@@ -157,7 +148,6 @@
                                         }
                                     </div>
                                 </div>
-
                                 @if (!string.IsNullOrWhiteSpace(review.Comment))
                                 {
                                     <p class="mb-0" style="white-space: pre-line;">
@@ -184,3 +174,12 @@
         }
     </section>
 </div>
+<script>
+    function goBackToPreviousPage() {
+        if (document.referrer && window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = '@Url.Action("Index", "Rooms")';
+        }
+    }
+</script>

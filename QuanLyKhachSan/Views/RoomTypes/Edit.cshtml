@@ -4,79 +4,369 @@
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-    ViewData["Title"] = "Edit";
+
+    ViewData["Title"] = "Chỉnh sửa loại phòng";
 }
 
-<h1>Edit</h1>
+<style>
+    .room-type-edit-page {
+        max-width: 1080px;
+        margin: 0 auto;
+    }
 
-<h4>RoomType</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+    .room-type-edit-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .room-type-edit-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .room-type-edit-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .room-type-edit-back {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #ffffff;
+        color: #555c69;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+        .room-type-edit-back:hover {
+            border-color: #b58a42;
+            color: #8f692f;
+        }
+
+    .room-type-edit-card {
+        overflow: hidden;
+        border: 1px solid #e7e9ee;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 22px 55px rgba(34, 38, 51, 0.08);
+    }
+
+    .room-type-edit-card-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 26px 28px;
+        background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111111,#332717);
+        color: #ffffff;
+    }
+
+    .room-type-edit-icon {
+        width: 56px;
+        height: 56px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 56px;
+        border-radius: 16px;
+        background: linear-gradient(145deg,#e5c470,#ad7729);
+        color: #171008;
+        font-size: 25px;
+    }
+
+    .room-type-edit-card-header h3 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .room-type-edit-card-header p {
+        margin: 0;
+        color: rgba(255,255,255,.65);
+        font-size: 13px;
+    }
+
+    .room-type-edit-body {
+        padding: 30px;
+    }
+
+    .room-type-section-title {
+        margin-bottom: 18px;
+        color: #8f692f;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .room-type-field label {
+        margin-bottom: 7px;
+        color: #3c424d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .room-type-field .form-control,
+    .room-type-field .form-select {
+        min-height: 50px;
+        border: 1px solid #dfe2e8;
+        border-radius: 11px;
+        background: #fcfcfd;
+        box-shadow: none;
+    }
+
+    .room-type-field textarea.form-control {
+        min-height: 140px;
+        resize: vertical;
+    }
+
+    .room-type-field .form-control:focus,
+    .room-type-field .form-select:focus {
+        border-color: #b58a42;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(181,138,66,.12);
+    }
+
+    .room-type-input {
+        position: relative;
+    }
+
+        .room-type-input > i {
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            left: 15px;
+            color: #aa7e38;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .room-type-input .form-control {
+            padding-left: 42px;
+        }
+
+    .room-type-edit-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid #eceef2;
+    }
+
+    .room-type-save,
+    .room-type-cancel {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 21px;
+        border-radius: 11px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .room-type-save {
+        border: 1px solid #b58a42;
+        background: linear-gradient(145deg,#d8b25e,#a8752d);
+        color: #ffffff;
+    }
+
+        .room-type-save:hover {
+            background: linear-gradient(145deg,#e5c87f,#b98235);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+    .room-type-cancel {
+        border: 1px solid #dfe2e8;
+        background: #ffffff;
+        color: #555c69;
+    }
+
+        .room-type-cancel:hover {
+            border-color: #9da3ad;
+            color: #303641;
+        }
+
+    @@media (max-width: 767.98px) {
+        .room-type-edit-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .room-type-edit-card-header,
+        .room-type-edit-body {
+            padding: 22px;
+        }
+
+        .room-type-edit-actions {
+            flex-direction: column;
+        }
+
+        .room-type-save,
+        .room-type-cancel {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="room-type-edit-page">
+    <div class="room-type-edit-heading">
+        <div>
+            <span class="room-type-edit-kicker">Quản lý loại phòng</span>
+            <h2>Chỉnh sửa @Model.Name</h2>
+        </div>
+
+        <a asp-controller="RoomTypes"
+           asp-action="Index"
+           class="room-type-edit-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="room-type-edit-card">
+        <div class="room-type-edit-card-header">
+            <span class="room-type-edit-icon">
+                <i class="bi bi-house-gear-fill"></i>
+            </span>
+
+            <div>
+                <h3>Thông tin loại phòng</h3>
+                <p>Cập nhật giá, sức chứa và đặc điểm loại phòng.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="BasePrice" class="control-label"></label>
-                <input asp-for="BasePrice" class="form-control" />
-                <span asp-validation-for="BasePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxOccupancy" class="control-label"></label>
-                <input asp-for="MaxOccupancy" class="form-control" />
-                <span asp-validation-for="MaxOccupancy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BedType" class="control-label"></label>
-                <input asp-for="BedType" class="form-control" />
-                <span asp-validation-for="BedType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Area" class="control-label"></label>
-                <input asp-for="Area" class="form-control" />
-                <span asp-validation-for="Area" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rooms" class="control-label"></label>
-                <input asp-for="Rooms" class="form-control" />
-                <span asp-validation-for="Rooms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsDeleted" class="control-label"></label>
-                <input asp-for="IsDeleted" class="form-check-input" />
-                <span asp-validation-for="IsDeleted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="room-type-edit-body">
+            <form asp-controller="RoomTypes"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input asp-for="Id" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger">
+                </div>
+
+                <div class="room-type-section-title">
+                    Thông tin cơ bản
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 room-type-field">
+                        <label asp-for="Name">Tên loại phòng</label>
+                        <div class="room-type-input">
+                            <i class="bi bi-tag"></i>
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   placeholder="Ví dụ: Deluxe" />
+                        </div>
+                        <span asp-validation-for="Name"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 room-type-field">
+                        <label asp-for="BedType">Loại giường</label>
+                        <div class="room-type-input">
+                            <i class="bi bi-moon-stars"></i>
+                            <input asp-for="BedType"
+                                   class="form-control"
+                                   placeholder="Ví dụ: Queen Bed" />
+                        </div>
+                        <span asp-validation-for="BedType"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-4 room-type-field">
+                        <label asp-for="BasePrice">Giá cơ bản</label>
+                        <div class="input-group">
+                            <input asp-for="BasePrice"
+                                   type="number"
+                                   min="0"
+                                   step="1000"
+                                   class="form-control" />
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                        <span asp-validation-for="BasePrice"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-4 room-type-field">
+                        <label asp-for="MaxOccupancy">Sức chứa tối đa</label>
+                        <div class="room-type-input">
+                            <i class="bi bi-people"></i>
+                            <input asp-for="MaxOccupancy"
+                                   type="number"
+                                   min="1"
+                                   class="form-control" />
+                        </div>
+                        <span asp-validation-for="MaxOccupancy"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-4 room-type-field">
+                        <label asp-for="Area">Diện tích</label>
+                        <div class="input-group">
+                            <input asp-for="Area"
+                                   type="number"
+                                   min="1"
+                                   step="0.1"
+                                   class="form-control" />
+                            <span class="input-group-text">m²</span>
+                        </div>
+                        <span asp-validation-for="Area"
+                              class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12 room-type-field">
+                        <label asp-for="Description">Mô tả</label>
+                        <textarea asp-for="Description"
+                                  class="form-control"
+                                  placeholder="Mô tả không gian, tiện nghi và đặc điểm của loại phòng"></textarea>
+                        <span asp-validation-for="Description"
+                              class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="room-type-edit-actions">
+                    <button type="submit"
+                            class="room-type-save">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu thay đổi
+                    </button>
+
+                    <a asp-controller="RoomTypes"
+                       asp-action="Index"
+                       class="room-type-cancel">
+                        <i class="bi bi-x-circle"></i>
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

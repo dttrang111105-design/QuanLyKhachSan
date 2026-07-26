@@ -61,6 +61,35 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
           rel="stylesheet" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <style>
+        .admin-account-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            color: #444b58;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+            .admin-account-menu .dropdown-item i {
+                width: 18px;
+                color: #a97c30;
+                font-size: 15px;
+            }
+
+            .admin-account-menu .dropdown-item:hover {
+                background: #f6f1e8;
+                color: #8f692f;
+            }
+
+            .admin-account-menu .dropdown-item.text-danger,
+            .admin-account-menu .dropdown-item.text-danger i {
+                color: #dc3545 !important;
+            }
+    </style>
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
@@ -158,7 +187,7 @@
                         <span>Quản lý Booking</span>
 
                         @if (ViewBag.PendingBookingCount is int pendingCount &&
-                             pendingCount > 0)
+                                                pendingCount > 0)
                         {
                             <span class="admin-nav-count">
                                 @pendingCount
@@ -333,6 +362,43 @@
                             </li>
 
                             <li>
+                                <a class="dropdown-item"
+                                   asp-controller="Profile"
+                                   asp-action="Index">
+
+                                    <i class="bi bi-person-circle"></i>
+                                    Trang cá nhân
+
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-controller="Profile"
+                                   asp-action="Edit">
+
+                                    <i class="bi bi-pencil-square"></i>
+                                    Chỉnh sửa thông tin
+
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-controller="Profile"
+                                   asp-action="ChangePassword">
+
+                                    <i class="bi bi-key"></i>
+                                    Đổi mật khẩu
+
+                                </a>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+
+                            <li>
                                 <a class="dropdown-item text-danger"
                                    asp-controller="Auth"
                                    asp-action="Logout">
@@ -403,53 +469,53 @@
     </script>
 
     <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const body = document.body;
-                const sidebarToggle = document.getElementById("adminSidebarToggle");
-                const sidebarClose = document.getElementById("adminSidebarClose");
-                const sidebarOverlay = document.getElementById("adminSidebarOverlay");
-                const sidebar = document.getElementById("adminSidebar");
-                function isDesktop() {
-                    return window.innerWidth >= 992;
-                }
-                function closeMobileSidebar() {
-                    body.classList.remove("sidebar-open");
-                }
-                if (sidebarToggle) {
-                    sidebarToggle.addEventListener("click", function () {
-                        if (isDesktop()) {
-                            body.classList.toggle("sidebar-collapsed");
-                        }
-                        else {
-                            body.classList.toggle("sidebar-open");
-                        }
-                    });
-                }
-                if (sidebarClose) {
-                    sidebarClose.addEventListener( "click", closeMobileSidebar );
-                }
-                if (sidebarOverlay) {
-                    sidebarOverlay.addEventListener( "click", closeMobileSidebar );
-                }
-                if (sidebar) {
-                    const navigationLinks = sidebar.querySelectorAll(".admin-nav-link");
-                    navigationLinks.forEach(function (link) {
-                        link.addEventListener("click", function () {
-                            if (!isDesktop()) {
-                                closeMobileSidebar();
-                            }
-                        });
-                    });
-                }
-                window.addEventListener("resize", function () {
+        document.addEventListener("DOMContentLoaded", function () {
+            const body = document.body;
+            const sidebarToggle = document.getElementById("adminSidebarToggle");
+            const sidebarClose = document.getElementById("adminSidebarClose");
+            const sidebarOverlay = document.getElementById("adminSidebarOverlay");
+            const sidebar = document.getElementById("adminSidebar");
+            function isDesktop() {
+                return window.innerWidth >= 992;
+            }
+            function closeMobileSidebar() {
+                body.classList.remove("sidebar-open");
+            }
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener("click", function () {
                     if (isDesktop()) {
-                        closeMobileSidebar();
+                        body.classList.toggle("sidebar-collapsed");
                     }
                     else {
-                        body.classList.remove("sidebar-collapsed");
+                        body.classList.toggle("sidebar-open");
                     }
                 });
+            }
+            if (sidebarClose) {
+                sidebarClose.addEventListener( "click", closeMobileSidebar );
+            }
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener( "click", closeMobileSidebar );
+            }
+            if (sidebar) {
+                const navigationLinks = sidebar.querySelectorAll(".admin-nav-link");
+                navigationLinks.forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        if (!isDesktop()) {
+                            closeMobileSidebar();
+                        }
+                    });
+                });
+            }
+            window.addEventListener("resize", function () {
+                if (isDesktop()) {
+                    closeMobileSidebar();
+                }
+                else {
+                    body.classList.remove("sidebar-collapsed");
+                }
             });
+        });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

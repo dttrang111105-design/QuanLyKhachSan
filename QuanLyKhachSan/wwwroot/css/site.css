@@ -670,3 +670,30 @@ textarea {
         bottom: 15px;
     }
 }
+.public-footer ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+    .public-footer ul li {
+        margin-bottom: 12px;
+    }
+
+        .public-footer ul li a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all .25s ease;
+        }
+
+            .public-footer ul li a i {
+                color: #ffffff;
+            }
+
+            .public-footer ul li a:hover {
+                color: #ffffff;
+                text-decoration: underline;
+            }

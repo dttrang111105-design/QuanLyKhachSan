@@ -134,6 +134,7 @@
 
         <a asp-controller="Rooms"
            asp-action="Index"
+           asp-route-status="Available"
            class="reception-primary-action">
 
             <i class="bi bi-door-open"></i>
@@ -197,6 +198,7 @@
 
         <a asp-controller="Rooms"
            asp-action="Index"
+           asp-route-status="Available"
            class="reception-stat-card reception-stat-available">
 
             <div class="reception-stat-top">
@@ -239,6 +241,7 @@
 
         <a asp-controller="Rooms"
            asp-action="Index"
+           asp-route-status="Occupied"
            class="reception-stat-card reception-stat-occupied">
 
             <div class="reception-stat-top">
@@ -280,6 +283,7 @@
 
         <a asp-controller="Rooms"
            asp-action="Index"
+           asp-route-status="Maintenance"
            class="reception-stat-card reception-stat-maintenance">
 
             <div class="reception-stat-top">
@@ -347,6 +351,7 @@
 
         <a asp-controller="Bookings"
            asp-action="Index"
+           asp-route-filter="checkinToday"
            class="reception-today-item">
 
             <span class="today-icon today-checkin">
@@ -369,6 +374,7 @@
 
         <a asp-controller="Bookings"
            asp-action="Index"
+           asp-route-filter="checkoutToday"
            class="reception-today-item">
 
             <span class="today-icon today-checkout">
@@ -391,6 +397,7 @@
 
         <a asp-controller="Bookings"
            asp-action="Index"
+           asp-route-filter="pending"
            class="reception-today-item">
 
             <span class="today-icon today-pending">
@@ -413,6 +420,7 @@
 
         <a asp-controller="Rooms"
            asp-action="Index"
+           asp-route-status="Available"
            class="reception-today-item">
 
             <span class="today-icon today-room">
@@ -458,6 +466,7 @@
 
         <a asp-controller="Rooms"
            asp-action="Index"
+           asp-route-status="Available"
            class="reception-panel-link">
 
             Xem tất cả
@@ -468,7 +477,7 @@
     </div>
 
     @if (Model.AvailableRoomList != null &&
-         Model.AvailableRoomList.Any())
+        Model.AvailableRoomList.Any())
     {
         <div class="reception-room-grid">
 
@@ -497,7 +506,7 @@
                         <i class="bi bi-house-door"></i>
 
                         @(room.RoomType?.Name
-                            ?? "Chưa xác định")
+                                        ?? "Chưa xác định")
 
                     </div>
 
@@ -751,14 +760,14 @@
                     <tbody>
 
                         @if (Model.RecentBookings != null &&
-                             Model.RecentBookings.Any())
+                                                Model.RecentBookings.Any())
                         {
                             foreach (Booking booking
-                                     in Model.RecentBookings)
+                            in Model.RecentBookings)
                             {
                                 string customerName =
-                                    booking.Customer?.FullName
-                                    ?? "Không xác định";
+                                booking.Customer?.FullName
+                                ?? "Không xác định";
 
                                 <tr>
 
@@ -791,7 +800,7 @@
 
                                                 <small>
                                                     @(booking.Customer?.Phone
-                                                        ?? "Chưa có SĐT")
+                                                                                                ?? "Chưa có SĐT")
                                                 </small>
 
                                             </div>
@@ -818,31 +827,31 @@
                                     <td>
 
                                         <span class="reception-booking-status
-                                            @StatusClass(
-                                                  booking.Status)">
+                                                    @StatusClass(
+                                              booking.Status)">
 
-                                            @StatusText(booking.Status)
+                                    @StatusText(booking.Status)
 
-                                        </span>
+                                </span>
 
-                                    </td>
+                            </td>
 
-                                    <td class="text-end pe-4">
+                            <td class="text-end pe-4">
 
-                                        <a asp-controller="Bookings"
-                                           asp-action="Details"
-                                           asp-route-id="@booking.Id"
-                                           class="reception-table-button"
-                                           title="Xem chi tiết">
+                                <a asp-controller="Bookings"
+                                   asp-action="Details"
+                                   asp-route-id="@booking.Id"
+                                   class="reception-table-button"
+                                   title="Xem chi tiết">
 
-                                            <i class="bi bi-arrow-up-right"></i>
+                                    <i class="bi bi-arrow-up-right"></i>
 
-                                        </a>
+                                </a>
 
-                                    </td>
+                            </td>
 
-                                </tr>
-                            }
+                        </tr>
+                                                }
                         }
                         else
                         {
@@ -942,19 +951,14 @@
 
         .reception-primary-action {
             border: 1px solid #b58a42;
-            background: linear-gradient(
-                135deg,
-                #c49a51,
-                #8f692f
-            );
+            background: linear-gradient( 135deg, #c49a51, #8f692f );
             color: #ffffff;
-            box-shadow:
-                0 10px 23px rgba(181, 138, 66, 0.2);
+            box-shadow: 0 10px 23px rgba(181, 138, 66, 0.2);
         }
 
-        .reception-primary-action:hover {
-            color: #ffffff;
-        }
+            .reception-primary-action:hover {
+                color: #ffffff;
+            }
 
         .reception-stat-card {
             position: relative;
@@ -967,15 +971,14 @@
             border-radius: 18px;
             background: #ffffff;
             color: #242834;
-            box-shadow:
-                0 18px 45px rgba(34, 38, 51, 0.07);
+            box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
             transition: 0.3s ease;
         }
 
-        .reception-stat-card:hover {
-            color: #242834;
-            transform: translateY(-5px);
-        }
+            .reception-stat-card:hover {
+                color: #242834;
+                transform: translateY(-5px);
+            }
 
         .reception-stat-top {
             display: flex;
@@ -1024,15 +1027,15 @@
             font-weight: 700;
         }
 
-        .reception-stat-tag.success {
-            background: #e7f7ef;
-            color: #25885e;
-        }
+            .reception-stat-tag.success {
+                background: #e7f7ef;
+                color: #25885e;
+            }
 
-        .reception-stat-tag.danger {
-            background: #fde9eb;
-            color: #c34c55;
-        }
+            .reception-stat-tag.danger {
+                background: #fde9eb;
+                color: #c34c55;
+            }
 
         .reception-stat-label {
             color: #838897;
@@ -1065,8 +1068,7 @@
             border: 1px solid #e8e9ee;
             border-radius: 18px;
             background: #ffffff;
-            box-shadow:
-                0 18px 45px rgba(34, 38, 51, 0.07);
+            box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
 
         .reception-today-heading {
@@ -1118,10 +1120,10 @@
             color: #242834;
         }
 
-        .reception-today-item:hover {
-            background: #f8f8fa;
-            color: #242834;
-        }
+            .reception-today-item:hover {
+                background: #f8f8fa;
+                color: #242834;
+            }
 
         .today-icon {
             width: 42px;
@@ -1161,8 +1163,7 @@
             border: 1px solid #e8e9ee;
             border-radius: 18px;
             background: #ffffff;
-            box-shadow:
-                0 18px 45px rgba(34, 38, 51, 0.07);
+            box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
 
         .reception-panel-header {
@@ -1175,24 +1176,24 @@
             border-bottom: 1px solid #e8e9ee;
         }
 
-        .reception-panel-header > div {
-            display: flex;
-            flex-direction: column;
-        }
+            .reception-panel-header > div {
+                display: flex;
+                flex-direction: column;
+            }
 
-        .reception-panel-header span {
-            color: #b58a42;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
+            .reception-panel-header span {
+                color: #b58a42;
+                font-size: 9px;
+                font-weight: 800;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+            }
 
-        .reception-panel-header h3 {
-            margin: 4px 0 0;
-            font-family: "Playfair Display", serif;
-            font-size: 20px;
-        }
+            .reception-panel-header h3 {
+                margin: 4px 0 0;
+                font-family: "Playfair Display", serif;
+                font-size: 20px;
+            }
 
         .reception-panel-link {
             display: inline-flex;
@@ -1219,13 +1220,12 @@
             transition: 0.25s ease;
         }
 
-        .reception-room-card:hover {
-            border-color: #d6bd88;
-            color: #242834;
-            transform: translateY(-4px);
-            box-shadow:
-                0 14px 32px rgba(34, 38, 51, 0.09);
-        }
+            .reception-room-card:hover {
+                border-color: #d6bd88;
+                color: #242834;
+                transform: translateY(-4px);
+                box-shadow: 0 14px 32px rgba(34, 38, 51, 0.09);
+            }
 
         .reception-room-card-top {
             display: flex;
@@ -1263,9 +1263,9 @@
             font-weight: 600;
         }
 
-        .reception-room-type i {
-            color: #b58a42;
-        }
+            .reception-room-type i {
+                color: #b58a42;
+            }
 
         .reception-room-info {
             display: flex;
@@ -1275,11 +1275,11 @@
             font-size: 10px;
         }
 
-        .reception-room-info span {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
+            .reception-room-info span {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
 
         .reception-room-footer {
             display: flex;
@@ -1290,15 +1290,15 @@
             border-top: 1px solid #eeeef2;
         }
 
-        .reception-room-footer strong {
-            color: #c34e59;
-            font-size: 13px;
-        }
+            .reception-room-footer strong {
+                color: #c34e59;
+                font-size: 13px;
+            }
 
-        .reception-room-footer small {
-            color: #838897;
-            font-size: 8px;
-        }
+            .reception-room-footer small {
+                color: #838897;
+                font-size: 8px;
+            }
 
         .reception-quick-list {
             padding: 10px 17px 17px;
@@ -1313,29 +1313,29 @@
             color: #242834;
         }
 
-        .reception-quick-item:last-child {
-            border-bottom: 0;
-        }
+            .reception-quick-item:last-child {
+                border-bottom: 0;
+            }
 
-        .reception-quick-item > div {
-            min-width: 0;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+            .reception-quick-item > div {
+                min-width: 0;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .reception-quick-item strong {
-            font-size: 13px;
-        }
+            .reception-quick-item strong {
+                font-size: 13px;
+            }
 
-        .reception-quick-item small {
-            color: #838897;
-            font-size: 10px;
-        }
+            .reception-quick-item small {
+                color: #838897;
+                font-size: 10px;
+            }
 
-        .reception-quick-item > i {
-            color: #b3b7c0;
-        }
+            .reception-quick-item > i {
+                color: #b3b7c0;
+            }
 
         .quick-icon {
             width: 44px;
@@ -1347,25 +1347,25 @@
             font-size: 18px;
         }
 
-        .quick-icon.booking {
-            background: #eaf0ff;
-            color: #4f6fd8;
-        }
+            .quick-icon.booking {
+                background: #eaf0ff;
+                color: #4f6fd8;
+            }
 
-        .quick-icon.room {
-            background: #e4f7ef;
-            color: #27875e;
-        }
+            .quick-icon.room {
+                background: #e4f7ef;
+                color: #27875e;
+            }
 
-        .quick-icon.service {
-            background: #f0ebff;
-            color: #8567d4;
-        }
+            .quick-icon.service {
+                background: #f0ebff;
+                color: #8567d4;
+            }
 
-        .quick-icon.invoice {
-            background: #f4ead7;
-            color: #8f692f;
-        }
+            .quick-icon.invoice {
+                background: #f4ead7;
+                color: #8f692f;
+            }
 
         .reception-booking-table thead th {
             background: #fafafb;
@@ -1391,27 +1391,27 @@
             gap: 9px;
         }
 
-        .reception-customer-cell > span {
-            width: 35px;
-            height: 35px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 11px;
-            background: #f4ead7;
-            color: #8f692f;
-            font-weight: 800;
-        }
+            .reception-customer-cell > span {
+                width: 35px;
+                height: 35px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 11px;
+                background: #f4ead7;
+                color: #8f692f;
+                font-weight: 800;
+            }
 
-        .reception-customer-cell div {
-            display: flex;
-            flex-direction: column;
-        }
+            .reception-customer-cell div {
+                display: flex;
+                flex-direction: column;
+            }
 
-        .reception-customer-cell small {
-            color: #838897;
-            font-size: 9px;
-        }
+            .reception-customer-cell small {
+                color: #838897;
+                font-size: 9px;
+            }
 
         .reception-room-badge {
             display: inline-flex;
@@ -1465,11 +1465,11 @@
             color: #687080;
         }
 
-        .reception-table-button:hover {
-            border-color: #b58a42;
-            background: #f4ead7;
-            color: #8f692f;
-        }
+            .reception-table-button:hover {
+                border-color: #b58a42;
+                background: #f4ead7;
+                color: #8f692f;
+            }
 
         .reception-empty-state {
             display: flex;
@@ -1480,15 +1480,15 @@
             text-align: center;
         }
 
-        .reception-empty-state i {
-            margin-bottom: 8px;
-            color: #c4c7ce;
-            font-size: 30px;
-        }
+            .reception-empty-state i {
+                margin-bottom: 8px;
+                color: #c4c7ce;
+                font-size: 30px;
+            }
 
-        .reception-empty-state strong {
-            color: #555b68;
-        }
+            .reception-empty-state strong {
+                color: #555b68;
+            }
 
         @@media (max-width: 1199.98px) {
             .reception-room-grid {
@@ -1518,9 +1518,9 @@
                 width: 100%;
             }
 
-            .reception-dashboard-actions a {
-                flex: 1;
-            }
+                .reception-dashboard-actions a {
+                    flex: 1;
+                }
 
             .reception-today-list {
                 grid-template-columns: repeat(2, 1fr);

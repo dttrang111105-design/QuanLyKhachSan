@@ -2,47 +2,166 @@
 
 @{
     ViewData["Title"] = "Đăng nhập";
+    Layout = "_CustomerLayout";
 }
 
-<h2>Đăng nhập</h2>
+<section class="auth-page">
+    <div class="auth-shell auth-shell-login">
+        <div class="auth-visual">
+            <div class="auth-overlay"></div>
+            <div class="auth-brand">
+                <span class="auth-brand-icon">
+                    <i class="bi bi-building-fill"></i>
+                </span>
+                <div>
+                    <strong>LUXURY</strong>
+                    <small>HOTEL &amp; RESORT</small>
+                </div>
+            </div>
 
-<form asp-action="Login" method="post">
+            <div class="auth-visual-content">
+                <span class="auth-kicker">
+                    <i class="bi bi-stars"></i>
+                    Trải nghiệm đẳng cấp
+                </span>
 
-    <div asp-validation-summary="ModelOnly"
-         class="text-danger">
+                <h1>Chào mừng bạn quay trở lại</h1>
+
+                <p>
+                    Đăng nhập để quản lý Booking, hóa đơn,
+                    dịch vụ và thông tin cá nhân của bạn.
+                </p>
+
+                <div class="auth-highlights">
+                    <div>
+                        <i class="bi bi-shield-check"></i>
+                        <span>Bảo mật an toàn</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-history"></i>
+                        <span>Hỗ trợ 24/7</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-gem"></i>
+                        <span>Dịch vụ cao cấp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-form-panel">
+            <div class="auth-form-wrap">
+                <div class="auth-form-heading">
+                    <span>Đăng nhập tài khoản</span>
+                    <h2>Xin chào!</h2>
+                    <p>Nhập thông tin của bạn để tiếp tục.</p>
+                </div>
+
+                <form asp-action="Login" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="auth-validation-summary">
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="Username">Tên đăng nhập</label>
+                        <div class="auth-input-group">
+                            <span class="auth-input-icon">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input asp-for="Username"
+                                   class="auth-input"
+                                   placeholder="Nhập tên đăng nhập"
+                                   autocomplete="username" />
+                        </div>
+                        <span asp-validation-for="Username"
+                              class="auth-error"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="Password">Mật khẩu</label>
+                        <div class="auth-input-group">
+                            <span class="auth-input-icon">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input asp-for="Password"
+                                   type="password"
+                                   id="loginPassword"
+                                   class="auth-input auth-password-input"
+                                   placeholder="Nhập mật khẩu"
+                                   autocomplete="current-password" />
+                            <button type="button"
+                                    class="auth-password-toggle"
+                                    data-target="loginPassword"
+                                    aria-label="Hiện hoặc ẩn mật khẩu">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password"
+                              class="auth-error"></span>
+                    </div>
+
+                    <button type="submit"
+                            class="auth-primary-button">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Đăng nhập
+                    </button>
+
+                    <div class="auth-divider">
+                        <span>hoặc</span>
+                    </div>
+
+                    <a asp-action="GoogleLogin"
+                       class="auth-google-button">
+                        <i class="bi bi-google"></i>
+                        Đăng nhập bằng Google
+                    </a>
+
+                    <p class="auth-switch">
+                        Chưa có tài khoản?
+                        <a asp-controller="Auth"
+                           asp-action="Register">
+                            Đăng ký ngay
+                        </a>
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Username"></label>
-        <input asp-for="Username"
-               class="form-control" />
-        <span asp-validation-for="Username"
-              class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Password"></label>
-        <input asp-for="Password"
-               type="password"
-               class="form-control" />
-        <span asp-validation-for="Password"
-              class="text-danger"></span>
-    </div>
-
-    <button type="submit"
-            class="btn btn-primary">
-        Đăng nhập
-    </button>
-    <a asp-action="GoogleLogin"
-       class="btn btn-danger w-100 mt-2">
-
-        <i class="bi bi-google"></i>
-
-        Đăng nhập bằng Google
-
-    </a>
-</form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelectorAll(".auth-password-toggle")
+            .forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const input = document.getElementById(
+                        button.dataset.target
+                    );
+
+                    if (!input) {
+                        return;
+                    }
+
+                    const isPassword =
+                        input.type === "password";
+
+                    input.type =
+                        isPassword ? "text" : "password";
+
+                    const icon =
+                        button.querySelector("i");
+
+                    if (icon) {
+                        icon.className =
+                            isPassword
+                                ? "bi bi-eye-slash"
+                                : "bi bi-eye";
+                    }
+                });
+            });
+    </script>
 }

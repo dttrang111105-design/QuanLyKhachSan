@@ -12,6 +12,18 @@
 
     bool isAuthenticated =
         User.Identity?.IsAuthenticated == true;
+    RoomStatus? selectedStatus = ViewBag.SelectedStatus is RoomStatus roomStatus ? roomStatus : null;
+    int totalRoomCount = ViewBag.TotalRoomCount ?? Model.Count();
+    int availableCount = ViewBag.AvailableCount ?? Model.Count(room => room.Status == RoomStatus.Available);
+    int occupiedCount = ViewBag.OccupiedCount ?? Model.Count(room => room.Status == RoomStatus.Occupied);
+    int maintenanceCount = ViewBag.MaintenanceCount ?? Model.Count(room => room.Status == RoomStatus.Maintenance);
+    string filteredTitle = selectedStatus switch
+    {
+        RoomStatus.Available => "Phòng còn trống",
+        RoomStatus.Occupied => "Phòng đang có khách",
+        RoomStatus.Maintenance => "Phòng đang bảo trì",
+        _ => "Tất cả phòng"
+    };
 
     if (isAdmin)
     {
@@ -35,11 +47,21 @@
     }
 }
 
+@if (isAdmin || isReceptionist)
+{
+    <div class="room-filter-bar mb-4">
+        <a asp-controller="Rooms" asp-action="Index" class="room-filter-link @(selectedStatus == null ? "active" : "")">Tất cả (@totalRoomCount)</a>
+        <a asp-controller="Rooms" asp-action="Index" asp-route-status="Available" class="room-filter-link @(selectedStatus == RoomStatus.Available ? "active" : "")">Phòng trống (@availableCount)</a>
+        <a asp-controller="Rooms" asp-action="Index" asp-route-status="Occupied" class="room-filter-link @(selectedStatus == RoomStatus.Occupied ? "active" : "")">Có khách (@occupiedCount)</a>
+        <a asp-controller="Rooms" asp-action="Index" asp-route-status="Maintenance" class="room-filter-link @(selectedStatus == RoomStatus.Maintenance ? "active" : "")">Bảo trì (@maintenanceCount)</a>
+    </div>
+}
+
 @if (isAdmin)
 {
     <div class="d-flex flex-column flex-md-row
-        justify-content-between align-items-md-center
-        gap-3 mb-4">
+            justify-content-between align-items-md-center
+            gap-3 mb-4">
         <div>
             <span class="text-uppercase text-warning fw-semibold small">
                 Quản lý cơ sở vật chất
@@ -94,19 +116,19 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between
-                        align-items-center">
+                            align-items-center">
                         <div>
                             <span class="text-muted small">
                                 Tổng số phòng
                             </span>
 
                             <h3 class="fw-bold mb-0">
-                                @Model.Count()
+                                @totalRoomCount
                             </h3>
                         </div>
                         <div class="bg-primary-subtle text-primary
-                            rounded-circle d-flex
-                            align-items-center justify-content-center"
+                                rounded-circle d-flex
+                                align-items-center justify-content-center"
                              style="width: 50px; height: 50px;">
                             <i class="bi bi-building fs-4"></i>
                         </div>
@@ -119,19 +141,18 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between
-                        align-items-center">
+                            align-items-center">
                         <div>
                             <span class="text-muted small">
                                 Phòng còn trống
                             </span>
                             <h3 class="fw-bold text-success mb-0">
-                                @Model.Count(room =>
-                                    room.Status == RoomStatus.Available)
+                                @availableCount
                             </h3>
                         </div>
                         <div class="bg-success-subtle text-success
-                            rounded-circle d-flex
-                            align-items-center justify-content-center"
+                                rounded-circle d-flex
+                                align-items-center justify-content-center"
                              style="width: 50px; height: 50px;">
                             <i class="bi bi-door-open fs-4"></i>
                         </div>
@@ -143,20 +164,19 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between
-                        align-items-center">
+                            align-items-center">
                         <div>
                             <span class="text-muted small">
                                 Đang có khách
                             </span>
 
                             <h3 class="fw-bold text-danger mb-0">
-                                @Model.Count(room =>
-                                    room.Status == RoomStatus.Occupied)
+                                @occupiedCount
                             </h3>
                         </div>
                         <div class="bg-danger-subtle text-danger
-                            rounded-circle d-flex
-                            align-items-center justify-content-center"
+                                rounded-circle d-flex
+                                align-items-center justify-content-center"
                              style="width: 50px; height: 50px;">
                             <i class="bi bi-person-check fs-4"></i>
                         </div>
@@ -169,20 +189,19 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between
-                        align-items-center">
+                            align-items-center">
                         <div>
                             <span class="text-muted small">
                                 Đang bảo trì
                             </span>
 
                             <h3 class="fw-bold text-secondary mb-0">
-                                @Model.Count(room =>
-                                    room.Status == RoomStatus.Maintenance)
+                                @maintenanceCount
                             </h3>
                         </div>
                         <div class="bg-secondary-subtle text-secondary
-                            rounded-circle d-flex
-                            align-items-center justify-content-center"
+                                rounded-circle d-flex
+                                align-items-center justify-content-center"
                              style="width: 50px; height: 50px;">
                             <i class="bi bi-tools fs-4"></i>
                         </div>
@@ -201,7 +220,7 @@
             </h5>
 
             <p class="text-muted small mb-0">
-                Tổng cộng @Model.Count() phòng
+                Tổng cộng @totalRoomCount phòng
             </p>
 
         </div>
@@ -240,13 +259,13 @@
                                     <td class="ps-4">
                                         <div class="d-flex align-items-center gap-2">
                                             <span class="bg-primary-subtle
-                                                text-primary
-                                                rounded-circle
-                                                d-inline-flex
-                                                align-items-center
-                                                justify-content-center"
+                                                            text-primary
+                                                            rounded-circle
+                                                            d-inline-flex
+                                                            align-items-center
+                                                            justify-content-center"
                                                   style="width: 38px;
-                                                height: 38px;">
+                                                            height: 38px;">
                                                 <i class="bi bi-door-open"></i>
                                             </span>
                                             <strong>
@@ -258,7 +277,7 @@
 
                                     <td>
                                         @(room.RoomType?.Name
-                                            ?? "Chưa xác định")
+                                                                    ?? "Chưa xác định")
                                     </td>
 
                                     <td>
@@ -287,30 +306,30 @@
                                         {
                                             case RoomStatus.Available:
                                                 <span class="badge
-                                                    bg-success-subtle
-                                                    text-success
-                                                    border
-                                                    border-success-subtle">
+                                                                        bg-success-subtle
+                                                                        text-success
+                                                                        border
+                                                                        border-success-subtle">
                                                     <i class="bi bi-check-circle me-1"></i>
                                                     Còn trống
                                                 </span>
                                                 break;
                                             case RoomStatus.Occupied:
                                                 <span class="badge
-                                                    bg-danger-subtle
-                                                    text-danger
-                                                    border
-                                                    border-danger-subtle">
+                                                                        bg-danger-subtle
+                                                                        text-danger
+                                                                        border
+                                                                        border-danger-subtle">
                                                     <i class="bi bi-person-fill me-1"></i>
                                                     Đang có khách
                                                 </span>
                                                 break;
                                             case RoomStatus.Maintenance:
                                                 <span class="badge
-                                                    bg-secondary-subtle
-                                                    text-secondary
-                                                    border
-                                                    border-secondary-subtle">
+                                                                        bg-secondary-subtle
+                                                                        text-secondary
+                                                                        border
+                                                                        border-secondary-subtle">
                                                     <i class="bi bi-tools me-1"></i>
                                                     Bảo trì
                                                 </span>
@@ -323,7 +342,7 @@
                                            asp-action="Details"
                                            asp-route-id="@room.Id"
                                            class="btn btn-sm
-                                            btn-outline-info"
+                                                        btn-outline-info"
                                            title="Chi tiết">
                                             <i class="bi bi-eye"></i>
                                         </a>
@@ -332,7 +351,7 @@
                                            asp-action="Edit"
                                            asp-route-id="@room.Id"
                                            class="btn btn-sm
-                                            btn-outline-warning"
+                                                        btn-outline-warning"
                                            title="Chỉnh sửa">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
@@ -341,7 +360,7 @@
                                            asp-action="Delete"
                                            asp-route-id="@room.Id"
                                            class="btn btn-sm
-                                            btn-outline-danger"
+                                                        btn-outline-danger"
                                            title="Xóa">
                                             <i class="bi bi-trash"></i>
                                         </a>
@@ -354,7 +373,7 @@
                             <tr>
                                 <td colspan="9" class="text-center text-muted py-5">
                                     <i class="bi bi-door-closed
-                                        d-block fs-1 mb-2">
+                                                d-block fs-1 mb-2">
                                     </i>
                                     Chưa có phòng nào trong hệ thống.
                                 </td>
@@ -369,15 +388,15 @@
 else if (isReceptionist)
 {
     <div class="d-flex justify-content-between
-        align-items-center mb-4">
+            align-items-center mb-4">
 
         <div>
             <h2 class="fw-bold mb-1">
-                Tình trạng phòng
+                @filteredTitle
             </h2>
 
             <p class="text-muted mb-0">
-                Theo dõi tình trạng phòng hiện tại của khách sạn.
+                Đang hiển thị @Model.Count() phòng theo trạng thái đã chọn.
             </p>
         </div>
         <a asp-controller="Bookings"
@@ -394,20 +413,20 @@ else if (isReceptionist)
         {
             foreach (var room in Model)
             {
-                string borderClass = room.Status == RoomStatus.Available 
-                ? "border-success" : room.Status == RoomStatus.Occupied 
+                string borderClass = room.Status == RoomStatus.Available
+                ? "border-success" : room.Status == RoomStatus.Occupied
                 ? "border-danger" : "border-secondary";
                 <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="card h-100 shadow-sm
-                        border-0 border-start border-4
-                        @borderClass">
+                                    border-0 border-start border-4
+                                    @borderClass">
                         <div class="card-body">
                             <div class="d-flex justify-content-between
-                                align-items-start mb-3">
+                                            align-items-start mb-3">
                                 <div>
                                     <small class="text-muted">
                                         @(room.RoomType?.Name
-                                            ?? "Chưa xác định")
+                                                                    ?? "Chưa xác định")
                                     </small>
                                     <h3 class="fw-bold mb-0">
                                         Phòng @room.RoomNumber
@@ -495,26 +514,26 @@ else
                 @foreach (var room in Model)
                 {
                     string? mainImage = room.RoomImages?
-                            .FirstOrDefault(image => image.IsMain)?
-                            .ImageUrl ?? room.RoomImages?
-                            .FirstOrDefault()?
-                            .ImageUrl;
+                    .FirstOrDefault(image => image.IsMain)?
+                    .ImageUrl ?? room.RoomImages?
+                    .FirstOrDefault()?
+                    .ImageUrl;
                     <div class="col-xl-4 col-md-6">
                         <div class="card h-100 border-0 shadow-sm
-                            overflow-hidden">
+                                        overflow-hidden">
                             @if (!string.IsNullOrWhiteSpace(mainImage))
                             {
                                 <img src="@mainImage"
                                      alt="Phòng @room.RoomNumber"
                                      class="card-img-top"
                                      style="height: 230px;
-                                object-fit: cover;" />
+                                                object-fit: cover;" />
                             }
                             else
                             {
                                 <div class="bg-light d-flex
-                                    flex-column align-items-center
-                                    justify-content-center text-muted"
+                                                    flex-column align-items-center
+                                                    justify-content-center text-muted"
                                      style="height: 230px;">
                                     <i class="bi bi-image fs-1 mb-2"></i>
                                     <span>
@@ -553,9 +572,9 @@ else
                                 </div>
                                 <p class="text-muted">
                                     @(string.IsNullOrWhiteSpace(
-                                        room.Description)
-                                        ? "Phòng nghỉ tiện nghi, sạch sẽ và phù hợp cho kỳ nghỉ của bạn."
-                                        : room.Description)
+                                                            room.Description)
+                                                            ? "Phòng nghỉ tiện nghi, sạch sẽ và phù hợp cho kỳ nghỉ của bạn."
+                                                            : room.Description)
                                 </p>
                                 <div class="row g-2 small mb-4">
                                     <div class="col-6">
@@ -588,8 +607,8 @@ else
                                            asp-action="Details"
                                            asp-route-id="@room.Id"
                                            class="btn
-                                            btn-outline-secondary
-                                            flex-fill">
+                                                        btn-outline-secondary
+                                                        flex-fill">
                                             Chi tiết
                                         </a>
                                         @if (room.Status == RoomStatus.Available)
@@ -600,7 +619,7 @@ else
                                                    asp-action="Create"
                                                    asp-route-roomId="@room.Id"
                                                    class="btn btn-success
-                                                    flex-fill">
+                                                                        flex-fill">
                                                     Đặt phòng
                                                 </a>
                                             }
@@ -609,7 +628,7 @@ else
                                                 <a asp-controller="Auth"
                                                    asp-action="Login"
                                                    class="btn btn-success
-                                                    flex-fill">
+                                                                        flex-fill">
                                                     Đăng nhập để đặt
                                                 </a>
                                             }
@@ -639,10 +658,52 @@ else
             <div class="alert alert-info text-center py-5">
 
                 <i class="bi bi-door-closed
-                    d-block fs-1 mb-3">
+                            d-block fs-1 mb-3">
                 </i>
                 Hiện chưa có phòng để hiển thị.
             </div>
         }
     </div>
+}
+@section Styles
+{
+    <style>
+        .room-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 14px;
+            background: #fff;
+            border: 1px solid #e8e9ee;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(34,38,51,.06)
+        }
+
+        .room-filter-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 9px 14px;
+            border: 1px solid #dfe2e8;
+            border-radius: 10px;
+            color: #555c69;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s ease
+        }
+
+            .room-filter-link:hover {
+                border-color: #b58a42;
+                background: #f8f2e8;
+                color: #8f692f;
+                transform: translateY(-1px)
+            }
+
+            .room-filter-link.active {
+                border-color: #b58a42;
+                background: #b58a42;
+                color: #fff
+            }
+    </style>
 }

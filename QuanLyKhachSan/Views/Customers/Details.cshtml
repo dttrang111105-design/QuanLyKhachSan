@@ -2,122 +2,333 @@
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết khách hàng";
+
+    string displayName =
+        string.IsNullOrWhiteSpace(Model.FullName)
+            ? "Khách hàng"
+            : Model.FullName;
+
+    string avatarUrl =
+        string.IsNullOrWhiteSpace(Model.Avatar)
+            ? $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(displayName)}&size=220&background=c8a96a&color=111111"
+            : Model.Avatar;
 }
 
-<h1>Details</h1>
+<style>
+    .customer-details-page {
+        max-width: 1120px;
+        margin: 0 auto;
+    }
 
-<div>
-    <h4>Customer</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountId)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Account)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Account)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CitizenId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CitizenId)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Avatar)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Avatar)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Bookings)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Bookings)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reviews)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reviews)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    .customer-details-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .customer-details-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+    }
+
+    .customer-details-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .customer-details-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .customer-details-button {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border-radius: 11px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+        .customer-details-button.back {
+            border: 1px solid #dfe2e8;
+            background: #fff;
+            color: #555c69;
+        }
+
+        .customer-details-button.edit {
+            border: 1px solid #b58a42;
+            background: linear-gradient(145deg,#d8b25e,#a8752d);
+            color: #fff;
+        }
+
+    .customer-details-card {
+        overflow: hidden;
+        border: 1px solid #e7e9ee;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 22px 55px rgba(34,38,51,.08);
+    }
+
+    .customer-details-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 28px;
+        background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111,#332717);
+        color: #fff;
+    }
+
+    .customer-details-avatar {
+        width: 92px;
+        height: 92px;
+        object-fit: cover;
+        border: 4px solid rgba(255,255,255,.18);
+        border-radius: 50%;
+    }
+
+    .customer-details-header h3 {
+        margin: 0 0 5px;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .customer-details-header p {
+        margin: 0;
+        color: rgba(255,255,255,.65);
+    }
+
+    .customer-details-body {
+        padding: 30px;
+    }
+
+    .customer-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3,minmax(0,1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+
+    .customer-summary-item {
+        padding: 20px;
+        border: 1px solid #e8e9ee;
+        border-radius: 16px;
+        background: #fcfcfd;
+    }
+
+        .customer-summary-item span {
+            display: block;
+            margin-bottom: 7px;
+            color: #8a909b;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .customer-summary-item strong {
+            color: #282d38;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+    .customer-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 14px;
+    }
+
+    .customer-info-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 17px 18px;
+        border: 1px solid #eceef2;
+        border-radius: 14px;
+        background: #fff;
+    }
+
+        .customer-info-item i {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 38px;
+            border-radius: 10px;
+            background: #f4ead7;
+            color: #8f692f;
+        }
+
+        .customer-info-item span {
+            display: block;
+            color: #8a909b;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .customer-info-item strong {
+            display: block;
+            color: #343944;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+    @@media (max-width: 991.98px) {
+        .customer-summary-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .customer-details-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .customer-details-actions {
+            width: 100%;
+        }
+
+        .customer-details-button {
+            flex: 1;
+        }
+
+        .customer-details-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .customer-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="customer-details-page">
+    <div class="customer-details-heading">
+        <div>
+            <span class="customer-details-kicker">Quản lý khách hàng</span>
+            <h2>Chi tiết khách hàng</h2>
+        </div>
+
+        <div class="customer-details-actions">
+            <a asp-controller="Customers"
+               asp-action="Index"
+               class="customer-details-button back">
+                <i class="bi bi-arrow-left"></i>
+                Quay lại
+            </a>
+
+            <a asp-controller="Customers"
+               asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="customer-details-button edit">
+                <i class="bi bi-pencil-square"></i>
+                Chỉnh sửa
+            </a>
+        </div>
+    </div>
+
+    <div class="customer-details-card">
+        <div class="customer-details-header">
+            <img src="@avatarUrl"
+                 class="customer-details-avatar"
+                 alt="Ảnh khách hàng" />
+
+            <div>
+                <h3>@displayName</h3>
+                <p>
+                    @(Model.Account?.Username ?? "Khách chưa có tài khoản")
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-details-body">
+            <div class="customer-summary-grid">
+                <div class="customer-summary-item">
+                    <span>Tổng Booking</span>
+                    <strong>@(Model.Bookings?.Count(x => !x.IsDeleted) ?? 0)</strong>
+                </div>
+
+                <div class="customer-summary-item">
+                    <span>Tổng đánh giá</span>
+                    <strong>@(Model.Reviews?.Count(x => !x.IsDeleted) ?? 0)</strong>
+                </div>
+
+                <div class="customer-summary-item">
+                    <span>Ngày tạo hồ sơ</span>
+                    <strong>@Model.CreatedAt.ToString("dd/MM/yyyy")</strong>
+                </div>
+            </div>
+
+            <div class="customer-info-grid">
+                <div class="customer-info-item">
+                    <i class="bi bi-gender-ambiguous"></i>
+                    <div>
+                        <span>Giới tính</span>
+                        <strong>@(Model.Gender ?? "Chưa cập nhật")</strong>
+                    </div>
+                </div>
+
+                <div class="customer-info-item">
+                    <i class="bi bi-calendar3"></i>
+                    <div>
+                        <span>Ngày sinh</span>
+                        <strong>
+                            @(Model.DateOfBirth.HasValue
+                                                        ? Model.DateOfBirth.Value.ToString("dd/MM/yyyy")
+                                                        : "Chưa cập nhật")
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="customer-info-item">
+                    <i class="bi bi-telephone"></i>
+                    <div>
+                        <span>Số điện thoại</span>
+                        <strong>@(Model.Phone ?? "Chưa cập nhật")</strong>
+                    </div>
+                </div>
+
+                <div class="customer-info-item">
+                    <i class="bi bi-envelope"></i>
+                    <div>
+                        <span>Email</span>
+                        <strong>@(Model.Email ?? "Chưa cập nhật")</strong>
+                    </div>
+                </div>
+
+                <div class="customer-info-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <div>
+                        <span>Địa chỉ</span>
+                        <strong>@(Model.Address ?? "Chưa cập nhật")</strong>
+                    </div>
+                </div>
+
+                <div class="customer-info-item">
+                    <i class="bi bi-credit-card-2-front"></i>
+                    <div>
+                        <span>CCCD/CMND</span>
+                        <strong>@(Model.CitizenId ?? "Chưa cập nhật")</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

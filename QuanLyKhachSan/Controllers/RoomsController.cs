@@ -17,17 +17,26 @@ public class RoomsController : Controller
     }
 
     // GET: ROOMS
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(RoomStatus? status)
     {
-        var rooms = await _context.Rooms
+        var query = _context.Rooms
             .AsNoTracking()
             .Include(room => room.RoomType)
             .Include(room => room.RoomImages)
-            .Where(room => !room.IsDeleted)
+            .Where(room => !room.IsDeleted);
+        if (status.HasValue)
+        {
+            query = query.Where(room => room.Status == status.Value);
+        }
+        var rooms = await query
             .OrderBy(room => room.Floor)
             .ThenBy(room => room.RoomNumber)
             .ToListAsync();
-
+        ViewBag.SelectedStatus = status;
+        ViewBag.TotalRoomCount = await _context.Rooms.AsNoTracking().CountAsync(room => !room.IsDeleted);
+        ViewBag.AvailableCount = await _context.Rooms.AsNoTracking().CountAsync(room => !room.IsDeleted && room.Status == RoomStatus.Available);
+        ViewBag.OccupiedCount = await _context.Rooms.AsNoTracking().CountAsync(room => !room.IsDeleted && room.Status == RoomStatus.Occupied);
+        ViewBag.MaintenanceCount = await _context.Rooms.AsNoTracking().CountAsync(room => !room.IsDeleted && room.Status == RoomStatus.Maintenance);
         return View(rooms);
     }
 
@@ -158,49 +167,111 @@ public class RoomsController : Controller
             return NotFound();
         }
 
-        var room = await _context.Rooms.FindAsync(id);
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
         if (room == null)
         {
             return NotFound();
         }
+
+        await LoadRoomTypesAsync(room.RoomTypeId);
+
         return View(room);
     }
 
     // POST: ROOMS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("RoomTypeId,RoomType,RoomNumber,Floor,Status,PriceDay,PriceWeek,RoomSize,MaxOccupancy,Description,IsAvailable,RoomImages,BookingDetails,Reviews,Id,CreatedAt,UpdatedAt,IsDeleted")] Room room)
+    public async Task<IActionResult> Edit(
+        int id,
+        [Bind(
+            "Id,RoomTypeId,RoomNumber,Floor,Status,PriceDay," +
+            "PriceWeek,RoomSize,MaxOccupancy,Description")]
+        Room model)
     {
-        if (id != room.Id)
+        if (id != model.Id)
         {
             return NotFound();
         }
 
-        if (ModelState.IsValid)
+        model.RoomNumber =
+            model.RoomNumber?.Trim() ?? string.Empty;
+
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(x =>
+                x.Id == id &&
+                !x.IsDeleted);
+
+        if (room == null)
         {
-            try
-            {
-                room.IsAvailable = room.Status == RoomStatus.Available;
-                _context.Update(room);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(room.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
-        return View(room);
+
+        bool roomNumberExists = await _context.Rooms
+            .AnyAsync(x =>
+                x.Id != id &&
+                !x.IsDeleted &&
+                x.RoomNumber == model.RoomNumber);
+
+        if (roomNumberExists)
+        {
+            ModelState.AddModelError(
+                nameof(Room.RoomNumber),
+                "Số phòng này đã tồn tại.");
+        }
+
+        bool roomTypeExists = await _context.RoomTypes
+            .AnyAsync(x =>
+                x.Id == model.RoomTypeId &&
+                !x.IsDeleted);
+
+        if (!roomTypeExists)
+        {
+            ModelState.AddModelError(
+                nameof(Room.RoomTypeId),
+                "Loại phòng không hợp lệ.");
+        }
+
+        if (model.PriceDay < 0 ||
+            model.PriceWeek < 0 ||
+            model.RoomSize <= 0 ||
+            model.MaxOccupancy <= 0 ||
+            model.Floor <= 0)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                "Vui lòng kiểm tra lại tầng, giá phòng, diện tích và sức chứa.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            await LoadRoomTypesAsync(model.RoomTypeId);
+            return View(model);
+        }
+
+        room.RoomTypeId = model.RoomTypeId;
+        room.RoomNumber = model.RoomNumber;
+        room.Floor = model.Floor;
+        room.Status = model.Status;
+        room.PriceDay = model.PriceDay;
+        room.PriceWeek = model.PriceWeek;
+        room.RoomSize = model.RoomSize;
+        room.MaxOccupancy = model.MaxOccupancy;
+        room.Description = model.Description?.Trim();
+        room.IsAvailable =
+            model.Status == RoomStatus.Available;
+        room.UpdatedAt = DateTime.Now;
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            $"Cập nhật phòng {room.RoomNumber} thành công.";
+
+        return RedirectToAction(nameof(Index));
     }
 
     // GET: ROOMS/Delete/5
@@ -234,6 +305,22 @@ public class RoomsController : Controller
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
+    }
+
+    private async Task LoadRoomTypesAsync(
+        int selectedRoomTypeId)
+    {
+        var roomTypes = await _context.RoomTypes
+            .AsNoTracking()
+            .Where(x => !x.IsDeleted)
+            .OrderBy(x => x.Name)
+            .ToListAsync();
+
+        ViewData["RoomTypeId"] = new SelectList(
+            roomTypes,
+            "Id",
+            "Name",
+            selectedRoomTypeId);
     }
 
     private bool RoomExists(int? id)
