@@ -107,6 +107,15 @@
 
     <div class="service-heading-actions">
 
+        <a asp-controller="Services"
+           asp-action="StaffBookService"
+           class="service-heading-button booking">
+
+            <i class="bi bi-cart-plus-fill"></i>
+            Đặt dịch vụ cho khách
+
+        </a>
+
         <a asp-controller="ServiceBookings"
            asp-action="Index"
            class="service-heading-button">
@@ -442,11 +451,11 @@
 
                                     <span class="service-main-icon
                                         @CategoryClass(
-                                              service.Category)">
+                                                service.Category)">
 
                                         <i class="bi
                                             @CategoryIcon(
-                                               service.Category)">
+                                              service.Category)">
                                         </i>
 
                                     </span>
@@ -487,11 +496,11 @@
 
                                 <span class="service-category-badge
                                     @CategoryClass(
-                                          service.Category)">
+                                            service.Category)">
 
                                     <i class="bi
                                         @CategoryIcon(
-                                           service.Category)">
+                                          service.Category)">
                                     </i>
 
                                     @CategoryText(
@@ -702,6 +711,18 @@
                 color: #8f692f;
                 transform: translateY(-2px);
             }
+
+            .service-heading-button.booking {
+                border-color: #27875e;
+                background: linear-gradient(135deg, #36a475, #23734f);
+                color: #ffffff;
+                box-shadow: 0 10px 23px rgba(39, 135, 94, 0.2);
+            }
+
+                .service-heading-button.booking:hover {
+                    border-color: #23734f;
+                    color: #ffffff;
+                }
 
             .service-heading-button.primary {
                 border-color: #b58a42;

@@ -1,0 +1,236 @@
+﻿@model QuanLyKhachSan.ViewModels.StaffBookServiceViewModel
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    bool hasBookings = Model.ActiveBookings != null && Model.ActiveBookings.Any();
+    bool hasServices = Model.AvailableServices != null && Model.AvailableServices.Any();
+
+    Layout = isAdmin
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+
+    ViewData["Title"] = "Đặt dịch vụ cho khách";
+}
+
+<section class="staff-service-heading">
+    <div>
+        <span class="page-kicker">Quản lý dịch vụ</span>
+        <h2>Đặt dịch vụ cho khách</h2>
+        <p>Chọn booking đang nhận phòng và dịch vụ khách muốn sử dụng.</p>
+    </div>
+    <a asp-controller="Services" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Quay lại
+    </a>
+</section>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="row justify-content-center">
+    <div class="col-xl-7 col-lg-8">
+        <div class="staff-service-card">
+            <div class="staff-service-card-header">
+                <span class="staff-service-icon"><i class="bi bi-bell-fill"></i></span>
+                <div>
+                    <h4>Thông tin đặt dịch vụ</h4>
+                    <p>Dịch vụ sẽ được tính vào booking của khách.</p>
+                </div>
+            </div>
+
+            @if (!hasBookings)
+            {
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Hiện không có booking nào đang nhận phòng.
+                </div>
+            }
+
+            @if (!hasServices)
+            {
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Hiện không có dịch vụ nào đang hoạt động.
+                </div>
+            }
+
+            <form asp-controller="Services" asp-action="StaffBookService" method="post">
+                @Html.AntiForgeryToken()
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                }
+
+                <div class="mb-4">
+                    <label asp-for="BookingId" class="form-label">Booking đang nhận phòng</label>
+                    <select asp-for="BookingId" asp-items="Model.ActiveBookings" class="form-select">
+                        <option value="">-- Chọn booking của khách --</option>
+                    </select>
+                    <span asp-validation-for="BookingId" class="text-danger"></span>
+                    <small class="form-text">Hiển thị theo mã booking, tên khách và số phòng đang ở.</small>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ServiceId" class="form-label">Dịch vụ</label>
+                    <select asp-for="ServiceId" asp-items="Model.AvailableServices" class="form-select">
+                        <option value="">-- Chọn dịch vụ --</option>
+                    </select>
+                    <span asp-validation-for="ServiceId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Quantity" class="form-label">Số lượng</label>
+                    <input asp-for="Quantity" type="number" min="1" max="100" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <div class="staff-service-note">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span>Nếu dịch vụ đã có trong booking, hệ thống sẽ tự động cộng thêm số lượng.</span>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <a asp-controller="Services" asp-action="Index" class="btn btn-outline-secondary flex-fill">Hủy</a>
+
+                    @if (hasBookings && hasServices)
+                    {
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <i class="bi bi-check-circle me-1"></i>Xác nhận đặt dịch vụ
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary flex-fill" disabled>
+                            <i class="bi bi-check-circle me-1"></i>Xác nhận đặt dịch vụ
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Styles
+{
+    <style>
+        .staff-service-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .staff-service-heading h2 {
+            margin: 5px 0 7px;
+            color: #252a35;
+            font-weight: 700;
+        }
+
+        .staff-service-heading p {
+            margin: 0;
+            color: #838897;
+        }
+
+        .page-kicker {
+            color: #b58a42;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .staff-service-card {
+            padding: 28px;
+            border: 1px solid #e6e7eb;
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 18px 45px rgba(34, 38, 51, 0.08);
+        }
+
+        .staff-service-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eceef2;
+        }
+
+        .staff-service-card-header h4 {
+            margin: 0 0 4px;
+            color: #303540;
+            font-weight: 700;
+        }
+
+        .staff-service-card-header p {
+            margin: 0;
+            color: #858a96;
+            font-size: 12px;
+        }
+
+        .staff-service-icon {
+            width: 52px;
+            height: 52px;
+            flex: 0 0 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: #f4ead7;
+            color: #8f692f;
+            font-size: 22px;
+        }
+
+        .form-label {
+            color: #4b515d;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 45px;
+            border-color: #e0e2e7;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #b58a42;
+            box-shadow: 0 0 0 3px rgba(181, 138, 66, 0.13);
+        }
+
+        .form-text {
+            display: block;
+            margin-top: 6px;
+            color: #8c919d;
+            font-size: 11px;
+        }
+
+        .staff-service-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            padding: 14px;
+            border: 1px solid #dce8fa;
+            border-radius: 11px;
+            background: #f4f8ff;
+            color: #55708f;
+            font-size: 12px;
+        }
+
+        @@media (max-width: 767.98px) {
+            .staff-service-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
