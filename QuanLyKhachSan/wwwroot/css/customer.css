@@ -1,0 +1,1517 @@
+﻿.public-inner-page {
+    --customer-navy: #123d55;
+    --customer-navy-dark: #082c41;
+    --customer-blue: #2f7395;
+    --customer-blue-hover: #245e7a;
+    --customer-blue-soft: #e9f4f9;
+    --customer-blue-pale: #f5fafc;
+    --customer-white: #ffffff;
+    --customer-heading: #17384c;
+    --customer-text: #536b79;
+    --customer-muted: #7d919c;
+    --customer-border: #d7e5ec;
+    --customer-gold: #c9a96e;
+    --customer-gold-dark: #a9854e;
+    --customer-gold-soft: #fbf6ec;
+    --customer-success: #278564;
+    --customer-warning: #b47c22;
+    --customer-danger: #b95858;
+    --customer-info: #337fa3;
+    --customer-shadow-sm: 0 8px 24px rgba(20, 62, 83, 0.08);
+    --customer-shadow-md: 0 16px 42px rgba(20, 62, 83, 0.12);
+    --customer-shadow-lg: 0 26px 70px rgba(13, 48, 67, 0.17);
+    --customer-radius-sm: 10px;
+    --customer-radius-md: 16px;
+    --customer-radius-lg: 24px;
+    background: #f7fbfd;
+    color: var(--customer-text);
+}
+
+    .public-inner-page ::selection {
+        background: rgba(47, 115, 149, 0.22);
+        color: var(--customer-navy-dark);
+    }
+
+    .public-inner-page .public-inner-main {
+        min-height: calc(100vh - 80px);
+        padding: 118px 24px 76px;
+        background: radial-gradient(circle at 8% 2%, rgba(47, 115, 149, 0.12), transparent 28%), radial-gradient(circle at 93% 12%, rgba(201, 169, 110, 0.12), transparent 24%), linear-gradient(180deg, #eef7fb 0, #f7fbfd 260px, #f7fbfd 100%);
+    }
+
+        .public-inner-page .public-inner-main::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.38;
+            background-image: linear-gradient(rgba(47, 115, 149, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(47, 115, 149, 0.035) 1px, transparent 1px);
+            background-size: 38px 38px;
+        }
+
+        .public-inner-page .public-inner-main > .container,
+        .public-inner-page .public-inner-main > .row,
+        .public-inner-page .public-inner-main > .booking-page-heading,
+        .public-inner-page .public-inner-main > .booking-panel,
+        .public-inner-page .public-inner-main > .alert,
+        .public-inner-page .public-inner-main > .invoice-actions,
+        .public-inner-page .public-inner-main > .table-responsive,
+        .public-inner-page .public-inner-main > .card,
+        .public-inner-page .public-inner-main > .d-flex {
+            width: min(100%, 1240px);
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+    /* =========================================================
+   NAVBAR CUSTOMER
+   ========================================================= */
+
+    .public-inner-page .public-navbar-solid {
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(9, 48, 69, 0.96);
+        box-shadow: 0 12px 35px rgba(4, 33, 49, 0.18);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+        .public-inner-page .public-navbar-solid .public-brand-icon {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            box-shadow: none;
+        }
+
+        .public-inner-page .public-navbar-solid .public-brand-text strong {
+            color: #ffffff;
+            font-size: 21px;
+            letter-spacing: 2.4px;
+        }
+
+        .public-inner-page .public-navbar-solid .public-brand-text small {
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 2.4px;
+        }
+
+        .public-inner-page .public-navbar-solid .public-nav-list .nav-link {
+            color: rgba(255, 255, 255, 0.88) !important;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.55px;
+        }
+
+            .public-inner-page .public-navbar-solid .public-nav-list .nav-link::after {
+                height: 1px;
+                background: #ffffff;
+            }
+
+            .public-inner-page .public-navbar-solid .public-nav-list .nav-link:hover,
+            .public-inner-page .public-navbar-solid .public-nav-list .nav-link.active {
+                color: #ffffff !important;
+            }
+
+        .public-inner-page .public-navbar-solid .public-account-button {
+            border-color: rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+            .public-inner-page .public-navbar-solid .public-account-button:hover,
+            .public-inner-page .public-navbar-solid .public-account-button:focus,
+            .public-inner-page .public-navbar-solid .public-account-button.show {
+                border-color: rgba(255, 255, 255, 0.74);
+                background: rgba(255, 255, 255, 0.16);
+                color: #ffffff;
+            }
+
+    .public-inner-page .public-account-avatar,
+    .public-inner-page .public-account-menu-avatar {
+        background: linear-gradient(145deg, var(--customer-blue), var(--customer-navy));
+    }
+
+    .public-inner-page .public-account-menu {
+        overflow: hidden;
+        border: 1px solid var(--customer-border);
+        border-radius: 16px;
+        box-shadow: var(--customer-shadow-md);
+    }
+
+        .public-inner-page .public-account-menu .dropdown-item i {
+            color: var(--customer-blue);
+        }
+
+        .public-inner-page .public-account-menu .dropdown-item:hover {
+            background: var(--customer-blue-pale);
+            color: var(--customer-blue-hover);
+        }
+
+    /* =========================================================
+   TYPOGRAPHY + SHARED COMPONENTS
+   ========================================================= */
+
+    .public-inner-page h1,
+    .public-inner-page h2,
+    .public-inner-page h3,
+    .public-inner-page h4,
+    .public-inner-page h5,
+    .public-inner-page h6 {
+        color: var(--customer-heading);
+    }
+
+    .public-inner-page h1,
+    .public-inner-page h2,
+    .public-inner-page .card-header h2,
+    .public-inner-page .card-header h3,
+    .public-inner-page .services-heading h1,
+    .public-inner-page .book-service-heading h1 {
+        font-family: "Cinzel", serif;
+    }
+
+    .public-inner-page p,
+    .public-inner-page td,
+    .public-inner-page label,
+    .public-inner-page small {
+        line-height: 1.65;
+    }
+
+    .public-inner-page .text-muted {
+        color: var(--customer-muted) !important;
+    }
+
+    .public-inner-page .card {
+        border: 1px solid rgba(215, 229, 236, 0.95) !important;
+        border-radius: var(--customer-radius-lg) !important;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--customer-shadow-md) !important;
+    }
+
+        .public-inner-page .card:hover {
+            border-color: rgba(47, 115, 149, 0.28) !important;
+        }
+
+    .public-inner-page .card-header {
+        border-bottom: 1px solid rgba(215, 229, 236, 0.8);
+    }
+
+        .public-inner-page .card-header.bg-dark,
+        .public-inner-page .card-header.bg-primary,
+        .public-inner-page .card-header[style*="linear-gradient"] {
+            border: 0 !important;
+            background: linear-gradient(135deg, rgba(8, 44, 65, 0.98), rgba(47, 115, 149, 0.94)) !important;
+            color: #ffffff !important;
+        }
+
+        .public-inner-page .card-header.bg-warning {
+            border: 0 !important;
+            background: linear-gradient(135deg, #f7ecd7, #e7c98e) !important;
+            color: var(--customer-navy-dark) !important;
+        }
+
+        .public-inner-page .card-header.bg-danger {
+            border: 0 !important;
+            background: linear-gradient(135deg, #a8464c, #c7666b) !important;
+        }
+
+        .public-inner-page .card-header h1,
+        .public-inner-page .card-header h2,
+        .public-inner-page .card-header h3,
+        .public-inner-page .card-header h4,
+        .public-inner-page .card-header h5,
+        .public-inner-page .card-header.bg-dark h1,
+        .public-inner-page .card-header.bg-dark h2,
+        .public-inner-page .card-header.bg-dark h3,
+        .public-inner-page .card-header.bg-primary h1,
+        .public-inner-page .card-header.bg-primary h2,
+        .public-inner-page .card-header.bg-primary h3,
+        .public-inner-page .card-header[style*="linear-gradient"] h1,
+        .public-inner-page .card-header[style*="linear-gradient"] h2,
+        .public-inner-page .card-header[style*="linear-gradient"] h3 {
+            color: inherit;
+        }
+
+        .public-inner-page .card-header[style*="linear-gradient"] span[style*="background"] {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: var(--customer-gold) !important;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+        }
+
+    .public-inner-page .alert {
+        border: 1px solid transparent;
+        border-radius: 14px;
+        box-shadow: 0 8px 22px rgba(20, 62, 83, 0.06);
+    }
+
+    .public-inner-page .alert-success {
+        border-color: rgba(39, 133, 100, 0.22);
+        background: #eef8f4;
+        color: #216d53;
+    }
+
+    .public-inner-page .alert-danger {
+        border-color: rgba(185, 88, 88, 0.22);
+        background: #fff2f2;
+        color: #98484d;
+    }
+
+    .public-inner-page .alert-warning {
+        border-color: rgba(180, 124, 34, 0.24);
+        background: #fff9ed;
+        color: #7e5a1e;
+    }
+
+    .public-inner-page .alert-info {
+        border-color: rgba(51, 127, 163, 0.22);
+        background: #eef7fb;
+        color: #286985;
+    }
+
+    .public-inner-page .form-label {
+        margin-bottom: 8px;
+        color: var(--customer-heading);
+        font-size: 13px;
+        font-weight: 600 !important;
+    }
+
+    .public-inner-page .form-control,
+    .public-inner-page .form-select,
+    .public-inner-page .input-group-text {
+        min-height: 49px;
+        border-color: var(--customer-border);
+        border-radius: 11px;
+        background: rgba(255, 255, 255, 0.96);
+        color: var(--customer-heading);
+    }
+
+    .public-inner-page textarea.form-control {
+        min-height: 120px;
+    }
+
+    .public-inner-page .form-control::placeholder {
+        color: #9badb6;
+    }
+
+    .public-inner-page .form-control:focus,
+    .public-inner-page .form-select:focus {
+        border-color: var(--customer-blue);
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.12);
+    }
+
+    .public-inner-page .input-group > .form-control:not(:first-child),
+    .public-inner-page .input-group > .form-select:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .public-inner-page .input-group > .form-control:not(:last-child),
+    .public-inner-page .input-group > .form-select:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .public-inner-page .input-group-text {
+        color: var(--customer-blue);
+    }
+
+    .public-inner-page .input-validation-error,
+    .public-inner-page .form-control.input-validation-error,
+    .public-inner-page .form-select.input-validation-error {
+        border-color: var(--customer-danger) !important;
+        background: #fff8f8 !important;
+    }
+
+    .public-inner-page .field-validation-error,
+    .public-inner-page .text-danger {
+        color: var(--customer-danger) !important;
+    }
+
+    .public-inner-page .validation-summary-errors {
+        border: 1px solid rgba(185, 88, 88, 0.22);
+        border-radius: 14px;
+        background: #fff2f2;
+        color: #98484d;
+    }
+
+    .public-inner-page .table-responsive {
+        border-radius: 14px;
+    }
+
+    .public-inner-page .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: var(--customer-text);
+        margin-bottom: 0;
+    }
+
+        .public-inner-page .table thead th {
+            border-bottom-color: var(--customer-border);
+            background: #f0f7fa;
+            color: var(--customer-heading);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.35px;
+            text-transform: uppercase;
+        }
+
+        .public-inner-page .table tbody td,
+        .public-inner-page .table tbody th {
+            border-color: #e8f0f4;
+        }
+
+    .public-inner-page .table-hover > tbody > tr:hover > * {
+        --bs-table-accent-bg: #f6fbfd;
+        color: var(--customer-heading);
+    }
+
+    .public-inner-page .table-dark,
+    .public-inner-page .table-dark > tr > th {
+        --bs-table-bg: var(--customer-navy-dark);
+        --bs-table-color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .public-inner-page .badge {
+        padding: 7px 11px;
+        border-radius: 999px;
+        font-weight: 600;
+    }
+
+        .public-inner-page .badge.bg-primary,
+        .public-inner-page .badge.bg-info {
+            background: var(--customer-blue-soft) !important;
+            color: var(--customer-blue-hover) !important;
+        }
+
+        .public-inner-page .badge.bg-success {
+            background: #e5f5ef !important;
+            color: var(--customer-success) !important;
+        }
+
+        .public-inner-page .badge.bg-warning {
+            background: #fff2d9 !important;
+            color: #986519 !important;
+        }
+
+        .public-inner-page .badge.bg-danger {
+            background: #fde9ea !important;
+            color: var(--customer-danger) !important;
+        }
+
+        .public-inner-page .badge.bg-secondary {
+            background: #edf1f3 !important;
+            color: #64747d !important;
+        }
+
+    /* Buttons */
+    .public-inner-page .btn,
+    .public-inner-page .booking-heading-button,
+    .public-inner-page .booking-action,
+    .public-inner-page .service-book-button,
+    .public-inner-page .services-back-button,
+    .public-inner-page .book-service-cancel,
+    .public-inner-page .book-service-submit,
+    .public-inner-page .payment-confirm-button,
+    .public-inner-page .payment-back-button {
+        border-radius: 10px;
+        font-weight: 600;
+        transition: transform 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease, border-color 0.24s ease, color 0.24s ease;
+    }
+
+        .public-inner-page .btn:hover,
+        .public-inner-page .booking-heading-button:hover,
+        .public-inner-page .service-book-button:hover,
+        .public-inner-page .services-back-button:hover,
+        .public-inner-page .book-service-cancel:hover,
+        .public-inner-page .book-service-submit:hover,
+        .public-inner-page .payment-confirm-button:hover,
+        .public-inner-page .payment-back-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .public-inner-page .btn-primary,
+        .public-inner-page .btn-success,
+        .public-inner-page .booking-heading-button.primary,
+        .public-inner-page .service-book-button,
+        .public-inner-page .book-service-submit,
+        .public-inner-page .payment-confirm-button {
+            border-color: var(--customer-blue) !important;
+            background: linear-gradient(135deg, var(--customer-blue), var(--customer-navy)) !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 24px rgba(47, 115, 149, 0.18);
+        }
+
+            .public-inner-page .btn-primary:hover,
+            .public-inner-page .btn-success:hover,
+            .public-inner-page .booking-heading-button.primary:hover,
+            .public-inner-page .service-book-button:hover,
+            .public-inner-page .book-service-submit:hover,
+            .public-inner-page .payment-confirm-button:hover {
+                border-color: var(--customer-navy-dark) !important;
+                background: linear-gradient(135deg, var(--customer-blue-hover), var(--customer-navy-dark)) !important;
+                box-shadow: 0 14px 30px rgba(20, 62, 83, 0.24);
+            }
+
+    .public-inner-page .btn-warning {
+        border-color: var(--customer-gold) !important;
+        background: linear-gradient(135deg, #e2c58d, var(--customer-gold)) !important;
+        color: var(--customer-navy-dark) !important;
+    }
+
+        .public-inner-page .btn-warning:hover {
+            border-color: var(--customer-gold-dark) !important;
+            background: linear-gradient(135deg, #d8b978, var(--customer-gold-dark)) !important;
+            color: #ffffff !important;
+        }
+
+    .public-inner-page .btn-danger {
+        border-color: var(--customer-danger) !important;
+        background: var(--customer-danger) !important;
+        color: #ffffff !important;
+    }
+
+    .public-inner-page .btn-secondary,
+    .public-inner-page .btn-outline-secondary,
+    .public-inner-page .btn-outline-dark,
+    .public-inner-page .btn-outline-primary,
+    .public-inner-page .btn-outline-info,
+    .public-inner-page .book-service-cancel,
+    .public-inner-page .payment-back-button {
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+        color: var(--customer-heading) !important;
+    }
+
+        .public-inner-page .btn-secondary:hover,
+        .public-inner-page .btn-outline-secondary:hover,
+        .public-inner-page .btn-outline-dark:hover,
+        .public-inner-page .btn-outline-primary:hover,
+        .public-inner-page .btn-outline-info:hover,
+        .public-inner-page .book-service-cancel:hover,
+        .public-inner-page .payment-back-button:hover {
+            border-color: var(--customer-blue) !important;
+            background: var(--customer-blue-pale) !important;
+            color: var(--customer-blue-hover) !important;
+        }
+
+    .public-inner-page .btn-outline-danger {
+        border-color: rgba(185, 88, 88, 0.45) !important;
+        color: var(--customer-danger) !important;
+    }
+
+        .public-inner-page .btn-outline-danger:hover {
+            background: var(--customer-danger) !important;
+            color: #ffffff !important;
+        }
+
+    /* =========================================================
+   PROFILE + ACCOUNT INFORMATION
+   ========================================================= */
+
+    .public-inner-page .public-inner-main > .container.py-4 {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+
+        .public-inner-page .public-inner-main > .container.py-4 > .mb-4:first-child .btn {
+            min-height: 44px;
+            padding-right: 20px !important;
+            padding-left: 20px !important;
+            border-radius: 999px !important;
+        }
+
+        .public-inner-page .public-inner-main > .container.py-4 > .card {
+            overflow: hidden;
+        }
+
+            .public-inner-page .public-inner-main > .container.py-4 > .card > .card-header {
+                padding: 30px 34px !important;
+            }
+
+            .public-inner-page .public-inner-main > .container.py-4 > .card > .card-body {
+                padding: 38px !important;
+            }
+
+        .public-inner-page .public-inner-main > .container.py-4 .rounded-circle.img-thumbnail {
+            width: 184px;
+            height: 184px;
+            padding: 7px;
+            border: 1px solid rgba(201, 169, 110, 0.65);
+            background: #ffffff;
+            box-shadow: 0 18px 38px rgba(20, 62, 83, 0.16) !important;
+        }
+
+        .public-inner-page .public-inner-main > .container.py-4 .col-lg-4.text-center h4 {
+            margin-top: 22px !important;
+            color: var(--customer-heading);
+            font-family: "Cinzel", serif;
+            font-size: 24px;
+        }
+
+        .public-inner-page .public-inner-main > .container.py-4 .col-lg-4.text-center .badge[style*="background"] {
+            border: 1px solid rgba(201, 169, 110, 0.42);
+            background: var(--customer-gold-soft) !important;
+            color: var(--customer-gold-dark) !important;
+        }
+
+        .public-inner-page .public-inner-main > .container.py-4 .table-borderless th {
+            color: var(--customer-muted) !important;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+            .public-inner-page .public-inner-main > .container.py-4 .table-borderless th i {
+                color: var(--customer-blue);
+            }
+
+        .public-inner-page .public-inner-main > .container.py-4 .table-borderless td {
+            color: var(--customer-heading);
+            font-size: 14px;
+        }
+
+        .public-inner-page .public-inner-main > .container.py-4 .table-borderless tbody tr {
+            border-bottom: 1px solid #edf3f6;
+        }
+
+            .public-inner-page .public-inner-main > .container.py-4 .table-borderless tbody tr:last-child {
+                border-bottom: 0;
+            }
+
+        .public-inner-page .public-inner-main > .container.py-4 input[type="file"] {
+            padding: 10px 12px;
+        }
+
+    .public-inner-page .password-toggle {
+        min-width: 52px;
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+        color: var(--customer-blue) !important;
+    }
+
+        .public-inner-page .password-toggle:hover {
+            background: var(--customer-blue-pale) !important;
+            color: var(--customer-blue-hover) !important;
+        }
+
+    /* =========================================================
+   BOOKING DASHBOARD + HISTORY
+   ========================================================= */
+
+    .public-inner-page .booking-page-heading {
+        align-items: center !important;
+        margin-bottom: 28px !important;
+        padding: 28px 30px;
+        border: 1px solid rgba(215, 229, 236, 0.86);
+        border-radius: var(--customer-radius-lg);
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.96), rgba(239, 248, 252, 0.9));
+        box-shadow: var(--customer-shadow-sm);
+    }
+
+        .public-inner-page .booking-page-heading h2 {
+            margin: 6px 0 8px !important;
+            color: var(--customer-heading) !important;
+            font-family: "Cinzel", serif;
+            font-size: clamp(28px, 3vw, 38px);
+            font-weight: 600 !important;
+        }
+
+        .public-inner-page .booking-page-heading p {
+            max-width: 720px;
+            color: var(--customer-text) !important;
+            font-size: 13px;
+        }
+
+    .public-inner-page .booking-page-kicker {
+        color: var(--customer-blue) !important;
+        letter-spacing: 1.8px !important;
+    }
+
+    .public-inner-page .booking-heading-button {
+        min-height: 46px !important;
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+        color: var(--customer-heading) !important;
+    }
+
+        .public-inner-page .booking-heading-button:hover {
+            border-color: var(--customer-blue) !important;
+            background: var(--customer-blue-pale) !important;
+            color: var(--customer-blue-hover) !important;
+        }
+
+        .public-inner-page .booking-heading-button.primary {
+            color: #ffffff !important;
+        }
+
+    .public-inner-page .public-inner-main > .row.g-4.mb-4 {
+        width: min(100%, 1240px);
+    }
+
+    .public-inner-page .booking-stat-card {
+        position: relative;
+        overflow: hidden;
+        padding: 23px !important;
+        border-color: var(--customer-border) !important;
+        border-radius: var(--customer-radius-md) !important;
+        box-shadow: var(--customer-shadow-sm) !important;
+        transition: transform 0.26s ease, box-shadow 0.26s ease, border-color 0.26s ease;
+    }
+
+        .public-inner-page .booking-stat-card::after {
+            content: "";
+            position: absolute;
+            right: -28px;
+            bottom: -38px;
+            width: 108px;
+            height: 108px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(47, 115, 149, 0.1), transparent 68%);
+        }
+
+        .public-inner-page .booking-stat-card:hover {
+            border-color: rgba(47, 115, 149, 0.32) !important;
+            box-shadow: var(--customer-shadow-md) !important;
+            transform: translateY(-5px);
+        }
+
+    .public-inner-page .booking-stat-icon {
+        border-radius: 14px !important;
+    }
+
+        .public-inner-page .booking-stat-icon.blue,
+        .public-inner-page .booking-stat-icon.purple {
+            background: var(--customer-blue-soft) !important;
+            color: var(--customer-blue) !important;
+        }
+
+        .public-inner-page .booking-stat-icon.orange {
+            background: #fff3dc !important;
+            color: var(--customer-warning) !important;
+        }
+
+        .public-inner-page .booking-stat-icon.green {
+            background: #e5f5ef !important;
+            color: var(--customer-success) !important;
+        }
+
+    .public-inner-page .booking-stat-label {
+        background: #eef5f8 !important;
+        color: var(--customer-muted) !important;
+    }
+
+    .public-inner-page .booking-stat-title,
+    .public-inner-page .booking-stat-card > small {
+        color: var(--customer-muted) !important;
+    }
+
+    .public-inner-page .booking-stat-value {
+        color: var(--customer-heading) !important;
+    }
+
+        .public-inner-page .booking-stat-value.money {
+            color: var(--customer-blue-hover) !important;
+        }
+
+    .public-inner-page .booking-panel {
+        border-color: var(--customer-border) !important;
+        border-radius: var(--customer-radius-lg) !important;
+        box-shadow: var(--customer-shadow-md) !important;
+    }
+
+    .public-inner-page .booking-panel-header {
+        padding: 24px 26px !important;
+        border-bottom-color: var(--customer-border) !important;
+        background: linear-gradient(180deg, #ffffff, #fbfdfe);
+    }
+
+        .public-inner-page .booking-panel-header h3 {
+            color: var(--customer-heading) !important;
+            font-family: "Cinzel", serif;
+            font-weight: 600 !important;
+        }
+
+        .public-inner-page .booking-panel-header p {
+            color: var(--customer-muted) !important;
+        }
+
+    .public-inner-page .booking-search input,
+    .public-inner-page .booking-filter-area .form-select {
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+    }
+
+    .public-inner-page .booking-search i {
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .booking-search input:focus,
+    .public-inner-page .booking-filter-area .form-select:focus {
+        border-color: var(--customer-blue) !important;
+        box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.11) !important;
+    }
+
+    .public-inner-page .booking-table thead th {
+        border-bottom-color: var(--customer-border) !important;
+        background: #eef6f9 !important;
+        color: var(--customer-heading) !important;
+    }
+
+    .public-inner-page .booking-table tbody td {
+        border-bottom-color: #e8f0f4 !important;
+        color: var(--customer-text) !important;
+    }
+
+    .public-inner-page .booking-table tbody tr:hover {
+        background: #f7fbfd !important;
+    }
+
+    .public-inner-page .booking-code-icon,
+    .public-inner-page .booking-customer-avatar {
+        background: var(--customer-blue-soft) !important;
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .booking-code-cell strong,
+    .public-inner-page .booking-customer-cell strong,
+    .public-inner-page .booking-date-cell strong,
+    .public-inner-page .booking-money {
+        color: var(--customer-heading) !important;
+    }
+
+        .public-inner-page .booking-code-cell small,
+        .public-inner-page .booking-customer-cell small,
+        .public-inner-page .booking-date-cell small,
+        .public-inner-page .booking-money small {
+            color: var(--customer-muted) !important;
+        }
+
+    .public-inner-page .booking-room-badge {
+        border: 1px solid #dceaf0;
+        background: #f2f8fa !important;
+        color: var(--customer-blue-hover) !important;
+    }
+
+    .public-inner-page .booking-money.total {
+        color: var(--customer-blue-hover) !important;
+    }
+
+    .public-inner-page .booking-status-confirmed {
+        background: var(--customer-blue-soft) !important;
+        color: var(--customer-blue-hover) !important;
+    }
+
+    .public-inner-page .booking-status-pending {
+        background: #fff3dc !important;
+        color: var(--customer-warning) !important;
+    }
+
+    .public-inner-page .booking-status-checkedin {
+        background: #e5f5ef !important;
+        color: var(--customer-success) !important;
+    }
+
+    .public-inner-page .booking-status-checkedout {
+        background: #eef2f4 !important;
+        color: #60737e !important;
+    }
+
+    .public-inner-page .booking-status-cancelled {
+        background: #fde9ea !important;
+        color: var(--customer-danger) !important;
+    }
+
+    .public-inner-page .booking-action {
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+    }
+
+        .public-inner-page .booking-action.view,
+        .public-inner-page .booking-action.review,
+        .public-inner-page .booking-action.edit {
+            color: var(--customer-blue) !important;
+        }
+
+            .public-inner-page .booking-action.view:hover,
+            .public-inner-page .booking-action.review:hover,
+            .public-inner-page .booking-action.edit:hover {
+                border-color: var(--customer-blue) !important;
+                background: var(--customer-blue-pale) !important;
+            }
+
+    .public-inner-page .booking-empty-state i {
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .booking-empty-state h4 {
+        color: var(--customer-heading) !important;
+        font-family: "Cinzel", serif;
+    }
+
+    /* Booking detail page */
+    .public-inner-page .card-header.bg-primary + .card-body .table-bordered,
+    .public-inner-page .card.shadow .table-bordered {
+        overflow: hidden;
+        border-color: var(--customer-border);
+        border-radius: 12px;
+    }
+
+    /* =========================================================
+   INVOICES
+   ========================================================= */
+
+    .public-inner-page .invoice-actions {
+        padding: 0 2px;
+    }
+
+    .public-inner-page .invoice-paper {
+        overflow: hidden;
+        border-color: var(--customer-border) !important;
+        box-shadow: var(--customer-shadow-lg) !important;
+    }
+
+        .public-inner-page .invoice-paper > .card-header {
+            padding: 30px 34px !important;
+            background: linear-gradient(135deg, var(--customer-navy-dark), var(--customer-blue)) !important;
+        }
+
+            .public-inner-page .invoice-paper > .card-header h2 {
+                color: #ffffff !important;
+                font-size: clamp(24px, 3vw, 34px);
+                letter-spacing: 1px;
+            }
+
+        .public-inner-page .invoice-paper > .card-body {
+            padding: 34px !important;
+        }
+
+        .public-inner-page .invoice-paper h5 {
+            margin-bottom: 14px;
+            color: var(--customer-heading);
+            font-family: "Cinzel", serif;
+            font-size: 17px;
+        }
+
+        .public-inner-page .invoice-paper .table-borderless th {
+            color: var(--customer-muted);
+            font-weight: 600;
+        }
+
+        .public-inner-page .invoice-paper .table-borderless td {
+            color: var(--customer-heading);
+        }
+
+    .public-inner-page .invoice-summary {
+        overflow: hidden;
+        border: 1px solid var(--customer-border);
+        border-radius: 14px;
+        background: var(--customer-blue-pale);
+    }
+
+        .public-inner-page .invoice-summary .table-warning,
+        .public-inner-page .table-warning {
+            --bs-table-bg: #fdf7ec;
+            --bs-table-color: var(--customer-heading);
+        }
+
+        .public-inner-page .invoice-summary .text-success {
+            color: var(--customer-blue-hover) !important;
+        }
+
+    /* MyInvoices list */
+    .public-inner-page .public-inner-main > .d-flex.flex-column.flex-md-row {
+        padding: 25px 28px;
+        border: 1px solid var(--customer-border);
+        border-radius: var(--customer-radius-lg);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--customer-shadow-sm);
+    }
+
+        .public-inner-page .public-inner-main > .d-flex.flex-column.flex-md-row h2 {
+            font-family: "Cinzel", serif;
+            font-size: clamp(27px, 3vw, 36px);
+            font-weight: 600;
+        }
+
+    .public-inner-page .public-inner-main > .table-responsive.shadow-sm {
+        overflow: hidden;
+        border: 1px solid var(--customer-border);
+        border-radius: var(--customer-radius-md) !important;
+        background: #ffffff;
+        box-shadow: var(--customer-shadow-md) !important;
+    }
+
+    .public-inner-page .public-inner-main > .card.border-0 .display-5 {
+        color: var(--customer-blue);
+    }
+
+    /* =========================================================
+   REVIEWS
+   ========================================================= */
+
+    .public-inner-page .public-inner-main > .row.justify-content-center {
+        width: min(100%, 1240px);
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .public-inner-page .public-inner-main > .row.g-4 .card.h-100 {
+        position: relative;
+        overflow: hidden;
+        border-color: var(--customer-border) !important;
+        box-shadow: var(--customer-shadow-sm) !important;
+        transition: transform 0.26s ease, box-shadow 0.26s ease, border-color 0.26s ease;
+    }
+
+        .public-inner-page .public-inner-main > .row.g-4 .card.h-100::before {
+            content: "“";
+            position: absolute;
+            top: -8px;
+            right: 18px;
+            color: rgba(47, 115, 149, 0.08);
+            font-family: Georgia, serif;
+            font-size: 96px;
+            line-height: 1;
+        }
+
+        .public-inner-page .public-inner-main > .row.g-4 .card.h-100:hover {
+            border-color: rgba(47, 115, 149, 0.32) !important;
+            box-shadow: var(--customer-shadow-md) !important;
+            transform: translateY(-5px);
+        }
+
+        .public-inner-page .public-inner-main > .row.g-4 .card.h-100 .text-warning,
+        .public-inner-page .public-inner-main > .row.g-4 .card.h-100 .bi-star-fill,
+        .public-inner-page .public-inner-main > .row.g-4 .card.h-100 .bi-star {
+            color: var(--customer-gold) !important;
+        }
+
+        .public-inner-page .public-inner-main > .row.g-4 .card.h-100 .fst-italic {
+            color: var(--customer-text);
+            font-family: Georgia, serif;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+    .public-inner-page .public-inner-main > .text-center.py-5 .display-5,
+    .public-inner-page .public-inner-main > .card .display-5 {
+        color: var(--customer-blue);
+    }
+
+    .public-inner-page .row.justify-content-center .card-header {
+        padding: 27px 30px !important;
+    }
+
+    .public-inner-page .row.justify-content-center .card-body {
+        padding: 30px !important;
+    }
+
+    /* =========================================================
+   CUSTOMER SERVICES
+   ========================================================= */
+
+    .public-inner-page .customer-services-page,
+    .public-inner-page .book-service-page {
+        padding: 32px 0 72px !important;
+        background: transparent !important;
+    }
+
+    .public-inner-page .services-heading,
+    .public-inner-page .book-service-heading {
+        margin-bottom: 36px !important;
+    }
+
+    .public-inner-page .services-heading-label {
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .services-heading h1,
+    .public-inner-page .book-service-heading h1 {
+        color: var(--customer-heading) !important;
+        font-family: "Cinzel", serif !important;
+        font-weight: 600 !important;
+    }
+
+    .public-inner-page .services-heading p,
+    .public-inner-page .book-service-heading p {
+        color: var(--customer-text) !important;
+    }
+
+    .public-inner-page .service-card {
+        border-color: var(--customer-border) !important;
+        border-radius: var(--customer-radius-lg) !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        box-shadow: var(--customer-shadow-sm) !important;
+    }
+
+        .public-inner-page .service-card:hover {
+            border-color: rgba(47, 115, 149, 0.32) !important;
+            box-shadow: var(--customer-shadow-lg) !important;
+            transform: translateY(-7px) !important;
+        }
+
+    .public-inner-page .service-card-top {
+        background: radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.2), transparent 25%), linear-gradient(135deg, var(--customer-navy-dark), var(--customer-blue)) !important;
+    }
+
+    .public-inner-page .service-category {
+        border-color: rgba(255, 255, 255, 0.24) !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #ffffff !important;
+    }
+
+    .public-inner-page .service-icon {
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.14) !important;
+        color: var(--customer-gold) !important;
+    }
+
+    .public-inner-page .service-card-title {
+        color: var(--customer-heading) !important;
+        font-family: "Cinzel", serif;
+        font-weight: 600 !important;
+    }
+
+    .public-inner-page .service-card-description,
+    .public-inner-page .service-card-information,
+    .public-inner-page .service-price-label {
+        color: var(--customer-text) !important;
+    }
+
+    .public-inner-page .service-price {
+        color: var(--customer-blue-hover) !important;
+    }
+
+    .public-inner-page .service-status {
+        border: 1px solid rgba(39, 133, 100, 0.18);
+        background: #eaf6f1 !important;
+        color: var(--customer-success) !important;
+    }
+
+    .public-inner-page .services-information-box {
+        border-color: rgba(47, 115, 149, 0.22) !important;
+        background: linear-gradient(135deg, #edf7fb, #ffffff) !important;
+        color: var(--customer-text) !important;
+    }
+
+    .public-inner-page .services-information-icon {
+        background: var(--customer-blue-soft) !important;
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .services-empty-icon {
+        color: var(--customer-blue) !important;
+    }
+
+    /* Service booking */
+    .public-inner-page .book-service-summary,
+    .public-inner-page .book-service-form {
+        border-color: var(--customer-border) !important;
+        border-radius: var(--customer-radius-lg) !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        box-shadow: var(--customer-shadow-md) !important;
+    }
+
+    .public-inner-page .book-service-summary {
+        background: radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.12), transparent 28%), linear-gradient(145deg, var(--customer-navy-dark), var(--customer-blue)) !important;
+        color: #ffffff !important;
+    }
+
+        .public-inner-page .book-service-summary h2,
+        .public-inner-page .book-service-summary h3,
+        .public-inner-page .book-service-summary h4,
+        .public-inner-page .book-service-summary strong {
+            color: #ffffff !important;
+        }
+
+    .public-inner-page .book-service-summary-icon {
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.13) !important;
+        color: var(--customer-gold) !important;
+    }
+
+    .public-inner-page .book-service-description,
+    .public-inner-page .book-service-benefits {
+        color: rgba(255, 255, 255, 0.78) !important;
+    }
+
+        .public-inner-page .book-service-benefits i {
+            color: var(--customer-gold) !important;
+        }
+
+    .public-inner-page .book-service-price {
+        color: var(--customer-gold) !important;
+    }
+
+    .public-inner-page .book-service-form-title i {
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .book-service-form .form-select,
+    .public-inner-page .book-service-form .form-control {
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+    }
+
+        .public-inner-page .book-service-form .form-select:focus,
+        .public-inner-page .book-service-form .form-control:focus {
+            border-color: var(--customer-blue) !important;
+            box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.12) !important;
+        }
+
+    .public-inner-page .book-service-quantity {
+        border-color: var(--customer-border) !important;
+    }
+
+    .public-inner-page .quantity-button {
+        background: var(--customer-blue-soft) !important;
+        color: var(--customer-blue) !important;
+    }
+
+        .public-inner-page .quantity-button:hover {
+            background: var(--customer-blue) !important;
+            color: #ffffff !important;
+        }
+
+    .public-inner-page .book-service-total {
+        border-color: rgba(47, 115, 149, 0.24) !important;
+        background: linear-gradient(135deg, #f0f8fb, #ffffff) !important;
+    }
+
+    .public-inner-page .book-service-total-row:last-child strong {
+        color: var(--customer-blue-hover) !important;
+    }
+
+    .public-inner-page .book-service-warning {
+        border-color: rgba(180, 124, 34, 0.24) !important;
+        background: #fff9ed !important;
+        color: #7e5a1e !important;
+    }
+
+    /* =========================================================
+   PAYMENT
+   ========================================================= */
+
+    .public-inner-page .payment-page {
+        max-width: 1040px !important;
+    }
+
+    .public-inner-page .payment-card {
+        border-color: var(--customer-border) !important;
+        border-radius: var(--customer-radius-lg) !important;
+        box-shadow: var(--customer-shadow-lg) !important;
+    }
+
+    .public-inner-page .payment-header {
+        padding: 30px 34px !important;
+        background: radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.14), transparent 26%), linear-gradient(135deg, var(--customer-navy-dark), var(--customer-blue)) !important;
+    }
+
+        .public-inner-page .payment-header h2 {
+            color: #ffffff !important;
+            font-family: "Cinzel", serif;
+            font-weight: 600 !important;
+        }
+
+    .public-inner-page .payment-body {
+        padding: 34px !important;
+    }
+
+    .public-inner-page .payment-section-title {
+        color: var(--customer-heading) !important;
+    }
+
+    .public-inner-page .payment-method-card {
+        border-color: var(--customer-border) !important;
+        background: #ffffff !important;
+        color: var(--customer-text) !important;
+    }
+
+        .public-inner-page .payment-method-card strong {
+            color: var(--customer-heading) !important;
+        }
+
+        .public-inner-page .payment-method-card i {
+            color: var(--customer-blue) !important;
+        }
+
+        .public-inner-page .payment-method-card:hover {
+            border-color: var(--customer-blue) !important;
+            box-shadow: 0 12px 28px rgba(47, 115, 149, 0.14) !important;
+        }
+
+    .public-inner-page .payment-method-input:checked + .payment-method-card {
+        border-color: var(--customer-blue) !important;
+        background: var(--customer-blue-pale) !important;
+        color: var(--customer-blue) !important;
+        box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.1) !important;
+    }
+
+    .public-inner-page .payment-content {
+        border-color: var(--customer-border) !important;
+        background: #f8fbfc !important;
+    }
+
+    .public-inner-page .payment-message-icon {
+        background: var(--customer-blue-soft) !important;
+        color: var(--customer-blue) !important;
+    }
+
+    .public-inner-page .payment-message h4 {
+        color: var(--customer-heading) !important;
+    }
+
+    .public-inner-page .qr-image {
+        border-color: var(--customer-border) !important;
+        box-shadow: var(--customer-shadow-sm);
+    }
+
+    .public-inner-page .payment-total {
+        color: var(--customer-blue-hover) !important;
+    }
+
+    /* =========================================================
+   ACCESSIBILITY + MOTION
+   ========================================================= */
+
+    .public-inner-page a:focus-visible,
+    .public-inner-page button:focus-visible,
+    .public-inner-page input:focus-visible,
+    .public-inner-page select:focus-visible,
+    .public-inner-page textarea:focus-visible {
+        outline: 3px solid rgba(47, 115, 149, 0.34);
+        outline-offset: 3px;
+    }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1199.98px) {
+    .public-inner-page .public-inner-main {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .public-inner-page .booking-panel-header {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .public-inner-page .booking-filter-area {
+        width: 100%;
+    }
+
+    .public-inner-page .booking-search {
+        flex: 1;
+    }
+
+        .public-inner-page .booking-search input {
+            width: 100% !important;
+        }
+}
+
+@media (max-width: 991.98px) {
+    .public-inner-page .public-navbar-solid .navbar-collapse {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(8, 44, 65, 0.98);
+        box-shadow: 0 18px 45px rgba(4, 33, 49, 0.26);
+    }
+
+    .public-inner-page .public-navbar-solid .public-navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.36);
+    }
+
+    .public-inner-page .public-navbar-solid .navbar-toggler-icon {
+        filter: none;
+    }
+
+    .public-inner-page .public-inner-main {
+        padding-top: 104px;
+    }
+
+    .public-inner-page .booking-page-heading {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .public-inner-page .booking-heading-actions {
+        width: 100%;
+    }
+
+    .public-inner-page .booking-heading-button {
+        flex: 1;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 > .card > .card-body,
+    .public-inner-page .invoice-paper > .card-body,
+    .public-inner-page .payment-body {
+        padding: 28px !important;
+    }
+
+    .public-inner-page .payment-method-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .public-inner-page .public-inner-main {
+        padding: 92px 14px 54px;
+    }
+
+        .public-inner-page .booking-page-heading,
+        .public-inner-page .public-inner-main > .d-flex.flex-column.flex-md-row {
+            padding: 22px 20px;
+            border-radius: 18px;
+        }
+
+            .public-inner-page .booking-page-heading h2,
+            .public-inner-page .public-inner-main > .d-flex.flex-column.flex-md-row h2 {
+                font-size: 27px;
+            }
+
+    .public-inner-page .booking-heading-actions,
+    .public-inner-page .booking-filter-area,
+    .public-inner-page .invoice-actions,
+    .public-inner-page .book-service-actions,
+    .public-inner-page .payment-actions {
+        align-items: stretch !important;
+        flex-direction: column !important;
+    }
+
+        .public-inner-page .booking-heading-button,
+        .public-inner-page .booking-filter-area .form-select,
+        .public-inner-page .invoice-actions .btn,
+        .public-inner-page .book-service-cancel,
+        .public-inner-page .book-service-submit,
+        .public-inner-page .payment-confirm-button,
+        .public-inner-page .payment-back-button {
+            width: 100% !important;
+        }
+
+        .public-inner-page .booking-filter-area .form-select {
+            min-width: 100%;
+        }
+
+    .public-inner-page .booking-panel {
+        border-radius: 18px !important;
+    }
+
+    .public-inner-page .booking-panel-header {
+        padding: 20px !important;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 > .card > .card-header,
+    .public-inner-page .invoice-paper > .card-header,
+    .public-inner-page .payment-header {
+        padding: 24px 21px !important;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 > .card > .card-body,
+    .public-inner-page .invoice-paper > .card-body,
+    .public-inner-page .payment-body,
+    .public-inner-page .row.justify-content-center .card-body {
+        padding: 22px !important;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 .table-borderless th,
+    .public-inner-page .public-inner-main > .container.py-4 .table-borderless td {
+        display: block;
+        width: 100% !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 .table-borderless th {
+        padding-bottom: 0 !important;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 .rounded-circle.img-thumbnail {
+        width: 154px;
+        height: 154px;
+    }
+
+    .public-inner-page .service-card,
+    .public-inner-page .book-service-summary,
+    .public-inner-page .book-service-form,
+    .public-inner-page .payment-card {
+        border-radius: 18px !important;
+    }
+
+    .public-inner-page .payment-method-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 9px !important;
+    }
+
+    .public-inner-page .payment-method-card {
+        min-height: 104px !important;
+        padding: 12px 8px !important;
+    }
+
+    .public-inner-page .payment-message {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .public-inner-page .public-inner-main {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+        .public-inner-page .booking-page-heading,
+        .public-inner-page .public-inner-main > .d-flex.flex-column.flex-md-row {
+            padding: 20px 17px;
+        }
+
+    .public-inner-page .booking-heading-button,
+    .public-inner-page .btn {
+        min-height: 44px;
+    }
+
+    .public-inner-page .booking-stat-card {
+        padding: 19px !important;
+    }
+
+    .public-inner-page .booking-stat-value {
+        font-size: 27px !important;
+    }
+
+    .public-inner-page .public-inner-main > .container.py-4 > .card > .card-body,
+    .public-inner-page .invoice-paper > .card-body,
+    .public-inner-page .payment-body,
+    .public-inner-page .row.justify-content-center .card-body {
+        padding: 19px !important;
+    }
+
+    .public-inner-page .payment-method-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .public-inner-page .payment-method-card {
+        min-height: 90px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-inner-page *,
+    .public-inner-page *::before,
+    .public-inner-page *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+@media print {
+    .public-inner-page .public-inner-main {
+        padding: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .public-inner-page .invoice-paper {
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+}

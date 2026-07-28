@@ -5,23 +5,27 @@
     Layout = "_CustomerLayout";
 }
 
-<section class="auth-page">
+<section class="auth-page auth-login-page">
     <div class="auth-shell auth-shell-login">
-        <div class="auth-visual">
+        <aside class="auth-visual" aria-label="Giới thiệu Luxury Hotel">
             <div class="auth-overlay"></div>
-            <div class="auth-brand">
-                <span class="auth-brand-icon">
+
+            <a class="auth-brand"
+               asp-controller="Home"
+               asp-action="Index"
+               aria-label="Về trang chủ Luxury Hotel">
+                <span class="auth-brand-icon" aria-hidden="true">
                     <i class="bi bi-building-fill"></i>
                 </span>
-                <div>
+                <span class="auth-brand-copy">
                     <strong>LUXURY</strong>
                     <small>HOTEL &amp; RESORT</small>
-                </div>
-            </div>
+                </span>
+            </a>
 
             <div class="auth-visual-content">
                 <span class="auth-kicker">
-                    <i class="bi bi-stars"></i>
+                    <i class="bi bi-stars" aria-hidden="true"></i>
                     Trải nghiệm đẳng cấp
                 </span>
 
@@ -32,42 +36,48 @@
                     dịch vụ và thông tin cá nhân của bạn.
                 </p>
 
-                <div class="auth-highlights">
+                <div class="auth-highlights" aria-label="Quyền lợi khách hàng">
                     <div>
-                        <i class="bi bi-shield-check"></i>
+                        <i class="bi bi-shield-check" aria-hidden="true"></i>
                         <span>Bảo mật an toàn</span>
                     </div>
                     <div>
-                        <i class="bi bi-clock-history"></i>
+                        <i class="bi bi-clock-history" aria-hidden="true"></i>
                         <span>Hỗ trợ 24/7</span>
                     </div>
                     <div>
-                        <i class="bi bi-gem"></i>
+                        <i class="bi bi-gem" aria-hidden="true"></i>
                         <span>Dịch vụ cao cấp</span>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="auth-visual-footer">
+                <span></span>
+                <p>Luxury Hotel &amp; Resort</p>
+            </div>
+        </aside>
 
         <div class="auth-form-panel">
             <div class="auth-form-wrap">
                 <div class="auth-form-heading">
                     <span>Đăng nhập tài khoản</span>
                     <h2>Xin chào!</h2>
-                    <p>Nhập thông tin của bạn để tiếp tục.</p>
+                    <p>Nhập thông tin của bạn để tiếp tục kỳ nghỉ trọn vẹn.</p>
                 </div>
 
                 <form asp-action="Login" method="post" novalidate>
                     @Html.AntiForgeryToken()
 
                     <div asp-validation-summary="ModelOnly"
-                         class="auth-validation-summary">
+                         class="auth-validation-summary"
+                         role="alert">
                     </div>
 
                     <div class="auth-field">
                         <label asp-for="Username">Tên đăng nhập</label>
                         <div class="auth-input-group">
-                            <span class="auth-input-icon">
+                            <span class="auth-input-icon" aria-hidden="true">
                                 <i class="bi bi-person"></i>
                             </span>
                             <input asp-for="Username"
@@ -82,7 +92,7 @@
                     <div class="auth-field">
                         <label asp-for="Password">Mật khẩu</label>
                         <div class="auth-input-group">
-                            <span class="auth-input-icon">
+                            <span class="auth-input-icon" aria-hidden="true">
                                 <i class="bi bi-lock"></i>
                             </span>
                             <input asp-for="Password"
@@ -95,7 +105,7 @@
                                     class="auth-password-toggle"
                                     data-target="loginPassword"
                                     aria-label="Hiện hoặc ẩn mật khẩu">
-                                <i class="bi bi-eye"></i>
+                                <i class="bi bi-eye" aria-hidden="true"></i>
                             </button>
                         </div>
                         <span asp-validation-for="Password"
@@ -104,17 +114,17 @@
 
                     <button type="submit"
                             class="auth-primary-button">
-                        <i class="bi bi-box-arrow-in-right"></i>
+                        <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
                         Đăng nhập
                     </button>
 
                     <div class="auth-divider">
-                        <span>hoặc</span>
+                        <span>hoặc tiếp tục với</span>
                     </div>
 
                     <a asp-action="GoogleLogin"
                        class="auth-google-button">
-                        <i class="bi bi-google"></i>
+                        <i class="bi bi-google" aria-hidden="true"></i>
                         Đăng nhập bằng Google
                     </a>
 
@@ -124,6 +134,11 @@
                            asp-action="Register">
                             Đăng ký ngay
                         </a>
+                    </p>
+
+                    <p class="auth-security-note">
+                        <i class="bi bi-lock-fill" aria-hidden="true"></i>
+                        Thông tin của bạn được bảo vệ an toàn.
                     </p>
                 </form>
             </div>

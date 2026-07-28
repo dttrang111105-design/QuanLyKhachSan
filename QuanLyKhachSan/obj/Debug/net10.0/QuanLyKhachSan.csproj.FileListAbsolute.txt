@@ -680,8 +680,6 @@ D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\bundle\QuanLyKhachSan.styles.css
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\projectbundle\QuanLyKhachSan.bundle.scp.css
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ykdsz8vmrm-{0}-euv7fo3wfm-euv7fo3wfm.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3bmu2ctekg-{0}-fvf6vtqqtz-fvf6vtqqtz.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\xrkz46z9ez-{0}-61n19gt1b8-61n19gt1b8.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-f3p764h0z9-f3p764h0z9.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mumn7hpnkf-{0}-t1cqhe9u97-t1cqhe9u97.gz
@@ -1025,9 +1023,6 @@ D:\phong\branchtrung\QuanLyKhachSan\obj\Debug\net10.0\ref\QuanLyKhachSan.dll
 D:\phong\branchtrung\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-o8w7ti02y9-o8w7ti02y9.gz
 D:\phong\branchtrung\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-wlrxwddya5-wlrxwddya5.gz
 D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-o8w7ti02y9-o8w7ti02y9.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-twyc0u9ls1-twyc0u9ls1.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-j8x3j5yx1w-j8x3j5yx1w.gz
-D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\oqz5z98pfa-{0}-cx86s2uv52-cx86s2uv52.gz
 D:\QuanLyKhachSan - Sao chép\QuanLyKhachSan\bin\Debug\net10.0\appsettings.Development.json
 D:\QuanLyKhachSan - Sao chép\QuanLyKhachSan\bin\Debug\net10.0\appsettings.json
 D:\QuanLyKhachSan - Sao chép\QuanLyKhachSan\bin\Debug\net10.0\QuanLyKhachSan.staticwebassets.endpoints.json
@@ -1483,12 +1478,7 @@ E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\bundle\QuanLyKhachSan.styles.css
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\scopedcss\projectbundle\QuanLyKhachSan.bundle.scp.css
-E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ykdsz8vmrm-{0}-euv7fo3wfm-euv7fo3wfm.gz
-E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\oqz5z98pfa-{0}-cx86s2uv52-cx86s2uv52.gz
-E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-j8x3j5yx1w-j8x3j5yx1w.gz
-E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3bmu2ctekg-{0}-fvf6vtqqtz-fvf6vtqqtz.gz
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\eemuhn7gth-{0}-o8w7ti02y9-o8w7ti02y9.gz
-E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-twyc0u9ls1-twyc0u9ls1.gz
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\xrkz46z9ez-{0}-61n19gt1b8-61n19gt1b8.gz
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\s7t53ttbf9-{0}-f3p764h0z9-f3p764h0z9.gz
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\mumn7hpnkf-{0}-t1cqhe9u97-t1cqhe9u97.gz
@@ -1564,3 +1554,17 @@ E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\refint\QuanLyKhachSan.dll
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.pdb
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\QuanLyKhachSan.genruntimeconfig.cache
 E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\ref\QuanLyKhachSan.dll
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-n7wxil9jix-n7wxil9jix.gz
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\oqz5z98pfa-{0}-hcg6illbc4-hcg6illbc4.gz
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\99h8yo58v2-{0}-c1b6rns2i3-c1b6rns2i3.gz
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3ekla6rxcd-{0}-gmrzm4dfmr-gmrzm4dfmr.gz
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-kjo2auhqei-kjo2auhqei.gz
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3bmu2ctekg-{0}-vwnx3293tv-vwnx3293tv.gz
+E:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ykdsz8vmrm-{0}-y65mhk2uas-y65mhk2uas.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\ykdsz8vmrm-{0}-y65mhk2uas-y65mhk2uas.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\oqz5z98pfa-{0}-hcg6illbc4-hcg6illbc4.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3ekla6rxcd-{0}-gmrzm4dfmr-gmrzm4dfmr.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\99h8yo58v2-{0}-c1b6rns2i3-c1b6rns2i3.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\npqpo6clwe-{0}-n7wxil9jix-n7wxil9jix.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\3bmu2ctekg-{0}-vwnx3293tv-vwnx3293tv.gz
+D:\QuanLyKhachSan\QuanLyKhachSan\obj\Debug\net10.0\compressed\78tz40m2rk-{0}-kjo2auhqei-kjo2auhqei.gz

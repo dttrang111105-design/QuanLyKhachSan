@@ -17,356 +17,351 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
-build_property.EntryPointFilePath = 
 build_property.RootNamespace = QuanLyKhachSan
 build_property.RootNamespace = QuanLyKhachSan
-build_property.ProjectDir = E:\QuanLyKhachSan\QuanLyKhachSan\
+build_property.ProjectDir = D:\QuanLyKhachSan\QuanLyKhachSan\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.RazorLangVersion = 10.0
+build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = E:\QuanLyKhachSan\QuanLyKhachSan
+build_property.MSBuildProjectDirectory = D:\QuanLyKhachSan\QuanLyKhachSan
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Accounts/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Auth/AccessDenied.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxBY2Nlc3NEZW5pZWQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Auth/Login.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Auth/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Auth/Register.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Auth/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ0RldGFpbHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ0RldGFpbHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ0RldGFpbHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ0RldGFpbHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/BookingDetails/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ0RldGFpbHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/CreateForCustomer.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/CreateForCustomer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcQ3JlYXRlRm9yQ3VzdG9tZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Bookings/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Customers/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Employees/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Dashboard/Admin.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Dashboard/Admin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmRcQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Dashboard/Receptionist.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Dashboard/Receptionist.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmRcUmVjZXB0aW9uaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/MyDetails.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/MyDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcTXlEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/MyInvoices.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Invoices/MyInvoices.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52b2ljZXNcTXlJbnZvaWNlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/PaymentQr.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Payments/PaymentQr.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcUGF5bWVudFFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Profile/ChangePassword.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Profile/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Profile/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Profile/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Profile/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Profile/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3c1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3c1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3c1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Reviews/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Search.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Rooms/Search.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcU2VhcmNoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVR5cGVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVR5cGVzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVR5cGVzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVR5cGVzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/RoomTypes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVR5cGVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZUJvb2tpbmdzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZUJvb2tpbmdzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZUJvb2tpbmdzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZUJvb2tpbmdzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/ServiceBookings/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZUJvb2tpbmdzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/BookService.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/BookService.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcQm9va1NlcnZpY2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Create.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/CustomerServices.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/CustomerServices.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcQ3VzdG9tZXJTZXJ2aWNlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Delete.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Details.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Edit.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Index.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/StaffBookService.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Services/StaffBookService.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcU3RhZmZCb29rU2VydmljZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/Error.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_AdminLayout.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_AdminLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_CustomerLayout.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_CustomerLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DdXN0b21lckxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_ReceptionistLayout.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_ReceptionistLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZWNlcHRpb25pc3RMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/_ViewImports.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/_ViewStart.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_Layout.cshtml]
+[D:/QuanLyKhachSan/QuanLyKhachSan/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-fgvefgshpn
