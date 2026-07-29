@@ -62,7 +62,7 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
-<body class="@(isHome ? "public-home-page" : "public-inner-page")">
+<body class="@(isHome ? "public-home-page" : isAuthPage ? "public-auth-page" : "public-inner-page")">
 
     <header class="public-header">
         <nav id="mainNavbar"
@@ -281,7 +281,7 @@
         </nav>
     </header>
 
-    <main class="@(isHome ? "public-home-main" : "public-inner-main")">
+    <main class="@(isHome ? "public-home-main" : isAuthPage ? "public-auth-main" : "public-inner-main")">
         @RenderBody()
     </main>
 

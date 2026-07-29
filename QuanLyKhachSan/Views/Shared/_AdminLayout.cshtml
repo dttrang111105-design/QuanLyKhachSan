@@ -44,6 +44,10 @@
         DateTime.Now.ToString(
             "dddd, dd/MM/yyyy",
             new CultureInfo("vi-VN"));
+
+    string bodyClass =
+        ViewData["BodyClass"]?.ToString()
+        ?? string.Empty;
 }
 
 <!DOCTYPE html>
@@ -58,42 +62,42 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;60…ght@600;700&family=Poppins:wght@400;500;600;700&display=swap"
           rel="stylesheet" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <style>
-        .admin-account-menu .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 9px;
-            color: #444b58;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-            .admin-account-menu .dropdown-item i {
-                width: 18px;
-                color: #a97c30;
-                font-size: 15px;
+            .admin-account-menu .dropdown-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 9px;
+                color: #31566a;
+                font-size: 13px;
+                font-weight: 600;
             }
 
-            .admin-account-menu .dropdown-item:hover {
-                background: #f6f1e8;
-                color: #8f692f;
-            }
+                .admin-account-menu .dropdown-item i {
+                    width: 18px;
+                    color: #2f7395;
+                    font-size: 15px;
+                }
 
-            .admin-account-menu .dropdown-item.text-danger,
-            .admin-account-menu .dropdown-item.text-danger i {
-                color: #dc3545 !important;
-            }
+                .admin-account-menu .dropdown-item:hover {
+                    background: #e7f4fa;
+                    color: #174f6c;
+                }
+
+                .admin-account-menu .dropdown-item.text-danger,
+                .admin-account-menu .dropdown-item.text-danger i {
+                    color: #dc3545 !important;
+                }
     </style>
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
-<body class="admin-body">
+<body class="admin-body @bodyClass">
 
     <div class="admin-shell">
 
@@ -291,7 +295,6 @@
 
             <!-- TOPBAR -->
             <header class="admin-topbar">
-
                 <div class="admin-topbar-left">
 
                     <button type="button"
@@ -443,53 +446,53 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const body = document.body;
-            const sidebarToggle = document.getElementById("adminSidebarToggle");
-            const sidebarClose = document.getElementById("adminSidebarClose");
-            const sidebarOverlay = document.getElementById("adminSidebarOverlay");
-            const sidebar = document.getElementById("adminSidebar");
-            function isDesktop() {
-                return window.innerWidth >= 992;
-            }
-            function closeMobileSidebar() {
-                body.classList.remove("sidebar-open");
-            }
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener("click", function () {
-                    if (isDesktop()) {
-                        body.classList.toggle("sidebar-collapsed");
-                    }
-                    else {
-                        body.classList.toggle("sidebar-open");
-                    }
-                });
-            }
-            if (sidebarClose) {
-                sidebarClose.addEventListener( "click", closeMobileSidebar );
-            }
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener( "click", closeMobileSidebar );
-            }
-            if (sidebar) {
-                const navigationLinks = sidebar.querySelectorAll(".admin-nav-link");
-                navigationLinks.forEach(function (link) {
-                    link.addEventListener("click", function () {
-                        if (!isDesktop()) {
-                            closeMobileSidebar();
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const body = document.body;
+                        const sidebarToggle = document.getElementById("adminSidebarToggle");
+                        const sidebarClose = document.getElementById("adminSidebarClose");
+                        const sidebarOverlay = document.getElementById("adminSidebarOverlay");
+                        const sidebar = document.getElementById("adminSidebar");
+                        function isDesktop() {
+                            return window.innerWidth >= 992;
                         }
+                        function closeMobileSidebar() {
+                            body.classList.remove("sidebar-open");
+                        }
+                        if (sidebarToggle) {
+                            sidebarToggle.addEventListener("click", function () {
+                                if (isDesktop()) {
+                                    body.classList.toggle("sidebar-collapsed");
+                                }
+                                else {
+                                    body.classList.toggle("sidebar-open");
+                                }
+                            });
+                        }
+                        if (sidebarClose) {
+                            sidebarClose.addEventListener( "click", closeMobileSidebar );
+                        }
+                        if (sidebarOverlay) {
+                            sidebarOverlay.addEventListener( "click", closeMobileSidebar );
+                        }
+                        if (sidebar) {
+            const navigationLinks = sidebar.querySelectorAll(".admin-nav-link");
+                            navigationLinks.forEach(function (link) {
+                                link.addEventListener("click", function () {
+                                    if (!isDesktop()) {
+                                        closeMobileSidebar();
+                                    }
+                                });
+                            });
+                        }
+                        window.addEventListener("resize", function () {
+                            if (isDesktop()) {
+                                closeMobileSidebar();
+                            }
+                            else {
+                                body.classList.remove("sidebar-collapsed");
+                            }
+                        });
                     });
-                });
-            }
-            window.addEventListener("resize", function () {
-                if (isDesktop()) {
-                    closeMobileSidebar();
-                }
-                else {
-                    body.classList.remove("sidebar-collapsed");
-                }
-            });
-        });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

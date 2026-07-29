@@ -1,4 +1,6 @@
-﻿:root {
+﻿@import url("./booking-flow.css");
+
+:root {
     --reception-sidebar-width: 282px;
     --reception-sidebar-small: 88px;
     --reception-bg: #f4f5f8;
@@ -745,5 +747,1912 @@ body.reception-sidebar-collapsed .reception-view-site {
 
     .reception-account-button {
         padding-right: 8px;
+    }
+}
+
+/* =========================================================
+   LUXURY HOTEL RECEPTIONIST - BLUE & CHAMPAGNE THEME
+   Đồng bộ màu sắc và cảm giác thị giác với home.css.
+
+   Phạm vi:
+   - _ReceptionistLayout
+   - Dashboard lễ tân
+   - Booking / Check-in / Check-out
+   - Rooms / RoomTypes
+   - Services / ServiceBookings
+   - Invoices / Payments
+   - Profile và các trang CRUD dùng _ReceptionistLayout
+
+   Không yêu cầu thay đổi Razor View, Controller, Model hoặc Database.
+   Các selector được scope dưới body.reception-body để không ảnh hưởng
+   khu vực Admin, Customer hoặc trang chủ.
+   ========================================================= */
+
+:root {
+    --reception-sidebar-width: 286px;
+    --reception-sidebar-small: 88px;
+    --reception-bg: #f3f8fb;
+    --reception-bg-soft: #f8fbfd;
+    --reception-panel: #ffffff;
+    --reception-border: #d7e5ec;
+    --reception-border-strong: #c6dbe5;
+    --reception-sidebar: #082c41;
+    --reception-sidebar-light: #123d55;
+    --reception-sidebar-text: #c1d3dc;
+    --reception-primary: #2f7395;
+    --reception-primary-dark: #245e7a;
+    --reception-primary-deep: #123d55;
+    --reception-primary-soft: #e9f4f9;
+    --reception-primary-pale: #f5fafc;
+    --reception-gold: #c9a96e;
+    --reception-gold-dark: #a9854e;
+    --reception-gold-soft: #fbf6ec;
+    --reception-text: #17384c;
+    --reception-body-text: #536b79;
+    --reception-muted: #7d919c;
+    --reception-success: #278564;
+    --reception-success-soft: #e7f5ef;
+    --reception-warning: #b47c22;
+    --reception-warning-soft: #fff4df;
+    --reception-danger: #b95858;
+    --reception-danger-soft: #fcebec;
+    --reception-info: #337fa3;
+    --reception-info-soft: #e8f4fa;
+    --reception-purple: #7662aa;
+    --reception-purple-soft: #f0edfa;
+    --reception-shadow-xs: 0 5px 16px rgba(20, 62, 83, 0.055);
+    --reception-shadow-sm: 0 9px 26px rgba(20, 62, 83, 0.08);
+    --reception-shadow: 0 18px 46px rgba(20, 62, 83, 0.11);
+    --reception-shadow-lg: 0 28px 72px rgba(13, 48, 67, 0.16);
+    --reception-radius-sm: 10px;
+    --reception-radius-md: 16px;
+    --reception-radius-lg: 22px;
+    --reception-radius-xl: 28px;
+}
+
+/* =========================================================
+   NỀN VÀ TYPOGRAPHY
+   ========================================================= */
+
+body.reception-body {
+    background: radial-gradient(circle at 96% 2%, rgba(47, 115, 149, 0.10), transparent 27rem), radial-gradient(circle at 3% 94%, rgba(201, 169, 110, 0.08), transparent 25rem), var(--reception-bg) !important;
+    color: var(--reception-body-text) !important;
+    font-family: "DM Sans", "Segoe UI", sans-serif !important;
+    line-height: 1.55;
+}
+
+    body.reception-body ::selection {
+        background: rgba(47, 115, 149, 0.22);
+        color: var(--reception-primary-deep);
+    }
+
+    body.reception-body a,
+    body.reception-body button,
+    body.reception-body input,
+    body.reception-body select,
+    body.reception-body textarea {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body.reception-body .reception-content {
+        min-height: calc(100vh - 84px);
+        padding: 30px clamp(20px, 2.4vw, 38px) 48px !important;
+        background: transparent !important;
+        color: var(--reception-body-text);
+    }
+
+        body.reception-body .reception-content h1,
+        body.reception-body .reception-content h2,
+        body.reception-body .reception-content h3 {
+            color: var(--reception-text) !important;
+            font-family: "Playfair Display", Georgia, serif !important;
+            font-weight: 700;
+            letter-spacing: -0.25px;
+        }
+
+        body.reception-body .reception-content h4,
+        body.reception-body .reception-content h5,
+        body.reception-body .reception-content h6 {
+            color: var(--reception-text) !important;
+            font-weight: 700;
+        }
+
+        body.reception-body .reception-content p,
+        body.reception-body .reception-content .text-muted,
+        body.reception-body .reception-content small.text-muted {
+            color: var(--reception-muted) !important;
+        }
+
+        body.reception-body .reception-content hr {
+            border-color: var(--reception-border) !important;
+            opacity: 1;
+        }
+
+    /* =========================================================
+   SIDEBAR CỐ ĐỊNH
+   ========================================================= */
+
+    body.reception-body .reception-sidebar {
+        width: var(--reception-sidebar-width);
+        background: radial-gradient(circle at 16% -3%, rgba(201, 169, 110, 0.20), transparent 18rem), radial-gradient(circle at 95% 78%, rgba(47, 115, 149, 0.24), transparent 22rem), linear-gradient(180deg, #082c41 0%, #0b344b 48%, #092b3e 100%) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 18px 0 46px rgba(7, 38, 55, 0.12);
+    }
+
+        body.reception-body .reception-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.17) !important;
+        }
+
+    body.reception-body .reception-brand {
+        min-height: 90px;
+        padding: 18px 20px !important;
+        border-bottom-color: rgba(255, 255, 255, 0.09) !important;
+    }
+
+    body.reception-body .reception-brand-link {
+        gap: 13px;
+    }
+
+    body.reception-body .reception-brand-icon {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        border: 1px solid rgba(255, 255, 255, 0.36);
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #ffffff !important;
+        box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.035), 0 12px 28px rgba(2, 25, 38, 0.22) !important;
+    }
+
+    body.reception-body .reception-brand-text strong {
+        color: #ffffff !important;
+        font-family: "Playfair Display", Georgia, serif !important;
+        font-size: 21px;
+        letter-spacing: 2.5px;
+    }
+
+    body.reception-body .reception-brand-text small {
+        margin-top: 4px;
+        color: rgba(255, 255, 255, 0.66) !important;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 2.15px;
+    }
+
+    body.reception-body .reception-sidebar-close {
+        border: 1px solid rgba(255, 255, 255, 0.13) !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        transition: transform 0.22s ease, background-color 0.22s ease;
+    }
+
+        body.reception-body .reception-sidebar-close:hover {
+            background: rgba(255, 255, 255, 0.15) !important;
+            transform: rotate(4deg);
+        }
+
+    body.reception-body .reception-profile {
+        margin: 18px 14px 4px !important;
+        padding: 14px !important;
+        border-color: rgba(255, 255, 255, 0.10) !important;
+        border-radius: var(--reception-radius-md) !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+        backdrop-filter: blur(12px);
+    }
+
+    body.reception-body .reception-profile-avatar {
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        background: linear-gradient(135deg, var(--reception-gold), var(--reception-gold-dark)) !important;
+        color: #ffffff !important;
+        box-shadow: 0 9px 24px rgba(3, 29, 43, 0.25);
+    }
+
+    body.reception-body .reception-profile-info > span {
+        color: rgba(255, 255, 255, 0.48) !important;
+    }
+
+    body.reception-body .reception-profile-info strong {
+        color: #ffffff !important;
+    }
+
+    body.reception-body .reception-profile-info small {
+        color: rgba(255, 255, 255, 0.67) !important;
+    }
+
+        body.reception-body .reception-profile-info small i {
+            color: var(--reception-gold) !important;
+        }
+
+    body.reception-body .reception-navigation {
+        padding: 7px 12px 22px !important;
+    }
+
+    body.reception-body .reception-nav-group {
+        margin-top: 20px;
+    }
+
+    body.reception-body .reception-nav-label {
+        margin-bottom: 9px;
+        color: rgba(255, 255, 255, 0.40) !important;
+        font-size: 8px;
+        letter-spacing: 1.8px;
+    }
+
+    body.reception-body .reception-nav-link {
+        min-height: 48px;
+        gap: 13px;
+        margin-bottom: 5px;
+        padding: 11px 13px !important;
+        border: 1px solid transparent;
+        border-radius: 13px !important;
+        color: var(--reception-sidebar-text) !important;
+        font-size: 13px;
+        font-weight: 600;
+        transition: transform 0.22s ease, color 0.22s ease, background-color 0.22s ease, border-color 0.22s ease;
+    }
+
+        body.reception-body .reception-nav-link > i {
+            color: rgba(215, 232, 240, 0.66) !important;
+        }
+
+        body.reception-body .reception-nav-link:hover {
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            background: rgba(255, 255, 255, 0.075) !important;
+            color: #ffffff !important;
+            transform: translateX(3px);
+        }
+
+            body.reception-body .reception-nav-link:hover > i {
+                color: var(--reception-gold) !important;
+            }
+
+        body.reception-body .reception-nav-link.active {
+            border-color: rgba(255, 255, 255, 0.12) !important;
+            background: linear-gradient(135deg, rgba(47, 115, 149, 0.68), rgba(47, 115, 149, 0.30)) !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 25px rgba(2, 27, 41, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+        }
+
+            body.reception-body .reception-nav-link.active::before {
+                top: 9px;
+                bottom: 9px;
+                left: -12px;
+                width: 3px;
+                background: var(--reception-gold) !important;
+                box-shadow: 0 0 14px rgba(201, 169, 110, 0.55);
+            }
+
+            body.reception-body .reception-nav-link.active > i {
+                color: #ffffff !important;
+            }
+
+    body.reception-body .reception-nav-count {
+        border: 1px solid rgba(255, 255, 255, 0.23);
+        background: var(--reception-gold) !important;
+        color: #ffffff !important;
+        box-shadow: 0 5px 15px rgba(3, 26, 39, 0.22);
+    }
+
+    body.reception-body .reception-sidebar-overlay {
+        background: rgba(5, 32, 47, 0.62) !important;
+        backdrop-filter: blur(4px) !important;
+    }
+
+    /* =========================================================
+   TOPBAR
+   ========================================================= */
+
+    body.reception-body .reception-main {
+        margin-left: var(--reception-sidebar-width);
+    }
+
+    body.reception-body .reception-topbar {
+        min-height: 84px;
+        padding: 13px clamp(20px, 2.4vw, 38px) !important;
+        border-bottom-color: rgba(198, 219, 229, 0.82) !important;
+        background: rgba(255, 255, 255, 0.88) !important;
+        box-shadow: 0 8px 28px rgba(20, 62, 83, 0.055) !important;
+        backdrop-filter: blur(18px) saturate(135%) !important;
+    }
+
+    body.reception-body .reception-sidebar-toggle {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+        border-color: var(--reception-border) !important;
+        border-radius: 12px !important;
+        background: #ffffff !important;
+        color: var(--reception-primary-deep) !important;
+        box-shadow: var(--reception-shadow-xs);
+    }
+
+        body.reception-body .reception-sidebar-toggle:hover,
+        body.reception-body .reception-sidebar-toggle:focus-visible {
+            border-color: var(--reception-primary) !important;
+            background: var(--reception-primary-soft) !important;
+            color: var(--reception-primary) !important;
+            transform: translateY(-1px);
+        }
+
+    body.reception-body .reception-page-heading span {
+        color: var(--reception-primary) !important;
+        font-size: 9px;
+        letter-spacing: 1.8px;
+    }
+
+    body.reception-body .reception-page-heading h1 {
+        margin-top: 1px;
+        color: var(--reception-text) !important;
+        font-family: "Playfair Display", Georgia, serif !important;
+        font-size: clamp(20px, 2vw, 25px);
+    }
+
+    body.reception-body .reception-current-date {
+        padding: 10px 14px;
+        border-color: var(--reception-border) !important;
+        border-radius: 12px !important;
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-body-text) !important;
+    }
+
+        body.reception-body .reception-current-date i {
+            color: var(--reception-primary) !important;
+        }
+
+    body.reception-body .reception-account-button {
+        padding: 6px 11px 6px 7px;
+        border-color: var(--reception-border) !important;
+        border-radius: 14px !important;
+        background: #ffffff !important;
+        color: var(--reception-text) !important;
+        box-shadow: var(--reception-shadow-xs);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+        body.reception-body .reception-account-button:hover,
+        body.reception-body .reception-account-button:focus,
+        body.reception-body .reception-account-button.show {
+            border-color: var(--reception-primary) !important;
+            box-shadow: 0 9px 25px rgba(20, 62, 83, 0.11) !important;
+            transform: translateY(-1px);
+        }
+
+    body.reception-body .reception-account-avatar {
+        border: 1px solid rgba(47, 115, 149, 0.18);
+        background: linear-gradient(135deg, var(--reception-primary-soft), #dceef6) !important;
+        color: var(--reception-primary-deep) !important;
+    }
+
+    body.reception-body .reception-account-text small {
+        color: var(--reception-muted) !important;
+    }
+
+    body.reception-body .reception-account-text strong {
+        color: var(--reception-text) !important;
+    }
+
+    body.reception-body .reception-account-menu {
+        padding: 10px;
+        border-color: var(--reception-border) !important;
+        border-radius: var(--reception-radius-md) !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: var(--reception-shadow-lg) !important;
+        backdrop-filter: blur(18px);
+    }
+
+        body.reception-body .reception-account-menu .dropdown-divider {
+            border-color: var(--reception-border) !important;
+        }
+
+        body.reception-body .reception-account-menu .dropdown-item {
+            color: var(--reception-body-text);
+        }
+
+            body.reception-body .reception-account-menu .dropdown-item i {
+                color: var(--reception-primary);
+            }
+
+            body.reception-body .reception-account-menu .dropdown-item:hover,
+            body.reception-body .reception-account-menu .dropdown-item:focus {
+                background: var(--reception-primary-pale) !important;
+                color: var(--reception-primary-deep) !important;
+            }
+
+            body.reception-body .reception-account-menu .dropdown-item.text-danger:hover {
+                background: var(--reception-danger-soft) !important;
+                color: var(--reception-danger) !important;
+            }
+
+    /* =========================================================
+   THẺ, PANEL VÀ KHỐI DỮ LIỆU CHUNG
+   ========================================================= */
+
+    body.reception-body .reception-content .card,
+    body.reception-body .reception-content .reception-panel,
+    body.reception-body .reception-content .booking-panel,
+    body.reception-body .reception-content .room-type-panel,
+    body.reception-body .reception-content .service-panel,
+    body.reception-body .reception-content .invoice-panel,
+    body.reception-body .reception-content .payment-card,
+    body.reception-body .reception-content .payment-details-card,
+    body.reception-body .reception-content .payment-edit-card,
+    body.reception-body .reception-content .room-type-details-card,
+    body.reception-body .reception-content .room-type-edit-card,
+    body.reception-body .reception-content .service-details-card,
+    body.reception-body .reception-content .service-edit-card,
+    body.reception-body .reception-content .invoice-edit-card,
+    body.reception-body .reception-content .staff-service-card {
+        border: 1px solid var(--reception-border) !important;
+        border-radius: var(--reception-radius-lg) !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: var(--reception-shadow) !important;
+    }
+
+    body.reception-body .reception-content .card {
+        overflow: hidden;
+    }
+
+    body.reception-body .reception-content .card-header,
+    body.reception-body .reception-content .card-footer {
+        border-color: var(--reception-border) !important;
+        background: #ffffff !important;
+    }
+
+        body.reception-body .reception-content .card-header.bg-dark,
+        body.reception-body .reception-content .card-header.bg-primary,
+        body.reception-body .reception-content .card-header.text-white,
+        body.reception-body .reception-content .card-header[style*="background"] {
+            border-bottom: 0 !important;
+            background: linear-gradient(135deg, var(--reception-primary-deep), var(--reception-primary)) !important;
+            color: #ffffff !important;
+        }
+
+            body.reception-body .reception-content .card-header.bg-dark h1,
+            body.reception-body .reception-content .card-header.bg-dark h2,
+            body.reception-body .reception-content .card-header.bg-dark h3,
+            body.reception-body .reception-content .card-header.bg-dark h4,
+            body.reception-body .reception-content .card-header.bg-dark h5,
+            body.reception-body .reception-content .card-header.bg-primary h1,
+            body.reception-body .reception-content .card-header.bg-primary h2,
+            body.reception-body .reception-content .card-header.bg-primary h3,
+            body.reception-body .reception-content .card-header.bg-primary h4,
+            body.reception-body .reception-content .card-header.bg-primary h5,
+            body.reception-body .reception-content .card-header[style*="background"] h1,
+            body.reception-body .reception-content .card-header[style*="background"] h2,
+            body.reception-body .reception-content .card-header[style*="background"] h3,
+            body.reception-body .reception-content .card-header[style*="background"] h4,
+            body.reception-body .reception-content .card-header[style*="background"] h5 {
+                color: #ffffff !important;
+            }
+
+    body.reception-body .reception-content .shadow,
+    body.reception-body .reception-content .shadow-sm,
+    body.reception-body .reception-content .shadow-lg {
+        box-shadow: var(--reception-shadow) !important;
+    }
+
+    body.reception-body .reception-content .border,
+    body.reception-body .reception-content .border-top,
+    body.reception-body .reception-content .border-bottom,
+    body.reception-body .reception-content .border-start,
+    body.reception-body .reception-content .border-end {
+        border-color: var(--reception-border) !important;
+    }
+
+    body.reception-body .reception-content .bg-light {
+        background: var(--reception-primary-pale) !important;
+    }
+
+    body.reception-body .reception-content .bg-white {
+        background: #ffffff !important;
+    }
+
+    /* =========================================================
+   BẢNG HIỆN ĐẠI
+   ========================================================= */
+
+    body.reception-body .reception-content .table-responsive {
+        scrollbar-color: rgba(47, 115, 149, 0.28) transparent;
+        scrollbar-width: thin;
+    }
+
+        body.reception-body .reception-content .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        body.reception-body .reception-content .table-responsive::-webkit-scrollbar-thumb {
+            border-radius: 999px;
+            background: rgba(47, 115, 149, 0.24);
+        }
+
+    body.reception-body .reception-content .table {
+        --bs-table-bg: transparent;
+        --bs-table-striped-bg: var(--reception-primary-pale);
+        --bs-table-hover-bg: #f7fbfd;
+        margin-bottom: 0 !important;
+        color: var(--reception-body-text);
+    }
+
+        body.reception-body .reception-content .table thead th,
+        body.reception-body .reception-content .booking-table thead th,
+        body.reception-body .reception-content .room-type-table thead th,
+        body.reception-body .reception-content .service-table thead th,
+        body.reception-body .reception-content .invoice-table thead th,
+        body.reception-body .reception-content .payment-table thead th,
+        body.reception-body .reception-content .reception-booking-table thead th {
+            padding: 14px 13px !important;
+            border-color: var(--reception-border) !important;
+            background: linear-gradient(180deg, #f8fbfd, #f1f7fa) !important;
+            color: #66808f !important;
+            font-size: 9px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.72px !important;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        body.reception-body .reception-content .table tbody td,
+        body.reception-body .reception-content .booking-table tbody td,
+        body.reception-body .reception-content .room-type-table tbody td,
+        body.reception-body .reception-content .service-table tbody td,
+        body.reception-body .reception-content .invoice-table tbody td,
+        body.reception-body .reception-content .payment-table tbody td,
+        body.reception-body .reception-content .reception-booking-table tbody td {
+            padding: 15px 13px !important;
+            border-color: #e9f0f4 !important;
+            color: var(--reception-body-text) !important;
+            vertical-align: middle;
+        }
+
+        body.reception-body .reception-content .table tbody tr,
+        body.reception-body .reception-content .booking-row,
+        body.reception-body .reception-content .room-type-row,
+        body.reception-body .reception-content .service-row,
+        body.reception-body .reception-content .invoice-row,
+        body.reception-body .reception-content .payment-row {
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            body.reception-body .reception-content .table tbody tr:hover,
+            body.reception-body .reception-content .booking-table tbody tr:hover,
+            body.reception-body .reception-content .room-type-table tbody tr:hover,
+            body.reception-body .reception-content .service-table tbody tr:hover,
+            body.reception-body .reception-content .invoice-table tbody tr:hover,
+            body.reception-body .reception-content .payment-table tbody tr:hover {
+                background: #f7fbfd !important;
+                box-shadow: inset 3px 0 0 var(--reception-primary);
+            }
+
+    /* =========================================================
+   FORM, INPUT VÀ VALIDATION
+   ========================================================= */
+
+    body.reception-body .reception-content .form-label,
+    body.reception-body .reception-content .control-label {
+        margin-bottom: 7px;
+        color: var(--reception-text) !important;
+        font-size: 12px;
+        font-weight: 700 !important;
+    }
+
+    body.reception-body .reception-content .form-control,
+    body.reception-body .reception-content .form-select {
+        min-height: 45px;
+        padding: 10px 13px;
+        border: 1px solid var(--reception-border) !important;
+        border-radius: 11px !important;
+        background-color: #ffffff !important;
+        color: var(--reception-text) !important;
+        font-size: 13px;
+        box-shadow: none !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    body.reception-body .reception-content textarea.form-control {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    body.reception-body .reception-content .form-control::placeholder {
+        color: #9babb4;
+    }
+
+    body.reception-body .reception-content .form-control:focus,
+    body.reception-body .reception-content .form-select:focus,
+    body.reception-body .reception-content .booking-search input:focus,
+    body.reception-body .reception-content .room-type-search input:focus,
+    body.reception-body .reception-content .service-search-box input:focus,
+    body.reception-body .reception-content .invoice-search-box input:focus,
+    body.reception-body .reception-content .payment-search-box input:focus {
+        border-color: var(--reception-primary) !important;
+        background-color: #ffffff !important;
+        box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.12) !important;
+        outline: none;
+    }
+
+    body.reception-body .reception-content .input-group-text {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .reception-content .form-check-input {
+        border-color: #b9ced8;
+    }
+
+        body.reception-body .reception-content .form-check-input:checked {
+            border-color: var(--reception-primary) !important;
+            background-color: var(--reception-primary) !important;
+        }
+
+        body.reception-body .reception-content .form-check-input:focus {
+            border-color: var(--reception-primary) !important;
+            box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.12) !important;
+        }
+
+    body.reception-body .reception-content .input-validation-error,
+    body.reception-body .reception-content .form-control.input-validation-error,
+    body.reception-body .reception-content .form-select.input-validation-error {
+        border-color: var(--reception-danger) !important;
+        background: #fffafa !important;
+        box-shadow: 0 0 0 3px rgba(185, 88, 88, 0.08) !important;
+    }
+
+    body.reception-body .reception-content .field-validation-error,
+    body.reception-body .reception-content .text-danger {
+        color: var(--reception-danger) !important;
+    }
+
+    body.reception-body .reception-content .validation-summary-errors,
+    body.reception-body .reception-content [data-valmsg-summary="true"] {
+        border-color: rgba(185, 88, 88, 0.22) !important;
+        background: var(--reception-danger-soft) !important;
+        color: #8d3f43 !important;
+    }
+
+    body.reception-body .reception-content input[readonly],
+    body.reception-body .reception-content textarea[readonly],
+    body.reception-body .reception-content select:disabled,
+    body.reception-body .reception-content input:disabled {
+        background: #f3f7f9 !important;
+        color: #6f8591 !important;
+        cursor: not-allowed;
+    }
+
+    /* =========================================================
+   NÚT VÀ HÀNH ĐỘNG
+   ========================================================= */
+
+    body.reception-body .reception-content .btn {
+        min-height: 41px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 15px;
+        border-radius: 10px !important;
+        font-size: 12px;
+        font-weight: 700 !important;
+        box-shadow: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+        body.reception-body .reception-content .btn:hover {
+            transform: translateY(-1px);
+        }
+
+    body.reception-body .reception-content .btn-primary,
+    body.reception-body .reception-content .btn-success {
+        border-color: var(--reception-primary) !important;
+        background: linear-gradient(135deg, var(--reception-primary), var(--reception-primary-dark)) !important;
+        color: #ffffff !important;
+        box-shadow: 0 10px 23px rgba(47, 115, 149, 0.20) !important;
+    }
+
+        body.reception-body .reception-content .btn-primary:hover,
+        body.reception-body .reception-content .btn-primary:focus,
+        body.reception-body .reception-content .btn-success:hover,
+        body.reception-body .reception-content .btn-success:focus {
+            border-color: var(--reception-primary-deep) !important;
+            background: var(--reception-primary-deep) !important;
+            color: #ffffff !important;
+            box-shadow: 0 13px 28px rgba(18, 61, 85, 0.22) !important;
+        }
+
+    body.reception-body .reception-content .btn-warning {
+        border-color: var(--reception-gold) !important;
+        background: linear-gradient(135deg, #d5ba82, var(--reception-gold)) !important;
+        color: #17384c !important;
+        box-shadow: 0 10px 22px rgba(169, 133, 78, 0.18) !important;
+    }
+
+        body.reception-body .reception-content .btn-warning:hover,
+        body.reception-body .reception-content .btn-warning:focus {
+            border-color: var(--reception-gold-dark) !important;
+            background: var(--reception-gold-dark) !important;
+            color: #ffffff !important;
+        }
+
+    body.reception-body .reception-content .btn-danger {
+        border-color: var(--reception-danger) !important;
+        background: var(--reception-danger) !important;
+        color: #ffffff !important;
+    }
+
+        body.reception-body .reception-content .btn-danger:hover {
+            border-color: #964447 !important;
+            background: #964447 !important;
+        }
+
+    body.reception-body .reception-content .btn-secondary,
+    body.reception-body .reception-content .btn-outline-secondary,
+    body.reception-body .reception-content .btn-outline-dark {
+        border-color: var(--reception-border-strong) !important;
+        background: #ffffff !important;
+        color: var(--reception-body-text) !important;
+    }
+
+        body.reception-body .reception-content .btn-secondary:hover,
+        body.reception-body .reception-content .btn-outline-secondary:hover,
+        body.reception-body .reception-content .btn-outline-dark:hover {
+            border-color: var(--reception-primary) !important;
+            background: var(--reception-primary-pale) !important;
+            color: var(--reception-primary-deep) !important;
+        }
+
+    body.reception-body .reception-content .btn-outline-primary {
+        border-color: var(--reception-primary) !important;
+        background: #ffffff !important;
+        color: var(--reception-primary) !important;
+    }
+
+        body.reception-body .reception-content .btn-outline-primary:hover,
+        body.reception-body .reception-content .btn-outline-primary:focus {
+            background: var(--reception-primary) !important;
+            color: #ffffff !important;
+        }
+
+    body.reception-body .reception-content .btn-sm {
+        min-height: 33px;
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    /* =========================================================
+   ALERT, BADGE VÀ TRẠNG THÁI
+   ========================================================= */
+
+    body.reception-body .reception-content .alert,
+    body.reception-body .reception-alert {
+        border: 1px solid transparent !important;
+        border-radius: 13px !important;
+        box-shadow: var(--reception-shadow-xs);
+    }
+
+        body.reception-body .reception-content .alert-success,
+        body.reception-body .reception-alert.alert-success {
+            border-color: rgba(39, 133, 100, 0.18) !important;
+            background: var(--reception-success-soft) !important;
+            color: #226d54 !important;
+        }
+
+        body.reception-body .reception-content .alert-danger,
+        body.reception-body .reception-alert.alert-danger {
+            border-color: rgba(185, 88, 88, 0.19) !important;
+            background: var(--reception-danger-soft) !important;
+            color: #8d3f43 !important;
+        }
+
+    body.reception-body .reception-content .alert-warning {
+        border-color: rgba(180, 124, 34, 0.18) !important;
+        background: var(--reception-warning-soft) !important;
+        color: #875d1c !important;
+    }
+
+    body.reception-body .reception-content .alert-info {
+        border-color: rgba(51, 127, 163, 0.17) !important;
+        background: var(--reception-info-soft) !important;
+        color: #286785 !important;
+    }
+
+    body.reception-body .reception-content .alert-light {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-body-text) !important;
+    }
+
+    body.reception-body .reception-content .badge {
+        padding: 6px 10px;
+        border-radius: 999px !important;
+        font-size: 9px;
+        font-weight: 800 !important;
+        letter-spacing: 0.15px;
+    }
+
+    body.reception-body .reception-content .bg-primary {
+        background-color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .reception-content .bg-success {
+        background-color: var(--reception-success) !important;
+    }
+
+    body.reception-body .reception-content .bg-warning {
+        background-color: var(--reception-gold) !important;
+        color: var(--reception-primary-deep) !important;
+    }
+
+    body.reception-body .reception-content .bg-danger {
+        background-color: var(--reception-danger) !important;
+    }
+
+    body.reception-body .reception-content .text-primary {
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .reception-content .text-success {
+        color: var(--reception-success) !important;
+    }
+
+    body.reception-body .reception-content .text-warning {
+        color: var(--reception-gold-dark) !important;
+    }
+
+    /* =========================================================
+   TIÊU ĐỀ TRANG VÀ THANH LỌC CHUNG
+   ========================================================= */
+
+    body.reception-body .reception-dashboard-heading,
+    body.reception-body .booking-page-heading,
+    body.reception-body .room-type-heading,
+    body.reception-body .service-page-heading,
+    body.reception-body .payment-header,
+    body.reception-body .admin-dashboard-heading,
+    body.reception-body .staff-service-heading,
+    body.reception-body .room-type-details-heading,
+    body.reception-body .room-type-edit-heading,
+    body.reception-body .service-details-heading,
+    body.reception-body .service-edit-heading,
+    body.reception-body .payment-details-heading,
+    body.reception-body .payment-edit-heading,
+    body.reception-body .invoice-edit-heading {
+        margin-bottom: 26px !important;
+    }
+
+    body.reception-body .reception-dashboard-kicker,
+    body.reception-body .booking-page-kicker,
+    body.reception-body .room-type-kicker,
+    body.reception-body .service-page-kicker,
+    body.reception-body .page-kicker,
+    body.reception-body .admin-dashboard-kicker,
+    body.reception-body .room-type-details-kicker,
+    body.reception-body .room-type-edit-kicker,
+    body.reception-body .service-details-kicker,
+    body.reception-body .service-edit-kicker,
+    body.reception-body .payment-details-kicker,
+    body.reception-body .payment-edit-kicker,
+    body.reception-body .invoice-edit-kicker {
+        color: var(--reception-primary) !important;
+        font-size: 10px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.8px !important;
+        text-transform: uppercase;
+    }
+
+    body.reception-body .booking-heading-button,
+    body.reception-body .room-type-heading-button,
+    body.reception-body .service-heading-button,
+    body.reception-body .reception-outline-action,
+    body.reception-body .reception-primary-action,
+    body.reception-body .admin-outline-action,
+    body.reception-body .admin-primary-action,
+    body.reception-body .room-type-details-button,
+    body.reception-body .room-type-edit-back,
+    body.reception-body .service-details-button,
+    body.reception-body .service-edit-back,
+    body.reception-body .payment-details-button,
+    body.reception-body .payment-edit-back,
+    body.reception-body .invoice-edit-back {
+        min-height: 43px;
+        border-radius: 11px !important;
+        font-weight: 700 !important;
+        transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        body.reception-body .booking-heading-button,
+        body.reception-body .room-type-heading-button,
+        body.reception-body .service-heading-button,
+        body.reception-body .reception-outline-action,
+        body.reception-body .admin-outline-action,
+        body.reception-body .room-type-details-button.back,
+        body.reception-body .service-details-button.back,
+        body.reception-body .payment-details-button.back,
+        body.reception-body .room-type-edit-back,
+        body.reception-body .service-edit-back,
+        body.reception-body .payment-edit-back,
+        body.reception-body .invoice-edit-back {
+            border-color: var(--reception-border-strong) !important;
+            background: #ffffff !important;
+            color: var(--reception-body-text) !important;
+        }
+
+            body.reception-body .booking-heading-button.primary,
+            body.reception-body .room-type-heading-button.primary,
+            body.reception-body .service-heading-button.primary,
+            body.reception-body .reception-primary-action,
+            body.reception-body .admin-primary-action {
+                border-color: var(--reception-primary) !important;
+                background: linear-gradient(135deg, var(--reception-primary), var(--reception-primary-dark)) !important;
+                color: #ffffff !important;
+                box-shadow: 0 11px 25px rgba(47, 115, 149, 0.20) !important;
+            }
+
+            body.reception-body .service-heading-button.booking {
+                border-color: var(--reception-gold) !important;
+                background: var(--reception-gold-soft) !important;
+                color: var(--reception-gold-dark) !important;
+            }
+
+            body.reception-body .booking-heading-button:hover,
+            body.reception-body .room-type-heading-button:hover,
+            body.reception-body .service-heading-button:hover,
+            body.reception-body .reception-outline-action:hover,
+            body.reception-body .reception-primary-action:hover,
+            body.reception-body .admin-outline-action:hover,
+            body.reception-body .admin-primary-action:hover {
+                transform: translateY(-2px);
+            }
+
+    body.reception-body .booking-filter-area,
+    body.reception-body .room-type-filter-area,
+    body.reception-body .service-filter-area,
+    body.reception-body .invoice-filter-area,
+    body.reception-body .payment-filter-group {
+        gap: 9px;
+    }
+
+        body.reception-body .booking-search input,
+        body.reception-body .room-type-search input,
+        body.reception-body .service-search-box input,
+        body.reception-body .invoice-search-box input,
+        body.reception-body .payment-search-box input,
+        body.reception-body .booking-filter-area .form-select,
+        body.reception-body .room-type-filter-area .form-select,
+        body.reception-body .service-filter-area .form-select,
+        body.reception-body .invoice-filter-area .form-select,
+        body.reception-body .payment-filter-group .form-select {
+            min-height: 43px !important;
+            border-color: var(--reception-border) !important;
+            border-radius: 11px !important;
+            background-color: #ffffff !important;
+            color: var(--reception-body-text) !important;
+        }
+
+    body.reception-body .booking-search i,
+    body.reception-body .room-type-search i,
+    body.reception-body .service-search-box i,
+    body.reception-body .invoice-search-box i,
+    body.reception-body .payment-search-box i {
+        color: var(--reception-primary) !important;
+    }
+
+    /* =========================================================
+   DASHBOARD LỄ TÂN
+   ========================================================= */
+
+    body.reception-body .reception-dashboard-heading h2 {
+        margin-top: 6px;
+        color: var(--reception-text) !important;
+        font-size: clamp(27px, 2.7vw, 36px) !important;
+    }
+
+    body.reception-body .reception-dashboard-heading p {
+        color: var(--reception-muted) !important;
+        line-height: 1.75;
+    }
+
+    body.reception-body .reception-stat-card,
+    body.reception-body .booking-stat-card,
+    body.reception-body .room-type-stat-card,
+    body.reception-body .service-stat-card,
+    body.reception-body .invoice-stat-card,
+    body.reception-body .payment-stat-card {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        padding: 21px !important;
+        border: 1px solid var(--reception-border) !important;
+        border-radius: var(--reception-radius-md) !important;
+        background: #ffffff !important;
+        box-shadow: var(--reception-shadow-sm) !important;
+        transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+    }
+
+        body.reception-body .reception-stat-card::after,
+        body.reception-body .booking-stat-card::after,
+        body.reception-body .room-type-stat-card::after,
+        body.reception-body .service-stat-card::after,
+        body.reception-body .invoice-stat-card::after,
+        body.reception-body .payment-stat-card::after {
+            content: "";
+            position: absolute;
+            top: -32px;
+            right: -32px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(47, 115, 149, 0.055);
+            pointer-events: none;
+        }
+
+        body.reception-body .reception-stat-card:hover,
+        body.reception-body .booking-stat-card:hover,
+        body.reception-body .room-type-stat-card:hover,
+        body.reception-body .service-stat-card:hover,
+        body.reception-body .invoice-stat-card:hover,
+        body.reception-body .payment-stat-card:hover {
+            border-color: #bdd5e0 !important;
+            box-shadow: 0 19px 44px rgba(20, 62, 83, 0.14) !important;
+            transform: translateY(-4px);
+        }
+
+    body.reception-body .reception-stat-icon,
+    body.reception-body .booking-stat-icon,
+    body.reception-body .room-type-stat-icon,
+    body.reception-body .service-stat-icon,
+    body.reception-body .invoice-stat-icon,
+    body.reception-body .payment-stat-icon {
+        border: 1px solid rgba(47, 115, 149, 0.10);
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary) !important;
+    }
+
+        body.reception-body .reception-stat-available .reception-stat-icon,
+        body.reception-body .booking-stat-icon.green,
+        body.reception-body .service-stat-icon.green,
+        body.reception-body .invoice-icon-green,
+        body.reception-body .payment-stat-green {
+            border-color: rgba(39, 133, 100, 0.13) !important;
+            background: var(--reception-success-soft) !important;
+            color: var(--reception-success) !important;
+        }
+
+        body.reception-body .reception-stat-maintenance .reception-stat-icon,
+        body.reception-body .service-stat-icon.red,
+        body.reception-body .invoice-icon-red {
+            border-color: rgba(185, 88, 88, 0.13) !important;
+            background: var(--reception-danger-soft) !important;
+            color: var(--reception-danger) !important;
+        }
+
+        body.reception-body .booking-stat-icon.orange,
+        body.reception-body .service-stat-icon.gold,
+        body.reception-body .invoice-icon-gold,
+        body.reception-body .payment-stat-gold {
+            border-color: rgba(169, 133, 78, 0.15) !important;
+            background: var(--reception-gold-soft) !important;
+            color: var(--reception-gold-dark) !important;
+        }
+
+        body.reception-body .booking-stat-icon.purple,
+        body.reception-body .payment-stat-purple {
+            border-color: rgba(118, 98, 170, 0.13) !important;
+            background: var(--reception-purple-soft) !important;
+            color: var(--reception-purple) !important;
+        }
+
+    body.reception-body .reception-stat-tag,
+    body.reception-body .booking-stat-label,
+    body.reception-body .room-type-stat-tag,
+    body.reception-body .service-stat-tag,
+    body.reception-body .invoice-stat-tag,
+    body.reception-body .payment-stat-label {
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-muted) !important;
+    }
+
+        body.reception-body .reception-stat-tag.success {
+            background: var(--reception-success-soft) !important;
+            color: var(--reception-success) !important;
+        }
+
+        body.reception-body .reception-stat-tag.danger {
+            background: var(--reception-danger-soft) !important;
+            color: var(--reception-danger) !important;
+        }
+
+    body.reception-body .reception-stat-label,
+    body.reception-body .booking-stat-title,
+    body.reception-body .room-type-stat-title,
+    body.reception-body .service-stat-title,
+    body.reception-body .invoice-stat-title,
+    body.reception-body .payment-stat-title {
+        color: var(--reception-muted) !important;
+    }
+
+    body.reception-body .reception-stat-value,
+    body.reception-body .booking-stat-value,
+    body.reception-body .room-type-stat-value,
+    body.reception-body .service-stat-value,
+    body.reception-body .invoice-stat-value,
+    body.reception-body .payment-stat-value {
+        color: var(--reception-text) !important;
+    }
+
+    body.reception-body .reception-today-strip {
+        overflow: hidden;
+        border: 1px solid var(--reception-border) !important;
+        border-radius: var(--reception-radius-lg) !important;
+        background: linear-gradient(120deg, #ffffff 0%, #f5fafc 100%) !important;
+        box-shadow: var(--reception-shadow-sm) !important;
+    }
+
+    body.reception-body .reception-today-main-icon {
+        background: var(--reception-gold-soft) !important;
+        color: var(--reception-gold-dark) !important;
+    }
+
+    body.reception-body .reception-today-item {
+        border-color: var(--reception-border) !important;
+    }
+
+        body.reception-body .reception-today-item:hover {
+            background: var(--reception-primary-pale) !important;
+        }
+
+    body.reception-body .today-checkin {
+        background: var(--reception-success-soft) !important;
+        color: var(--reception-success) !important;
+    }
+
+    body.reception-body .today-checkout {
+        background: var(--reception-info-soft) !important;
+        color: var(--reception-info) !important;
+    }
+
+    body.reception-body .today-pending {
+        background: var(--reception-warning-soft) !important;
+        color: var(--reception-warning) !important;
+    }
+
+    body.reception-body .today-room {
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .reception-panel-header,
+    body.reception-body .booking-panel-header,
+    body.reception-body .room-type-panel-header,
+    body.reception-body .service-panel-header,
+    body.reception-body .invoice-panel-header,
+    body.reception-body .payment-panel-header {
+        border-bottom-color: var(--reception-border) !important;
+        background: linear-gradient(180deg, #ffffff, #fbfdfe) !important;
+    }
+
+    body.reception-body .reception-panel-link {
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .reception-room-card {
+        border: 1px solid var(--reception-border) !important;
+        border-radius: var(--reception-radius-md) !important;
+        background: #ffffff !important;
+        box-shadow: var(--reception-shadow-xs);
+    }
+
+        body.reception-body .reception-room-card:hover {
+            border-color: var(--reception-primary) !important;
+            box-shadow: var(--reception-shadow-sm) !important;
+            transform: translateY(-3px);
+        }
+
+    body.reception-body .reception-room-number,
+    body.reception-body .reception-booking-code {
+        color: var(--reception-text) !important;
+    }
+
+    body.reception-body .reception-quick-item {
+        border-color: var(--reception-border) !important;
+    }
+
+        body.reception-body .reception-quick-item:hover {
+            background: var(--reception-primary-pale) !important;
+        }
+
+    body.reception-body .quick-icon.booking,
+    body.reception-body .quick-icon.room {
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .quick-icon.service,
+    body.reception-body .quick-icon.invoice {
+        background: var(--reception-gold-soft) !important;
+        color: var(--reception-gold-dark) !important;
+    }
+
+    /* =========================================================
+   BOOKING, CHECK-IN VÀ CHECK-OUT
+   ========================================================= */
+
+    body.reception-body .booking-page-heading h2,
+    body.reception-body .room-type-heading h2,
+    body.reception-body .service-page-heading h2 {
+        color: var(--reception-text) !important;
+    }
+
+    body.reception-body .booking-page-heading p,
+    body.reception-body .room-type-heading p,
+    body.reception-body .service-page-heading p {
+        color: var(--reception-muted) !important;
+    }
+
+    body.reception-body .booking-code-icon,
+    body.reception-body .booking-customer-avatar,
+    body.reception-body .invoice-code-icon,
+    body.reception-body .payment-invoice-icon,
+    body.reception-body .room-type-icon,
+    body.reception-body .service-main-icon {
+        border: 1px solid rgba(47, 115, 149, 0.12);
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .booking-code-cell strong,
+    body.reception-body .booking-customer-cell strong,
+    body.reception-body .booking-date-cell strong,
+    body.reception-body .invoice-code-cell strong,
+    body.reception-body .invoice-booking-cell strong,
+    body.reception-body .invoice-date-cell strong,
+    body.reception-body .payment-invoice-cell strong,
+    body.reception-body .payment-date strong {
+        color: var(--reception-text) !important;
+    }
+
+    body.reception-body .booking-room-badge,
+    body.reception-body .reception-room-badge,
+    body.reception-body .room-type-room-badge {
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-primary-deep) !important;
+    }
+
+    body.reception-body .booking-money,
+    body.reception-body .invoice-money,
+    body.reception-body .invoice-total,
+    body.reception-body .payment-amount,
+    body.reception-body .payment-money-value,
+    body.reception-body .service-price,
+    body.reception-body .room-type-price {
+        color: var(--reception-text) !important;
+    }
+
+        body.reception-body .booking-money.total,
+        body.reception-body .invoice-total,
+        body.reception-body .payment-amount {
+            color: var(--reception-primary) !important;
+        }
+
+    body.reception-body .booking-status,
+    body.reception-body .reception-booking-status,
+    body.reception-body .invoice-status,
+    body.reception-body .payment-status,
+    body.reception-body .service-status,
+    body.reception-body .reception-room-status {
+        border: 1px solid transparent;
+    }
+
+    body.reception-body .booking-status-pending,
+    body.reception-body .reception-status-pending,
+    body.reception-body .payment-status-pending,
+    body.reception-body .invoice-status-partial {
+        border-color: rgba(180, 124, 34, 0.14) !important;
+        background: var(--reception-warning-soft) !important;
+        color: var(--reception-warning) !important;
+    }
+
+    body.reception-body .booking-status-confirmed,
+    body.reception-body .reception-status-confirmed,
+    body.reception-body .payment-status-default {
+        border-color: rgba(47, 115, 149, 0.14) !important;
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .booking-status-checkedin,
+    body.reception-body .reception-status-checkedin,
+    body.reception-body .payment-status-paid,
+    body.reception-body .invoice-status-paid,
+    body.reception-body .service-status-active {
+        border-color: rgba(39, 133, 100, 0.14) !important;
+        background: var(--reception-success-soft) !important;
+        color: var(--reception-success) !important;
+    }
+
+    body.reception-body .booking-status-checkedout,
+    body.reception-body .reception-status-checkedout,
+    body.reception-body .payment-status-refunded {
+        border-color: rgba(83, 107, 121, 0.13) !important;
+        background: #edf3f6 !important;
+        color: #5f7480 !important;
+    }
+
+    body.reception-body .booking-status-cancelled,
+    body.reception-body .reception-status-cancelled,
+    body.reception-body .payment-status-failed,
+    body.reception-body .invoice-status-unpaid,
+    body.reception-body .service-status-inactive {
+        border-color: rgba(185, 88, 88, 0.14) !important;
+        background: var(--reception-danger-soft) !important;
+        color: var(--reception-danger) !important;
+    }
+
+    body.reception-body .booking-action,
+    body.reception-body .room-type-action,
+    body.reception-body .service-action,
+    body.reception-body .invoice-action-button,
+    body.reception-body .payment-action-button,
+    body.reception-body .reception-table-button {
+        border-color: var(--reception-border) !important;
+        border-radius: 9px !important;
+        background: #ffffff !important;
+        box-shadow: none;
+    }
+
+        body.reception-body .booking-action.view,
+        body.reception-body .room-type-action.view,
+        body.reception-body .service-action.view,
+        body.reception-body .invoice-action-view,
+        body.reception-body .payment-action-details,
+        body.reception-body .reception-table-button {
+            color: var(--reception-primary) !important;
+        }
+
+        body.reception-body .booking-action.edit,
+        body.reception-body .booking-action.review,
+        body.reception-body .room-type-action.edit,
+        body.reception-body .service-action.edit,
+        body.reception-body .invoice-action-edit,
+        body.reception-body .payment-action-edit {
+            color: var(--reception-gold-dark) !important;
+        }
+
+        body.reception-body .booking-action.checkin,
+        body.reception-body .invoice-action-pay {
+            color: var(--reception-success) !important;
+        }
+
+        body.reception-body .booking-action.checkout {
+            color: var(--reception-info) !important;
+        }
+
+        body.reception-body .booking-action.cancel,
+        body.reception-body .booking-action.delete,
+        body.reception-body .room-type-action.delete,
+        body.reception-body .service-action.delete,
+        body.reception-body .invoice-action-delete,
+        body.reception-body .payment-action-delete {
+            color: var(--reception-danger) !important;
+        }
+
+        body.reception-body .booking-action.view:hover,
+        body.reception-body .room-type-action.view:hover,
+        body.reception-body .service-action.view:hover,
+        body.reception-body .invoice-action-view:hover,
+        body.reception-body .payment-action-details:hover,
+        body.reception-body .reception-table-button:hover {
+            border-color: var(--reception-primary) !important;
+            background: var(--reception-primary-soft) !important;
+        }
+
+        body.reception-body .booking-action.edit:hover,
+        body.reception-body .booking-action.review:hover,
+        body.reception-body .room-type-action.edit:hover,
+        body.reception-body .service-action.edit:hover,
+        body.reception-body .invoice-action-edit:hover,
+        body.reception-body .payment-action-edit:hover {
+            border-color: var(--reception-gold) !important;
+            background: var(--reception-gold-soft) !important;
+        }
+
+        body.reception-body .booking-action.checkin:hover,
+        body.reception-body .invoice-action-pay:hover {
+            border-color: var(--reception-success) !important;
+            background: var(--reception-success-soft) !important;
+        }
+
+        body.reception-body .booking-action.checkout:hover {
+            border-color: var(--reception-info) !important;
+            background: var(--reception-info-soft) !important;
+        }
+
+        body.reception-body .booking-action.cancel:hover,
+        body.reception-body .booking-action.delete:hover,
+        body.reception-body .room-type-action.delete:hover,
+        body.reception-body .service-action.delete:hover,
+        body.reception-body .invoice-action-delete:hover,
+        body.reception-body .payment-action-delete:hover {
+            border-color: var(--reception-danger) !important;
+            background: var(--reception-danger-soft) !important;
+        }
+
+    /* =========================================================
+   PHÒNG VÀ LOẠI PHÒNG
+   ========================================================= */
+
+    body.reception-body .room-filter-bar {
+        padding: 7px;
+        border: 1px solid var(--reception-border) !important;
+        border-radius: 14px !important;
+        background: #ffffff !important;
+        box-shadow: var(--reception-shadow-xs);
+    }
+
+    body.reception-body .room-filter-link {
+        border-radius: 10px !important;
+        color: var(--reception-body-text) !important;
+    }
+
+        body.reception-body .room-filter-link:hover {
+            background: var(--reception-primary-pale) !important;
+            color: var(--reception-primary) !important;
+        }
+
+        body.reception-body .room-filter-link.active {
+            background: var(--reception-primary) !important;
+            color: #ffffff !important;
+            box-shadow: 0 8px 18px rgba(47, 115, 149, 0.20);
+        }
+
+    body.reception-body .room-type-property,
+    body.reception-body .room-type-meta-item,
+    body.reception-body .room-type-summary-item,
+    body.reception-body .room-type-section,
+    body.reception-body .service-summary-item,
+    body.reception-body .invoice-summary-item,
+    body.reception-body .payment-summary-item,
+    body.reception-body .payment-info-item,
+    body.reception-body .payment-edit-summary-item {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+    }
+
+    body.reception-body .room-type-summary-icon,
+    body.reception-body .room-type-details-icon,
+    body.reception-body .room-type-edit-icon,
+    body.reception-body .service-details-meta-item > i,
+    body.reception-body .service-edit-icon,
+    body.reception-body .payment-details-icon,
+    body.reception-body .payment-edit-icon,
+    body.reception-body .invoice-edit-icon,
+    body.reception-body .staff-service-icon {
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary) !important;
+    }
+
+    body.reception-body .room-type-section-title,
+    body.reception-body .payment-section-title {
+        color: var(--reception-primary-deep) !important;
+    }
+
+    body.reception-body .room-type-input,
+    body.reception-body .invoice-readonly {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-body-text) !important;
+    }
+
+    /* =========================================================
+   DỊCH VỤ
+   ========================================================= */
+
+    body.reception-body .service-category-badge,
+    body.reception-body .payment-method,
+    body.reception-body .payment-transaction-code {
+        border: 1px solid rgba(47, 115, 149, 0.10);
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-primary-deep) !important;
+    }
+
+    body.reception-body .service-category-laundry,
+    body.reception-body .service-category-transport {
+        background: var(--reception-info-soft) !important;
+        color: var(--reception-info) !important;
+    }
+
+    body.reception-body .service-category-food,
+    body.reception-body .service-category-decoration {
+        background: var(--reception-gold-soft) !important;
+        color: var(--reception-gold-dark) !important;
+    }
+
+    body.reception-body .service-category-spa,
+    body.reception-body .service-category-entertainment {
+        background: var(--reception-purple-soft) !important;
+        color: var(--reception-purple) !important;
+    }
+
+    body.reception-body .service-details-image,
+    body.reception-body .service-edit-preview {
+        border-color: var(--reception-border) !important;
+        background: linear-gradient(135deg, var(--reception-primary-pale), #e8f3f8) !important;
+    }
+
+    body.reception-body .service-details-description,
+    body.reception-body .staff-service-note,
+    body.reception-body .payment-note,
+    body.reception-body .invoice-tax-info {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-body-text) !important;
+    }
+
+    body.reception-body .service-edit-status {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+    }
+
+    /* =========================================================
+   HÓA ĐƠN VÀ THANH TOÁN
+   ========================================================= */
+
+    body.reception-body .invoice-total-box,
+    body.reception-body .payment-total {
+        border-color: rgba(47, 115, 149, 0.18) !important;
+        background: linear-gradient(135deg, var(--reception-primary-soft), #f5fafc) !important;
+        color: var(--reception-primary-deep) !important;
+    }
+
+    body.reception-body .invoice-paid,
+    body.reception-body .invoice-complete {
+        color: var(--reception-success) !important;
+    }
+
+    body.reception-body .invoice-remaining {
+        color: var(--reception-danger) !important;
+    }
+
+    body.reception-body .payment-method-grid {
+        gap: 12px;
+    }
+
+    body.reception-body .payment-method-card {
+        border: 1px solid var(--reception-border) !important;
+        border-radius: 13px !important;
+        background: #ffffff !important;
+        color: var(--reception-body-text) !important;
+        box-shadow: var(--reception-shadow-xs);
+    }
+
+        body.reception-body .payment-method-card:hover {
+            border-color: var(--reception-primary) !important;
+            background: var(--reception-primary-pale) !important;
+        }
+
+    body.reception-body .payment-method-input:checked + .payment-method-card {
+        border-color: var(--reception-primary) !important;
+        background: var(--reception-primary-soft) !important;
+        color: var(--reception-primary-deep) !important;
+        box-shadow: 0 0 0 3px rgba(47, 115, 149, 0.10), var(--reception-shadow-sm) !important;
+    }
+
+    body.reception-body .qr-wrap {
+        border-color: var(--reception-border) !important;
+        background: #ffffff !important;
+        box-shadow: var(--reception-shadow-sm);
+    }
+
+    body.reception-body .payment-message-icon {
+        background: var(--reception-success-soft) !important;
+        color: var(--reception-success) !important;
+    }
+
+    body.reception-body .payment-confirm-button,
+    body.reception-body .payment-edit-save,
+    body.reception-body .invoice-edit-save,
+    body.reception-body .room-type-save,
+    body.reception-body .service-edit-save {
+        border-color: var(--reception-primary) !important;
+        background: linear-gradient(135deg, var(--reception-primary), var(--reception-primary-dark)) !important;
+        color: #ffffff !important;
+        box-shadow: 0 11px 25px rgba(47, 115, 149, 0.20) !important;
+    }
+
+    body.reception-body .payment-edit-cancel,
+    body.reception-body .invoice-edit-cancel,
+    body.reception-body .room-type-cancel,
+    body.reception-body .service-edit-cancel {
+        border-color: var(--reception-border-strong) !important;
+        background: #ffffff !important;
+        color: var(--reception-body-text) !important;
+    }
+
+    /* =========================================================
+   HỒ SƠ TÀI KHOẢN VÀ CRUD CŨ
+   ========================================================= */
+
+    body.reception-body .reception-content > .container,
+    body.reception-body .reception-content > .container-fluid {
+        max-width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    body.reception-body .reception-content dl.row {
+        overflow: hidden;
+        margin-right: 0;
+        margin-left: 0;
+        border: 1px solid var(--reception-border);
+        border-radius: var(--reception-radius-md);
+        background: #ffffff;
+        box-shadow: var(--reception-shadow-xs);
+    }
+
+        body.reception-body .reception-content dl.row > dt,
+        body.reception-body .reception-content dl.row > dd {
+            margin: 0;
+            padding: 13px 16px;
+            border-bottom: 1px solid #e9f0f4;
+        }
+
+        body.reception-body .reception-content dl.row > dt {
+            background: var(--reception-primary-pale);
+            color: var(--reception-text);
+            font-weight: 700;
+        }
+
+        body.reception-body .reception-content dl.row > dd {
+            color: var(--reception-body-text);
+        }
+
+            body.reception-body .reception-content dl.row > dt:last-of-type,
+            body.reception-body .reception-content dl.row > dd:last-of-type {
+                border-bottom: 0;
+            }
+
+    body.reception-body .reception-content .img-thumbnail {
+        border-color: var(--reception-border) !important;
+        border-radius: 18px !important;
+        box-shadow: var(--reception-shadow-sm);
+    }
+
+    body.reception-body .reception-content .rounded-circle {
+        border: 3px solid rgba(47, 115, 149, 0.13);
+    }
+
+    body.reception-body .password-toggle {
+        border-color: var(--reception-border) !important;
+        background: var(--reception-primary-pale) !important;
+        color: var(--reception-primary) !important;
+    }
+
+        body.reception-body .password-toggle:hover {
+            background: var(--reception-primary-soft) !important;
+        }
+
+    /* =========================================================
+   EMPTY STATES
+   ========================================================= */
+
+    body.reception-body .reception-empty-state,
+    body.reception-body .booking-empty-state,
+    body.reception-body .room-type-empty-state,
+    body.reception-body .room-type-empty,
+    body.reception-body .service-empty-state,
+    body.reception-body .invoice-empty-state,
+    body.reception-body .payment-empty-state,
+    body.reception-body .payment-empty-filter {
+        color: var(--reception-muted) !important;
+    }
+
+        body.reception-body .reception-empty-state i,
+        body.reception-body .booking-empty-state i,
+        body.reception-body .room-type-empty-state i,
+        body.reception-body .room-type-empty i,
+        body.reception-body .service-empty-state i,
+        body.reception-body .invoice-empty-state i,
+        body.reception-body .payment-empty-state i,
+        body.reception-body .payment-empty-filter i {
+            color: #aac4d1 !important;
+        }
+
+        body.reception-body .reception-empty-state strong,
+        body.reception-body .booking-empty-state h4,
+        body.reception-body .room-type-empty-state h4,
+        body.reception-body .service-empty-state h4,
+        body.reception-body .invoice-empty-state h4,
+        body.reception-body .payment-empty-state h4,
+        body.reception-body .payment-empty-filter strong {
+            color: var(--reception-text) !important;
+        }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1199.98px) {
+    body.reception-body .reception-content {
+        padding-right: 24px !important;
+        padding-left: 24px !important;
+    }
+
+    body.reception-body .booking-panel-header,
+    body.reception-body .room-type-panel-header,
+    body.reception-body .service-panel-header,
+    body.reception-body .invoice-panel-header,
+    body.reception-body .payment-panel-header {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    body.reception-body .booking-filter-area,
+    body.reception-body .room-type-filter-area,
+    body.reception-body .service-filter-area,
+    body.reception-body .invoice-filter-area,
+    body.reception-body .payment-filter-group {
+        width: 100%;
+    }
+}
+
+@media (max-width: 991.98px) {
+    body.reception-body .reception-sidebar,
+    body.reception-body.reception-sidebar-collapsed .reception-sidebar {
+        width: min(304px, 88vw);
+    }
+
+    body.reception-body .reception-main,
+    body.reception-body.reception-sidebar-collapsed .reception-main {
+        margin-left: 0;
+    }
+
+    body.reception-body .reception-dashboard-heading,
+    body.reception-body .booking-page-heading,
+    body.reception-body .room-type-heading,
+    body.reception-body .service-page-heading,
+    body.reception-body .payment-header,
+    body.reception-body .admin-dashboard-heading {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    body.reception-body .reception-dashboard-actions,
+    body.reception-body .booking-heading-actions,
+    body.reception-body .room-type-heading-actions,
+    body.reception-body .service-heading-actions,
+    body.reception-body .admin-dashboard-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.reception-body .reception-topbar {
+        min-height: 74px;
+        padding: 11px 15px !important;
+    }
+
+    body.reception-body .reception-content {
+        padding: 20px 15px 38px !important;
+    }
+
+    body.reception-body .reception-page-heading h1 {
+        max-width: 190px;
+        overflow: hidden;
+        font-size: 18px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    body.reception-body .reception-dashboard-heading h2,
+    body.reception-body .booking-page-heading h2,
+    body.reception-body .room-type-heading h2,
+    body.reception-body .service-page-heading h2 {
+        font-size: 27px !important;
+    }
+
+    body.reception-body .reception-dashboard-actions,
+    body.reception-body .booking-heading-actions,
+    body.reception-body .room-type-heading-actions,
+    body.reception-body .service-heading-actions,
+    body.reception-body .admin-dashboard-actions {
+        display: grid !important;
+        grid-template-columns: 1fr;
+    }
+
+        body.reception-body .reception-dashboard-actions > *,
+        body.reception-body .booking-heading-actions > *,
+        body.reception-body .room-type-heading-actions > *,
+        body.reception-body .service-heading-actions > *,
+        body.reception-body .admin-dashboard-actions > * {
+            width: 100%;
+        }
+
+    body.reception-body .booking-filter-area,
+    body.reception-body .room-type-filter-area,
+    body.reception-body .service-filter-area,
+    body.reception-body .invoice-filter-area,
+    body.reception-body .payment-filter-group {
+        align-items: stretch !important;
+        flex-direction: column !important;
+    }
+
+        body.reception-body .booking-search,
+        body.reception-body .room-type-search,
+        body.reception-body .service-search-box,
+        body.reception-body .invoice-search-box,
+        body.reception-body .payment-search-box,
+        body.reception-body .booking-search input,
+        body.reception-body .room-type-search input,
+        body.reception-body .service-search-box input,
+        body.reception-body .invoice-search-box input,
+        body.reception-body .payment-search-box input,
+        body.reception-body .booking-filter-area .form-select,
+        body.reception-body .room-type-filter-area .form-select,
+        body.reception-body .service-filter-area .form-select,
+        body.reception-body .invoice-filter-area .form-select,
+        body.reception-body .payment-filter-group .form-select {
+            width: 100% !important;
+        }
+
+    body.reception-body .reception-stat-card,
+    body.reception-body .booking-stat-card,
+    body.reception-body .room-type-stat-card,
+    body.reception-body .service-stat-card,
+    body.reception-body .invoice-stat-card,
+    body.reception-body .payment-stat-card {
+        padding: 18px !important;
+    }
+
+    body.reception-body .reception-content .card-body,
+    body.reception-body .reception-content .card-header,
+    body.reception-body .reception-content .card-footer,
+    body.reception-body .booking-panel-header,
+    body.reception-body .room-type-panel-header,
+    body.reception-body .service-panel-header,
+    body.reception-body .invoice-panel-header,
+    body.reception-body .payment-panel-header {
+        padding-right: 17px !important;
+        padding-left: 17px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body.reception-body .reception-content {
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    body.reception-body .reception-sidebar-toggle {
+        width: 41px;
+        height: 41px;
+        flex-basis: 41px;
+    }
+
+    body.reception-body .reception-account-avatar {
+        width: 39px;
+        height: 39px;
+        flex-basis: 39px;
+    }
+
+    body.reception-body .reception-account-button {
+        padding: 5px 7px 5px 5px;
+    }
+
+    body.reception-body .reception-content .btn:not(.btn-sm) {
+        min-height: 42px;
+    }
+
+    body.reception-body .payment-method-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.reception-body *,
+    body.reception-body *::before,
+    body.reception-body *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }

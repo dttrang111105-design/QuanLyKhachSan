@@ -5,23 +5,27 @@
     Layout = "_CustomerLayout";
 }
 
-<section class="auth-page">
+<section class="auth-page auth-register-page">
     <div class="auth-shell auth-shell-register">
-        <div class="auth-visual">
+        <aside class="auth-visual" aria-label="Giới thiệu Luxury Hotel">
             <div class="auth-overlay"></div>
-            <div class="auth-brand">
-                <span class="auth-brand-icon">
+
+            <a class="auth-brand"
+               asp-controller="Home"
+               asp-action="Index"
+               aria-label="Về trang chủ Luxury Hotel">
+                <span class="auth-brand-icon" aria-hidden="true">
                     <i class="bi bi-building-fill"></i>
                 </span>
-                <div>
+                <span class="auth-brand-copy">
                     <strong>LUXURY</strong>
                     <small>HOTEL &amp; RESORT</small>
-                </div>
-            </div>
+                </span>
+            </a>
 
             <div class="auth-visual-content">
                 <span class="auth-kicker">
-                    <i class="bi bi-stars"></i>
+                    <i class="bi bi-stars" aria-hidden="true"></i>
                     Thành viên Luxury Hotel
                 </span>
 
@@ -32,22 +36,27 @@
                     quản lý Booking và sử dụng dịch vụ khách sạn.
                 </p>
 
-                <div class="auth-highlights">
+                <div class="auth-highlights" aria-label="Quyền lợi thành viên">
                     <div>
-                        <i class="bi bi-lightning-charge"></i>
+                        <i class="bi bi-lightning-charge" aria-hidden="true"></i>
                         <span>Đặt phòng nhanh</span>
                     </div>
                     <div>
-                        <i class="bi bi-receipt"></i>
+                        <i class="bi bi-receipt" aria-hidden="true"></i>
                         <span>Quản lý hóa đơn</span>
                     </div>
                     <div>
-                        <i class="bi bi-bag-check"></i>
+                        <i class="bi bi-bag-check" aria-hidden="true"></i>
                         <span>Đặt dịch vụ dễ dàng</span>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="auth-visual-footer">
+                <span></span>
+                <p>Đặc quyền dành riêng cho thành viên</p>
+            </div>
+        </aside>
 
         <div class="auth-form-panel">
             <div class="auth-form-wrap auth-register-wrap">
@@ -61,14 +70,25 @@
                     @Html.AntiForgeryToken()
 
                     <div asp-validation-summary="ModelOnly"
-                         class="auth-validation-summary">
+                         class="auth-validation-summary"
+                         role="alert">
                     </div>
 
                     <div class="auth-form-grid">
+                        <div class="auth-form-section auth-field-full">
+                            <span class="auth-form-section-icon">
+                                <i class="bi bi-person-badge" aria-hidden="true"></i>
+                            </span>
+                            <div>
+                                <strong>Thông tin cá nhân</strong>
+                                <small>Thông tin cơ bản để nhận diện tài khoản</small>
+                            </div>
+                        </div>
+
                         <div class="auth-field">
                             <label asp-for="Username">Tên đăng nhập</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-person"></i>
                                 </span>
                                 <input asp-for="Username"
@@ -83,7 +103,7 @@
                         <div class="auth-field">
                             <label asp-for="FullName">Họ và tên</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-person-vcard"></i>
                                 </span>
                                 <input asp-for="FullName"
@@ -98,7 +118,7 @@
                         <div class="auth-field">
                             <label asp-for="Gender">Giới tính</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-gender-ambiguous"></i>
                                 </span>
                                 <select asp-for="Gender"
@@ -115,7 +135,7 @@
                         <div class="auth-field">
                             <label asp-for="DateOfBirth">Ngày sinh</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-calendar3"></i>
                                 </span>
                                 <input asp-for="DateOfBirth"
@@ -129,7 +149,7 @@
                         <div class="auth-field">
                             <label asp-for="PhoneNumber">Số điện thoại</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-telephone"></i>
                                 </span>
                                 <input asp-for="PhoneNumber"
@@ -144,7 +164,7 @@
                         <div class="auth-field">
                             <label asp-for="Email">Email</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-envelope"></i>
                                 </span>
                                 <input asp-for="Email"
@@ -160,7 +180,7 @@
                         <div class="auth-field auth-field-full">
                             <label asp-for="Address">Địa chỉ</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-geo-alt"></i>
                                 </span>
                                 <input asp-for="Address"
@@ -175,7 +195,7 @@
                         <div class="auth-field auth-field-full">
                             <label asp-for="CitizenId">CCCD/CMND</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-credit-card-2-front"></i>
                                 </span>
                                 <input asp-for="CitizenId"
@@ -186,10 +206,20 @@
                                   class="auth-error"></span>
                         </div>
 
+                        <div class="auth-form-section auth-field-full auth-security-section">
+                            <span class="auth-form-section-icon">
+                                <i class="bi bi-shield-lock" aria-hidden="true"></i>
+                            </span>
+                            <div>
+                                <strong>Bảo mật tài khoản</strong>
+                                <small>Tạo mật khẩu an toàn cho tài khoản của bạn</small>
+                            </div>
+                        </div>
+
                         <div class="auth-field">
                             <label asp-for="Password">Mật khẩu</label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-lock"></i>
                                 </span>
                                 <input asp-for="Password"
@@ -202,7 +232,7 @@
                                         class="auth-password-toggle"
                                         data-target="registerPassword"
                                         aria-label="Hiện hoặc ẩn mật khẩu">
-                                    <i class="bi bi-eye"></i>
+                                    <i class="bi bi-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <span asp-validation-for="Password"
@@ -214,7 +244,7 @@
                                 Xác nhận mật khẩu
                             </label>
                             <div class="auth-input-group">
-                                <span class="auth-input-icon">
+                                <span class="auth-input-icon" aria-hidden="true">
                                     <i class="bi bi-shield-lock"></i>
                                 </span>
                                 <input asp-for="ConfirmPassword"
@@ -227,7 +257,7 @@
                                         class="auth-password-toggle"
                                         data-target="confirmPassword"
                                         aria-label="Hiện hoặc ẩn mật khẩu">
-                                    <i class="bi bi-eye"></i>
+                                    <i class="bi bi-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <span asp-validation-for="ConfirmPassword"
@@ -236,8 +266,8 @@
                     </div>
 
                     <button type="submit"
-                            class="auth-primary-button">
-                        <i class="bi bi-person-plus"></i>
+                            class="auth-primary-button auth-register-button">
+                        <i class="bi bi-person-plus" aria-hidden="true"></i>
                         Tạo tài khoản
                     </button>
 

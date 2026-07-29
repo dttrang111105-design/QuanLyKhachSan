@@ -1,0 +1,1321 @@
+﻿:root {
+    --booking-navy: #123d55;
+    --booking-navy-dark: #082c41;
+    --booking-blue: #2f7395;
+    --booking-blue-hover: #245e7a;
+    --booking-blue-soft: #e9f4f9;
+    --booking-blue-pale: #f5fafc;
+    --booking-white: #ffffff;
+    --booking-heading: #17384c;
+    --booking-text: #536b79;
+    --booking-muted: #7d919c;
+    --booking-border: #d7e5ec;
+    --booking-gold: #c9a96e;
+    --booking-gold-dark: #a9854e;
+    --booking-gold-soft: #fbf6ec;
+    --booking-success: #278564;
+    --booking-danger: #b95858;
+    --booking-warning: #b47c22;
+    --booking-info: #337fa3;
+    --booking-shadow-sm: 0 8px 24px rgba(20, 62, 83, 0.08);
+    --booking-shadow-md: 0 16px 42px rgba(20, 62, 83, 0.12);
+    --booking-shadow-lg: 0 28px 70px rgba(13, 48, 67, 0.17);
+    --booking-radius-sm: 10px;
+    --booking-radius-md: 16px;
+    --booking-radius-lg: 24px;
+}
+
+/* =========================================================
+   NỀN VÀ KHUNG CHUNG CỦA LUỒNG ĐẶT PHÒNG
+   ========================================================= */
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]),
+body.public-inner-page:has(.booking-page-heading),
+body.public-inner-page:has(.public-inner-main > .container h2),
+body.reception-body:has(form[action*="/Bookings/Create"]) {
+    background: #f6fafc;
+    color: var(--booking-text);
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"]) .public-inner-main,
+    body.public-inner-page:has(.booking-page-heading) .public-inner-main,
+    body.public-inner-page:has(.public-inner-main > .container h2) .public-inner-main {
+        min-height: 100vh;
+        padding-top: 118px;
+        padding-bottom: 80px;
+        background: radial-gradient(circle at 8% 2%, rgba(47, 115, 149, 0.13), transparent 28%), radial-gradient(circle at 94% 10%, rgba(201, 169, 110, 0.12), transparent 23%), linear-gradient(180deg, #eef7fb 0, #f7fbfd 300px, #f7fbfd 100%);
+    }
+
+        body.public-inner-page:has(form[action*="/Rooms/Search"]) .public-inner-main > *,
+        body.public-inner-page:has(.booking-page-heading) .public-inner-main > *,
+        body.public-inner-page:has(.public-inner-main > .container h2) .public-inner-main > * {
+            width: min(100% - 40px, 1240px);
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        /* =========================================================
+   STEPPER 4 BƯỚC - KHÔNG CẦN THÊM HTML
+   ========================================================= */
+
+        body.public-inner-page:has(form[action*="/Rooms/Search"])
+        .public-inner-main > .d-flex:first-child,
+        body.public-inner-page:has(.booking-page-heading)
+        .booking-page-heading,
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container:first-child,
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .mb-4:first-of-type {
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+            body.public-inner-page:has(form[action*="/Rooms/Search"])
+            .public-inner-main > .d-flex:first-child::before,
+            body.public-inner-page:has(.booking-page-heading)
+            .booking-page-heading::before,
+            body.public-inner-page:has(.public-inner-main > .container h1)
+            .public-inner-main > .container:first-child::before,
+            body.reception-body:has(form[action*="/Bookings/Create"])
+            .reception-content > .mb-4:first-of-type::before {
+                content: "01  Chọn phòng    •    02  Thông tin khách hàng    •    03  Xác nhận đặt phòng    •    04  Hoàn tất";
+                width: 100%;
+                display: block;
+                margin-bottom: 28px;
+                padding: 18px 24px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.22);
+                border-radius: var(--booking-radius-md);
+                background: linear-gradient(90deg, rgba(201, 169, 110, 0.98) var(--booking-step-progress, 25%), rgba(255, 255, 255, 0.12) var(--booking-step-progress, 25%)), linear-gradient(135deg, var(--booking-navy-dark), var(--booking-blue));
+                color: #ffffff;
+                font-family: "Poppins", sans-serif;
+                font-size: 12px;
+                font-weight: 600;
+                line-height: 1.7;
+                letter-spacing: 0.35px;
+                text-align: center;
+                white-space: pre-wrap;
+                box-shadow: var(--booking-shadow-md);
+            }
+
+        body.public-inner-page:has(form[action*="/Rooms/Search"])
+        .public-inner-main > .d-flex:first-child {
+            --booking-step-progress: 25%;
+        }
+
+body.public-inner-page:has(.public-inner-main > .container h1)
+.public-inner-main > .container:first-child {
+    --booking-step-progress: 25%;
+}
+
+body.reception-body:has(form[action*="/Bookings/Create"])
+.reception-content > .mb-4:first-of-type {
+    --booking-step-progress: 75%;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-page-heading {
+    --booking-step-progress: 100%;
+}
+
+/* =========================================================
+   TIÊU ĐỀ TRANG
+   ========================================================= */
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .d-flex:first-child,
+body.public-inner-page:has(.booking-page-heading)
+.booking-page-heading {
+    align-items: flex-end !important;
+    margin-bottom: 28px !important;
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:first-child h2,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-page-heading h2,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .mb-4:first-of-type h2,
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main h1,
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main h2 {
+        margin: 0 0 8px !important;
+        color: var(--booking-heading) !important;
+        font-family: "Cinzel", "Playfair Display", serif;
+        font-weight: 700 !important;
+        letter-spacing: -0.4px;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:first-child h2,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-page-heading h2,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .mb-4:first-of-type h2 {
+        font-size: clamp(28px, 3vw, 40px);
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:first-child p,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-page-heading p,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .mb-4:first-of-type p {
+        color: var(--booking-muted) !important;
+        font-size: 14px;
+        line-height: 1.75;
+    }
+
+/* =========================================================
+   NÚT DÙNG TRONG LUỒNG
+   ========================================================= */
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) .btn,
+body.public-inner-page:has(.booking-page-heading) .btn,
+body.public-inner-page:has(.public-inner-main > .container h1) .btn,
+body.public-inner-page:has(.public-inner-main > .container h2) .btn,
+body.reception-body:has(form[action*="/Bookings/Create"]) .btn {
+    min-height: 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 17px;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"]) .btn:hover,
+    body.public-inner-page:has(.booking-page-heading) .btn:hover,
+    body.public-inner-page:has(.public-inner-main > .container h1) .btn:hover,
+    body.public-inner-page:has(.public-inner-main > .container h2) .btn:hover,
+    body.reception-body:has(form[action*="/Bookings/Create"]) .btn:hover {
+        transform: translateY(-2px);
+    }
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.btn-warning, .btn-success, .btn-primary),
+body.public-inner-page:has(.booking-page-heading) :is(.btn-warning, .btn-success, .btn-primary),
+body.public-inner-page:has(.public-inner-main > .container h1) :is(.btn-warning, .btn-success, .btn-primary),
+body.public-inner-page:has(.public-inner-main > .container h2) :is(.btn-warning, .btn-success, .btn-primary),
+body.reception-body:has(form[action*="/Bookings/Create"]) :is(.btn-warning, .btn-success, .btn-primary) {
+    border-color: var(--booking-blue) !important;
+    background: linear-gradient(135deg, var(--booking-blue), var(--booking-navy)) !important;
+    color: #ffffff !important;
+    box-shadow: 0 11px 25px rgba(47, 115, 149, 0.22);
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.btn-warning, .btn-success, .btn-primary):hover,
+    body.public-inner-page:has(.booking-page-heading) :is(.btn-warning, .btn-success, .btn-primary):hover,
+    body.public-inner-page:has(.public-inner-main > .container h1) :is(.btn-warning, .btn-success, .btn-primary):hover,
+    body.public-inner-page:has(.public-inner-main > .container h2) :is(.btn-warning, .btn-success, .btn-primary):hover,
+    body.reception-body:has(form[action*="/Bookings/Create"]) :is(.btn-warning, .btn-success, .btn-primary):hover {
+        border-color: var(--booking-navy-dark) !important;
+        background: linear-gradient(135deg, var(--booking-blue-hover), var(--booking-navy-dark)) !important;
+        box-shadow: 0 15px 30px rgba(25, 79, 105, 0.28);
+    }
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.btn-outline-secondary, .btn-secondary, .btn-light),
+body.public-inner-page:has(.booking-page-heading) :is(.btn-outline-secondary, .btn-secondary, .btn-light),
+body.public-inner-page:has(.public-inner-main > .container h1) :is(.btn-outline-secondary, .btn-secondary, .btn-light),
+body.public-inner-page:has(.public-inner-main > .container h2) :is(.btn-outline-secondary, .btn-secondary, .btn-light),
+body.reception-body:has(form[action*="/Bookings/Create"]) :is(.btn-outline-secondary, .btn-secondary, .btn-light) {
+    border-color: var(--booking-border) !important;
+    background: #ffffff !important;
+    color: var(--booking-heading) !important;
+    box-shadow: var(--booking-shadow-sm);
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.btn-outline-secondary, .btn-secondary, .btn-light):hover,
+    body.public-inner-page:has(.booking-page-heading) :is(.btn-outline-secondary, .btn-secondary, .btn-light):hover,
+    body.public-inner-page:has(.public-inner-main > .container h1) :is(.btn-outline-secondary, .btn-secondary, .btn-light):hover,
+    body.public-inner-page:has(.public-inner-main > .container h2) :is(.btn-outline-secondary, .btn-secondary, .btn-light):hover,
+    body.reception-body:has(form[action*="/Bookings/Create"]) :is(.btn-outline-secondary, .btn-secondary, .btn-light):hover {
+        border-color: var(--booking-blue) !important;
+        background: var(--booking-blue-soft) !important;
+        color: var(--booking-blue-hover) !important;
+    }
+
+/* =========================================================
+   FORM VÀ VALIDATION
+   ========================================================= */
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.form-control, .form-select),
+body.public-inner-page:has(.public-inner-main > .container h1) :is(.form-control, .form-select),
+body.public-inner-page:has(.public-inner-main > .container h2) :is(.form-control, .form-select),
+body.reception-body:has(form[action*="/Bookings/Create"]) :is(.form-control, .form-select) {
+    min-height: 50px;
+    border: 1px solid var(--booking-border);
+    border-radius: 11px;
+    background-color: #ffffff;
+    color: var(--booking-heading);
+    font-size: 13px;
+    box-shadow: 0 3px 12px rgba(20, 62, 83, 0.035);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) textarea.form-control,
+body.public-inner-page:has(.public-inner-main > .container h1) textarea.form-control,
+body.public-inner-page:has(.public-inner-main > .container h2) textarea.form-control,
+body.reception-body:has(form[action*="/Bookings/Create"]) textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.form-control, .form-select):focus,
+body.public-inner-page:has(.public-inner-main > .container h1) :is(.form-control, .form-select):focus,
+body.public-inner-page:has(.public-inner-main > .container h2) :is(.form-control, .form-select):focus,
+body.reception-body:has(form[action*="/Bookings/Create"]) :is(.form-control, .form-select):focus {
+    border-color: var(--booking-blue);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.12);
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) .form-label,
+body.public-inner-page:has(.public-inner-main > .container h1) .form-label,
+body.public-inner-page:has(.public-inner-main > .container h2) .form-label,
+body.reception-body:has(form[action*="/Bookings/Create"]) .form-label {
+    margin-bottom: 8px;
+    color: var(--booking-heading);
+    font-size: 12px;
+    font-weight: 600 !important;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) .input-group-text,
+body.public-inner-page:has(.public-inner-main > .container h1) .input-group-text,
+body.public-inner-page:has(.public-inner-main > .container h2) .input-group-text,
+body.reception-body:has(form[action*="/Bookings/Create"]) .input-group-text {
+    min-width: 66px;
+    justify-content: center;
+    border-color: var(--booking-border);
+    border-radius: 0 11px 11px 0;
+    background: var(--booking-blue-soft);
+    color: var(--booking-blue-hover);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.input-validation-error, .form-control.is-invalid),
+body.public-inner-page:has(.public-inner-main > .container h1) :is(.input-validation-error, .form-control.is-invalid),
+body.public-inner-page:has(.public-inner-main > .container h2) :is(.input-validation-error, .form-control.is-invalid),
+body.reception-body:has(form[action*="/Bookings/Create"]) :is(.input-validation-error, .form-control.is-invalid) {
+    border-color: var(--booking-danger) !important;
+    background: #fffafa;
+    box-shadow: 0 0 0 3px rgba(185, 88, 88, 0.1);
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :is(.field-validation-error, .text-danger),
+body.public-inner-page:has(.public-inner-main > .container h1) :is(.field-validation-error, .text-danger),
+body.public-inner-page:has(.public-inner-main > .container h2) :is(.field-validation-error, .text-danger),
+body.reception-body:has(form[action*="/Bookings/Create"]) :is(.field-validation-error, .text-danger) {
+    display: block;
+    margin-top: 6px;
+    color: var(--booking-danger) !important;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) .alert,
+body.public-inner-page:has(.booking-page-heading) .alert,
+body.public-inner-page:has(.public-inner-main > .container h1) .alert,
+body.public-inner-page:has(.public-inner-main > .container h2) .alert,
+body.reception-body:has(form[action*="/Bookings/Create"]) .alert {
+    border: 0;
+    border-left: 4px solid currentColor;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.65;
+    box-shadow: var(--booking-shadow-sm);
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"]) .alert:empty,
+    body.public-inner-page:has(.booking-page-heading) .alert:empty,
+    body.public-inner-page:has(.public-inner-main > .container h1) .alert:empty,
+    body.public-inner-page:has(.public-inner-main > .container h2) .alert:empty,
+    body.reception-body:has(form[action*="/Bookings/Create"]) .alert:empty {
+        display: none;
+    }
+
+/* =========================================================
+   BƯỚC 1 - TÌM VÀ CHỌN PHÒNG
+   Views/Rooms/Search.cshtml
+   ========================================================= */
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .card:first-of-type {
+    overflow: visible;
+    margin-bottom: 38px !important;
+    border: 1px solid rgba(215, 229, 236, 0.9) !important;
+    border-radius: var(--booking-radius-lg);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--booking-shadow-lg) !important;
+    backdrop-filter: blur(16px);
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .card:first-of-type .card-body {
+        padding: 26px !important;
+    }
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+form[action*="/Rooms/Search"] .row {
+    align-items: end;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+form[action*="/Rooms/Search"] .btn[type="submit"] {
+    width: 100%;
+    min-height: 50px;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .d-flex:has(h4) {
+    margin-top: 42px;
+    margin-bottom: 20px !important;
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:has(h4) h4 {
+        color: var(--booking-heading);
+        font-family: "Cinzel", serif;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:has(h4) .badge {
+        padding: 9px 14px;
+        border: 1px solid rgba(47, 115, 149, 0.16);
+        border-radius: 999px;
+        background: var(--booking-blue-soft) !important;
+        color: var(--booking-blue-hover) !important;
+        font-size: 12px !important;
+    }
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 > [class*="col-"] {
+    display: flex;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .card {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--booking-border) !important;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: var(--booking-shadow-md) !important;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card:hover {
+        transform: translateY(-7px);
+        border-color: rgba(47, 115, 149, 0.48) !important;
+        box-shadow: 0 25px 58px rgba(15, 62, 85, 0.17) !important;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card-img-top,
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card > .bg-light:first-child {
+        height: 238px !important;
+        object-fit: cover !important;
+        transition: transform 0.55s ease;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card:hover .card-img-top {
+        transform: scale(1.045);
+    }
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .card-body {
+    position: relative;
+    z-index: 1;
+    padding: 24px !important;
+    background: #ffffff;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .card-title {
+    color: var(--booking-heading);
+    font-family: "Cinzel", serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .card-body > p {
+    color: var(--booking-text);
+    font-size: 12px;
+}
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card-body > p i {
+        width: 22px;
+        color: var(--booking-blue);
+    }
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .badge.bg-success {
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(39, 133, 100, 0.1) !important;
+    color: var(--booking-success) !important;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .text-warning {
+    color: var(--booking-gold-dark) !important;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .text-danger.fw-bold {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--booking-border);
+    color: var(--booking-blue-hover) !important;
+    font-family: "Cinzel", serif;
+    font-size: 22px !important;
+}
+
+body.public-inner-page:has(form[action*="/Rooms/Search"])
+.public-inner-main > .row.g-4 .d-grid .btn {
+    flex: 1 1 0;
+}
+
+/* =========================================================
+   CHI TIẾT PHÒNG - CẦU NỐI GIỮA BƯỚC 1 VÀ BƯỚC 2
+   Views/Rooms/Details.cshtml
+   ========================================================= */
+
+body.public-inner-page:has(.public-inner-main > .container h1)
+.public-inner-main > .container.py-5 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 > .mb-4 {
+        margin-bottom: 22px !important;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 > .row.g-4 {
+        align-items: stretch;
+    }
+
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container.py-5 > .row.g-4 > .col-lg-6:first-child > img,
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container.py-5 > .row.g-4 > .col-lg-6:first-child > .bg-light {
+            width: 100%;
+            height: 100% !important;
+            min-height: 470px;
+            border: 1px solid var(--booking-border) !important;
+            border-radius: var(--booking-radius-lg) !important;
+            object-fit: cover;
+            box-shadow: var(--booking-shadow-lg) !important;
+        }
+
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container.py-5 > .row.g-4 .card {
+            border: 1px solid var(--booking-border) !important;
+            border-radius: var(--booking-radius-lg);
+            box-shadow: var(--booking-shadow-lg) !important;
+        }
+
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container.py-5 > .row.g-4 .card-body {
+            padding: clamp(25px, 4vw, 42px) !important;
+        }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 h1 {
+        font-size: clamp(30px, 4vw, 46px);
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 h5.text-muted {
+        color: var(--booking-blue) !important;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 .text-danger.fw-bold {
+        color: var(--booking-blue-hover) !important;
+        font-family: "Cinzel", serif;
+        font-size: clamp(26px, 3vw, 36px) !important;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 .badge.bg-warning {
+        padding: 8px 12px;
+        border: 1px solid rgba(201, 169, 110, 0.25);
+        border-radius: 999px;
+        background: var(--booking-gold-soft) !important;
+        color: var(--booking-gold-dark) !important;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 section.mt-5 {
+        margin-top: 56px !important;
+        padding-top: 42px;
+        border-top: 1px solid var(--booking-border);
+    }
+
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container.py-5 section.mt-5 h3 {
+            color: var(--booking-heading);
+            font-family: "Cinzel", serif;
+            font-weight: 700;
+        }
+
+        body.public-inner-page:has(.public-inner-main > .container h1)
+        .public-inner-main > .container.py-5 section.mt-5 .card {
+            border-radius: 18px;
+            box-shadow: var(--booking-shadow-md) !important;
+        }
+
+/* =========================================================
+   BƯỚC 2 + 3 - THÔNG TIN KHÁCH VÀ XÁC NHẬN
+   Views/Bookings/Create.cshtml
+
+   Source hiện tại gán Customer vào _ReceptionistLayout.
+   CSS dưới đây chỉ ẩn shell lễ tân trên đúng trang Create,
+   không ảnh hưởng các trang nghiệp vụ của Receptionist.
+   ========================================================= */
+
+body.reception-body:has(form[action*="/Bookings/Create"]) {
+    --reception-sidebar-width: 0px;
+    background: radial-gradient(circle at 8% 2%, rgba(47, 115, 149, 0.14), transparent 28%), radial-gradient(circle at 94% 9%, rgba(201, 169, 110, 0.13), transparent 24%), linear-gradient(180deg, #edf7fb 0, #f7fbfd 340px, #f7fbfd 100%);
+    color: var(--booking-text);
+    font-family: "Poppins", sans-serif;
+}
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-sidebar,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-sidebar-overlay,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-topbar {
+        display: none !important;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-shell,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-main {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0 !important;
+    }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-main::before {
+            content: "LUXURY  HOTEL & RESORT";
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 1035;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(9, 48, 69, 0.96);
+            color: #ffffff;
+            font-family: "Playfair Display", "Cinzel", serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 3.2px;
+            box-shadow: 0 12px 35px rgba(4, 33, 49, 0.2);
+            backdrop-filter: blur(16px);
+        }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-main::after {
+            content: "✦";
+            position: fixed;
+            top: 23px;
+            left: calc(50% - 154px);
+            z-index: 1040;
+            color: var(--booking-gold);
+            font-size: 20px;
+        }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content {
+        width: min(100%, 1320px);
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 112px 32px 80px;
+    }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .mb-4:first-of-type,
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .row.g-4 {
+            width: min(100%, 1240px);
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+            body.reception-body:has(form[action*="/Bookings/Create"])
+            .reception-content > .row.g-4 > .col-lg-7 > .card,
+            body.reception-body:has(form[action*="/Bookings/Create"])
+            .reception-content > .row.g-4 > .col-lg-5 > .card {
+                overflow: hidden;
+                border: 1px solid var(--booking-border) !important;
+                border-radius: var(--booking-radius-lg);
+                background: rgba(255, 255, 255, 0.97);
+                box-shadow: var(--booking-shadow-lg) !important;
+            }
+
+                body.reception-body:has(form[action*="/Bookings/Create"])
+                .reception-content > .row.g-4 > .col-lg-7 > .card .card-body {
+                    padding: clamp(24px, 4vw, 38px) !important;
+                }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    form[action*="/Bookings/Create"] > .row.g-3::before {
+        content: "THÔNG TIN LƯU TRÚ";
+        display: block;
+        flex: 0 0 100%;
+        width: 100%;
+        margin: 4px 0 4px;
+        color: var(--booking-blue);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    form[action*="/Bookings/Create"] input[readonly] {
+        background: var(--booking-blue-pale);
+        color: var(--booking-blue-hover);
+        font-weight: 700;
+        cursor: not-allowed;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    form[action*="/Bookings/Create"] > .d-flex.mt-4 {
+        flex-wrap: wrap;
+        padding-top: 8px;
+    }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        form[action*="/Bookings/Create"] > .d-flex.mt-4 .btn-success {
+            min-width: 220px;
+        }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .row.g-4 > .col-lg-5 > .card {
+        position: sticky;
+        top: 100px;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .row.g-4 > .col-lg-5 .card-header {
+        padding: 22px 25px;
+        border: 0;
+        background: linear-gradient(135deg, var(--booking-navy-dark), var(--booking-blue)) !important;
+    }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .row.g-4 > .col-lg-5 .card-header h5 {
+            color: #ffffff;
+            font-family: "Playfair Display", "Cinzel", serif;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .row.g-4 > .col-lg-5 .card-body {
+        padding: 28px !important;
+    }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .row.g-4 > .col-lg-5 .card-body > .d-flex {
+            align-items: center;
+            min-height: 43px;
+            margin-bottom: 0 !important;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--booking-border);
+        }
+
+            body.reception-body:has(form[action*="/Bookings/Create"])
+            .reception-content > .row.g-4 > .col-lg-5 .card-body > .d-flex strong {
+                color: var(--booking-heading);
+            }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .row.g-4 > .col-lg-5 .card-body > hr {
+            margin: 15px 0 4px;
+            border-color: var(--booking-border);
+            opacity: 1;
+        }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .row.g-4 > .col-lg-5 .text-danger.fs-5 {
+        color: var(--booking-blue-hover) !important;
+        font-family: "Playfair Display", "Cinzel", serif;
+        font-size: 24px !important;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .row.g-4 > .col-lg-5 .alert-info {
+        border-left-color: var(--booking-info);
+        background: var(--booking-blue-pale);
+        color: var(--booking-text);
+        box-shadow: none;
+    }
+
+/* =========================================================
+   BƯỚC 4 - HOÀN TẤT / BOOKING CỦA TÔI
+   Views/Bookings/Index.cshtml
+   ========================================================= */
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-page-kicker {
+    color: var(--booking-blue) !important;
+    font-size: 11px;
+    letter-spacing: 1.7px;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-heading-button {
+    border-color: var(--booking-border) !important;
+    border-radius: 11px;
+    color: var(--booking-heading) !important;
+    box-shadow: var(--booking-shadow-sm);
+}
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-heading-button:hover {
+        border-color: var(--booking-blue) !important;
+        background: var(--booking-blue-soft) !important;
+        color: var(--booking-blue-hover) !important;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-heading-button.primary {
+        border-color: var(--booking-blue) !important;
+        background: linear-gradient(135deg, var(--booking-blue), var(--booking-navy)) !important;
+        color: #ffffff !important;
+    }
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-stat-card {
+    border: 1px solid var(--booking-border) !important;
+    border-radius: 18px;
+    box-shadow: var(--booking-shadow-md) !important;
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--booking-shadow-lg) !important;
+    }
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-stat-icon.blue,
+body.public-inner-page:has(.booking-page-heading)
+.booking-stat-icon.purple {
+    background: var(--booking-blue-soft) !important;
+    color: var(--booking-blue) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-stat-icon.orange {
+    background: var(--booking-gold-soft) !important;
+    color: var(--booking-gold-dark) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-stat-icon.green {
+    background: rgba(39, 133, 100, 0.1) !important;
+    color: var(--booking-success) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-stat-value {
+    color: var(--booking-heading) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-panel {
+    border: 1px solid var(--booking-border) !important;
+    border-radius: 20px;
+    box-shadow: var(--booking-shadow-lg) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-panel-header {
+    border-bottom-color: var(--booking-border) !important;
+    background: linear-gradient(180deg, #ffffff, var(--booking-blue-pale));
+}
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-panel-header h3 {
+        color: var(--booking-heading) !important;
+        font-family: "Cinzel", serif;
+    }
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-search input,
+body.public-inner-page:has(.booking-page-heading)
+.booking-filter-area .form-select {
+    border-color: var(--booking-border) !important;
+    border-radius: 11px;
+}
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-search input:focus,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-filter-area .form-select:focus {
+        border-color: var(--booking-blue) !important;
+        box-shadow: 0 0 0 4px rgba(47, 115, 149, 0.12) !important;
+    }
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-table thead th {
+    border-bottom-color: var(--booking-border) !important;
+    background: #f1f8fb !important;
+    color: var(--booking-blue-hover) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-table tbody td {
+    border-bottom-color: #e8f0f4 !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-table tbody tr:hover {
+    background: var(--booking-blue-pale) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-code-icon,
+body.public-inner-page:has(.booking-page-heading)
+.booking-customer-avatar {
+    background: var(--booking-blue-soft) !important;
+    color: var(--booking-blue) !important;
+}
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-action {
+    border-radius: 9px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-action:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--booking-shadow-sm);
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-action.details,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-action.review {
+        border-color: rgba(47, 115, 149, 0.22) !important;
+        background: var(--booking-blue-soft) !important;
+        color: var(--booking-blue-hover) !important;
+    }
+
+body.public-inner-page:has(.booking-page-heading)
+.booking-empty-state i {
+    color: var(--booking-blue) !important;
+}
+
+/* =========================================================
+   CHI TIẾT BOOKING
+   Views/Bookings/Details.cshtml
+   ========================================================= */
+
+body.public-inner-page:has(.public-inner-main > .container h2)
+.public-inner-main > .container.mt-4 {
+    margin-top: 0 !important;
+    padding: 0;
+}
+
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main > .container.mt-4 > h2 {
+        margin-bottom: 25px !important;
+        font-size: clamp(28px, 3vw, 40px);
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main > .container.mt-4 > .card {
+        overflow: hidden;
+        border: 1px solid var(--booking-border) !important;
+        border-radius: var(--booking-radius-lg);
+        background: #ffffff;
+        box-shadow: var(--booking-shadow-lg) !important;
+    }
+
+        body.public-inner-page:has(.public-inner-main > .container h2)
+        .public-inner-main > .container.mt-4 > .card > .card-header {
+            padding: 22px 26px;
+            border: 0;
+            background: linear-gradient(135deg, var(--booking-navy-dark), var(--booking-blue)) !important;
+        }
+
+            body.public-inner-page:has(.public-inner-main > .container h2)
+            .public-inner-main > .container.mt-4 > .card > .card-header h4 {
+                color: #ffffff;
+                font-family: "Cinzel", serif;
+                font-weight: 700;
+                letter-spacing: 0.8px;
+            }
+
+        body.public-inner-page:has(.public-inner-main > .container h2)
+        .public-inner-main > .container.mt-4 > .card > .card-body {
+            padding: clamp(23px, 4vw, 36px);
+        }
+
+body.public-inner-page:has(.public-inner-main > .container h2)
+.public-inner-main h5 {
+    margin-top: 28px;
+    margin-bottom: 14px;
+    color: var(--booking-heading);
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+}
+
+body.public-inner-page:has(.public-inner-main > .container h2)
+.public-inner-main .table-responsive {
+    overflow: hidden;
+    border: 1px solid var(--booking-border);
+    border-radius: 14px;
+}
+
+body.public-inner-page:has(.public-inner-main > .container h2)
+.public-inner-main .table {
+    margin: 0;
+}
+
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main .table thead th {
+        padding: 13px 15px;
+        border-color: var(--booking-border);
+        background: var(--booking-blue-pale) !important;
+        color: var(--booking-blue-hover);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.55px;
+        text-transform: uppercase;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main .table tbody td {
+        padding: 14px 15px;
+        border-color: #e7eff3;
+        color: var(--booking-text);
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+body.public-inner-page:has(.public-inner-main > .container h2)
+.public-inner-main .card-footer {
+    padding: 18px 25px;
+    border-top: 1px solid var(--booking-border);
+    background: var(--booking-blue-pale);
+}
+
+body.public-inner-page:has(.public-inner-main > .container h2)
+.public-inner-main .badge {
+    padding: 7px 11px;
+    border-radius: 999px;
+    font-size: 10px;
+}
+
+/* =========================================================
+   BOOKING DETAIL CRUD CŨ
+   Views/BookingDetails/* - giữ logic và HTML nguyên vẹn
+   ========================================================= */
+
+body.public-inner-page:has(a[href*="/BookingDetails/Create"])
+.public-inner-main,
+body.public-inner-page:has(form[action*="/BookingDetails"])
+.public-inner-main {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+    padding: 122px 24px 80px;
+}
+
+    body.public-inner-page:has(a[href*="/BookingDetails/Create"])
+    .public-inner-main > h1,
+    body.public-inner-page:has(form[action*="/BookingDetails"])
+    .public-inner-main > h1 {
+        margin-bottom: 22px;
+        color: var(--booking-heading);
+        font-family: "Cinzel", serif;
+        font-weight: 700;
+    }
+
+    body.public-inner-page:has(a[href*="/BookingDetails/Create"])
+    .public-inner-main > table,
+    body.public-inner-page:has(form[action*="/BookingDetails"])
+    .public-inner-main > .row,
+    body.public-inner-page:has(form[action*="/BookingDetails"])
+    .public-inner-main > div:not(.row) {
+        padding: 24px;
+        border: 1px solid var(--booking-border);
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: var(--booking-shadow-md);
+    }
+
+    body.public-inner-page:has(a[href*="/BookingDetails/Create"])
+    .public-inner-main > table {
+        overflow: hidden;
+    }
+
+    body.public-inner-page:has(form[action*="/BookingDetails"])
+    .public-inner-main .form-group {
+        margin-bottom: 18px;
+    }
+
+/* =========================================================
+   ACCESSIBILITY VÀ RESPONSIVE
+   ========================================================= */
+
+body.public-inner-page:has(form[action*="/Rooms/Search"]) :focus-visible,
+body.public-inner-page:has(.booking-page-heading) :focus-visible,
+body.public-inner-page:has(.public-inner-main > .container h1) :focus-visible,
+body.public-inner-page:has(.public-inner-main > .container h2) :focus-visible,
+body.reception-body:has(form[action*="/Bookings/Create"]) :focus-visible {
+    outline: 3px solid rgba(201, 169, 110, 0.65);
+    outline-offset: 3px;
+}
+
+@media (max-width: 1199.98px) {
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card-img-top,
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card > .bg-light:first-child {
+        height: 220px !important;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content {
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main,
+    body.public-inner-page:has(.booking-page-heading)
+    .public-inner-main,
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main {
+        padding-top: 104px;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .row.g-4 > .col-lg-5 > .card {
+        position: static;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 > .row.g-4 > .col-lg-6:first-child > img,
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 > .row.g-4 > .col-lg-6:first-child > .bg-light {
+        min-height: 390px;
+        max-height: 520px;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-filter-area {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-search {
+        flex: 1 1 280px;
+    }
+
+        body.public-inner-page:has(.booking-page-heading)
+        .booking-search input,
+        body.public-inner-page:has(.booking-page-heading)
+        .booking-filter-area .form-select {
+            width: 100% !important;
+        }
+}
+
+@media (max-width: 767.98px) {
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > *,
+    body.public-inner-page:has(.booking-page-heading)
+    .public-inner-main > *,
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main > * {
+        width: min(100% - 28px, 1240px);
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:first-child::before,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-page-heading::before,
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container:first-child::before,
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content > .mb-4:first-of-type::before {
+        padding: 15px 16px;
+        font-size: 10px;
+        line-height: 1.8;
+        letter-spacing: 0;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .card:first-of-type .card-body {
+        padding: 20px !important;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .d-flex:first-child > a {
+        width: 100%;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card-img-top,
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .card > .bg-light:first-child {
+        height: 235px !important;
+    }
+
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main > .row.g-4 .d-grid {
+        flex-direction: column !important;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-main::before {
+        height: 68px;
+        font-size: 14px;
+        letter-spacing: 2.2px;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-main::after {
+        top: 20px;
+        left: calc(50% - 132px);
+        font-size: 17px;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    .reception-content {
+        padding: 96px 15px 55px;
+    }
+
+    body.reception-body:has(form[action*="/Bookings/Create"])
+    form[action*="/Bookings/Create"] > .d-flex.mt-4 {
+        flex-direction: column;
+    }
+
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        form[action*="/Bookings/Create"] > .d-flex.mt-4 .btn {
+            width: 100%;
+            min-width: 0;
+        }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-page-heading {
+        align-items: stretch !important;
+        flex-direction: column;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-heading-actions,
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-heading-actions .booking-heading-button {
+        width: 100%;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-panel-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-filter-area {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    body.public-inner-page:has(.booking-page-heading)
+    .booking-table {
+        min-width: 920px;
+    }
+
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 > .row.g-4 > .col-lg-6:first-child > img,
+    body.public-inner-page:has(.public-inner-main > .container h1)
+    .public-inner-main > .container.py-5 > .row.g-4 > .col-lg-6:first-child > .bg-light {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body.public-inner-page:has(form[action*="/Rooms/Search"])
+    .public-inner-main,
+    body.public-inner-page:has(.booking-page-heading)
+    .public-inner-main,
+    body.public-inner-page:has(.public-inner-main > .container h2)
+    .public-inner-main {
+        padding-bottom: 54px;
+    }
+
+        body.public-inner-page:has(form[action*="/Rooms/Search"])
+        .public-inner-main > .d-flex:first-child h2,
+        body.public-inner-page:has(.booking-page-heading)
+        .booking-page-heading h2,
+        body.reception-body:has(form[action*="/Bookings/Create"])
+        .reception-content > .mb-4:first-of-type h2 {
+            font-size: 27px;
+        }
+
+        body.public-inner-page:has(form[action*="/Rooms/Search"])
+        .public-inner-main > .row.g-4 .card-img-top,
+        body.public-inner-page:has(form[action*="/Rooms/Search"])
+        .public-inner-main > .row.g-4 .card > .bg-light:first-child {
+            height: 210px !important;
+        }
+
+        body.public-inner-page:has(.public-inner-main > .container h2)
+        .public-inner-main > .container.mt-4 > .card > .card-body,
+        body.public-inner-page:has(.public-inner-main > .container h2)
+        .public-inner-main > .container.mt-4 > .card > .card-header,
+        body.public-inner-page:has(.public-inner-main > .container h2)
+        .public-inner-main > .container.mt-4 > .card > .card-footer {
+            padding-right: 17px;
+            padding-left: 17px;
+        }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.public-inner-page:has(form[action*="/Rooms/Search"]) *,
+    body.public-inner-page:has(.booking-page-heading) *,
+    body.public-inner-page:has(.public-inner-main > .container h1) *,
+    body.public-inner-page:has(.public-inner-main > .container h2) *,
+    body.reception-body:has(form[action*="/Bookings/Create"]) * {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

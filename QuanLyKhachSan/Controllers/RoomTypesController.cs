@@ -141,6 +141,7 @@ public class RoomTypesController : Controller
         ValidateRoomType(model);
 
         var roomType = await _context.RoomTypes
+            .Include(x => x.Rooms.Where(room => !room.IsDeleted))
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
@@ -168,18 +169,47 @@ public class RoomTypesController : Controller
             return View(model);
         }
 
+        DateTime updatedAt = DateTime.Now;
+
         roomType.Name = model.Name;
         roomType.BasePrice = model.BasePrice;
         roomType.MaxOccupancy = model.MaxOccupancy;
         roomType.BedType = model.BedType;
         roomType.Area = model.Area;
         roomType.Description = model.Description;
-        roomType.UpdatedAt = DateTime.Now;
+        roomType.UpdatedAt = updatedAt;
+
+        // Trang khách hàng, tìm phòng và đặt phòng đều đọc Room.PriceDay.
+        // Vì vậy mỗi lần lưu loại phòng, hệ thống luôn đồng bộ BasePrice
+        // xuống tất cả phòng đang hoạt động thuộc loại này.
+        // Việc luôn đồng bộ (không chỉ khi BasePrice vừa thay đổi) còn sửa được
+        // dữ liệu cũ đã bị lệch trước khi phần code này được bổ sung.
+        foreach (Room room in roomType.Rooms)
+        {
+            decimal oldPriceDay = room.PriceDay;
+            decimal oldPriceWeek = room.PriceWeek;
+
+            room.PriceDay = model.BasePrice;
+
+            // Giữ nguyên tỷ lệ giá tuần hiện có của từng phòng.
+            // Nếu dữ liệu cũ chưa có giá ngày hợp lệ thì giữ nguyên giá tuần.
+            if (oldPriceDay > 0 && oldPriceWeek > 0)
+            {
+                decimal weeklyMultiplier = oldPriceWeek / oldPriceDay;
+
+                room.PriceWeek = decimal.Round(
+                    model.BasePrice * weeklyMultiplier,
+                    0,
+                    MidpointRounding.AwayFromZero);
+            }
+
+            room.UpdatedAt = updatedAt;
+        }
 
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            $"Cập nhật loại phòng {roomType.Name} thành công.";
+            $"Cập nhật loại phòng {roomType.Name} và đồng bộ giá cho {roomType.Rooms.Count} phòng thành công.";
 
         return RedirectToAction(nameof(Index));
     }
