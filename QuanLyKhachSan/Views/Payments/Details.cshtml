@@ -1,12 +1,9 @@
 @model QuanLyKhachSan.Models.Payment
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-
     ViewData["Title"] = "Chi tiết thanh toán";
-
     string statusText = Model.PaymentStatus.ToString() switch
     {
         "Paid" => "Đã thanh toán",
@@ -15,7 +12,6 @@
         "Cancelled" => "Đã hủy",
         _ => Model.PaymentStatus.ToString()
     };
-
     string statusClass = Model.PaymentStatus.ToString() switch
     {
         "Paid" => "success",
@@ -24,7 +20,6 @@
         "Cancelled" => "secondary",
         _ => "secondary"
     };
-
     string methodText = Model.PaymentMethod.ToString() switch
     {
         "Cash" => "Tiền mặt",
@@ -34,13 +29,11 @@
         _ => Model.PaymentMethod.ToString()
     };
 }
-
 <style>
     .payment-details-page {
         max-width: 1120px;
         margin: 0 auto;
     }
-
     .payment-details-heading {
         display: flex;
         align-items: center;
@@ -48,7 +41,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .payment-details-kicker {
         display: block;
         margin-bottom: 6px;
@@ -58,20 +50,17 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .payment-details-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .payment-details-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 9px;
     }
-
     .payment-details-button {
         min-height: 42px;
         display: inline-flex;
@@ -83,19 +72,16 @@
         font-size: 13px;
         font-weight: 700;
     }
-
         .payment-details-button.back {
             border: 1px solid #dfe2e8;
             background: #ffffff;
             color: #555c69;
         }
-
         .payment-details-button.edit {
             border: 1px solid #b58a42;
             background: linear-gradient(145deg,#d8b25e,#a8752d);
             color: #ffffff;
         }
-
     .payment-details-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -103,7 +89,6 @@
         background: #ffffff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .payment-details-card-header {
         display: flex;
         align-items: center;
@@ -112,7 +97,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111111,#332717);
         color: #ffffff;
     }
-
     .payment-details-icon {
         width: 60px;
         height: 60px;
@@ -125,37 +109,31 @@
         color: #171008;
         font-size: 27px;
     }
-
     .payment-details-card-header h3 {
         margin: 0 0 5px;
         font-size: 26px;
         font-weight: 800;
     }
-
     .payment-details-card-header p {
         margin: 0;
         color: rgba(255,255,255,.65);
         font-size: 13px;
     }
-
     .payment-details-body {
         padding: 30px;
     }
-
     .payment-summary-grid {
         display: grid;
         grid-template-columns: repeat(3,minmax(0,1fr));
         gap: 16px;
         margin-bottom: 28px;
     }
-
     .payment-summary-item {
         padding: 20px;
         border: 1px solid #e8e9ee;
         border-radius: 16px;
         background: #fcfcfd;
     }
-
         .payment-summary-item span {
             display: block;
             margin-bottom: 7px;
@@ -164,19 +142,16 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .payment-summary-item strong {
             color: #282d38;
             font-size: 20px;
             font-weight: 800;
         }
-
     .payment-info-grid {
         display: grid;
         grid-template-columns: repeat(2,minmax(0,1fr));
         gap: 14px;
     }
-
     .payment-info-item {
         display: flex;
         align-items: center;
@@ -186,7 +161,6 @@
         border-radius: 14px;
         background: #ffffff;
     }
-
         .payment-info-item i {
             width: 38px;
             height: 38px;
@@ -198,7 +172,6 @@
             background: #f4ead7;
             color: #8f692f;
         }
-
         .payment-info-item span {
             display: block;
             color: #8a909b;
@@ -206,13 +179,11 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .payment-info-item strong {
             display: block;
             color: #343944;
             font-size: 13px;
         }
-
     .payment-note {
         margin-top: 24px;
         padding: 20px;
@@ -222,45 +193,37 @@
         color: #5f6570;
         line-height: 1.75;
     }
-
     @@media (max-width: 991.98px) {
         .payment-summary-grid {
             grid-template-columns: 1fr;
         }
     }
-
     @@media (max-width: 767.98px) {
         .payment-details-heading {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .payment-details-actions {
             width: 100%;
         }
-
         .payment-details-button {
             flex: 1;
         }
-
         .payment-details-card-header,
         .payment-details-body {
             padding: 22px;
         }
-
         .payment-info-grid {
             grid-template-columns: 1fr;
         }
     }
 </style>
-
 <div class="payment-details-page">
     <div class="payment-details-heading">
         <div>
             <span class="payment-details-kicker">Quản lý thanh toán</span>
             <h2>Chi tiết giao dịch</h2>
         </div>
-
         <div class="payment-details-actions">
             <a asp-controller="Payments"
                asp-action="Index"
@@ -268,7 +231,6 @@
                 <i class="bi bi-arrow-left"></i>
                 Quay lại
             </a>
-
             <a asp-controller="Payments"
                asp-action="Edit"
                asp-route-id="@Model.Id"
@@ -278,31 +240,26 @@
             </a>
         </div>
     </div>
-
     <div class="payment-details-card">
         <div class="payment-details-card-header">
             <span class="payment-details-icon">
                 <i class="bi bi-credit-card-2-front-fill"></i>
             </span>
-
             <div>
                 <h3>@Model.TransactionCode</h3>
                 <p>Thông tin chi tiết của giao dịch thanh toán.</p>
             </div>
         </div>
-
         <div class="payment-details-body">
             <div class="payment-summary-grid">
                 <div class="payment-summary-item">
                     <span>Số tiền thanh toán</span>
                     <strong>@Model.Amount.ToString("N0") VNĐ</strong>
                 </div>
-
                 <div class="payment-summary-item">
                     <span>Phương thức</span>
                     <strong>@methodText</strong>
                 </div>
-
                 <div class="payment-summary-item">
                     <span>Trạng thái</span>
                     <strong>
@@ -310,7 +267,6 @@
                     </strong>
                 </div>
             </div>
-
             <div class="payment-info-grid">
                 <div class="payment-info-item">
                     <i class="bi bi-receipt"></i>
@@ -319,7 +275,6 @@
                         <strong>@(Model.Invoice?.InvoiceCode ?? $"#{Model.InvoiceId}")</strong>
                     </div>
                 </div>
-
                 <div class="payment-info-item">
                     <i class="bi bi-calendar-check"></i>
                     <div>
@@ -327,7 +282,6 @@
                         <strong>@(Model.Invoice?.Booking?.BookingCode ?? "Chưa có")</strong>
                     </div>
                 </div>
-
                 <div class="payment-info-item">
                     <i class="bi bi-calendar3"></i>
                     <div>
@@ -335,7 +289,6 @@
                         <strong>@Model.PaymentDate.ToString("dd/MM/yyyy HH:mm")</strong>
                     </div>
                 </div>
-
                 <div class="payment-info-item">
                     <i class="bi bi-clock-history"></i>
                     <div>
@@ -343,7 +296,6 @@
                         <strong>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</strong>
                     </div>
                 </div>
-
                 <div class="payment-info-item">
                     <i class="bi bi-arrow-repeat"></i>
                     <div>
@@ -355,7 +307,6 @@
                         </strong>
                     </div>
                 </div>
-
                 <div class="payment-info-item">
                     <i class="bi bi-file-earmark-text"></i>
                     <div>
@@ -370,13 +321,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="payment-note">
                 <strong class="d-block mb-2">
                     <i class="bi bi-sticky me-2 text-warning"></i>
                     Ghi chú
                 </strong>
-
                 @(string.IsNullOrWhiteSpace(Model.Note)
                                 ? "Không có ghi chú cho giao dịch này."
                                 : Model.Note)

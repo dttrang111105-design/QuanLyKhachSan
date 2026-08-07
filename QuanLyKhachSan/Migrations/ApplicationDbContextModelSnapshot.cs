@@ -375,6 +375,56 @@ namespace QuanLyKhachSan.Migrations
                     b.ToTable("Invoices");
                 });
 
+            modelBuilder.Entity("QuanLyKhachSan.Models.InvoiceDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DetailType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceDetails");
+                });
+
             modelBuilder.Entity("QuanLyKhachSan.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -420,6 +470,64 @@ namespace QuanLyKhachSan.Migrations
                     b.HasIndex("InvoiceId");
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.ReceptionistActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ActionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionTime");
+
+                    b.HasIndex("ActionType");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("ReceptionistActivities");
                 });
 
             modelBuilder.Entity("QuanLyKhachSan.Models.Review", b =>
@@ -518,6 +626,173 @@ namespace QuanLyKhachSan.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomChargeItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DamagedPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("LostPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("UsedPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Category", "Name")
+                        .IsUnique();
+
+                    b.ToTable("RoomChargeItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = "MiniBar",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Rượu",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "MiniBar",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Nước",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category = "MiniBar",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Hoa quả",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = "MiniBar",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Snack",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Khăn",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Ga",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Gối",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Áo choàng",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Máy sấy",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "TV",
+                            UsedPrice = 0m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Category = "Asset",
+                            CreatedAt = new DateTime(2026, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DamagedPrice = 0m,
+                            IsDeleted = false,
+                            LostPrice = 0m,
+                            Name = "Điều hòa",
+                            UsedPrice = 0m
+                        });
+                });
+
             modelBuilder.Entity("QuanLyKhachSan.Models.RoomImage", b =>
                 {
                     b.Property<int>("Id")
@@ -555,6 +830,148 @@ namespace QuanLyKhachSan.Migrations
                     b.HasIndex("RoomId");
 
                     b.ToTable("RoomImages");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomInspection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InspectionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<decimal>("TotalCharge")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
+                    b.ToTable("RoomInspections");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomInspectionDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResultType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("RoomChargeItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomInspectionId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomChargeItemId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("RoomInspectionId");
+
+                    b.ToTable("RoomInspectionDetails");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomMiniBarItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RoomChargeItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StandardQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomChargeItemId");
+
+                    b.HasIndex("RoomId", "RoomChargeItemId")
+                        .IsUnique();
+
+                    b.ToTable("RoomMiniBarItems");
                 });
 
             modelBuilder.Entity("QuanLyKhachSan.Models.RoomType", b =>
@@ -751,6 +1168,17 @@ namespace QuanLyKhachSan.Migrations
                     b.Navigation("Booking");
                 });
 
+            modelBuilder.Entity("QuanLyKhachSan.Models.InvoiceDetail", b =>
+                {
+                    b.HasOne("QuanLyKhachSan.Models.Invoice", "Invoice")
+                        .WithMany("InvoiceDetails")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
             modelBuilder.Entity("QuanLyKhachSan.Models.Payment", b =>
                 {
                     b.HasOne("QuanLyKhachSan.Models.Invoice", "Invoice")
@@ -760,6 +1188,38 @@ namespace QuanLyKhachSan.Migrations
                         .IsRequired();
 
                     b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.ReceptionistActivity", b =>
+                {
+                    b.HasOne("QuanLyKhachSan.Models.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("QuanLyKhachSan.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyKhachSan.Models.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("QuanLyKhachSan.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("QuanLyKhachSan.Models.Review", b =>
@@ -801,6 +1261,63 @@ namespace QuanLyKhachSan.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomInspection", b =>
+                {
+                    b.HasOne("QuanLyKhachSan.Models.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomInspectionDetail", b =>
+                {
+                    b.HasOne("QuanLyKhachSan.Models.RoomChargeItem", "RoomChargeItem")
+                        .WithMany()
+                        .HasForeignKey("RoomChargeItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyKhachSan.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyKhachSan.Models.RoomInspection", "RoomInspection")
+                        .WithMany("RoomInspectionDetails")
+                        .HasForeignKey("RoomInspectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("RoomChargeItem");
+
+                    b.Navigation("RoomInspection");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomMiniBarItem", b =>
+                {
+                    b.HasOne("QuanLyKhachSan.Models.RoomChargeItem", "RoomChargeItem")
+                        .WithMany()
+                        .HasForeignKey("RoomChargeItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyKhachSan.Models.Room", "Room")
+                        .WithMany("RoomMiniBarItems")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("RoomChargeItem");
                 });
 
             modelBuilder.Entity("QuanLyKhachSan.Models.ServiceBooking", b =>
@@ -847,6 +1364,8 @@ namespace QuanLyKhachSan.Migrations
 
             modelBuilder.Entity("QuanLyKhachSan.Models.Invoice", b =>
                 {
+                    b.Navigation("InvoiceDetails");
+
                     b.Navigation("Payments");
                 });
 
@@ -857,6 +1376,13 @@ namespace QuanLyKhachSan.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("RoomImages");
+
+                    b.Navigation("RoomMiniBarItems");
+                });
+
+            modelBuilder.Entity("QuanLyKhachSan.Models.RoomInspection", b =>
+                {
+                    b.Navigation("RoomInspectionDetails");
                 });
 
             modelBuilder.Entity("QuanLyKhachSan.Models.RoomType", b =>

@@ -1,23 +1,18 @@
 @model QuanLyKhachSan.Models.Service
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-
     ViewData["Title"] = "Chỉnh sửa dịch vụ";
-
     string previewImage = string.IsNullOrWhiteSpace(Model.ImageUrl)
         ? "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80"
         : Model.ImageUrl;
 }
-
 <style>
     .service-edit-page {
         max-width: 1080px;
         margin: 0 auto;
     }
-
     .service-edit-heading {
         display: flex;
         align-items: center;
@@ -25,7 +20,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .service-edit-kicker {
         display: block;
         margin-bottom: 6px;
@@ -35,14 +29,12 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .service-edit-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .service-edit-back {
         min-height: 42px;
         display: inline-flex;
@@ -58,7 +50,6 @@
         font-weight: 700;
         text-decoration: none;
     }
-
     .service-edit-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -66,7 +57,6 @@
         background: #fff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .service-edit-card-header {
         display: flex;
         align-items: center;
@@ -75,7 +65,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111,#332717);
         color: #fff;
     }
-
     .service-edit-icon {
         width: 56px;
         height: 56px;
@@ -88,22 +77,18 @@
         color: #171008;
         font-size: 25px;
     }
-
     .service-edit-card-header h3 {
         margin: 0 0 4px;
         font-size: 24px;
         font-weight: 800;
     }
-
     .service-edit-card-header p {
         margin: 0;
         color: rgba(255,255,255,.65);
     }
-
     .service-edit-body {
         padding: 30px;
     }
-
     .service-edit-preview {
         width: 100%;
         height: 230px;
@@ -112,14 +97,12 @@
         border-radius: 16px;
         background: #f5f5f5;
     }
-
     .service-edit-field label {
         margin-bottom: 7px;
         color: #3c424d;
         font-size: 13px;
         font-weight: 700;
     }
-
     .service-edit-field .form-control,
     .service-edit-field .form-select {
         min-height: 50px;
@@ -128,19 +111,16 @@
         background: #fcfcfd;
         box-shadow: none;
     }
-
     .service-edit-field textarea.form-control {
         min-height: 145px;
         resize: vertical;
     }
-
     .service-edit-field .form-control:focus,
     .service-edit-field .form-select:focus {
         border-color: #b58a42;
         background: #fff;
         box-shadow: 0 0 0 4px rgba(181,138,66,.12);
     }
-
     .service-edit-status {
         min-height: 50px;
         display: flex;
@@ -150,7 +130,6 @@
         border-radius: 11px;
         background: #fcfcfd;
     }
-
     .service-edit-actions {
         display: flex;
         flex-wrap: wrap;
@@ -159,7 +138,6 @@
         padding-top: 22px;
         border-top: 1px solid #eceef2;
     }
-
     .service-edit-save,
     .service-edit-cancel {
         min-height: 46px;
@@ -173,48 +151,40 @@
         font-weight: 800;
         text-decoration: none;
     }
-
     .service-edit-save {
         border: 1px solid #b58a42;
         background: linear-gradient(145deg,#d8b25e,#a8752d);
         color: #fff;
     }
-
     .service-edit-cancel {
         border: 1px solid #dfe2e8;
         background: #fff;
         color: #555c69;
     }
-
     @@media (max-width: 767.98px) {
         .service-edit-heading {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .service-edit-card-header,
         .service-edit-body {
             padding: 22px;
         }
-
         .service-edit-actions {
             flex-direction: column;
         }
-
         .service-edit-save,
         .service-edit-cancel {
             width: 100%;
         }
     }
 </style>
-
 <div class="service-edit-page">
     <div class="service-edit-heading">
         <div>
             <span class="service-edit-kicker">Quản lý dịch vụ</span>
             <h2>Chỉnh sửa dịch vụ</h2>
         </div>
-
         <a asp-controller="Services"
            asp-action="Index"
            class="service-edit-back">
@@ -222,31 +192,25 @@
             Quay lại danh sách
         </a>
     </div>
-
     <div class="service-edit-card">
         <div class="service-edit-card-header">
             <span class="service-edit-icon">
                 <i class="bi bi-bell-fill"></i>
             </span>
-
             <div>
                 <h3>@Model.ServiceName</h3>
                 <p>Cập nhật giá, hình ảnh và trạng thái cung cấp.</p>
             </div>
         </div>
-
         <div class="service-edit-body">
             <form asp-controller="Services"
                   asp-action="Edit"
                   asp-route-id="@Model.Id"
                   method="post">
-
                 @Html.AntiForgeryToken()
                 <input asp-for="Id" type="hidden" />
-
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger"></div>
-
                 <div class="row g-4">
                     <div class="col-lg-4">
                         <img id="serviceImagePreview"
@@ -254,7 +218,6 @@
                              class="service-edit-preview"
                              alt="Ảnh dịch vụ" />
                     </div>
-
                     <div class="col-lg-8">
                         <div class="row g-4">
                             <div class="col-md-6 service-edit-field">
@@ -265,7 +228,6 @@
                                 <span asp-validation-for="ServiceName"
                                       class="text-danger small"></span>
                             </div>
-
                             <div class="col-md-6 service-edit-field">
                                 <label asp-for="Category">Danh mục</label>
                                 <input asp-for="Category"
@@ -274,7 +236,6 @@
                                 <span asp-validation-for="Category"
                                       class="text-danger small"></span>
                             </div>
-
                             <div class="col-md-6 service-edit-field">
                                 <label asp-for="Price">Giá dịch vụ</label>
                                 <div class="input-group">
@@ -288,7 +249,6 @@
                                 <span asp-validation-for="Price"
                                       class="text-danger small"></span>
                             </div>
-
                             <div class="col-md-6 service-edit-field">
                                 <label asp-for="IsAvailable">Trạng thái</label>
                                 <div class="service-edit-status">
@@ -302,7 +262,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-12 service-edit-field">
                                 <label asp-for="ImageUrl">Đường dẫn ảnh</label>
                                 <input asp-for="ImageUrl"
@@ -314,7 +273,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-12 service-edit-field">
                         <label asp-for="Description">Mô tả</label>
                         <textarea asp-for="Description"
@@ -324,14 +282,12 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="service-edit-actions">
                     <button type="submit"
                             class="service-edit-save">
                         <i class="bi bi-check-circle"></i>
                         Lưu thay đổi
                     </button>
-
                     <a asp-controller="Services"
                        asp-action="Details"
                        asp-route-id="@Model.Id"
@@ -344,21 +300,16 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const imageInput =
                 document.getElementById("serviceImageUrl");
-
             const preview =
                 document.getElementById("serviceImagePreview");
-
             imageInput?.addEventListener("input", function () {
                 const value = imageInput.value.trim();
-
                 if (value) {
                     preview.src = value;
                 }

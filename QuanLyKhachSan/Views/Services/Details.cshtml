@@ -1,33 +1,26 @@
 @model QuanLyKhachSan.Models.Service
-
 @{
     Layout = User.IsInRole("Admin")
        ? "~/Views/Shared/_AdminLayout.cshtml"
        : User.IsInRole("Receptionist")
            ? "~/Views/Shared/_ReceptionistLayout.cshtml"
            : "~/Views/Shared/_CustomerLayout.cshtml";
-
     ViewData["Title"] = "Chi tiết dịch vụ";
-
     string imageUrl = string.IsNullOrWhiteSpace(Model.ImageUrl)
         ? "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80"
         : Model.ImageUrl;
-
     string statusText = Model.IsAvailable
         ? "Đang cung cấp"
         : "Tạm ngừng";
-
     string statusClass = Model.IsAvailable
         ? "success"
         : "secondary";
 }
-
 <style>
     .service-details-page {
         max-width: 1120px;
         margin: 0 auto;
     }
-
     .service-details-heading {
         display: flex;
         align-items: center;
@@ -35,7 +28,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .service-details-kicker {
         display: block;
         margin-bottom: 6px;
@@ -45,20 +37,17 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .service-details-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .service-details-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 9px;
     }
-
     .service-details-button {
         min-height: 42px;
         display: inline-flex;
@@ -71,19 +60,16 @@
         font-weight: 700;
         text-decoration: none;
     }
-
         .service-details-button.back {
             border: 1px solid #dfe2e8;
             background: #fff;
             color: #555c69;
         }
-
         .service-details-button.edit {
             border: 1px solid #b58a42;
             background: linear-gradient(145deg,#d8b25e,#a8752d);
             color: #fff;
         }
-
     .service-details-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -91,18 +77,15 @@
         background: #fff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .service-details-image {
         width: 100%;
         height: 360px;
         object-fit: cover;
         background: #f3f3f3;
     }
-
     .service-details-body {
         padding: 30px;
     }
-
     .service-details-title-row {
         display: flex;
         align-items: flex-start;
@@ -110,33 +93,28 @@
         gap: 18px;
         margin-bottom: 25px;
     }
-
         .service-details-title-row h3 {
             margin: 0 0 7px;
             color: #292e38;
             font-size: 28px;
             font-weight: 800;
         }
-
         .service-details-title-row p {
             margin: 0;
             color: #7d838f;
         }
-
     .service-summary-grid {
         display: grid;
         grid-template-columns: repeat(3,minmax(0,1fr));
         gap: 16px;
         margin-bottom: 28px;
     }
-
     .service-summary-item {
         padding: 20px;
         border: 1px solid #e8e9ee;
         border-radius: 16px;
         background: #fcfcfd;
     }
-
         .service-summary-item span {
             display: block;
             margin-bottom: 7px;
@@ -145,13 +123,11 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .service-summary-item strong {
             color: #282d38;
             font-size: 18px;
             font-weight: 800;
         }
-
     .service-details-description {
         padding: 20px;
         border: 1px solid #e8e9ee;
@@ -160,14 +136,12 @@
         color: #5f6570;
         line-height: 1.8;
     }
-
     .service-details-meta {
         display: grid;
         grid-template-columns: repeat(2,minmax(0,1fr));
         gap: 14px;
         margin-top: 22px;
     }
-
     .service-details-meta-item {
         display: flex;
         align-items: center;
@@ -177,7 +151,6 @@
         border-radius: 14px;
         background: #fff;
     }
-
         .service-details-meta-item i {
             width: 38px;
             height: 38px;
@@ -189,7 +162,6 @@
             background: #f4ead7;
             color: #8f692f;
         }
-
         .service-details-meta-item span {
             display: block;
             color: #8a909b;
@@ -197,55 +169,45 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .service-details-meta-item strong {
             display: block;
             color: #343944;
             font-size: 13px;
         }
-
     @@media (max-width: 991.98px) {
         .service-summary-grid {
             grid-template-columns: 1fr;
         }
     }
-
     @@media (max-width: 767.98px) {
         .service-details-heading,
         .service-details-title-row {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .service-details-actions {
             width: 100%;
         }
-
         .service-details-button {
             flex: 1;
         }
-
         .service-details-image {
             height: 250px;
         }
-
         .service-details-body {
             padding: 22px;
         }
-
         .service-details-meta {
             grid-template-columns: 1fr;
         }
     }
 </style>
-
 <div class="service-details-page">
     <div class="service-details-heading">
         <div>
             <span class="service-details-kicker">Dịch vụ khách sạn</span>
             <h2>Chi tiết dịch vụ</h2>
         </div>
-
         <div class="service-details-actions">
             <a asp-controller="Services"
                asp-action="Index"
@@ -253,7 +215,6 @@
                 <i class="bi bi-arrow-left"></i>
                 Quay lại
             </a>
-
             @if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
             {
                 <a asp-controller="Services"
@@ -266,35 +227,29 @@
             }
         </div>
     </div>
-
     <div class="service-details-card">
         <img src="@imageUrl"
              class="service-details-image"
              alt="@Model.ServiceName" />
-
         <div class="service-details-body">
             <div class="service-details-title-row">
                 <div>
                     <h3>@Model.ServiceName</h3>
                     <p>@(Model.Category ?? "Chưa phân loại")</p>
                 </div>
-
                 <span class="badge bg-@statusClass px-3 py-2">
                     @statusText
                 </span>
             </div>
-
             <div class="service-summary-grid">
                 <div class="service-summary-item">
                     <span>Giá dịch vụ</span>
                     <strong>@Model.Price.ToString("N0") VNĐ</strong>
                 </div>
-
                 <div class="service-summary-item">
                     <span>Danh mục</span>
                     <strong>@(Model.Category ?? "Chưa phân loại")</strong>
                 </div>
-
                 <div class="service-summary-item">
                     <span>Lượt đặt</span>
                     <strong>
@@ -302,13 +257,11 @@
                     </strong>
                 </div>
             </div>
-
             <div class="service-details-description">
                 @(string.IsNullOrWhiteSpace(Model.Description)
                                 ? "Chưa có mô tả cho dịch vụ này."
                                 : Model.Description)
             </div>
-
             <div class="service-details-meta">
                 <div class="service-details-meta-item">
                     <i class="bi bi-calendar-plus"></i>
@@ -317,7 +270,6 @@
                         <strong>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</strong>
                     </div>
                 </div>
-
                 <div class="service-details-meta-item">
                     <i class="bi bi-clock-history"></i>
                     <div>

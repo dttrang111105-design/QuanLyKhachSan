@@ -1,6 +1,5 @@
 @using QuanLyKhachSan.Enums
 @model QuanLyKhachSan.Models.Invoice
-
 @{
     Layout = User.IsInRole("Admin")
        ? "~/Views/Shared/_AdminLayout.cshtml"
@@ -8,199 +7,207 @@
            ? "~/Views/Shared/_ReceptionistLayout.cshtml"
            : "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Chi tiết hóa đơn";
-
     var payment = Model.Payments
         .OrderByDescending(x => x.PaymentDate)
         .FirstOrDefault();
-
+    var roomDetails = Model.InvoiceDetails
+        .Where(x => !x.IsDeleted && x.DetailType == "Room")
+        .ToList();
+    var serviceDetails = Model.InvoiceDetails
+        .Where(x => !x.IsDeleted && x.DetailType == "Service")
+        .ToList();
+    var miniBarDetails = Model.InvoiceDetails
+        .Where(x => !x.IsDeleted && x.DetailType == "MiniBar")
+        .ToList();
+    var compensationDetails = Model.InvoiceDetails
+        .Where(x => !x.IsDeleted && x.DetailType == "Compensation")
+        .ToList();
+    decimal miniBarAmount = miniBarDetails.Sum(x => x.Amount);
+    decimal compensationAmount = compensationDetails.Sum(x => x.Amount);
     decimal finalAmount = Model.TotalAmount - Model.Booking.Deposit;
-    decimal subTotal = Model.RoomAmount + Model.ServiceAmount;
+    decimal subTotal = Model.RoomAmount + Model.ServiceAmount +
+        miniBarAmount + compensationAmount;
     decimal taxAmount = subTotal * Model.TaxPercent / 100;
-
     if (finalAmount < 0)
     {
         finalAmount = 0;
     }
 }
-
 <h2 class="mb-4">
     Hóa đơn thanh toán
 </h2>
-
 <div class="card shadow">
-
     <div class="card-header bg-primary text-white">
-
         <div class="row">
-
             <div class="col-md-6">
                 <h4 class="mb-0">
                     @Model.InvoiceCode
                 </h4>
             </div>
-
             <div class="col-md-6 text-end">
-
                 Ngày lập:
                 <strong>
                     @Model.InvoiceDate.ToString("dd/MM/yyyy HH:mm")
                 </strong>
-
             </div>
-
         </div>
-
     </div>
-
     <div class="card-body">
-
         <h5 class="mb-3">
             Thông tin khách hàng
         </h5>
-
         <table class="table table-bordered">
-
             <tr>
                 <th width="220">Khách hàng</th>
                 <td>@Model.Booking.Customer.FullName</td>
             </tr>
-
             <tr>
                 <th>Email</th>
                 <td>@Model.Booking.Customer.Email</td>
             </tr>
-
             <tr>
                 <th>Số điện thoại</th>
                 <td>@Model.Booking.Customer.Phone</td>
             </tr>
-
             <tr>
                 <th>Mã Booking</th>
                 <td>@Model.Booking.BookingCode</td>
             </tr>
-
             <tr>
                 <th>Ngày nhận phòng</th>
                 <td>@Model.Booking.CheckInDate.ToString("dd/MM/yyyy")</td>
             </tr>
-
             <tr>
                 <th>Ngày trả phòng</th>
                 <td>@Model.Booking.CheckOutDate.ToString("dd/MM/yyyy")</td>
             </tr>
-
         </table>
-
         <hr />
-
         <h5>Danh sách phòng</h5>
-
         <table class="table table-bordered table-hover">
-
             <thead class="table-dark">
-
                 <tr>
-
                     <th>Phòng</th>
-
                     <th>Số đêm</th>
-
                     <th>Đơn giá</th>
-
                     <th>Thành tiền</th>
-
                 </tr>
-
             </thead>
-
             <tbody>
-
-                @foreach (var item in Model.Booking.BookingDetails)
+                @if (roomDetails.Any())
                 {
-                    <tr>
-
-                        <td>@item.Room.RoomNumber</td>
-
-                        <td>@item.NumberOfNights</td>
-
-                        <td>@item.PricePerNight.ToString("N0") VNĐ</td>
-
-                        <td>@item.TotalPrice.ToString("N0") VNĐ</td>
-
-                    </tr>
+                    @foreach (var item in roomDetails)
+                    {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("N0") VNĐ</td>
+                            <td>@item.Amount.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
                 }
-
+                else
+                {
+                    @foreach (var item in Model.Booking.BookingDetails)
+                    {
+                        <tr>
+                            <td>@item.Room.RoomNumber</td>
+                            <td>@item.NumberOfNights</td>
+                            <td>@item.PricePerNight.ToString("N0") VNĐ</td>
+                            <td>@item.TotalPrice.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
+                }
             </tbody>
-
         </table>
-
         <hr />
-
         <h5>Dịch vụ sử dụng</h5>
-
         <table class="table table-bordered table-hover">
-
             <thead class="table-dark">
-
                 <tr>
-
                     <th>Dịch vụ</th>
-
                     <th>Số lượng</th>
-
                     <th>Đơn giá</th>
-
                     <th>Thành tiền</th>
-
                 </tr>
-
             </thead>
-
             <tbody>
-
-                @if (Model.Booking.ServiceBookings.Any())
+                @if (serviceDetails.Any())
+                {
+                    @foreach (var item in serviceDetails)
+                    {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("N0") VNĐ</td>
+                            <td>@item.Amount.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
+                }
+                else if (Model.Booking.ServiceBookings.Any())
                 {
                     @foreach (var item in Model.Booking.ServiceBookings)
                     {
                         <tr>
-
                             <td>@item.Service.ServiceName</td>
-
                             <td>@item.Quantity</td>
-
                             <td>@item.UnitPrice.ToString("N0") VNĐ</td>
-
                             <td>@item.TotalPrice.ToString("N0") VNĐ</td>
-
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-
                         <td colspan="4" class="text-center text-muted">
-
                             Không sử dụng dịch vụ
-
                         </td>
-
                     </tr>
                 }
-
             </tbody>
-
         </table>
-
+        @if (miniBarDetails.Any() || compensationDetails.Any())
+        {
+            <hr />
+            <h5>Phụ thu kiểm tra phòng</h5>
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Khoản thu</th>
+                        <th>Loại</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in miniBarDetails)
+                    {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>MiniBar</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("N0") VNĐ</td>
+                            <td>@item.Amount.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
+                    @foreach (var item in compensationDetails)
+                    {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>Đền bù</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("N0") VNĐ</td>
+                            <td>@item.Amount.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
         <hr />
-
         <div class="row">
-
             <div class="col-md-6">
-
                 <h5>Trạng thái thanh toán</h5>
-
                 @if (payment == null)
                 {
                     <span class="badge bg-warning fs-6">
@@ -231,81 +238,78 @@
                         Đã hoàn tiền
                     </span>
                 }
-
             </div>
-
             <div class="col-md-6">
-
                 <table class="table table-borderless">
-
                     <tr>
                         <th>Tiền phòng</th>
                         <td class="text-end">
                             @Model.RoomAmount.ToString("N0") VNĐ
                         </td>
                     </tr>
-
                     <tr>
                         <th>Tiền dịch vụ</th>
                         <td class="text-end">
                             @Model.ServiceAmount.ToString("N0") VNĐ
                         </td>
                     </tr>
-
+                    @if (miniBarAmount > 0)
+                    {
+                        <tr>
+                            <th>MiniBar</th>
+                            <td class="text-end">
+                                @miniBarAmount.ToString("N0") VNĐ
+                            </td>
+                        </tr>
+                    }
+                    @if (compensationAmount > 0)
+                    {
+                        <tr>
+                            <th>Đền bù tài sản</th>
+                            <td class="text-end">
+                                @compensationAmount.ToString("N0") VNĐ
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <th>Tiền cọc</th>
                         <td class="text-end">
                             @Model.Booking.Deposit.ToString("N0") VNĐ
                         </td>
                     </tr>
-
                     <tr>
                         <th>Giảm giá</th>
                         <td class="text-end">
                             @Model.DiscountPercent %
                         </td>
                     </tr>
-
                     <tr>
                         <th>Thuế VAT (@Model.TaxPercent%)</th>
                         <td class="text-end">
                             @taxAmount.ToString("N0") VNĐ
                         </td>
                     </tr>
-
                     <tr class="table-warning">
-
                         <th class="fs-5">
                             Còn phải thanh toán
                         </th>
-
                         <th class="text-end text-danger fs-4">
                             @finalAmount.ToString("N0") VNĐ
                         </th>
-
                     </tr>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
-
     <div class="card-footer">
-
         @if (payment == null || payment.PaymentStatus != PaymentStatus.Paid)
         {
             <a asp-controller="Payments"
                asp-action="PaymentQr"
                asp-route-invoiceId="@Model.Id"
                class="btn btn-success">
-
                 <i class="bi bi-qr-code"></i>
-
                 Thanh toán
-
             </a>
         }
         else
@@ -313,22 +317,14 @@
             <a asp-action="ExportPdf"
                asp-route-id="@Model.Id"
                class="btn btn-primary">
-
                 <i class="bi bi-file-earmark-pdf"></i>
-
                 In hóa đơn PDF
-
             </a>
         }
-
         <a asp-controller="Bookings"
            asp-action="Index"
            class="btn btn-secondary">
-
             Quay lại
-
         </a>
-
     </div>
-
 </div>

@@ -1,34 +1,33 @@
 ﻿@using QuanLyKhachSan.Enums
 @model QuanLyKhachSan.Models.Invoice
-
 @{
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Chi tiết hóa đơn";
-
+    var roomDetails = Model.InvoiceDetails
+        .Where(x => !x.IsDeleted && x.DetailType == "Room")
+        .ToList();
+    var serviceDetails = Model.InvoiceDetails
+        .Where(x => !x.IsDeleted && x.DetailType == "Service")
+        .ToList();
     decimal subTotal = Model.RoomAmount + Model.ServiceAmount;
     decimal discountAmount = subTotal * Model.DiscountPercent / 100;
     decimal amountAfterDiscount = subTotal - discountAmount;
     decimal taxAmount = amountAfterDiscount * Model.TaxPercent / 100;
-
     decimal amountAfterDeposit = Model.TotalAmount - (Model.Booking?.Deposit ?? 0);
     if (amountAfterDeposit < 0)
     {
         amountAfterDeposit = 0;
     }
-
     decimal paidAmount = Model.Payments
         .Where(p => p.PaymentStatus == PaymentStatus.Paid)
         .Sum(p => p.Amount);
-
     decimal remainingAmount = amountAfterDeposit - paidAmount;
     if (remainingAmount < 0)
     {
         remainingAmount = 0;
     }
-
     bool isPaid = amountAfterDeposit == 0 || remainingAmount == 0;
 }
-
 @section Styles
 {
     <style>
@@ -63,22 +62,17 @@
         }
     </style>
 }
-
 <div class="invoice-actions d-flex flex-wrap justify-content-between gap-2 mb-4">
     <a asp-action="MyInvoices"
        class="btn btn-outline-secondary">
         ← Hóa đơn của tôi
     </a>
-
     <div class="d-flex flex-wrap gap-2">
-       
-
         <a asp-action="MyExportPdf"
            asp-route-id="@Model.Id"
            class="btn btn-primary">
             Tải hóa đơn PDF
         </a>
-
         @if (!isPaid)
         {
             <a asp-controller="Payments"
@@ -90,7 +84,6 @@
         }
     </div>
 </div>
-
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show">
@@ -98,7 +91,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
-
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show">
@@ -106,7 +98,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
-
 <div class="card shadow-sm invoice-paper">
     <div class="card-header bg-dark text-white p-4">
         <div class="row align-items-center g-3">
@@ -114,14 +105,12 @@
                 <h2 class="mb-1">HÓA ĐƠN KHÁCH SẠN</h2>
                 <div>Mã hóa đơn: <strong>@Model.InvoiceCode</strong></div>
             </div>
-
             <div class="col-md-5 text-md-end">
                 <div>Ngày lập</div>
                 <strong>@Model.InvoiceDate.ToString("dd/MM/yyyy HH:mm")</strong>
             </div>
         </div>
     </div>
-
     <div class="card-body p-4">
         <div class="row g-4 mb-4">
             <div class="col-md-6">
@@ -145,7 +134,6 @@
                     </tr>
                 </table>
             </div>
-
             <div class="col-md-6">
                 <h5>Thông tin Booking</h5>
                 <table class="table table-sm table-borderless mb-0">
@@ -171,7 +159,6 @@
                 </table>
             </div>
         </div>
-
         <h5 class="mb-3">Chi tiết tiền phòng</h5>
         <div class="table-responsive mb-4">
             <table class="table table-bordered align-middle">
@@ -183,10 +170,25 @@
                         <th class="text-end">Thành tiền</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @if (Model.Booking?.BookingDetails != null &&
-                         Model.Booking.BookingDetails.Any())
+                    @if (roomDetails.Any())
+                    {
+                        foreach (var detail in roomDetails)
+                        {
+                            <tr>
+                                <td>Phòng @detail.ItemName</td>
+                                <td class="text-center">@detail.Quantity</td>
+                                <td class="text-end">
+                                    @detail.UnitPrice.ToString("N0") VNĐ
+                                </td>
+                                <td class="text-end fw-semibold">
+                                    @detail.Amount.ToString("N0") VNĐ
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else if (Model.Booking?.BookingDetails != null &&
+                             Model.Booking.BookingDetails.Any())
                     {
                         foreach (var detail in Model.Booking.BookingDetails)
                         {
@@ -213,7 +215,6 @@
                 </tbody>
             </table>
         </div>
-
         <h5 class="mb-3">Dịch vụ đã sử dụng</h5>
         <div class="table-responsive mb-4">
             <table class="table table-bordered align-middle">
@@ -225,10 +226,25 @@
                         <th class="text-end">Thành tiền</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @if (Model.Booking?.ServiceBookings != null &&
-                         Model.Booking.ServiceBookings.Any())
+                    @if (serviceDetails.Any())
+                    {
+                        foreach (var serviceBooking in serviceDetails)
+                        {
+                            <tr>
+                                <td>@serviceBooking.ItemName</td>
+                                <td class="text-center">@serviceBooking.Quantity</td>
+                                <td class="text-end">
+                                    @serviceBooking.UnitPrice.ToString("N0") VNĐ
+                                </td>
+                                <td class="text-end fw-semibold">
+                                    @serviceBooking.Amount.ToString("N0") VNĐ
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else if (Model.Booking?.ServiceBookings != null &&
+                             Model.Booking.ServiceBookings.Any())
                     {
                         foreach (var serviceBooking in Model.Booking.ServiceBookings)
                         {
@@ -255,11 +271,9 @@
                 </tbody>
             </table>
         </div>
-
         <div class="row g-4">
             <div class="col-lg-6">
                 <h5>Trạng thái thanh toán</h5>
-
                 @if (isPaid)
                 {
                     <div class="alert alert-success">
@@ -276,7 +290,6 @@
                         </span>
                     </div>
                 }
-
                 @if (Model.Payments.Any())
                 {
                     <div class="table-responsive">
@@ -339,7 +352,6 @@
                     </div>
                 }
             </div>
-
             <div class="col-lg-6">
                 <table class="table invoice-summary">
                     <tr>

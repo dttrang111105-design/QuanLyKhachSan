@@ -2,7 +2,6 @@
    LUXURY HOTEL - TRANG CHỦ
    Chỉ sử dụng cho Views/Home/Index.cshtml
    ========================================================= */
-
 :root {
     --home-navy: #123d55;
     --home-navy-dark: #082c41;
@@ -24,36 +23,29 @@
     --home-radius-md: 16px;
     --home-radius-lg: 24px;
 }
-
 .public-home-page {
     background: #f7fbfd;
     color: var(--home-text);
 }
-
 .public-home-main {
     overflow: hidden;
     background: var(--home-white);
 }
-
 .public-home-page ::selection {
     background: rgba(47, 115, 149, 0.22);
     color: var(--home-navy-dark);
 }
-
 .public-home-page img {
     display: block;
 }
-
 /* =========================================================
    NAVBAR TRÊN TRANG CHỦ
    ========================================================= */
-
 .public-home-page .public-navbar {
     padding: 16px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     background: linear-gradient(180deg, rgba(7, 44, 65, 0.34), rgba(7, 44, 65, 0));
 }
-
     .public-home-page .public-navbar.navbar-scrolled {
         padding: 10px 0;
         border-bottom-color: rgba(255, 255, 255, 0.1);
@@ -61,11 +53,9 @@
         box-shadow: 0 12px 35px rgba(4, 33, 49, 0.2);
         backdrop-filter: blur(16px);
     }
-
 .public-home-page .public-brand {
     gap: 10px;
 }
-
 .public-home-page .public-brand-icon {
     width: 42px;
     height: 42px;
@@ -75,22 +65,18 @@
     color: #ffffff;
     box-shadow: none;
 }
-
 .public-home-page .public-brand-text strong {
     color: #ffffff;
     font-size: 21px;
     letter-spacing: 2.4px;
 }
-
 .public-home-page .public-brand-text small {
     color: rgba(255, 255, 255, 0.72);
     letter-spacing: 2.4px;
 }
-
 .public-home-page .public-nav-list {
     gap: 2px;
 }
-
     .public-home-page .public-nav-list .nav-link {
         padding: 10px 12px !important;
         color: rgba(255, 255, 255, 0.9) !important;
@@ -98,7 +84,6 @@
         font-weight: 500;
         letter-spacing: 0.55px;
     }
-
         .public-home-page .public-nav-list .nav-link::after {
             right: 12px;
             bottom: 3px;
@@ -106,12 +91,10 @@
             height: 1px;
             background: #ffffff;
         }
-
         .public-home-page .public-nav-list .nav-link:hover,
         .public-home-page .public-nav-list .nav-link.active {
             color: #ffffff !important;
         }
-
 .public-home-page .public-login-button,
 .public-home-page .public-register-button {
     min-height: 40px;
@@ -120,75 +103,61 @@
     font-size: 12px;
     letter-spacing: 0.25px;
 }
-
 .public-home-page .public-login-button {
     border-color: rgba(255, 255, 255, 0.72);
     background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
 }
-
     .public-home-page .public-login-button:hover {
         border-color: #ffffff;
         background: #ffffff;
         color: var(--home-navy-dark);
     }
-
 .public-home-page .public-register-button {
     border-color: rgba(255, 255, 255, 0.72);
     background: transparent;
     color: #ffffff;
 }
-
     .public-home-page .public-register-button:hover {
         border-color: #ffffff;
         background: rgba(255, 255, 255, 0.14);
         color: #ffffff;
     }
-
 .public-home-page .public-account-button {
     border-color: rgba(255, 255, 255, 0.36);
     background: rgba(255, 255, 255, 0.1);
 }
-
 .public-home-page .public-account-avatar,
 .public-home-page .public-account-menu-avatar {
     background: var(--home-blue);
 }
-
 .public-home-page .public-account-button:hover,
 .public-home-page .public-account-button:focus,
 .public-home-page .public-account-button.show {
     border-color: rgba(255, 255, 255, 0.78);
     background: rgba(255, 255, 255, 0.16);
 }
-
 .public-home-page .public-account-menu {
     border-color: var(--home-border);
     box-shadow: var(--home-shadow-md);
 }
-
     .public-home-page .public-account-menu .dropdown-item i {
         color: var(--home-blue);
     }
-
     .public-home-page .public-account-menu .dropdown-item:hover {
         background: var(--home-sky-soft);
         color: var(--home-blue-hover);
     }
-
 /* =========================================================
    THÀNH PHẦN DÙNG CHUNG
    ========================================================= */
-
 .home-section {
     padding: 82px 0;
 }
-
 .home-section-heading {
     max-width: 720px;
     margin: 0 auto 40px;
 }
-
 .home-section-kicker {
     display: inline-block;
     margin-bottom: 11px;
@@ -198,7 +167,6 @@
     letter-spacing: 2.1px;
     text-transform: uppercase;
 }
-
 .home-section-heading h2,
 .home-about-content h2 {
     margin: 0 0 14px;
@@ -209,7 +177,6 @@
     line-height: 1.28;
     letter-spacing: -0.6px;
 }
-
 .home-section-heading p,
 .home-section-lead {
     margin: 0;
@@ -217,7 +184,6 @@
     font-size: 14px;
     line-height: 1.85;
 }
-
 .home-primary-button,
 .home-secondary-button,
 .home-ghost-button,
@@ -236,14 +202,12 @@
     text-decoration: none;
     transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
-
 .home-primary-button {
     border: 1px solid var(--home-blue);
     background: var(--home-blue);
     color: #ffffff;
     box-shadow: 0 10px 24px rgba(47, 115, 149, 0.2);
 }
-
     .home-primary-button:hover {
         border-color: var(--home-blue-hover);
         background: var(--home-blue-hover);
@@ -251,38 +215,32 @@
         transform: translateY(-2px);
         box-shadow: 0 14px 30px rgba(47, 115, 149, 0.28);
     }
-
 .home-secondary-button {
     border: 1px solid rgba(255, 255, 255, 0.76);
     background: rgba(255, 255, 255, 0.09);
     color: #ffffff;
     backdrop-filter: blur(8px);
 }
-
     .home-secondary-button:hover {
         border-color: #ffffff;
         background: #ffffff;
         color: var(--home-navy-dark);
         transform: translateY(-2px);
     }
-
 .home-ghost-button {
     border: 1px solid transparent;
     background: transparent;
     color: rgba(255, 255, 255, 0.9);
 }
-
     .home-ghost-button:hover {
         border-color: rgba(255, 255, 255, 0.48);
         background: rgba(255, 255, 255, 0.08);
         color: #ffffff;
         transform: translateY(-2px);
     }
-
 /* =========================================================
    HERO
    ========================================================= */
-
 .home-hero {
     position: relative;
     min-height: 710px;
@@ -291,7 +249,6 @@
     background: var(--home-navy-dark);
     isolation: isolate;
 }
-
     .home-hero::before {
         content: "";
         position: absolute;
@@ -300,7 +257,6 @@
         background: linear-gradient(90deg, rgba(7, 35, 51, 0.82) 0%, rgba(7, 35, 51, 0.62) 35%, rgba(7, 35, 51, 0.18) 66%, rgba(7, 35, 51, 0.08) 100%), linear-gradient(180deg, rgba(5, 34, 49, 0.36) 0%, rgba(5, 34, 49, 0.03) 45%, rgba(5, 34, 49, 0.32) 100%);
         pointer-events: none;
     }
-
     .home-hero::after {
         content: "";
         position: absolute;
@@ -312,25 +268,20 @@
         background: linear-gradient(180deg, rgba(247, 251, 253, 0), rgba(247, 251, 253, 0.14));
         pointer-events: none;
     }
-
     .home-hero .container {
         position: relative;
         z-index: 4;
     }
-
     .home-hero .min-vh-100 {
         min-height: 440px !important;
     }
-
     .home-hero .row > .col-lg-6:first-child {
         position: relative;
         z-index: 6;
     }
-
     .home-hero .row > .col-lg-6:last-child {
         position: static;
     }
-
 .public-home-page .home-hero #hotelBanner {
     position: absolute;
     z-index: 1;
@@ -341,23 +292,19 @@
     transform: translateX(-50%);
     pointer-events: none;
 }
-
     .public-home-page .home-hero #hotelBanner .carousel-inner,
     .public-home-page .home-hero #hotelBanner .carousel-item {
         width: 100%;
         height: 100%;
         border-radius: 0;
     }
-
     .public-home-page .home-hero #hotelBanner .carousel-inner {
         overflow: hidden;
         box-shadow: none;
     }
-
     .public-home-page .home-hero #hotelBanner::after {
         display: none;
     }
-
 .public-home-page .home-hero .hero-banner-image {
     width: 100%;
     height: 100%;
@@ -368,15 +315,12 @@
     transform: scale(1.01);
     transition: transform 7s ease !important;
 }
-
 .public-home-page .home-hero #hotelBanner .carousel-item.active .hero-banner-image {
     transform: scale(1.06);
 }
-
 .public-home-page .home-hero #hotelBanner:hover .hero-banner-image {
     transform: scale(1.06);
 }
-
 .home-hero-content {
     position: relative;
     z-index: 7;
@@ -384,7 +328,6 @@
     padding: 40px 0 18px;
     color: #ffffff;
 }
-
 .home-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -397,11 +340,9 @@
     letter-spacing: 0.45px;
     text-transform: none;
 }
-
     .home-eyebrow i {
         color: #bfe1ef;
     }
-
 .home-hero h1 {
     max-width: 650px;
     margin: 0 0 20px;
@@ -413,12 +354,10 @@
     letter-spacing: -1.2px;
     text-shadow: 0 4px 28px rgba(4, 31, 46, 0.22);
 }
-
     .home-hero h1 span {
         display: block;
         color: #d8edf6;
     }
-
 .home-hero-content > p {
     max-width: 590px;
     margin: 0 0 28px;
@@ -427,13 +366,11 @@
     line-height: 1.9;
     text-shadow: 0 2px 18px rgba(4, 31, 46, 0.28);
 }
-
 .home-hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 11px;
 }
-
 .home-hero-highlights {
     position: relative;
     z-index: 7;
@@ -443,14 +380,12 @@
     margin-top: 34px;
     padding: 0;
 }
-
     .home-hero-highlights div {
         position: relative;
         display: flex;
         flex-direction: column;
         padding-right: 34px;
     }
-
         .home-hero-highlights div:not(:last-child)::after {
             content: "";
             position: absolute;
@@ -460,27 +395,22 @@
             height: 36px;
             background: rgba(255, 255, 255, 0.28);
         }
-
     .home-hero-highlights strong {
         color: #ffffff;
         font-family: "Cinzel", serif;
         font-size: 20px;
         font-weight: 600;
     }
-
     .home-hero-highlights span {
         color: rgba(255, 255, 255, 0.66);
         font-size: 11px;
     }
-
 .home-hero-shape {
     display: none;
 }
-
 /* =========================================================
    THANH TÌM PHÒNG
    ========================================================= */
-
 .home-search-section {
     position: relative;
     z-index: 20;
@@ -488,7 +418,6 @@
     padding: 0 0 50px;
     background: transparent;
 }
-
 .home-search-card {
     width: 100%;
     margin: 0 auto;
@@ -499,17 +428,14 @@
     box-shadow: var(--home-shadow-lg);
     backdrop-filter: blur(16px);
 }
-
 .home-search-heading {
     display: none;
 }
-
 .home-search-card form > .row {
     --bs-gutter-x: 0;
     --bs-gutter-y: 0;
     align-items: stretch !important;
 }
-
     .home-search-card form > .row > div {
         position: relative;
         display: flex;
@@ -518,7 +444,6 @@
         min-height: 66px;
         padding: 0 22px;
     }
-
         .home-search-card form > .row > div:not(:last-child)::after {
             content: "";
             position: absolute;
@@ -528,7 +453,6 @@
             width: 1px;
             background: #e3edf2;
         }
-
 .home-search-card label {
     display: block;
     margin: 0 0 5px;
@@ -538,7 +462,6 @@
     letter-spacing: 0.75px;
     text-transform: uppercase;
 }
-
 .home-search-card .form-control {
     min-height: 30px;
     padding: 0;
@@ -550,18 +473,15 @@
     font-weight: 500;
     box-shadow: none;
 }
-
     .home-search-card .form-control:focus {
         border: 0;
         background: transparent;
         box-shadow: none;
     }
-
 .home-search-card input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0.58;
     cursor: pointer;
 }
-
 .home-search-button {
     width: 100%;
     min-height: 48px;
@@ -580,34 +500,28 @@
     box-shadow: 0 10px 24px rgba(47, 115, 149, 0.18);
     transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
-
     .home-search-button:hover {
         border-color: var(--home-blue-hover);
         background: var(--home-blue-hover);
         transform: translateY(-2px);
         box-shadow: 0 14px 30px rgba(47, 115, 149, 0.25);
     }
-
 /* =========================================================
    CHỨC NĂNG KHÁCH HÀNG
    ========================================================= */
-
 .public-home-page #customer-functions {
     padding: 72px 0 !important;
     background: linear-gradient(180deg, #f5fafc 0%, #ffffff 100%) !important;
 }
-
     .public-home-page #customer-functions h2 {
         color: var(--home-heading);
         font-family: "Cinzel", serif;
         font-size: clamp(28px, 3vw, 38px);
         font-weight: 600 !important;
     }
-
     .public-home-page #customer-functions .text-muted {
         color: var(--home-text) !important;
     }
-
     .public-home-page #customer-functions .card {
         overflow: hidden;
         border: 1px solid var(--home-border) !important;
@@ -616,50 +530,41 @@
         box-shadow: var(--home-shadow-sm) !important;
         transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
     }
-
     .public-home-page #customer-functions a:hover .card {
         border-color: rgba(47, 115, 149, 0.36) !important;
         transform: translateY(-6px);
         box-shadow: var(--home-shadow-md) !important;
     }
-
     .public-home-page #customer-functions .card-body {
         padding: 30px 25px !important;
     }
-
     .public-home-page #customer-functions .rounded-circle {
         background: var(--home-sky) !important;
         color: var(--home-blue) !important;
     }
-
     .public-home-page #customer-functions h4 {
         color: var(--home-heading) !important;
         font-family: "Cinzel", serif;
         font-size: 20px;
         font-weight: 600 !important;
     }
-
     .public-home-page #customer-functions .btn {
         border-color: var(--home-blue) !important;
         border-radius: 8px;
         color: var(--home-blue) !important;
         font-size: 12px;
     }
-
         .public-home-page #customer-functions .btn:hover {
             background: var(--home-blue) !important;
             color: #ffffff !important;
         }
-
 /* =========================================================
    GIỚI THIỆU
    ========================================================= */
-
 .home-about {
     position: relative;
     background: #ffffff;
 }
-
     .home-about::before {
         content: "";
         position: absolute;
@@ -671,7 +576,6 @@
         background: radial-gradient(circle, rgba(194, 225, 238, 0.28), transparent 70%);
         pointer-events: none;
     }
-
 .home-about-visual {
     position: relative;
     min-height: 430px;
@@ -681,7 +585,6 @@
     background: linear-gradient(180deg, rgba(8, 44, 64, 0.03), rgba(8, 44, 64, 0.16)), url("../images/banner/hotel3.jpg") center / cover no-repeat;
     box-shadow: var(--home-shadow-md);
 }
-
 .home-about-main-card {
     position: absolute;
     top: auto;
@@ -697,11 +600,9 @@
     box-shadow: 0 16px 35px rgba(5, 38, 55, 0.18);
     backdrop-filter: blur(11px);
 }
-
 .home-about-icon {
     display: none;
 }
-
 .home-about-main-card h3 {
     margin: 0 0 7px;
     color: #ffffff;
@@ -709,7 +610,6 @@
     font-size: 23px;
     font-weight: 600;
 }
-
 .home-about-main-card p {
     max-width: 470px;
     margin: 0;
@@ -717,7 +617,6 @@
     font-size: 12px;
     line-height: 1.7;
 }
-
 .home-about-badge,
 .home-about-stat {
     position: absolute;
@@ -728,7 +627,6 @@
     border-radius: 10px;
     box-shadow: 0 12px 30px rgba(8, 44, 64, 0.18);
 }
-
 .home-about-badge {
     right: 22px;
     width: auto;
@@ -736,7 +634,6 @@
     background: rgba(255, 255, 255, 0.94);
     color: var(--home-heading);
 }
-
 .home-about-stat {
     right: 158px;
     left: auto;
@@ -744,7 +641,6 @@
     min-width: 124px;
     background: rgba(233, 244, 249, 0.95);
 }
-
     .home-about-badge strong,
     .home-about-stat strong {
         display: block;
@@ -753,7 +649,6 @@
         font-size: 22px;
         line-height: 1;
     }
-
     .home-about-badge span,
     .home-about-stat span {
         display: block;
@@ -761,22 +656,18 @@
         color: var(--home-text);
         font-size: 9px;
     }
-
 .home-about-content {
     padding: 12px 34px 12px 0;
 }
-
     .home-about-content .home-section-lead {
         max-width: 540px;
     }
-
 .home-about-feature {
     display: flex;
     align-items: flex-start;
     gap: 15px;
     margin-top: 22px;
 }
-
     .home-about-feature > span {
         width: 47px;
         height: 47px;
@@ -790,7 +681,6 @@
         color: var(--home-blue);
         font-size: 19px;
     }
-
     .home-about-feature h4 {
         margin: 0 0 4px;
         color: var(--home-heading);
@@ -798,42 +688,35 @@
         font-size: 17px;
         font-weight: 600;
     }
-
     .home-about-feature p {
         margin: 0;
         color: var(--home-text);
         font-size: 13px;
         line-height: 1.7;
     }
-
 .home-dark-button {
     margin-top: 28px;
     border: 1px solid var(--home-blue);
     background: transparent;
     color: var(--home-blue);
 }
-
     .home-dark-button:hover {
         border-color: var(--home-blue);
         background: var(--home-blue);
         color: #ffffff;
         transform: translateY(-2px);
     }
-
 /* =========================================================
    LOẠI PHÒNG NỔI BẬT
    Các selector có độ ưu tiên cao để ghi đè rooms.css
    ========================================================= */
-
 .public-home-page .featured-room-types {
     padding: 78px 0 82px;
     background: linear-gradient(180deg, #f5fafc 0%, #edf6fa 100%);
 }
-
     .public-home-page .featured-room-types .home-section-heading {
         margin-bottom: 34px;
     }
-
     .public-home-page .featured-room-types .row {
         display: grid !important;
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -841,14 +724,12 @@
         gap: 18px !important;
         margin: 0 !important;
     }
-
         .public-home-page .featured-room-types .row > div {
             display: flex !important;
             width: 100% !important;
             max-width: 100% !important;
             padding: 0 !important;
         }
-
 .public-home-page .featured-room-type-card {
     width: 100% !important;
     height: 100% !important;
@@ -861,13 +742,11 @@
     box-shadow: var(--home-shadow-sm);
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
-
     .public-home-page .featured-room-type-card:hover {
         border-color: rgba(47, 115, 149, 0.34);
         transform: translateY(-7px);
         box-shadow: var(--home-shadow-md);
     }
-
 .public-home-page .featured-room-type-visual {
     position: relative;
     min-height: 178px;
@@ -879,23 +758,18 @@
     background-size: cover;
     transition: transform 0.5s ease;
 }
-
 .public-home-page .featured-room-types .row > div:nth-child(1) .featured-room-type-visual {
     background-image: url("../images/rooms/standard/standard1.jpg");
 }
-
 .public-home-page .featured-room-types .row > div:nth-child(2) .featured-room-type-visual {
     background-image: url("../images/rooms/deluxe/deluxe1.jpg");
 }
-
 .public-home-page .featured-room-types .row > div:nth-child(3) .featured-room-type-visual {
     background-image: url("../images/rooms/family/family1.jpg");
 }
-
 .public-home-page .featured-room-types .row > div:nth-child(4) .featured-room-type-visual {
     background-image: url("../images/rooms/suite/suite1.jpg");
 }
-
 .public-home-page .featured-room-type-visual::after {
     content: "";
     position: absolute;
@@ -903,21 +777,17 @@
     background: linear-gradient(180deg, rgba(8, 44, 64, 0.02), rgba(8, 44, 64, 0.2));
     transition: background 0.3s ease;
 }
-
 .public-home-page .featured-room-type-card:hover .featured-room-type-visual {
     transform: scale(1.035);
 }
-
     .public-home-page .featured-room-type-card:hover .featured-room-type-visual::after {
         background: linear-gradient(180deg, rgba(8, 44, 64, 0), rgba(8, 44, 64, 0.14));
     }
-
 .public-home-page .featured-room-type-glow,
 .public-home-page .featured-room-type-icon,
 .public-home-page .featured-room-type-brand {
     display: none;
 }
-
 .public-home-page .featured-room-type-badge {
     position: absolute;
     z-index: 4;
@@ -934,7 +804,6 @@
     text-transform: uppercase;
     backdrop-filter: blur(6px);
 }
-
 .public-home-page .featured-room-type-content {
     min-height: 0 !important;
     display: flex !important;
@@ -943,7 +812,6 @@
     grid-template-rows: none !important;
     padding: 18px 17px 16px !important;
 }
-
 .public-home-page .featured-room-type-header {
     display: flex !important;
     align-items: flex-start !important;
@@ -951,15 +819,12 @@
     gap: 9px !important;
     margin: 0 0 10px !important;
 }
-
     .public-home-page .featured-room-type-header > div:first-child {
         min-width: 0 !important;
     }
-
 .public-home-page .featured-room-type-kicker {
     display: none;
 }
-
 .public-home-page .featured-room-type-header h3 {
     margin: 0 !important;
     overflow: visible !important;
@@ -974,7 +839,6 @@
     white-space: normal !important;
     transform: none !important;
 }
-
 .public-home-page .featured-room-type-price {
     width: auto !important;
     min-width: 92px !important;
@@ -985,7 +849,6 @@
     text-align: right;
     box-shadow: none;
 }
-
     .public-home-page .featured-room-type-price strong {
         display: block;
         font-size: 14px !important;
@@ -993,7 +856,6 @@
         line-height: 1.2;
         white-space: nowrap !important;
     }
-
     .public-home-page .featured-room-type-price span {
         display: block;
         margin-top: 3px;
@@ -1001,7 +863,6 @@
         font-size: 8px !important;
         font-weight: 500;
     }
-
 .public-home-page .featured-room-type-description {
     height: auto !important;
     min-height: 42px !important;
@@ -1015,7 +876,6 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
-
 .public-home-page .featured-room-type-information {
     height: auto !important;
     min-height: 0 !important;
@@ -1028,7 +888,6 @@
     border-top: 1px solid #e8f0f4;
     border-bottom: 1px solid #e8f0f4;
 }
-
     .public-home-page .featured-room-type-information span {
         min-width: 0;
         display: flex;
@@ -1039,14 +898,12 @@
         font-weight: 500;
         white-space: nowrap !important;
     }
-
     .public-home-page .featured-room-type-information i {
         width: 13px;
         flex-shrink: 0;
         color: var(--home-blue);
         text-align: center;
     }
-
 .public-home-page .featured-room-type-footer {
     height: auto !important;
     min-height: 0 !important;
@@ -1057,7 +914,6 @@
     margin: auto 0 0 !important;
     padding-top: 13px !important;
 }
-
 .public-home-page .featured-room-available,
 .public-home-page .featured-room-unavailable {
     min-width: 0;
@@ -1068,15 +924,12 @@
     font-weight: 600;
     line-height: 1.35 !important;
 }
-
 .public-home-page .featured-room-available {
     color: var(--home-success);
 }
-
 .public-home-page .featured-room-unavailable {
     color: var(--home-danger);
 }
-
 .public-home-page .featured-room-type-card .featured-room-type-button {
     width: auto !important;
     min-width: 84px;
@@ -1095,14 +948,12 @@
     text-decoration: none;
     transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
-
     .public-home-page .featured-room-type-card .featured-room-type-button:hover {
         border-color: var(--home-blue);
         background: var(--home-blue);
         color: #ffffff;
         transform: translateY(-2px);
     }
-
 .home-empty-state {
     padding: 52px 25px;
     border: 1px dashed #cbdfe8;
@@ -1111,37 +962,30 @@
     color: var(--home-text);
     text-align: center;
 }
-
     .home-empty-state > i {
         display: block;
         margin-bottom: 15px;
         color: var(--home-blue);
         font-size: 42px;
     }
-
     .home-empty-state h3 {
         color: var(--home-heading);
         font-family: "Cinzel", serif;
         font-size: 22px;
     }
-
     .home-empty-state p {
         margin: 0;
     }
-
 /* =========================================================
    DỊCH VỤ
    ========================================================= */
-
 .home-services {
     position: relative;
     background: #ffffff;
 }
-
     .home-services .container {
         position: relative;
     }
-
     .home-services .row {
         --bs-gutter-x: 14px;
         --bs-gutter-y: 14px;
@@ -1151,7 +995,6 @@
         background: linear-gradient(90deg, #edf7fb 0%, #f7fbfd 50%, #edf7fb 100%);
         box-shadow: var(--home-shadow-sm);
     }
-
 .home-service-card {
     position: relative;
     height: 100%;
@@ -1166,7 +1009,6 @@
     box-shadow: none;
     transition: transform 0.28s ease, background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
 }
-
     .home-service-card::before {
         content: "";
         position: absolute;
@@ -1178,18 +1020,15 @@
         opacity: 0;
         transition: opacity 0.28s ease;
     }
-
     .home-service-card:hover {
         border-color: rgba(47, 115, 149, 0.25);
         background: #ffffff;
         transform: translateY(-5px);
         box-shadow: var(--home-shadow-sm);
     }
-
         .home-service-card:hover::before {
             opacity: 1;
         }
-
 .home-service-top {
     display: flex;
     align-items: center;
@@ -1197,7 +1036,6 @@
     gap: 10px;
     margin-bottom: 14px;
 }
-
 .home-service-icon {
     width: 47px;
     height: 47px;
@@ -1212,7 +1050,6 @@
     font-size: 21px;
     box-shadow: 0 8px 18px rgba(47, 115, 149, 0.1);
 }
-
 .home-service-label {
     color: #8ea3ae;
     font-size: 8px;
@@ -1220,7 +1057,6 @@
     letter-spacing: 1px;
     text-transform: uppercase;
 }
-
 .home-service-card h3 {
     margin: 0 0 8px;
     color: var(--home-heading);
@@ -1229,7 +1065,6 @@
     font-weight: 600;
     line-height: 1.35;
 }
-
 .home-service-card > p {
     min-height: 40px;
     margin: 0 0 12px;
@@ -1241,11 +1076,9 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
-
 .home-service-benefits {
     display: none;
 }
-
 .home-service-button {
     width: 100%;
     min-height: 35px;
@@ -1265,14 +1098,12 @@
     text-decoration: none;
     transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
-
     .home-service-button:hover {
         border-color: var(--home-blue);
         background: var(--home-blue);
         color: #ffffff;
         transform: translateY(-2px);
     }
-
 /* Xóa màu riêng cũ, đồng bộ toàn bộ dịch vụ theo một hệ màu */
 .home-service-laundry,
 .home-service-breakfast,
@@ -1282,16 +1113,13 @@
 .home-service-decoration {
     background-image: none;
 }
-
 /* =========================================================
    KHUYẾN MÃI
    ========================================================= */
-
 .home-promotion {
     padding: 16px 0 78px;
     background: #ffffff;
 }
-
 .home-promotion-card {
     position: relative;
     overflow: hidden;
@@ -1302,7 +1130,6 @@
     box-shadow: var(--home-shadow-md);
     color: #ffffff;
 }
-
     .home-promotion-card::after {
         content: "";
         position: absolute;
@@ -1313,12 +1140,10 @@
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 50%;
     }
-
     .home-promotion-card .row {
         position: relative;
         z-index: 2;
     }
-
     .home-promotion-card span {
         display: inline-block;
         margin-bottom: 9px;
@@ -1328,7 +1153,6 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .home-promotion-card h2 {
         max-width: 700px;
         margin: 0 0 11px;
@@ -1338,7 +1162,6 @@
         font-weight: 600;
         line-height: 1.3;
     }
-
     .home-promotion-card p {
         max-width: 700px;
         margin: 0;
@@ -1346,7 +1169,6 @@
         font-size: 13px;
         line-height: 1.75;
     }
-
 .public-home-page .home-promotion-card .featured-room-type-button {
     width: auto !important;
     min-width: 132px;
@@ -1364,27 +1186,22 @@
     font-weight: 600;
     backdrop-filter: blur(8px);
 }
-
     .public-home-page .home-promotion-card .featured-room-type-button:hover {
         border-color: #ffffff;
         background: #ffffff;
         color: var(--home-navy-dark);
         transform: translateY(-2px);
     }
-
 /* =========================================================
    ĐÁNH GIÁ KHÁCH HÀNG
    ========================================================= */
-
 .home-testimonials {
     position: relative;
     background: linear-gradient(180deg, #f5fafc 0%, #ffffff 100%);
 }
-
     .home-testimonials .row {
         justify-content: center;
     }
-
 .home-testimonial-card {
     position: relative;
     height: 100%;
@@ -1396,7 +1213,6 @@
     box-shadow: var(--home-shadow-sm);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
 }
-
     .home-testimonial-card::before {
         content: "“";
         position: absolute;
@@ -1407,13 +1223,11 @@
         font-size: 58px;
         line-height: 1;
     }
-
     .home-testimonial-card:hover {
         border-color: rgba(47, 115, 149, 0.3);
         transform: translateY(-5px);
         box-shadow: var(--home-shadow-md);
     }
-
 .home-testimonial-avatar {
     width: 43px;
     height: 43px;
@@ -1429,14 +1243,12 @@
     font-size: 16px;
     box-shadow: 0 7px 18px rgba(47, 115, 149, 0.22);
 }
-
 .home-rating {
     margin-bottom: 10px;
     color: #d9a93e;
     font-size: 12px;
     letter-spacing: 2px;
 }
-
 .home-testimonial-card p {
     min-height: 52px;
     margin: 0 0 15px;
@@ -1445,7 +1257,6 @@
     font-style: italic;
     line-height: 1.8;
 }
-
 .home-testimonial-card h3 {
     margin: 0 0 3px;
     color: var(--home-heading);
@@ -1453,16 +1264,13 @@
     font-size: 15px;
     font-weight: 600;
 }
-
 .home-testimonial-card > span:last-child {
     color: var(--home-muted);
     font-size: 10px;
 }
-
 /* =========================================================
    FOOTER TRANG CHỦ
    ========================================================= */
-
 .public-home-page .public-footer {
     position: relative;
     padding: 68px 0 22px;
@@ -1471,7 +1279,6 @@
     background: radial-gradient(circle at 12% 0%, rgba(143, 204, 229, 0.35), transparent 31%), radial-gradient(circle at 88% 22%, rgba(177, 219, 236, 0.38), transparent 30%), linear-gradient(180deg, #edf7fb 0%, #dfeff6 100%);
     color: var(--home-text);
 }
-
     .public-home-page .public-footer::before,
     .public-home-page .public-footer::after {
         content: "";
@@ -1480,26 +1287,22 @@
         background: rgba(255, 255, 255, 0.42);
         filter: blur(3px);
     }
-
     .public-home-page .public-footer::before {
         width: 360px;
         height: 150px;
         top: -70px;
         left: -60px;
     }
-
     .public-home-page .public-footer::after {
         width: 420px;
         height: 170px;
         right: -90px;
         bottom: -80px;
     }
-
     .public-home-page .public-footer > .container {
         position: relative;
         z-index: 2;
     }
-
     .public-home-page .public-footer h2 {
         margin: 0 0 16px;
         color: var(--home-heading);
@@ -1508,7 +1311,6 @@
         font-weight: 600;
         letter-spacing: 0.5px;
     }
-
     .public-home-page .public-footer h5 {
         margin: 0 0 17px;
         color: var(--home-heading);
@@ -1517,48 +1319,40 @@
         font-weight: 700;
         letter-spacing: 0.8px;
     }
-
     .public-home-page .public-footer p {
         color: #607783;
         font-size: 11px;
         line-height: 1.8;
     }
-
     .public-home-page .public-footer ul li {
         margin-bottom: 9px;
         color: var(--home-text);
         font-size: 11px;
     }
-
         .public-home-page .public-footer ul li > i {
             margin-right: 7px;
             color: var(--home-blue);
         }
-
         .public-home-page .public-footer ul li a,
         .public-home-page .public-footer a {
             color: var(--home-text);
             text-decoration: none;
         }
-
             .public-home-page .public-footer ul li a i {
                 color: var(--home-blue);
             }
-
             .public-home-page .public-footer ul li a:hover,
             .public-home-page .public-footer a:hover {
                 padding-left: 0;
                 color: var(--home-blue-hover);
                 text-decoration: none;
             }
-
 .public-home-page .footer-social {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 18px;
 }
-
     .public-home-page .footer-social a {
         width: 35px;
         height: 35px;
@@ -1571,7 +1365,6 @@
         color: var(--home-blue);
         transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
     }
-
         .public-home-page .footer-social a:hover {
             padding-left: 0;
             border-color: var(--home-blue);
@@ -1579,29 +1372,24 @@
             color: #ffffff;
             transform: translateY(-3px);
         }
-
 .public-home-page .footer-bottom {
     margin-top: 38px;
     padding-top: 18px;
     border-top: 1px solid rgba(54, 112, 141, 0.16);
 }
-
     .public-home-page .footer-bottom p {
         margin: 0;
         color: #728894;
         font-size: 10px;
     }
-
 .public-home-page .footer-back-top {
     color: var(--home-blue) !important;
     font-size: 10px;
     font-weight: 600;
 }
-
     .public-home-page .footer-back-top:hover {
         color: var(--home-blue-hover) !important;
     }
-
 .public-home-page .scroll-top {
     width: 43px;
     height: 43px;
@@ -1609,61 +1397,49 @@
     background: var(--home-blue);
     box-shadow: 0 10px 26px rgba(32, 95, 125, 0.28);
 }
-
     .public-home-page .scroll-top:hover {
         background: var(--home-blue-hover);
     }
-
 /* =========================================================
    RESPONSIVE
    ========================================================= */
-
 @media (min-width: 992px) {
     .home-about .row > .col-lg-6:first-child {
         order: 2;
     }
-
     .home-about .row > .col-lg-6:last-child {
         order: 1;
     }
-
     .home-search-card form > .row > div:last-child {
         padding-right: 0;
     }
-
     .home-search-card form > .row > div:first-child {
         padding-left: 6px;
     }
 }
-
 @media (min-width: 1200px) {
     .home-services .row > [class*="col-"] {
         width: 16.66666667%;
     }
 }
-
 @media (max-width: 1199.98px) {
     .public-home-page .featured-room-types .row {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 20px !important;
     }
-
     .public-home-page .featured-room-type-visual {
         min-height: 215px;
     }
-
     .home-service-card {
         min-height: 225px;
     }
 }
-
 @media (max-width: 991.98px) {
     .public-home-page .public-navbar,
     .public-home-page .public-navbar-home {
         padding: 10px 0;
         background: rgba(8, 45, 65, 0.96);
     }
-
         .public-home-page .public-navbar .navbar-collapse {
             margin-top: 10px;
             padding: 15px;
@@ -1672,52 +1448,41 @@
             background: rgba(7, 40, 59, 0.98);
             box-shadow: 0 18px 42px rgba(4, 31, 46, 0.25);
         }
-
     .home-section {
         padding: 68px 0;
     }
-
     .home-hero {
         min-height: 680px;
         padding: 112px 0 150px;
     }
-
         .home-hero .min-vh-100 {
             min-height: 420px !important;
         }
-
     .public-home-page .home-hero #hotelBanner {
         top: -112px;
         bottom: -150px;
     }
-
     .home-hero::before {
         background: linear-gradient(90deg, rgba(6, 36, 53, 0.82) 0%, rgba(6, 36, 53, 0.58) 60%, rgba(6, 36, 53, 0.32) 100%), linear-gradient(180deg, rgba(5, 34, 49, 0.28), rgba(5, 34, 49, 0.18));
     }
-
     .home-hero-content {
         max-width: 620px;
         padding-top: 30px;
     }
-
     .home-search-card {
         padding: 18px;
     }
-
         .home-search-card form > .row {
             --bs-gutter-x: 12px;
             --bs-gutter-y: 12px;
         }
-
             .home-search-card form > .row > div {
                 min-height: auto;
                 padding: 0 12px;
             }
-
                 .home-search-card form > .row > div::after {
                     display: none;
                 }
-
         .home-search-card .form-control {
             min-height: 46px;
             padding: 10px 12px;
@@ -1725,266 +1490,207 @@
             border-radius: 8px;
             background: #fbfdfe;
         }
-
             .home-search-card .form-control:focus {
                 border: 1px solid var(--home-blue);
                 background: #ffffff;
                 box-shadow: 0 0 0 3px rgba(47, 115, 149, 0.12);
             }
-
     .home-about-content {
         padding: 0;
     }
-
     .home-about-visual {
         min-height: 410px;
     }
-
     .home-promotion-card {
         padding: 40px 34px;
     }
-
         .home-promotion-card .text-lg-end {
             text-align: left !important;
         }
 }
-
 @media (max-width: 767.98px) {
     .home-section {
         padding: 58px 0;
     }
-
     .home-section-heading {
         margin-bottom: 30px;
     }
-
     .home-hero {
         min-height: 690px;
         padding: 102px 0 168px;
     }
-
     .public-home-page .home-hero #hotelBanner {
         top: -102px;
         bottom: -168px;
     }
-
     .public-home-page .home-hero .hero-banner-image {
         object-position: 58% center;
     }
-
     .home-hero::before {
         background: linear-gradient(90deg, rgba(5, 34, 50, 0.82), rgba(5, 34, 50, 0.56));
     }
-
     .home-hero h1 {
         font-size: clamp(38px, 9vw, 52px);
     }
-
     .home-hero-content > p {
         font-size: 14px;
     }
-
     .home-hero-highlights {
         gap: 18px;
     }
-
         .home-hero-highlights div {
             padding-right: 18px;
         }
-
     .home-search-section {
         margin-top: -112px;
         padding-bottom: 42px;
     }
-
     .home-search-card {
         border-radius: 12px;
     }
-
     .public-home-page .featured-room-types {
         padding: 58px 0 64px;
     }
-
         .public-home-page .featured-room-types .row {
             grid-template-columns: 1fr !important;
         }
-
     .public-home-page .featured-room-type-visual {
         min-height: 250px;
     }
-
     .home-services .row {
         padding: 12px;
     }
-
     .home-service-card {
         min-height: 215px;
     }
-
     .home-promotion {
         padding-bottom: 58px;
     }
-
     .home-promotion-card {
         padding: 34px 26px;
     }
-
     .home-testimonial-card {
         min-height: 0;
     }
 }
-
 @media (max-width: 575.98px) {
     .public-home-page .public-brand-text strong {
         font-size: 18px;
     }
-
     .public-home-page .public-brand-text small {
         letter-spacing: 1.8px;
     }
-
     .home-hero {
         min-height: 720px;
         padding: 92px 0 190px;
     }
-
     .public-home-page .home-hero #hotelBanner {
         top: -92px;
         bottom: -190px;
     }
-
     .home-eyebrow {
         font-size: 11px;
     }
-
     .home-hero h1 {
         font-size: 38px;
         line-height: 1.16;
     }
-
     .home-hero-actions {
         align-items: stretch;
         flex-direction: column;
     }
-
     .home-primary-button,
     .home-secondary-button,
     .home-ghost-button {
         width: 100%;
     }
-
     .home-hero-highlights {
         gap: 14px;
         margin-top: 26px;
     }
-
         .home-hero-highlights div {
             width: calc(33.333% - 10px);
             padding-right: 10px;
         }
-
         .home-hero-highlights strong {
             font-size: 17px;
         }
-
         .home-hero-highlights span {
             font-size: 9px;
         }
-
     .home-search-section {
         margin-top: -135px;
     }
-
     .home-search-card {
         padding: 16px 14px;
     }
-
         .home-search-card form > .row > div {
             padding: 0;
         }
-
     .home-about-visual {
         min-height: 370px;
     }
-
     .home-about-main-card {
         right: 15px;
         bottom: 15px;
         left: 15px;
         padding: 18px;
     }
-
         .home-about-main-card h3 {
             font-size: 20px;
         }
-
     .home-about-badge,
     .home-about-stat {
         top: 14px;
         min-width: 104px;
         padding: 11px 12px;
     }
-
     .home-about-badge {
         right: 14px;
     }
-
     .home-about-stat {
         right: 126px;
     }
-
         .home-about-badge strong,
         .home-about-stat strong {
             font-size: 18px;
         }
-
     .public-home-page .featured-room-type-visual {
         min-height: 215px;
     }
-
     .public-home-page .featured-room-type-header {
         align-items: flex-start !important;
     }
-
     .public-home-page .featured-room-type-price {
         min-width: 84px !important;
     }
-
         .public-home-page .featured-room-type-price strong {
             font-size: 13px !important;
         }
-
     .public-home-page .featured-room-type-footer {
         align-items: stretch !important;
         flex-direction: column;
     }
-
     .public-home-page .featured-room-type-card .featured-room-type-button {
         width: 100% !important;
     }
-
     .home-promotion-card h2 {
         font-size: 27px;
     }
-
     .public-home-page .home-promotion-card .featured-room-type-button {
         width: 100% !important;
     }
-
     .public-home-page .public-footer {
         padding-top: 54px;
     }
-
     .public-home-page .footer-bottom {
         text-align: center;
     }
-
         .public-home-page .footer-bottom .text-md-end {
             margin-top: 9px;
             text-align: center !important;
         }
 }
-
 @media (prefers-reduced-motion: reduce) {
     .public-home-page *,
     .public-home-page *::before,

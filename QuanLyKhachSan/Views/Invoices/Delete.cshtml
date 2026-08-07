@@ -1,14 +1,11 @@
 @model QuanLyKhachSan.Models.Invoice
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
     ViewData["Title"] = "Delete";
 }
-
 <h1>Delete</h1>
-
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>QuanLyKhachSan.Models.Invoice</h4>

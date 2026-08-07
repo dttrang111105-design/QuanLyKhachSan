@@ -1,58 +1,32 @@
 ﻿@using System.Globalization
-
 @{
-    string currentController =
-        ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
-
-    string currentAction =
-        ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
-
+    string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+    string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
     string Active(string controller, string? action = null)
     {
         bool controllerMatched = string.Equals(
             currentController,
             controller,
             StringComparison.OrdinalIgnoreCase);
-
         bool actionMatched =
             string.IsNullOrWhiteSpace(action) ||
             string.Equals(
                 currentAction,
                 action,
                 StringComparison.OrdinalIgnoreCase);
-
-        return controllerMatched && actionMatched
-            ? "active"
-            : string.Empty;
+        return controllerMatched && actionMatched ? "active" : string.Empty;
     }
-
-    string adminName =
-        User.FindFirst("FullName")?.Value
-        ?? User.Identity?.Name
-        ?? "Quản trị viên";
-
-    string adminInitial =
-        string.IsNullOrWhiteSpace(adminName)
-            ? "A"
-            : adminName.Trim().Substring(0, 1).ToUpper();
-
-    string pageTitle =
-        ViewData["Title"]?.ToString()
+    string adminName = User.FindFirst("FullName")?.Value
+        ?? User.Identity?.Name ?? "Quản trị viên";
+    string adminInitial = string.IsNullOrWhiteSpace(adminName)
+            ? "A" : adminName.Trim().Substring(0, 1).ToUpper();
+    string pageTitle = ViewData["Title"]?.ToString()
         ?? "Tổng quan hệ thống";
-
-    string currentDate =
-        DateTime.Now.ToString(
-            "dddd, dd/MM/yyyy",
-            new CultureInfo("vi-VN"));
-
-    string bodyClass =
-        ViewData["BodyClass"]?.ToString()
-        ?? string.Empty;
+    string currentDate = DateTime.Now.ToString("dddd, dd/MM/yyyy",new CultureInfo("vi-VN"));
+    string bodyClass = ViewData["BodyClass"]?.ToString() ?? string.Empty;
 }
-
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -62,7 +36,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;60…ght@600;700&family=Poppins:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
           rel="stylesheet" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <style>
@@ -76,120 +50,82 @@
                 font-size: 13px;
                 font-weight: 600;
             }
-
                 .admin-account-menu .dropdown-item i {
                     width: 18px;
                     color: #2f7395;
                     font-size: 15px;
                 }
-
                 .admin-account-menu .dropdown-item:hover {
                     background: #e7f4fa;
                     color: #174f6c;
                 }
-
                 .admin-account-menu .dropdown-item.text-danger,
                 .admin-account-menu .dropdown-item.text-danger i {
                     color: #dc3545 !important;
                 }
     </style>
-
     @await RenderSectionAsync("Styles", required: false)
 </head>
-
 <body class="admin-body @bodyClass">
-
     <div class="admin-shell">
-
         <!-- SIDEBAR -->
         <aside class="admin-sidebar"
                id="adminSidebar">
-
             <div class="admin-brand">
-
                 <a asp-controller="Home"
                    asp-action="Dashboard"
                    class="admin-brand-link">
-
                     <span class="admin-brand-icon">
                         <i class="bi bi-buildings-fill"></i>
                     </span>
-
                     <span class="admin-brand-text">
                         <strong>LUXURY</strong>
                         <small>HOTEL ADMIN</small>
                     </span>
-
                 </a>
-
                 <button type="button"
                         class="admin-sidebar-close d-lg-none"
                         id="adminSidebarClose"
                         aria-label="Đóng menu">
-
                     <i class="bi bi-x-lg"></i>
-
                 </button>
-
             </div>
-
             <div class="admin-sidebar-profile">
-
                 <div class="admin-profile-avatar">
                     @adminInitial
                 </div>
-
                 <div class="admin-profile-content">
-
                     <span>Đang đăng nhập</span>
-
                     <strong title="@adminName">
                         @adminName
                     </strong>
-
                     <small>
                         <i class="bi bi-shield-check"></i>
                         Quản trị viên
                     </small>
-
                 </div>
-
             </div>
-
             <nav class="admin-navigation">
-
                 <div class="admin-nav-group">
-
                     <div class="admin-nav-label">
                         Tổng quan
                     </div>
-
                     <a class="admin-nav-link @Active("Home", "Dashboard")"
                        asp-controller="Home"
                        asp-action="Dashboard">
-
                         <i class="bi bi-grid-1x2-fill"></i>
-
                         <span>Bảng điều khiển</span>
-
                     </a>
-
                 </div>
-
                 <div class="admin-nav-group">
-
                     <div class="admin-nav-label">
                         Vận hành khách sạn
                     </div>
-
                     <a class="admin-nav-link @Active("Bookings")"
                        asp-controller="Bookings"
                        asp-action="Index">
-
                         <i class="bi bi-calendar2-check-fill"></i>
-
                         <span>Quản lý Booking</span>
-
                         @if (ViewBag.PendingBookingCount is int pendingCount &&
                                                 pendingCount > 0)
                         {
@@ -197,254 +133,187 @@
                                 @pendingCount
                             </span>
                         }
-
                     </a>
-
                     <a class="admin-nav-link @Active("Rooms")"
                        asp-controller="Rooms"
                        asp-action="Index">
-
                         <i class="bi bi-door-open-fill"></i>
                         <span>Quản lý phòng</span>
-
                     </a>
-
                     <a class="admin-nav-link @Active("RoomTypes")"
                        asp-controller="RoomTypes"
                        asp-action="Index">
-
                         <i class="bi bi-house-gear-fill"></i>
                         <span>Loại phòng</span>
-
                     </a>
-
+                    <a class="admin-nav-link @Active("RoomMiniBars")"
+                       asp-controller="RoomMiniBars"
+                       asp-action="Index">
+                        <i class="bi bi-cup-straw"></i>
+                        <span>Quản lý Minibar</span>
+                    </a>
                     <a class="admin-nav-link @Active("Services")"
                        asp-controller="Services"
                        asp-action="Index">
-
                         <i class="bi bi-bell-fill"></i>
                         <span>Dịch vụ khách sạn</span>
-
                     </a>
-
                     <a class="admin-nav-link @Active("Invoices")"
                        asp-controller="Invoices"
                        asp-action="Index">
-
                         <i class="bi bi-receipt-cutoff"></i>
                         <span>Hóa đơn</span>
-
                     </a>
-
                     <a class="admin-nav-link @Active("Payments")"
                        asp-controller="Payments"
                        asp-action="Index">
-
                         <i class="bi bi-credit-card-2-front-fill"></i>
                         <span>Thanh toán</span>
-
                     </a>
-
                 </div>
-
                 <div class="admin-nav-group">
-
                     <div class="admin-nav-label">
                         Quản trị hệ thống
                     </div>
-
                     <a class="admin-nav-link @Active("Customers")"
                        asp-controller="Customers"
                        asp-action="Index">
-
                         <i class="bi bi-people-fill"></i>
                         <span>Khách hàng</span>
-
                     </a>
-
                     <a class="admin-nav-link @Active("Employees")"
                        asp-controller="Employees"
                        asp-action="Index">
-
                         <i class="bi bi-person-badge-fill"></i>
                         <span>Nhân viên</span>
-
                     </a>
-
+                    <a class="admin-nav-link @Active("ReceptionistActivities")"
+                       asp-controller="ReceptionistActivities"
+                       asp-action="Index">
+                        <i class="bi bi-clipboard-data-fill"></i>
+                        <span>Theo dõi lễ tân</span>
+                    </a>
+                    <a class="admin-nav-link @Active("Reports")"
+                       asp-controller="Reports"
+                       asp-action="Index">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                        <span>Báo cáo & thống kê</span>
+                    </a>
                     <a class="admin-nav-link @Active("Accounts")"
                        asp-controller="Accounts"
                        asp-action="Index">
-
                         <i class="bi bi-person-lock"></i>
                         <span>Tài khoản</span>
-
                     </a>
-
                 </div>
-
             </nav>
-
         </aside>
-
         <div class="admin-sidebar-overlay"
              id="adminSidebarOverlay">
         </div>
-
         <!-- MAIN -->
         <div class="admin-main">
-
             <!-- TOPBAR -->
             <header class="admin-topbar">
                 <div class="admin-topbar-left">
-
                     <button type="button"
                             class="admin-sidebar-toggle"
                             id="adminSidebarToggle"
                             aria-label="Mở hoặc thu gọn menu">
-
                         <i class="bi bi-list"></i>
-
                     </button>
-
                     <div class="admin-page-heading">
-
                         <span>Luxury Hotel Management</span>
-
                         <h1>@pageTitle</h1>
-
                     </div>
-
                 </div>
-
                 <div class="admin-topbar-right">
-
                     <div class="admin-current-date d-none d-md-flex">
-
                         <i class="bi bi-calendar3"></i>
                         <span>@currentDate</span>
-
                     </div>
-
                     <div class="dropdown">
-
                         <button class="admin-account-button dropdown-toggle"
                                 type="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
-
                             <span class="admin-account-avatar">
                                 @adminInitial
                             </span>
-
                             <span class="admin-account-text d-none d-sm-flex">
-
                                 <small>Quản trị viên</small>
                                 <strong>@adminName</strong>
-
                             </span>
-
                         </button>
-
                         <ul class="dropdown-menu dropdown-menu-end admin-account-menu">
-
                             <li class="admin-account-menu-header">
-
                                 <span class="admin-account-avatar">
                                     @adminInitial
                                 </span>
-
                                 <div>
                                     <strong>@adminName</strong>
                                     <small>@User.Identity?.Name</small>
                                 </div>
-
                             </li>
-
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
-
                             <li>
                                 <a class="dropdown-item"
                                    asp-controller="Profile"
                                    asp-action="Index">
-
                                     <i class="bi bi-person-circle"></i>
                                     Trang cá nhân
-
                                 </a>
                             </li>
-
                             <li>
                                 <a class="dropdown-item text-danger"
                                    asp-controller="Auth"
                                    asp-action="Logout">
-
                                     <i class="bi bi-box-arrow-right"></i>
                                     Đăng xuất
-
                                 </a>
                             </li>
-
                         </ul>
-
                     </div>
-
                 </div>
-
             </header>
-
             <!-- CONTENT -->
             <main class="admin-content">
-
                 @if (TempData["Success"] != null)
                 {
                     <div class="alert alert-success alert-dismissible fade show admin-alert"
                          role="alert">
-
                         <i class="bi bi-check-circle-fill"></i>
                         <span>@TempData["Success"]</span>
-
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="alert"
                                 aria-label="Đóng">
                         </button>
-
                     </div>
                 }
-
                 @if (TempData["Error"] != null)
                 {
                     <div class="alert alert-danger alert-dismissible fade show admin-alert"
                          role="alert">
-
                         <i class="bi bi-exclamation-triangle-fill"></i>
                         <span>@TempData["Error"]</span>
-
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="alert"
                                 aria-label="Đóng">
                         </button>
-
                     </div>
                 }
-
                 @RenderBody()
-
             </main>
-
         </div>
-
     </div>
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js">
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js">
     </script>
-
     <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         const body = document.body;
@@ -494,9 +363,6 @@
                         });
                     });
     </script>
-
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
-
 </html>

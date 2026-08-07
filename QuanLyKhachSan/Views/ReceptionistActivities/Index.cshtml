@@ -1,0 +1,385 @@
+﻿@model QuanLyKhachSan.ViewModels.ReceptionistActivityViewModel
+
+@{
+    ViewData["Title"] = "Theo dõi hoạt động lễ tân";
+    Layout = "_AdminLayout";
+
+    string ActionBadge(string actionType)
+    {
+        return actionType switch
+        {
+            "CreateBooking" => "bg-primary",
+            "CheckIn" => "bg-success",
+            "CheckOut" => "bg-dark",
+            "Payment" => "bg-warning text-dark",
+            "CancelBooking" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}
+
+<style>
+    .activity-page { padding: 28px; }
+    .activity-hero {
+        background: linear-gradient(135deg, #0f4660, #1d708f);
+        border-radius: 22px;
+        color: #fff;
+        padding: 28px 30px;
+        box-shadow: 0 18px 45px rgba(15, 70, 96, .18);
+        margin-bottom: 24px;
+    }
+    .activity-hero h1 { font-size: 30px; font-weight: 800; margin: 0 0 8px; }
+    .activity-hero p { opacity: .86; margin: 0; }
+    .activity-filter, .activity-panel, .activity-stat {
+        background: #fff;
+        border: 1px solid #e8eef2;
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(20, 55, 75, .07);
+    }
+    .activity-filter { padding: 20px; margin-bottom: 22px; }
+    .activity-filter label { font-size: 13px; font-weight: 700; color: #48606d; margin-bottom: 7px; }
+    .activity-stat { padding: 20px; height: 100%; }
+    .activity-stat small { color: #71858f; font-weight: 600; }
+    .activity-stat strong { display: block; color: #123f55; font-size: 28px; margin-top: 6px; }
+    .activity-panel { overflow: hidden; margin-top: 22px; }
+    .activity-panel-title {
+        padding: 19px 22px;
+        border-bottom: 1px solid #edf1f3;
+        font-weight: 800;
+        color: #173f53;
+        font-size: 17px;
+    }
+    .activity-table { margin: 0; }
+    .activity-table thead th {
+        background: #f4f8fa;
+        color: #59717d;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        border-bottom: 1px solid #e8eef2;
+        white-space: nowrap;
+    }
+    .activity-table td { vertical-align: middle; color: #354e5b; }
+    .activity-empty { padding: 45px 20px !important; text-align: center; color: #7a8c95 !important; }
+    .activity-export { white-space: nowrap; }
+    .revenue-card {
+        background: #fff;
+        border: 1px solid #e8eef2;
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(20, 55, 75, .07);
+        padding: 20px 22px;
+        height: 100%;
+    }
+    .revenue-card small {
+        color: #71858f;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .04em;
+    }
+    .revenue-card strong {
+        display: block;
+        color: #123f55;
+        font-size: 26px;
+        margin-top: 5px;
+    }
+    @@media (max-width: 768px) {
+        .activity-page { padding: 16px; }
+        .activity-hero { padding: 22px; }
+    }
+</style>
+
+<div class="activity-page">
+    <div class="activity-hero d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1>Theo dõi hoạt động lễ tân</h1>
+            <p>Thống kê thao tác, doanh thu từng lễ tân theo ngày và xuất Excel theo đúng bộ lọc.</p>
+        </div>
+
+        <a asp-action="ExportExcel"
+           asp-route-fromDate="@(Model.FromDate?.ToString("yyyy-MM-dd"))"
+           asp-route-toDate="@(Model.ToDate?.ToString("yyyy-MM-dd"))"
+           asp-route-employeeId="@Model.EmployeeId"
+           asp-route-actionType="@Model.ActionType"
+           class="btn btn-light fw-bold activity-export">
+            <i class="bi bi-file-earmark-excel me-1"></i>
+            Xuất Excel
+        </a>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    }
+
+    <form method="get" asp-action="Index" class="activity-filter">
+        <div class="row g-3 align-items-end">
+            <div class="col-xl-2 col-md-6">
+                <label for="fromDate">Từ ngày</label>
+                <input id="fromDate" name="fromDate" type="date"
+                       value="@(Model.FromDate?.ToString("yyyy-MM-dd"))"
+                       class="form-control" />
+            </div>
+
+            <div class="col-xl-2 col-md-6">
+                <label for="toDate">Đến ngày</label>
+                <input id="toDate" name="toDate" type="date"
+                       value="@(Model.ToDate?.ToString("yyyy-MM-dd"))"
+                       class="form-control" />
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <label for="employeeId">Lễ tân / Nhân viên</label>
+                <select id="employeeId" name="employeeId" class="form-select">
+                    <option value="">Tất cả nhân viên</option>
+                    @foreach (var employee in Model.Employees)
+                    {
+                        if (Model.EmployeeId == employee.EmployeeId)
+                        {
+                            <option value="@employee.EmployeeId" selected>@employee.EmployeeName</option>
+                        }
+                        else
+                        {
+                            <option value="@employee.EmployeeId">@employee.EmployeeName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <label for="actionType">Loại hoạt động</label>
+                <select id="actionType" name="actionType" class="form-select">
+                    <option value="">Tất cả hoạt động</option>
+                    @if (Model.ActionType == "CreateBooking") { <option value="CreateBooking" selected>Tạo Booking</option> } else { <option value="CreateBooking">Tạo Booking</option> }
+                    @if (Model.ActionType == "CheckIn") { <option value="CheckIn" selected>Check In</option> } else { <option value="CheckIn">Check In</option> }
+                    @if (Model.ActionType == "CheckOut") { <option value="CheckOut" selected>Check Out</option> } else { <option value="CheckOut">Check Out</option> }
+                    @if (Model.ActionType == "Payment") { <option value="Payment" selected>Thanh toán</option> } else { <option value="Payment">Thanh toán</option> }
+                    @if (Model.ActionType == "CancelBooking") { <option value="CancelBooking" selected>Hủy Booking</option> } else { <option value="CancelBooking">Hủy Booking</option> }
+                </select>
+            </div>
+
+            <div class="col-xl-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-grow-1">
+                    <i class="bi bi-funnel me-1"></i>Lọc
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary" title="Xóa bộ lọc">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <div class="row g-3">
+        <div class="col-xl-2 col-md-4 col-6"><div class="activity-stat"><small>Tổng thao tác</small><strong>@Model.TotalActivities</strong></div></div>
+        <div class="col-xl-2 col-md-4 col-6"><div class="activity-stat"><small>Tạo Booking</small><strong>@Model.CreateBookingCount</strong></div></div>
+        <div class="col-xl-2 col-md-4 col-6"><div class="activity-stat"><small>Check In</small><strong>@Model.CheckInCount</strong></div></div>
+        <div class="col-xl-2 col-md-4 col-6"><div class="activity-stat"><small>Check Out</small><strong>@Model.CheckOutCount</strong></div></div>
+        <div class="col-xl-2 col-md-4 col-6"><div class="activity-stat"><small>Thanh toán</small><strong>@Model.PaymentCount</strong></div></div>
+        <div class="col-xl-2 col-md-4 col-6"><div class="activity-stat"><small>Hủy Booking</small><strong>@Model.CancelBookingCount</strong></div></div>
+    </div>
+
+    <div class="row g-3 mt-1">
+        <div class="col-lg-4">
+            <div class="revenue-card">
+                <small>@(Model.EmployeeId.HasValue ? "DOANH THU LỄ TÂN ĐÃ CHỌN" : "TỔNG DOANH THU PAID")</small>
+                <strong>@Model.TotalRevenue.ToString("N0") VNĐ</strong>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="revenue-card">
+                <small>DOANH THU ĐÃ GẮN VỚI LỄ TÂN</small>
+                <strong>@Model.StaffHandledRevenue.ToString("N0") VNĐ</strong>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="revenue-card">
+                <small>KHÁCH TỰ THANH TOÁN / CHƯA GẮN LỄ TÂN</small>
+                <strong>@Model.UnassignedRevenue.ToString("N0") VNĐ</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-panel">
+        <div class="activity-panel-title">Tổng hợp theo nhân viên</div>
+        <div class="table-responsive">
+            <table class="table activity-table">
+                <thead>
+                    <tr>
+                        <th>Nhân viên</th>
+                        <th class="text-center">Tạo Booking</th>
+                        <th class="text-center">Check In</th>
+                        <th class="text-center">Check Out</th>
+                        <th class="text-center">Thanh toán</th>
+                        <th class="text-center">Hủy</th>
+                        <th class="text-center">Tổng</th>
+                        <th class="text-end">Doanh thu xử lý</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Summaries.Any())
+                    {
+                        <tr><td colspan="8" class="activity-empty">Chưa có dữ liệu hoạt động phù hợp với bộ lọc.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var summary in Model.Summaries)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@summary.EmployeeName</td>
+                                <td class="text-center">@summary.CreateBookingCount</td>
+                                <td class="text-center">@summary.CheckInCount</td>
+                                <td class="text-center">@summary.CheckOutCount</td>
+                                <td class="text-center">@summary.PaymentCount</td>
+                                <td class="text-center">@summary.CancelBookingCount</td>
+                                <td class="text-center fw-bold">@summary.TotalCount</td>
+                                <td class="text-end fw-bold">@summary.RevenueAmount.ToString("N0") VNĐ</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="activity-panel">
+        <div class="activity-panel-title">Doanh thu theo ngày của từng lễ tân</div>
+        <div class="table-responsive">
+            <table class="table activity-table">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Lễ tân / Nhân viên</th>
+                        <th class="text-center">Số giao dịch</th>
+                        <th class="text-end">Doanh thu ngày</th>
+                        <th class="text-end">Lũy kế của lễ tân</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.DailyRevenues.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="activity-empty">
+                                Chưa có giao dịch thanh toán nào được gắn với lễ tân trong bộ lọc này.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var day in Model.DailyRevenues
+                            .OrderBy(x => x.Date)
+                            .ThenBy(x => x.EmployeeName))
+                        {
+                            <tr>
+                                <td class="fw-semibold">@day.Date.ToString("dd/MM/yyyy")</td>
+                                <td>@day.EmployeeName</td>
+                                <td class="text-center">@day.TransactionCount</td>
+                                <td class="text-end fw-bold">@day.RevenueAmount.ToString("N0") VNĐ</td>
+                                <td class="text-end">@day.CumulativeRevenue.ToString("N0") VNĐ</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="activity-panel">
+        <div class="activity-panel-title">Chi tiết giao dịch doanh thu</div>
+        <div class="table-responsive">
+            <table class="table activity-table">
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Người xử lý</th>
+                        <th>Mã giao dịch</th>
+                        <th>Booking</th>
+                        <th>Hóa đơn</th>
+                        <th>Phương thức</th>
+                        <th class="text-end">Số tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.RevenuePayments.Any())
+                    {
+                        <tr>
+                            <td colspan="7" class="activity-empty">
+                                Chưa có giao dịch Paid trong bộ lọc này.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var payment in Model.RevenuePayments)
+                        {
+                            <tr>
+                                <td class="text-nowrap">@payment.PaymentDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                <td class="fw-semibold">@payment.EmployeeName</td>
+                                <td>@payment.TransactionCode</td>
+                                <td>@payment.BookingCode</td>
+                                <td>@payment.InvoiceCode</td>
+                                <td>@payment.PaymentMethod</td>
+                                <td class="text-end fw-bold">@payment.Amount.ToString("N0") VNĐ</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="activity-panel">
+        <div class="activity-panel-title">Lịch sử hoạt động</div>
+        <div class="table-responsive">
+            <table class="table activity-table">
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Nhân viên</th>
+                        <th>Hoạt động</th>
+                        <th>Booking</th>
+                        <th>Hóa đơn</th>
+                        <th>Nội dung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Activities.Any())
+                    {
+                        <tr><td colspan="6" class="activity-empty">Chưa có lịch sử hoạt động.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.Activities)
+                        {
+                            <tr>
+                                <td class="text-nowrap">@item.ActionTime.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                <td class="fw-semibold">@item.EmployeeName</td>
+                                <td><span class="badge @ActionBadge(item.ActionType)">@item.ActionLabel</span></td>
+                                <td>
+                                    @if (item.BookingId.HasValue && !string.IsNullOrWhiteSpace(item.BookingCode))
+                                    {
+                                        <a asp-controller="Bookings" asp-action="Details" asp-route-id="@item.BookingId">@item.BookingCode</a>
+                                    }
+                                    else { <span class="text-muted">—</span> }
+                                </td>
+                                <td>
+                                    @if (item.InvoiceId.HasValue && !string.IsNullOrWhiteSpace(item.InvoiceCode))
+                                    {
+                                        <a asp-controller="Invoices" asp-action="Details" asp-route-id="@item.InvoiceId">@item.InvoiceCode</a>
+                                    }
+                                    else { <span class="text-muted">—</span> }
+                                </td>
+                                <td>@(string.IsNullOrWhiteSpace(item.Description) ? "—" : item.Description)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

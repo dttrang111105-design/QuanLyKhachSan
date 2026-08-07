@@ -1,31 +1,25 @@
 @model QuanLyKhachSan.Models.Account
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Chi tiết tài khoản";
-
     string ownerName =
         Model.Employee?.FullName
         ?? Model.Customer?.FullName
         ?? "Chưa liên kết hồ sơ";
-
     string ownerType =
         Model.Employee != null
             ? "Nhân viên"
             : Model.Customer != null
                 ? "Khách hàng"
                 : "Chưa liên kết";
-
     string statusText = Model.IsActive ? "Đang hoạt động" : "Đã khóa";
     string statusClass = Model.IsActive ? "success" : "secondary";
 }
-
 <style>
     .account-details-page {
         max-width: 1120px;
         margin: 0 auto;
     }
-
     .account-details-heading {
         display: flex;
         align-items: center;
@@ -33,7 +27,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .account-details-kicker {
         display: block;
         margin-bottom: 6px;
@@ -43,20 +36,17 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .account-details-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .account-details-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 9px;
     }
-
     .account-details-button {
         min-height: 42px;
         display: inline-flex;
@@ -69,19 +59,16 @@
         font-weight: 700;
         text-decoration: none;
     }
-
         .account-details-button.back {
             border: 1px solid #dfe2e8;
             background: #ffffff;
             color: #555c69;
         }
-
         .account-details-button.edit {
             border: 1px solid #b58a42;
             background: linear-gradient(145deg,#d8b25e,#a8752d);
             color: #ffffff;
         }
-
     .account-details-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -89,7 +76,6 @@
         background: #ffffff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .account-details-header {
         display: flex;
         align-items: center;
@@ -98,7 +84,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111111,#332717);
         color: #ffffff;
     }
-
     .account-details-icon {
         width: 62px;
         height: 62px;
@@ -111,36 +96,30 @@
         color: #171008;
         font-size: 28px;
     }
-
     .account-details-header h3 {
         margin: 0 0 5px;
         font-size: 27px;
         font-weight: 800;
     }
-
     .account-details-header p {
         margin: 0 0 9px;
         color: rgba(255,255,255,.65);
     }
-
     .account-details-body {
         padding: 30px;
     }
-
     .account-summary-grid {
         display: grid;
         grid-template-columns: repeat(3,minmax(0,1fr));
         gap: 16px;
         margin-bottom: 28px;
     }
-
     .account-summary-item {
         padding: 20px;
         border: 1px solid #e8e9ee;
         border-radius: 16px;
         background: #fcfcfd;
     }
-
         .account-summary-item span {
             display: block;
             margin-bottom: 7px;
@@ -149,19 +128,16 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .account-summary-item strong {
             color: #282d38;
             font-size: 18px;
             font-weight: 800;
         }
-
     .account-info-grid {
         display: grid;
         grid-template-columns: repeat(2,minmax(0,1fr));
         gap: 14px;
     }
-
     .account-info-item {
         display: flex;
         align-items: center;
@@ -171,7 +147,6 @@
         border-radius: 14px;
         background: #ffffff;
     }
-
         .account-info-item i {
             width: 38px;
             height: 38px;
@@ -183,7 +158,6 @@
             background: #f4ead7;
             color: #8f692f;
         }
-
         .account-info-item span {
             display: block;
             color: #8a909b;
@@ -191,52 +165,43 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .account-info-item strong {
             display: block;
             color: #343944;
             font-size: 13px;
             word-break: break-word;
         }
-
     @@media (max-width: 991.98px) {
         .account-summary-grid {
             grid-template-columns: 1fr;
         }
     }
-
     @@media (max-width: 767.98px) {
         .account-details-heading {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .account-details-actions {
             width: 100%;
         }
-
         .account-details-button {
             flex: 1;
         }
-
         .account-details-header {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .account-info-grid {
             grid-template-columns: 1fr;
         }
     }
 </style>
-
 <div class="account-details-page">
     <div class="account-details-heading">
         <div>
             <span class="account-details-kicker">Quản lý tài khoản</span>
             <h2>Chi tiết tài khoản</h2>
         </div>
-
         <div class="account-details-actions">
             <a asp-controller="Accounts"
                asp-action="Index"
@@ -244,7 +209,6 @@
                 <i class="bi bi-arrow-left"></i>
                 Quay lại
             </a>
-
             <a asp-controller="Accounts"
                asp-action="Edit"
                asp-route-id="@Model.Id"
@@ -254,38 +218,32 @@
             </a>
         </div>
     </div>
-
     <div class="account-details-card">
         <div class="account-details-header">
             <span class="account-details-icon">
                 <i class="bi bi-person-lock"></i>
             </span>
-
             <div>
                 <h3>@Model.Username</h3>
                 <p>@ownerName</p>
                 <span class="badge bg-@statusClass">@statusText</span>
             </div>
         </div>
-
         <div class="account-details-body">
             <div class="account-summary-grid">
                 <div class="account-summary-item">
                     <span>Vai trò</span>
                     <strong>@Model.Role</strong>
                 </div>
-
                 <div class="account-summary-item">
                     <span>Loại hồ sơ</span>
                     <strong>@ownerType</strong>
                 </div>
-
                 <div class="account-summary-item">
                     <span>Ngày tạo</span>
                     <strong>@Model.CreatedAt.ToString("dd/MM/yyyy")</strong>
                 </div>
             </div>
-
             <div class="account-info-grid">
                 <div class="account-info-item">
                     <i class="bi bi-envelope"></i>
@@ -294,7 +252,6 @@
                         <strong>@(Model.Email ?? "Chưa cập nhật")</strong>
                     </div>
                 </div>
-
                 <div class="account-info-item">
                     <i class="bi bi-telephone"></i>
                     <div>
@@ -302,7 +259,6 @@
                         <strong>@(Model.PhoneNumber ?? "Chưa cập nhật")</strong>
                     </div>
                 </div>
-
                 <div class="account-info-item">
                     <i class="bi bi-person-badge"></i>
                     <div>
@@ -310,7 +266,6 @@
                         <strong>@ownerName</strong>
                     </div>
                 </div>
-
                 <div class="account-info-item">
                     <i class="bi bi-clock-history"></i>
                     <div>
@@ -322,7 +277,6 @@
                         </strong>
                     </div>
                 </div>
-
                 <div class="account-info-item">
                     <i class="bi bi-arrow-repeat"></i>
                     <div>
@@ -334,7 +288,6 @@
                         </strong>
                     </div>
                 </div>
-
                 <div class="account-info-item">
                     <i class="bi bi-shield-lock"></i>
                     <div>

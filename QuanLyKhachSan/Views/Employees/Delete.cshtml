@@ -1,12 +1,9 @@
 @model QuanLyKhachSan.Models.Employee
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Ngừng hoạt động nhân viên";
 }
-
 <h1>Delete</h1>
-
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>QuanLyKhachSan.Models.Employee</h4>
@@ -47,7 +44,6 @@
         <dt class="col-sm-3">
             Ngày sinh
         </dt>
-
         <dd class="col-sm-9">
             @(Model.DateOfBirth?.ToString("dd/MM/yyyy"))
         </dd>

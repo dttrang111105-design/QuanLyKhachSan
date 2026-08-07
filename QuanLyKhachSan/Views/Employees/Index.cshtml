@@ -1,33 +1,23 @@
 @model IEnumerable<QuanLyKhachSan.Models.Employee>
-
 @using QuanLyKhachSan.Models
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Quản lý nhân viên";
-
     List<Employee> employees =
         Model?.ToList() ?? new List<Employee>();
-
     int totalEmployees = employees.Count;
-
     int activeEmployees = employees.Count(employee =>
         employee.Status);
-
     int inactiveEmployees = employees.Count(employee =>
         !employee.Status);
-
     int linkedAccountCount = employees.Count(employee =>
         employee.Account != null);
-
     decimal totalMonthlySalary = employees
         .Where(employee => employee.Status)
         .Sum(employee => employee.Salary);
-
     decimal averageSalary = employees.Any()
         ? employees.Average(employee => employee.Salary)
         : 0;
-
     List<string> positions = employees
         .Where(employee =>
             !string.IsNullOrWhiteSpace(employee.Position))
@@ -35,7 +25,6 @@
         .Distinct()
         .OrderBy(position => position)
         .ToList();
-
     string EmployeeInitial(string? fullName)
     {
         return string.IsNullOrWhiteSpace(fullName)
@@ -44,7 +33,6 @@
                 .Substring(0, 1)
                 .ToUpper();
     }
-
     string GenderText(string? gender)
     {
         return gender?.Trim().ToLower() switch
@@ -60,27 +48,22 @@
             _ => gender!
         };
     }
-
     string GenderIcon(string? gender)
     {
         return gender?.Trim().ToLower() switch
         {
             "male" or "nam" =>
                 "bi-gender-male",
-
             "female" or "nữ" or "nu" =>
                 "bi-gender-female",
-
             _ => "bi-person"
         };
     }
-
     string RoleText(object? role)
     {
         string value =
             Convert.ToString(role)?.Trim()
             ?? string.Empty;
-
         return value.ToLower() switch
         {
             "admin" => "Quản trị viên",
@@ -90,7 +73,6 @@
             _ => value
         };
     }
-
     string PositionText(string? position)
     {
         return string.IsNullOrWhiteSpace(position)
@@ -98,364 +80,243 @@
             : position;
     }
 }
-
-<!-- =====================================================
-     TIÊU ĐỀ
-     ===================================================== -->
+<!-- TIÊU ĐỀ -->
 <section class="employee-page-heading">
-
     <div>
-
         <span class="employee-page-kicker">
             Quản trị nhân sự
         </span>
-
         <h2>
             Quản lý nhân viên
         </h2>
-
         <p>
             Theo dõi hồ sơ, chức vụ, tài khoản,
             mức lương và trạng thái làm việc của nhân viên.
         </p>
-
     </div>
-
     <div class="employee-heading-actions">
-
         <a asp-controller="Accounts"
            asp-action="Index"
            class="employee-heading-button">
-
             <i class="bi bi-person-lock"></i>
             Quản lý tài khoản
-
         </a>
-
         <a asp-controller="Employees"
            asp-action="Create"
            class="employee-heading-button primary">
-
             <i class="bi bi-person-plus"></i>
             Thêm nhân viên
-
         </a>
-
     </div>
-
 </section>
-
-<!-- =====================================================
-     THÔNG BÁO
-     ===================================================== -->
+<!-- THÔNG BÁO -->
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show"
          role="alert">
-
         <i class="bi bi-check-circle-fill me-2"></i>
         @TempData["Success"]
-
         <button type="button"
                 class="btn-close"
                 data-bs-dismiss="alert"
                 aria-label="Đóng">
         </button>
-
     </div>
 }
-
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show"
          role="alert">
-
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         @TempData["Error"]
-
         <button type="button"
                 class="btn-close"
                 data-bs-dismiss="alert"
                 aria-label="Đóng">
         </button>
-
     </div>
 }
-
-<!-- =====================================================
-     THỐNG KÊ
-     ===================================================== -->
+<!-- THỐNG KÊ -->
 <div class="row g-4 mb-4">
-
     <!-- Tổng nhân viên -->
     <div class="col-xl-3 col-md-6">
-
         <div class="employee-stat-card">
-
             <div class="employee-stat-top">
-
                 <span class="employee-stat-icon blue">
                     <i class="bi bi-people-fill"></i>
                 </span>
-
                 <span class="employee-stat-tag">
                     Tổng cộng
                 </span>
-
             </div>
-
             <span class="employee-stat-title">
                 Tổng nhân viên
             </span>
-
             <strong class="employee-stat-value">
                 @totalEmployees
             </strong>
-
             <small>
                 @linkedAccountCount nhân viên đã có tài khoản
             </small>
-
         </div>
-
     </div>
-
     <!-- Đang làm việc -->
     <div class="col-xl-3 col-md-6">
-
         <div class="employee-stat-card">
-
             <div class="employee-stat-top">
-
                 <span class="employee-stat-icon green">
                     <i class="bi bi-person-check-fill"></i>
                 </span>
-
                 <span class="employee-stat-tag">
                     Hoạt động
                 </span>
-
             </div>
-
             <span class="employee-stat-title">
                 Đang làm việc
             </span>
-
             <strong class="employee-stat-value">
                 @activeEmployees
             </strong>
-
             <small>
                 Nhân viên đang hoạt động
             </small>
-
         </div>
-
     </div>
-
     <!-- Đã nghỉ -->
     <div class="col-xl-3 col-md-6">
-
         <div class="employee-stat-card">
-
             <div class="employee-stat-top">
-
                 <span class="employee-stat-icon red">
                     <i class="bi bi-person-dash-fill"></i>
                 </span>
-
                 <span class="employee-stat-tag">
                     Ngừng hoạt động
                 </span>
-
             </div>
-
             <span class="employee-stat-title">
                 Đã nghỉ việc
             </span>
-
             <strong class="employee-stat-value">
                 @inactiveEmployees
             </strong>
-
             <small>
                 Nhân viên không còn làm việc
             </small>
-
         </div>
-
     </div>
-
     <!-- Quỹ lương -->
     <div class="col-xl-3 col-md-6">
-
         <div class="employee-stat-card">
-
             <div class="employee-stat-top">
-
                 <span class="employee-stat-icon gold">
                     <i class="bi bi-wallet2"></i>
                 </span>
-
                 <span class="employee-stat-tag">
                     Mỗi tháng
                 </span>
-
             </div>
-
             <span class="employee-stat-title">
                 Tổng quỹ lương
             </span>
-
             <strong class="employee-stat-value employee-stat-money">
-
                 @totalMonthlySalary.ToString("N0")
-
                 <small>VNĐ</small>
-
             </strong>
-
             <small>
                 Trung bình @averageSalary.ToString("N0") VNĐ/người
             </small>
-
         </div>
-
     </div>
-
 </div>
-
-<!-- =====================================================
-     DANH SÁCH NHÂN VIÊN
-     ===================================================== -->
+<!-- DANH SÁCH NHÂN VIÊN -->
 <div class="employee-panel">
-
     <div class="employee-panel-header">
-
         <div>
-
             <span class="employee-page-kicker">
                 Danh sách dữ liệu
             </span>
-
             <h3>
                 Hồ sơ nhân viên
             </h3>
-
             <p>
                 Có @totalEmployees nhân viên được hiển thị.
             </p>
-
         </div>
-
         <div class="employee-filter-area">
-
             <div class="employee-search-box">
-
                 <i class="bi bi-search"></i>
-
                 <input type="text"
                        id="employeeSearch"
                        placeholder="Tìm tên, tài khoản, SĐT, email..." />
-
             </div>
-
             <select id="employeePositionFilter"
                     class="form-select">
-
                 <option value="">
                     Tất cả chức vụ
                 </option>
-
                 @foreach (string position in positions)
                 {
                     <option value="@position">
                         @position
                     </option>
                 }
-
             </select>
-
             <select id="employeeStatusFilter"
                     class="form-select">
-
                 <option value="">
                     Tất cả trạng thái
                 </option>
-
                 <option value="active">
                     Đang làm việc
                 </option>
-
                 <option value="inactive">
                     Đã nghỉ
                 </option>
-
             </select>
-
         </div>
-
     </div>
-
     @if (employees.Any())
     {
         <div class="table-responsive">
-
             <table class="table employee-table align-middle mb-0">
-
                 <thead>
-
                     <tr>
-
                         <th class="ps-4">
                             Nhân viên
                         </th>
-
                         <th>
                             Tài khoản
                         </th>
-
                         <th>
                             Chức vụ
                         </th>
-
                         <th>
                             Liên hệ
                         </th>
-
                         <th>
                             Giới tính
                         </th>
-
                         <th>
                             Lương
                         </th>
-
                         <th>
                             Ngày vào làm
                         </th>
-
                         <th>
                             Trạng thái
                         </th>
-
                         <th class="text-end pe-4">
                             Thao tác
                         </th>
-
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                     @foreach (Employee employee in employees)
                     {
                         string status =
                             employee.Status
                                 ? "active"
                                 : "inactive";
-
                         string searchData =
                             $"{employee.FullName} " +
                             $"{employee.Account?.Username} " +
@@ -463,172 +324,111 @@
                             $"{employee.Phone} " +
                             $"{employee.Email}"
                                 .ToLower();
-
                         <tr class="employee-row"
                             data-position="@employee.Position"
                             data-status="@status"
                             data-search="@searchData">
-
                             <!-- Nhân viên -->
                             <td class="ps-4">
-
                                 <div class="employee-name-cell">
-
                                     <span class="employee-avatar">
-
                                         @EmployeeInitial(
                                             employee.FullName)
-
                                     </span>
-
                                     <div>
-
                                         <strong>
-
                                             @(string.IsNullOrWhiteSpace(
                                                 employee.FullName)
                                                 ? "Chưa cập nhật họ tên"
                                                 : employee.FullName)
-
                                         </strong>
-
                                         <small>
                                             Mã nhân viên: #@employee.Id
                                         </small>
-
                                     </div>
-
                                 </div>
-
                             </td>
-
                             <!-- Tài khoản -->
                             <td>
-
                                 @if (employee.Account != null)
                                 {
                                     <div class="employee-account-cell">
-
                                         <span class="employee-account-badge">
-
                                             <i class="bi bi-person-check-fill"></i>
-
                                             @employee.Account.Username
-
                                         </span>
-
                                         <small>
                                             @RoleText(employee.Account.Role)
                                         </small>
-
                                     </div>
                                 }
                                 else
                                 {
                                     <span class="employee-account-unlinked">
-
                                         <i class="bi bi-person-x"></i>
                                         Chưa liên kết
-
                                     </span>
                                 }
-
                             </td>
-
                             <!-- Chức vụ -->
                             <td>
-
                                 <span class="employee-position">
-
                                     <i class="bi bi-person-badge"></i>
-
                                     @PositionText(employee.Position)
-
                                 </span>
-
                             </td>
-
                             <!-- Liên hệ -->
                             <td>
-
                                 <div class="employee-contact-cell">
-
                                     <span>
-
                                         <i class="bi bi-telephone"></i>
-
                                         @(string.IsNullOrWhiteSpace(
                                             employee.Phone)
                                             ? "Chưa có SĐT"
                                             : employee.Phone)
-
                                     </span>
-
                                     <small title="@employee.Email">
-
                                         <i class="bi bi-envelope"></i>
-
                                         @(string.IsNullOrWhiteSpace(
                                             employee.Email)
                                             ? "Chưa có email"
                                             : employee.Email)
-
                                     </small>
-
                                 </div>
-
                             </td>
-
                             <!-- Giới tính -->
                             <td>
-
                                 <span class="employee-gender">
-
                                     <i class="bi
                                         @GenderIcon(
                                            employee.Gender)">
                                     </i>
-
                                     @GenderText(employee.Gender)
-
                                 </span>
-
                             </td>
-
                             <!-- Lương -->
                             <td>
-
                                 <span class="employee-salary">
-
                                     @employee.Salary.ToString("N0")
-
                                     <small>
                                         VNĐ
                                     </small>
-
                                 </span>
-
                             </td>
-
                             <!-- Ngày vào làm -->
                             <td>
-
                                 <div class="employee-hire-date">
-
                                     <strong>
                                         @employee.HireDate.ToString(
                                             "dd/MM/yyyy")
                                     </strong>
-
                                     <small>
-
                                         @{
                                             int workingYears =
                                                 Math.Max(
                                                     0,
                                                     DateTime.Today.Year -
                                                     employee.HireDate.Year);
-
                                             if (employee.HireDate.Date >
                                                 DateTime.Today.AddYears(
                                                     -workingYears))
@@ -636,7 +436,6 @@
                                                 workingYears--;
                                             }
                                         }
-
                                         @if (workingYears > 0)
                                         {
                                             <text>
@@ -649,131 +448,90 @@
                                                 Dưới 1 năm
                                             </text>
                                         }
-
                                     </small>
-
                                 </div>
-
                             </td>
-
                             <!-- Trạng thái -->
                             <td>
-
                                 @if (employee.Status)
                                 {
                                     <span class="employee-status
                                         employee-status-active">
-
                                         <i class="bi bi-check-circle-fill"></i>
                                         Đang làm việc
-
                                     </span>
                                 }
                                 else
                                 {
                                     <span class="employee-status
                                         employee-status-inactive">
-
                                         <i class="bi bi-dash-circle-fill"></i>
                                         Đã nghỉ
-
                                     </span>
                                 }
-
                             </td>
-
                             <!-- Thao tác -->
                             <td class="text-end pe-4">
-
                                 <div class="employee-action-group">
-
                                     <a asp-controller="Employees"
                                        asp-action="Details"
                                        asp-route-id="@employee.Id"
                                        class="employee-action view"
                                        title="Xem chi tiết">
-
                                         <i class="bi bi-eye"></i>
-
                                     </a>
-
                                     <a asp-controller="Employees"
                                        asp-action="Edit"
                                        asp-route-id="@employee.Id"
                                        class="employee-action edit"
                                        title="Chỉnh sửa">
-
                                         <i class="bi bi-pencil-square"></i>
-
                                     </a>
-
                                     <a asp-controller="Employees"
                                        asp-action="Delete"
                                        asp-route-id="@employee.Id"
                                        class="employee-action delete"
                                        title="Xóa nhân viên">
-
                                         <i class="bi bi-trash"></i>
-
                                     </a>
-
                                 </div>
-
                             </td>
-
                         </tr>
                     }
-
                 </tbody>
-
             </table>
-
         </div>
-
         <div id="employeeFilterEmpty"
              class="employee-empty-state d-none">
-
             <i class="bi bi-search"></i>
-
             <h4>
                 Không tìm thấy nhân viên
             </h4>
-
             <p>
                 Hãy thử từ khóa, chức vụ hoặc trạng thái khác.
             </p>
-
         </div>
     }
     else
     {
         <div class="employee-empty-state">
-
             <i class="bi bi-person-x"></i>
-
             <h4>
                 Chưa có nhân viên
             </h4>
-
             <p>
                 Hãy thêm nhân viên đầu tiên để bắt đầu
                 quản lý nhân sự khách sạn.
             </p>
-
             <a asp-controller="Employees"
                asp-action="Create"
                class="btn btn-primary">
-
                 <i class="bi bi-person-plus me-1"></i>
                 Thêm nhân viên đầu tiên
-
             </a>
-
         </div>
     }
-
 </div>
-
 @section Styles
 {
     <style>
@@ -784,18 +542,15 @@
             gap: 20px;
             margin-bottom: 26px;
         }
-
             .employee-page-heading h2 {
                 margin: 5px 0 7px;
                 color: #252a35;
                 font-weight: 700;
             }
-
             .employee-page-heading p {
                 margin: 0;
                 color: #838897;
             }
-
         .employee-page-kicker {
             color: #b58a42;
             font-size: 11px;
@@ -803,13 +558,11 @@
             letter-spacing: 1.7px;
             text-transform: uppercase;
         }
-
         .employee-heading-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 9px;
         }
-
         .employee-heading-button {
             min-height: 44px;
             display: inline-flex;
@@ -825,24 +578,20 @@
             font-weight: 700;
             transition: 0.2s ease;
         }
-
             .employee-heading-button:hover {
                 border-color: #b58a42;
                 color: #8f692f;
                 transform: translateY(-2px);
             }
-
             .employee-heading-button.primary {
                 border-color: #b58a42;
                 background: linear-gradient( 135deg, #c49a51, #8f692f );
                 color: #ffffff;
                 box-shadow: 0 10px 23px rgba(181, 138, 66, 0.20);
             }
-
                 .employee-heading-button.primary:hover {
                     color: #ffffff;
                 }
-
         .employee-stat-card {
             height: 100%;
             padding: 21px;
@@ -851,14 +600,12 @@
             background: #ffffff;
             box-shadow: 0 18px 45px rgba(34, 38, 51, 0.065);
         }
-
         .employee-stat-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 17px;
         }
-
         .employee-stat-icon {
             width: 48px;
             height: 48px;
@@ -868,27 +615,22 @@
             border-radius: 14px;
             font-size: 21px;
         }
-
             .employee-stat-icon.blue {
                 background: #eaf0ff;
                 color: #4f6fd8;
             }
-
             .employee-stat-icon.green {
                 background: #e4f7ef;
                 color: #27875e;
             }
-
             .employee-stat-icon.red {
                 background: #fde9eb;
                 color: #cf535d;
             }
-
             .employee-stat-icon.gold {
                 background: #f4ead7;
                 color: #8f692f;
             }
-
         .employee-stat-tag {
             padding: 5px 9px;
             border-radius: 20px;
@@ -897,14 +639,12 @@
             font-size: 10px;
             font-weight: 700;
         }
-
         .employee-stat-title {
             display: block;
             color: #838897;
             font-size: 12px;
             font-weight: 600;
         }
-
         .employee-stat-value {
             display: block;
             margin: 5px 0 11px;
@@ -913,21 +653,17 @@
             font-weight: 800;
             line-height: 1.15;
         }
-
         .employee-stat-money {
             font-size: 23px;
         }
-
         .employee-stat-value small {
             color: #8c919d;
             font-size: 9px;
         }
-
         .employee-stat-card > small {
             color: #9297a3;
             font-size: 10px;
         }
-
         .employee-panel {
             overflow: hidden;
             border: 1px solid #e8e9ee;
@@ -935,7 +671,6 @@
             background: #ffffff;
             box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
-
         .employee-panel-header {
             display: flex;
             align-items: center;
@@ -944,30 +679,25 @@
             padding: 21px 22px;
             border-bottom: 1px solid #e8e9ee;
         }
-
             .employee-panel-header h3 {
                 margin: 3px 0;
                 color: #292e39;
                 font-size: 20px;
                 font-weight: 700;
             }
-
             .employee-panel-header p {
                 margin: 0;
                 color: #858a97;
                 font-size: 11px;
             }
-
         .employee-filter-area {
             display: flex;
             align-items: center;
             gap: 9px;
         }
-
         .employee-search-box {
             position: relative;
         }
-
             .employee-search-box i {
                 position: absolute;
                 top: 50%;
@@ -975,7 +705,6 @@
                 color: #999eaa;
                 transform: translateY(-50%);
             }
-
             .employee-search-box input {
                 width: 280px;
                 min-height: 42px;
@@ -985,7 +714,6 @@
                 outline: none;
                 font-size: 12px;
             }
-
         .employee-filter-area .form-select {
             width: 170px;
             min-height: 42px;
@@ -993,13 +721,11 @@
             border-radius: 11px;
             font-size: 12px;
         }
-
             .employee-search-box input:focus,
             .employee-filter-area .form-select:focus {
                 border-color: #b58a42;
                 box-shadow: 0 0 0 3px rgba(181, 138, 66, 0.12);
             }
-
         .employee-table thead th {
             padding: 14px 12px;
             border-bottom: 1px solid #e8e9ee;
@@ -1011,7 +737,6 @@
             text-transform: uppercase;
             white-space: nowrap;
         }
-
         .employee-table tbody td {
             padding: 15px 12px;
             border-bottom: 1px solid #eff0f3;
@@ -1019,17 +744,14 @@
             font-size: 11px;
             vertical-align: middle;
         }
-
         .employee-table tbody tr:hover {
             background: #fcfbf9;
         }
-
         .employee-name-cell {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .employee-avatar {
             width: 42px;
             height: 42px;
@@ -1043,30 +765,25 @@
             font-size: 16px;
             font-weight: 800;
         }
-
         .employee-name-cell div {
             min-width: 0;
             display: flex;
             flex-direction: column;
         }
-
         .employee-name-cell strong {
             color: #343944;
             font-size: 12px;
         }
-
         .employee-name-cell small {
             color: #9297a3;
             font-size: 9px;
         }
-
         .employee-account-cell {
             display: flex;
             align-items: flex-start;
             flex-direction: column;
             gap: 4px;
         }
-
         .employee-account-badge,
         .employee-account-unlinked {
             display: inline-flex;
@@ -1078,22 +795,18 @@
             font-weight: 700;
             white-space: nowrap;
         }
-
         .employee-account-badge {
             background: #e3f6ec;
             color: #258459;
         }
-
         .employee-account-unlinked {
             background: #eceef2;
             color: #646b79;
         }
-
         .employee-account-cell small {
             color: #9297a3;
             font-size: 9px;
         }
-
         .employee-position,
         .employee-gender {
             display: inline-flex;
@@ -1101,18 +814,15 @@
             gap: 6px;
             white-space: nowrap;
         }
-
             .employee-position i,
             .employee-gender i {
                 color: #b58a42;
             }
-
         .employee-contact-cell {
             display: flex;
             flex-direction: column;
             gap: 3px;
         }
-
             .employee-contact-cell span,
             .employee-contact-cell small {
                 max-width: 180px;
@@ -1120,44 +830,36 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
-
             .employee-contact-cell i {
                 width: 15px;
                 color: #b58a42;
             }
-
             .employee-contact-cell small {
                 color: #9297a3;
                 font-size: 9px;
             }
-
         .employee-salary {
             display: block;
             color: #c34e59;
             font-weight: 800;
             white-space: nowrap;
         }
-
             .employee-salary small {
                 color: #989da9;
                 font-size: 8px;
             }
-
         .employee-hire-date {
             display: flex;
             flex-direction: column;
         }
-
             .employee-hire-date strong {
                 color: #484e5a;
                 font-size: 11px;
             }
-
             .employee-hire-date small {
                 color: #9297a3;
                 font-size: 9px;
             }
-
         .employee-status {
             display: inline-flex;
             align-items: center;
@@ -1168,24 +870,20 @@
             font-weight: 700;
             white-space: nowrap;
         }
-
         .employee-status-active {
             background: #e3f6ec;
             color: #258459;
         }
-
         .employee-status-inactive {
             background: #fde7e9;
             color: #c34c55;
         }
-
         .employee-action-group {
             display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 5px;
         }
-
         .employee-action {
             width: 34px;
             height: 34px;
@@ -1197,38 +895,30 @@
             background: #ffffff;
             transition: 0.2s ease;
         }
-
             .employee-action:hover {
                 transform: translateY(-2px);
             }
-
             .employee-action.view {
                 color: #4f6fd8;
             }
-
             .employee-action.edit {
                 color: #b58025;
             }
-
             .employee-action.delete {
                 color: #cf535d;
             }
-
             .employee-action.view:hover {
                 border-color: #4f6fd8;
                 background: #eaf0ff;
             }
-
             .employee-action.edit:hover {
                 border-color: #d49a36;
                 background: #fff3df;
             }
-
             .employee-action.delete:hover {
                 border-color: #cf535d;
                 background: #fde9eb;
             }
-
         .employee-empty-state {
             display: flex;
             flex-direction: column;
@@ -1237,154 +927,120 @@
             color: #858b98;
             text-align: center;
         }
-
             .employee-empty-state i {
                 margin-bottom: 12px;
                 color: #c1c5ce;
                 font-size: 48px;
             }
-
             .employee-empty-state h4 {
                 color: #454b57;
             }
-
         @@media (max-width: 1199.98px) {
             .employee-panel-header {
                 align-items: flex-start;
                 flex-direction: column;
             }
-
             .employee-filter-area {
                 width: 100%;
             }
-
             .employee-search-box {
                 flex: 1;
             }
-
                 .employee-search-box input {
                     width: 100%;
                 }
         }
-
         @@media (max-width: 767.98px) {
             .employee-page-heading {
                 align-items: flex-start;
                 flex-direction: column;
             }
-
             .employee-heading-actions {
                 width: 100%;
             }
-
             .employee-heading-button {
                 flex: 1;
             }
-
             .employee-filter-area {
                 align-items: stretch;
                 flex-direction: column;
             }
-
                 .employee-filter-area .form-select {
                     width: 100%;
                 }
         }
     </style>
 }
-
 @section Scripts
 {
     <script>
         document.addEventListener(
             "DOMContentLoaded",
             function () {
-
                 const searchInput =
                     document.getElementById(
                         "employeeSearch"
                     );
-
                 const positionFilter =
                     document.getElementById(
                         "employeePositionFilter"
                     );
-
                 const statusFilter =
                     document.getElementById(
                         "employeeStatusFilter"
                     );
-
                 const rows =
                     document.querySelectorAll(
                         ".employee-row"
                     );
-
                 const emptyState =
                     document.getElementById(
                         "employeeFilterEmpty"
                     );
-
                 function filterEmployees() {
-
                     const keyword =
                         searchInput?.value
                             .trim()
                             .toLowerCase()
                         ?? "";
-
                     const position =
                         positionFilter?.value
                         ?? "";
-
                     const status =
                         statusFilter?.value
                         ?? "";
-
                     let visibleCount = 0;
-
                     rows.forEach(function (row) {
-
                         const rowSearch =
                             row.dataset.search
                             ?? "";
-
                         const rowPosition =
                             row.dataset.position
                             ?? "";
-
                         const rowStatus =
                             row.dataset.status
                             ?? "";
-
                         const keywordMatched =
                             !keyword ||
                             rowSearch.includes(keyword);
-
                         const positionMatched =
                             !position ||
                             rowPosition === position;
-
                         const statusMatched =
                             !status ||
                             rowStatus === status;
-
                         const visible =
                             keywordMatched &&
                             positionMatched &&
                             statusMatched;
-
                         row.classList.toggle(
                             "d-none",
                             !visible
                         );
-
                         if (visible) {
                             visibleCount++;
                         }
-
                     });
-
                     if (emptyState) {
                         emptyState.classList.toggle(
                             "d-none",
@@ -1392,22 +1048,18 @@
                         );
                     }
                 }
-
                 searchInput?.addEventListener(
                     "input",
                     filterEmployees
                 );
-
                 positionFilter?.addEventListener(
                     "change",
                     filterEmployees
                 );
-
                 statusFilter?.addEventListener(
                     "change",
                     filterEmployees
                 );
-
             }
         );
     </script>

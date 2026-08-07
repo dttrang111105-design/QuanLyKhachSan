@@ -1,15 +1,12 @@
 ﻿@model QuanLyKhachSan.ViewModels.Account.RegisterViewModel
-
 @{
     ViewData["Title"] = "Đăng ký";
     Layout = "_CustomerLayout";
 }
-
 <section class="auth-page auth-register-page">
     <div class="auth-shell auth-shell-register">
         <aside class="auth-visual" aria-label="Giới thiệu Luxury Hotel">
             <div class="auth-overlay"></div>
-
             <a class="auth-brand"
                asp-controller="Home"
                asp-action="Index"
@@ -22,20 +19,16 @@
                     <small>HOTEL &amp; RESORT</small>
                 </span>
             </a>
-
             <div class="auth-visual-content">
                 <span class="auth-kicker">
                     <i class="bi bi-stars" aria-hidden="true"></i>
                     Thành viên Luxury Hotel
                 </span>
-
                 <h1>Tạo tài khoản của bạn</h1>
-
                 <p>
                     Đăng ký để đặt phòng nhanh hơn,
                     quản lý Booking và sử dụng dịch vụ khách sạn.
                 </p>
-
                 <div class="auth-highlights" aria-label="Quyền lợi thành viên">
                     <div>
                         <i class="bi bi-lightning-charge" aria-hidden="true"></i>
@@ -51,13 +44,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="auth-visual-footer">
                 <span></span>
                 <p>Đặc quyền dành riêng cho thành viên</p>
             </div>
         </aside>
-
         <div class="auth-form-panel">
             <div class="auth-form-wrap auth-register-wrap">
                 <div class="auth-form-heading">
@@ -65,15 +56,12 @@
                     <h2>Bắt đầu ngay</h2>
                     <p>Điền đầy đủ thông tin để tạo tài khoản khách hàng.</p>
                 </div>
-
                 <form asp-action="Register" method="post" novalidate>
                     @Html.AntiForgeryToken()
-
                     <div asp-validation-summary="ModelOnly"
                          class="auth-validation-summary"
                          role="alert">
                     </div>
-
                     <div class="auth-form-grid">
                         <div class="auth-form-section auth-field-full">
                             <span class="auth-form-section-icon">
@@ -84,7 +72,6 @@
                                 <small>Thông tin cơ bản để nhận diện tài khoản</small>
                             </div>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="Username">Tên đăng nhập</label>
                             <div class="auth-input-group">
@@ -99,7 +86,6 @@
                             <span asp-validation-for="Username"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="FullName">Họ và tên</label>
                             <div class="auth-input-group">
@@ -114,7 +100,6 @@
                             <span asp-validation-for="FullName"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="Gender">Giới tính</label>
                             <div class="auth-input-group">
@@ -131,7 +116,6 @@
                             <span asp-validation-for="Gender"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="DateOfBirth">Ngày sinh</label>
                             <div class="auth-input-group">
@@ -145,7 +129,6 @@
                             <span asp-validation-for="DateOfBirth"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="PhoneNumber">Số điện thoại</label>
                             <div class="auth-input-group">
@@ -160,7 +143,6 @@
                             <span asp-validation-for="PhoneNumber"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="Email">Email</label>
                             <div class="auth-input-group">
@@ -176,7 +158,6 @@
                             <span asp-validation-for="Email"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field auth-field-full">
                             <label asp-for="Address">Địa chỉ</label>
                             <div class="auth-input-group">
@@ -191,7 +172,6 @@
                             <span asp-validation-for="Address"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-field auth-field-full">
                             <label asp-for="CitizenId">CCCD/CMND</label>
                             <div class="auth-input-group">
@@ -205,7 +185,6 @@
                             <span asp-validation-for="CitizenId"
                                   class="auth-error"></span>
                         </div>
-
                         <div class="auth-form-section auth-field-full auth-security-section">
                             <span class="auth-form-section-icon">
                                 <i class="bi bi-shield-lock" aria-hidden="true"></i>
@@ -215,7 +194,6 @@
                                 <small>Tạo mật khẩu an toàn cho tài khoản của bạn</small>
                             </div>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="Password">Mật khẩu</label>
                             <div class="auth-input-group">
@@ -235,10 +213,8 @@
                                     <i class="bi bi-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <span asp-validation-for="Password"
-                                  class="auth-error"></span>
+                            <span asp-validation-for="Password" class="auth-error"></span>
                         </div>
-
                         <div class="auth-field">
                             <label asp-for="ConfirmPassword">
                                 Xác nhận mật khẩu
@@ -264,17 +240,13 @@
                                   class="auth-error"></span>
                         </div>
                     </div>
-
-                    <button type="submit"
-                            class="auth-primary-button auth-register-button">
+                    <button type="submit" class="auth-primary-button auth-register-button">
                         <i class="bi bi-person-plus" aria-hidden="true"></i>
                         Tạo tài khoản
                     </button>
-
                     <p class="auth-switch">
                         Đã có tài khoản?
-                        <a asp-controller="Auth"
-                           asp-action="Login">
+                        <a asp-controller="Auth" asp-action="Login">
                             Đăng nhập
                         </a>
                     </p>
@@ -283,36 +255,21 @@
         </div>
     </div>
 </section>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
     <script>
         document.querySelectorAll(".auth-password-toggle")
             .forEach(function (button) {
                 button.addEventListener("click", function () {
-                    const input = document.getElementById(
-                        button.dataset.target
-                    );
-
+                    const input = document.getElementById(button.dataset.target);
                     if (!input) {
                         return;
                     }
-
-                    const isPassword =
-                        input.type === "password";
-
-                    input.type =
-                        isPassword ? "text" : "password";
-
-                    const icon =
-                        button.querySelector("i");
-
+                    const isPassword = input.type === "password";
+                    input.type = isPassword ? "text" : "password";
+                    const icon = button.querySelector("i");
                     if (icon) {
-                        icon.className =
-                            isPassword
-                                ? "bi bi-eye-slash"
-                                : "bi bi-eye";
+                        icon.className = isPassword ? "bi bi-eye-slash" : "bi bi-eye";
                     }
                 });
             });

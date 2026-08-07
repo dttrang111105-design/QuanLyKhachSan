@@ -1,0 +1,230 @@
+﻿@model IEnumerable<QuanLyKhachSan.Models.RoomChargeItem>
+@using QuanLyKhachSan.Models
+@{
+    bool isAdmin = User.IsInRole("Admin");
+    Layout = isAdmin
+        ? "~/Views/Shared/_AdminLayout.cshtml"
+        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+    ViewData["Title"] = "Bảng giá kiểm tra phòng";
+    List<RoomChargeItem> items = Model?.ToList() ?? new List<RoomChargeItem>();
+    List<RoomChargeItem> miniBarItems = items
+        .Where(x => x.Category == "MiniBar")
+        .ToList();
+    List<RoomChargeItem> assetItems = items
+        .Where(x => x.Category == "Asset")
+        .ToList();
+}
+<style>
+    .charge-page {
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+    .charge-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .charge-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+    }
+    .charge-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+    .charge-heading p {
+        margin: 7px 0 0;
+        color: #737986;
+        font-size: 14px;
+    }
+    .charge-card {
+        overflow: hidden;
+        margin-bottom: 24px;
+        border: 1px solid #e7e9ee;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 18px 45px rgba(34,38,51,.06);
+    }
+    .charge-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 20px 24px;
+        border-bottom: 1px solid #eceef2;
+    }
+    .charge-card-header h3 {
+        margin: 0;
+        color: #2c313c;
+        font-size: 19px;
+        font-weight: 800;
+    }
+    .charge-card-header span {
+        color: #8a909b;
+        font-size: 13px;
+    }
+    .charge-table {
+        margin: 0;
+    }
+    .charge-table thead th {
+        padding: 13px 18px;
+        border-bottom: 1px solid #eceef2;
+        background: #f8f9fb;
+        color: #686e79;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+    }
+    .charge-table tbody td {
+        padding: 16px 18px;
+        vertical-align: middle;
+        border-color: #eef0f3;
+        color: #414752;
+        font-size: 14px;
+    }
+    .charge-name {
+        font-weight: 800;
+        color: #2e333d;
+    }
+    .charge-price {
+        white-space: nowrap;
+        font-weight: 700;
+    }
+    .charge-edit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 36px;
+        padding: 7px 13px;
+        border: 1px solid #c9a85f;
+        border-radius: 9px;
+        background: #fffaf0;
+        color: #946c28;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+    .charge-note {
+        padding: 14px 18px;
+        border: 1px solid #f0e2bd;
+        border-radius: 12px;
+        background: #fffaf0;
+        color: #705929;
+        font-size: 13px;
+    }
+    @@media (max-width: 767.98px) {
+        .charge-heading {
+            flex-direction: column;
+        }
+        .charge-card {
+            overflow-x: auto;
+        }
+        .charge-table {
+            min-width: 720px;
+        }
+    }
+</style>
+<div class="charge-page">
+    <div class="charge-heading">
+        <div>
+            <span class="charge-kicker">Checkout</span>
+            <h2>Bảng giá kiểm tra phòng</h2>
+            <p>Giá này được hệ thống sử dụng khi nhân viên xác nhận minibar, đồ hỏng hoặc đồ mất.</p>
+        </div>
+    </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    <div class="charge-card">
+        <div class="charge-card-header">
+            <h3><i class="bi bi-cup-straw me-2"></i>MiniBar</h3>
+            <span>@miniBarItems.Count mặt hàng</span>
+        </div>
+        <table class="table charge-table">
+            <thead>
+                <tr>
+                    <th>Tên mặt hàng</th>
+                    <th>Giá sử dụng</th>
+                    @if (isAdmin)
+                    {
+                        <th class="text-end">Thao tác</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in miniBarItems)
+                {
+                    <tr>
+                        <td class="charge-name">@item.Name</td>
+                        <td class="charge-price">@item.UsedPrice.ToString("N0") VNĐ</td>
+                        @if (isAdmin)
+                        {
+                            <td class="text-end">
+                                <a asp-controller="RoomChargeItems"
+                                   asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="charge-edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Sửa giá
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="charge-card">
+        <div class="charge-card-header">
+            <h3><i class="bi bi-house-gear me-2"></i>Tài sản phòng</h3>
+            <span>@assetItems.Count tài sản</span>
+        </div>
+        <table class="table charge-table">
+            <thead>
+                <tr>
+                    <th>Tài sản</th>
+                    <th>Đền bù khi hỏng</th>
+                    <th>Đền bù khi mất</th>
+                    @if (isAdmin)
+                    {
+                        <th class="text-end">Thao tác</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in assetItems)
+                {
+                    <tr>
+                        <td class="charge-name">@item.Name</td>
+                        <td class="charge-price">@item.DamagedPrice.ToString("N0") VNĐ</td>
+                        <td class="charge-price">@item.LostPrice.ToString("N0") VNĐ</td>
+                        @if (isAdmin)
+                        {
+                            <td class="text-end">
+                                <a asp-controller="RoomChargeItems"
+                                   asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="charge-edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Sửa giá
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

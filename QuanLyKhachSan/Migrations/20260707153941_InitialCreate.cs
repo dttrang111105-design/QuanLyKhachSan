@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-
 #nullable disable
-
 namespace QuanLyKhachSan.Migrations
 {
     /// <inheritdoc />
@@ -32,7 +30,6 @@ namespace QuanLyKhachSan.Migrations
                 {
                     table.PrimaryKey("PK_Accounts", x => x.Id);
                 });
-
             migrationBuilder.CreateTable(
                 name: "RoomTypes",
                 columns: table => new
@@ -53,7 +50,6 @@ namespace QuanLyKhachSan.Migrations
                 {
                     table.PrimaryKey("PK_RoomTypes", x => x.Id);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
@@ -74,7 +70,6 @@ namespace QuanLyKhachSan.Migrations
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
@@ -104,7 +99,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
@@ -136,7 +130,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
@@ -167,7 +160,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
@@ -199,7 +191,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
@@ -230,7 +221,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "RoomImages",
                 columns: table => new
@@ -255,7 +245,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "BookingDetails",
                 columns: table => new
@@ -288,7 +277,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
@@ -317,7 +305,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "ServiceBookings",
                 columns: table => new
@@ -349,7 +336,6 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
@@ -377,115 +363,89 @@ namespace QuanLyKhachSan.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
             migrationBuilder.CreateIndex(
                 name: "IX_BookingDetails_BookingId",
                 table: "BookingDetails",
                 column: "BookingId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_BookingDetails_RoomId",
                 table: "BookingDetails",
                 column: "RoomId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_CustomerId",
                 table: "Bookings",
                 column: "CustomerId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_AccountId",
                 table: "Customers",
                 column: "AccountId",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_AccountId",
                 table: "Employees",
                 column: "AccountId",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_BookingId",
                 table: "Invoices",
                 column: "BookingId",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_InvoiceId",
                 table: "Payments",
                 column: "InvoiceId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_CustomerId",
                 table: "Reviews",
                 column: "CustomerId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_RoomId",
                 table: "Reviews",
                 column: "RoomId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_RoomImages_RoomId",
                 table: "RoomImages",
                 column: "RoomId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomTypeId",
                 table: "Rooms",
                 column: "RoomTypeId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceBookings_BookingId",
                 table: "ServiceBookings",
                 column: "BookingId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceBookings_ServiceId",
                 table: "ServiceBookings",
                 column: "ServiceId");
         }
-
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "BookingDetails");
-
             migrationBuilder.DropTable(
                 name: "Employees");
-
             migrationBuilder.DropTable(
                 name: "Payments");
-
             migrationBuilder.DropTable(
                 name: "Reviews");
-
             migrationBuilder.DropTable(
                 name: "RoomImages");
-
             migrationBuilder.DropTable(
                 name: "ServiceBookings");
-
             migrationBuilder.DropTable(
                 name: "Invoices");
-
             migrationBuilder.DropTable(
                 name: "Rooms");
-
             migrationBuilder.DropTable(
                 name: "Services");
-
             migrationBuilder.DropTable(
                 name: "Bookings");
-
             migrationBuilder.DropTable(
                 name: "RoomTypes");
-
             migrationBuilder.DropTable(
                 name: "Customers");
-
             migrationBuilder.DropTable(
                 name: "Accounts");
         }

@@ -1,50 +1,343 @@
 @model QuanLyKhachSan.Models.Invoice
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Lập hóa đơn";
 }
-
-<h1>Create</h1>
-
-<h4>Invoice</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label>Booking</label>
-                <select asp-for="BookingId"
-                        class="form-control"
-                        asp-items="ViewBag.BookingId">
-                    <option value="">-- Chọn Booking --</option>
-                </select>
-                <span asp-validation-for="BookingId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DiscountPercent"></label>
-                <input asp-for="DiscountPercent" class="form-control" />
-                <span asp-validation-for="DiscountPercent" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="TaxPercent"></label>
-                <input asp-for="TaxPercent" class="form-control" />
-                <span asp-validation-for="TaxPercent" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="invoice-create-page">
+    <!-- Tiêu đề trang -->
+    <div class="d-flex flex-column flex-md-row
+        justify-content-between align-items-md-center
+        gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-receipt-cutoff text-primary me-2"></i>
+                Lập hóa đơn mới
+            </h2>
+            <p class="text-muted mb-0">
+                Chọn phiếu đặt phòng và thiết lập các khoản giảm giá, thuế cho hóa đơn.
+            </p>
+        </div>
+        <a asp-action="Index"
+           class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="bi bi-arrow-left me-1"></i>
+            Quay lại danh sách
+        </a>
     </div>
+    <form asp-controller="Invoices"
+          asp-action="Create"
+          method="post">
+        @Html.AntiForgeryToken()
+        <div class="row g-4">
+            <!-- Form lập hóa đơn -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card border-0 shadow-sm invoice-card">
+                    <div class="card-header bg-white border-0 px-4 pt-4 pb-0">
+                        <h5 class="fw-bold mb-1">
+                            Thông tin hóa đơn
+                        </h5>
+                        <p class="text-muted small mb-0">
+                            Các trường có dấu
+                            <span class="text-danger">*</span>
+                            là thông tin bắt buộc.
+                        </p>
+                    </div>
+                    <div class="card-body p-4">
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger"
+                             role="alert">
+                        </div>
+                        <div class="row g-3">
+                            <!-- Booking -->
+                            <div class="col-12">
+                                <label asp-for="BookingId"
+                                       class="form-label fw-semibold">
+                                    Phiếu đặt phòng
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-calendar-check"></i>
+                                    </span>
+                                    <select asp-for="BookingId"
+                                            class="form-select"
+                                            asp-items="ViewBag.BookingId">
+                                        <option value="">
+                                            -- Chọn phiếu đặt phòng --
+                                        </option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="BookingId"
+                                      class="text-danger small">
+                                </span>
+                                <div class="form-text">
+                                    Chỉ nên lập hóa đơn cho phiếu đặt phòng đã được xác nhận
+                                    hoặc khách hàng đang thực hiện trả phòng.
+                                </div>
+                            </div>
+                            <!-- Phần trăm giảm giá -->
+                            <div class="col-md-6">
+                                <label asp-for="DiscountPercent"
+                                       class="form-label fw-semibold">
+                                    Phần trăm giảm giá
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-percent"></i>
+                                    </span>
+                                    <input asp-for="DiscountPercent"
+                                           id="discountPercent"
+                                           type="number"
+                                           min="0"
+                                           max="100"
+                                           step="0.01"
+                                           class="form-control"
+                                           placeholder="Ví dụ: 10" />
+                                    <span class="input-group-text">
+                                        %
+                                    </span>
+                                </div>
+                                <span asp-validation-for="DiscountPercent"
+                                      class="text-danger small">
+                                </span>
+                                <div class="form-text">
+                                    Nhập 0 nếu hóa đơn không áp dụng giảm giá.
+                                </div>
+                            </div>
+                            <!-- Phần trăm thuế -->
+                            <div class="col-md-6">
+                                <label asp-for="TaxPercent"
+                                       class="form-label fw-semibold">
+                                    Thuế giá trị gia tăng
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-calculator"></i>
+                                    </span>
+                                    <input asp-for="TaxPercent"
+                                           id="taxPercent"
+                                           type="number"
+                                           min="0"
+                                           max="100"
+                                           step="0.01"
+                                           class="form-control"
+                                           placeholder="Ví dụ: 10" />
+                                    <span class="input-group-text">
+                                        %
+                                    </span>
+                                </div>
+                                <span asp-validation-for="TaxPercent"
+                                      class="text-danger small">
+                                </span>
+                                <div class="form-text">
+                                    Thuế được tính trên giá trị hóa đơn sau khi giảm giá.
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+                        <!-- Nút thao tác -->
+                        <div class="d-flex flex-column flex-sm-row
+                            justify-content-end gap-2">
+                            <a asp-action="Index"
+                               class="btn btn-light border px-4">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Hủy bỏ
+                            </a>
+                            <button type="reset"
+                                    class="btn btn-outline-secondary px-4">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                Nhập lại
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-primary px-4">
+                                <i class="bi bi-file-earmark-check me-1"></i>
+                                Lập hóa đơn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khung thông tin -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card border-0 shadow-sm invoice-card mb-4">
+                    <div class="card-body p-4">
+                        <div class="guide-icon mb-3">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+                        <h5 class="fw-bold">
+                            Quy trình lập hóa đơn
+                        </h5>
+                        <p class="text-muted small">
+                            Hệ thống sẽ tổng hợp tiền phòng, tiền dịch vụ và các khoản
+                            phát sinh của phiếu đặt phòng đã chọn.
+                        </p>
+                        <div class="invoice-step">
+                            <span class="step-number">1</span>
+                            <div>
+                                <strong>Chọn phiếu đặt phòng</strong>
+                                <p class="text-muted small mb-0">
+                                    Xác định khách hàng và kỳ lưu trú cần thanh toán.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="invoice-step">
+                            <span class="step-number">2</span>
+                            <div>
+                                <strong>Áp dụng giảm giá</strong>
+                                <p class="text-muted small mb-0">
+                                    Nhập tỷ lệ ưu đãi được áp dụng cho khách hàng.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="invoice-step">
+                            <span class="step-number">3</span>
+                            <div>
+                                <strong>Tính thuế</strong>
+                                <p class="text-muted small mb-0">
+                                    Thuế được cộng vào số tiền sau khi đã giảm giá.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="invoice-step">
+                            <span class="step-number">4</span>
+                            <div>
+                                <strong>Lưu hóa đơn</strong>
+                                <p class="text-muted small mb-0">
+                                    Hóa đơn được lưu để tiếp tục thực hiện thanh toán.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Xem trước tỷ lệ -->
+                <div class="card border-0 shadow-sm invoice-card">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">
+                            Thông số áp dụng
+                        </h5>
+                        <div class="summary-row">
+                            <span class="text-muted">
+                                Giảm giá
+                            </span>
+                            <strong id="discountPreview"
+                                    class="text-success">
+                                0%
+                            </strong>
+                        </div>
+                        <div class="summary-row">
+                            <span class="text-muted">
+                                Thuế
+                            </span>
+                            <strong id="taxPreview"
+                                    class="text-primary">
+                                0%
+                            </strong>
+                        </div>
+                        <div class="alert alert-info border-0 small mt-3 mb-0">
+                            <i class="bi bi-info-circle-fill me-1"></i>
+                            Tổng tiền chính xác được hệ thống tính dựa trên tiền phòng,
+                            dịch vụ và dữ liệu của phiếu đặt phòng.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .invoice-create-page {
+        padding-bottom: 30px;
+    }
+    .invoice-card {
+        border-radius: 18px;
+    }
+        .invoice-card .form-control,
+        .invoice-card .form-select,
+        .invoice-card .input-group-text {
+            min-height: 46px;
+        }
+            .invoice-card .form-control:focus,
+            .invoice-card .form-select:focus {
+                border-color: rgba(13, 110, 253, 0.55);
+                box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+            }
+    .guide-icon {
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d6efd;
+        background-color: #e7f1ff;
+        border-radius: 16px;
+        font-size: 26px;
+    }
+    .invoice-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 13px 0;
+        border-bottom: 1px dashed #dee2e6;
+    }
+        .invoice-step:last-child {
+            border-bottom: 0;
+        }
+    .step-number {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        background-color: #0d6efd;
+        border-radius: 50%;
+        font-size: 14px;
+        font-weight: 700;
+    }
+    .summary-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #edf0f2;
+    }
+        .summary-row strong {
+            font-size: 18px;
+        }
+    @@media (max-width: 767.98px) {
+        .invoice-card .card-body {
+            padding: 20px !important;
+        }
+    }
+</style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const discountInput = document.getElementById("discountPercent");
+            const taxInput = document.getElementById("taxPercent");
+            const discountPreview = document.getElementById("discountPreview");
+            const taxPreview = document.getElementById("taxPreview");
+            function normalizePercent(value) {
+                const number = Number(value);
+                if (Number.isNaN(number) || number < 0) {
+                    return 0;
+                }
+                return Math.min(number, 100);
+            }
+            function updatePreview() {
+                const discount = normalizePercent(discountInput.value);
+                const tax = normalizePercent(taxInput.value);
+                discountPreview.textContent = discount.toLocaleString("vi-VN") + "%";
+                taxPreview.textContent = tax.toLocaleString("vi-VN") + "%";
+            }
+            discountInput.addEventListener("input", updatePreview);
+            taxInput.addEventListener("input", updatePreview);
+            updatePreview();
+        });
+    </script>
+}

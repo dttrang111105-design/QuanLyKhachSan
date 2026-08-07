@@ -1,0 +1,117 @@
+﻿@model QuanLyKhachSan.ViewModels.RoomMiniBarViewModel
+
+@{
+    ViewData["Title"] = "Minibar phòng " + Model.RoomNumber;
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_ReceptionistLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-outline-secondary mb-3">
+            Quay lại
+        </a>
+        <h2 class="mb-1">Minibar phòng @Model.RoomNumber</h2>
+        <p class="text-muted mb-0">
+            Chọn mặt hàng được trang bị và thiết lập số lượng chuẩn, số lượng hiện có.
+        </p>
+    </div>
+
+    <form asp-action="Manage" method="post">
+        @Html.AntiForgeryToken()
+        <input asp-for="RoomId" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 80px;" class="text-center">Dùng</th>
+                                <th>Mặt hàng</th>
+                                <th class="text-end">Giá sử dụng</th>
+                                <th style="width: 180px;">Số lượng chuẩn</th>
+                                <th style="width: 180px;">Hiện có</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.Items.Count; i++)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <input asp-for="Items[i].IsEnabled"
+                                               class="form-check-input minibar-enabled" />
+                                    </td>
+                                    <td>
+                                        <strong>@Model.Items[i].Name</strong>
+
+                                        <input asp-for="Items[i].Id" type="hidden" />
+                                        <input asp-for="Items[i].RoomChargeItemId" type="hidden" />
+                                        <input asp-for="Items[i].Name" type="hidden" />
+                                        <input asp-for="Items[i].UsedPrice" type="hidden" />
+                                    </td>
+                                    <td class="text-end">
+                                        @Model.Items[i].UsedPrice.ToString("N0") VNĐ
+                                    </td>
+                                    <td>
+                                        <input asp-for="Items[i].StandardQuantity"
+                                               class="form-control standard-quantity"
+                                               min="0"
+                                               max="1000" />
+                                        <span asp-validation-for="Items[i].StandardQuantity"
+                                              class="text-danger"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="Items[i].CurrentQuantity"
+                                               class="form-control current-quantity"
+                                               min="0"
+                                               max="1000" />
+                                        <span asp-validation-for="Items[i].CurrentQuantity"
+                                              class="text-danger"></span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer bg-white d-flex justify-content-end gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Hủy
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    Lưu minibar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelectorAll('tbody tr').forEach(function (row) {
+            const enabled = row.querySelector('.minibar-enabled');
+            const standard = row.querySelector('.standard-quantity');
+            const current = row.querySelector('.current-quantity');
+
+            function updateState() {
+                const isEnabled = enabled.checked;
+
+                standard.disabled = !isEnabled;
+                current.disabled = !isEnabled;
+
+                if (!isEnabled) {
+                    standard.value = 0;
+                    current.value = 0;
+                }
+            }
+
+            enabled.addEventListener('change', updateState);
+            updateState();
+        });
+    </script>
+}

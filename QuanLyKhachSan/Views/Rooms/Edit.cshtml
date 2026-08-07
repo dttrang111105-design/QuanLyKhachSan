@@ -1,18 +1,14 @@
 @model QuanLyKhachSan.Models.Room
-
 @using QuanLyKhachSan.Enums
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Chỉnh sửa phòng";
 }
-
 <style>
     .room-edit-page {
         max-width: 1120px;
         margin: 0 auto;
     }
-
     .room-edit-header {
         display: flex;
         align-items: center;
@@ -20,7 +16,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .room-edit-kicker {
         display: block;
         margin-bottom: 6px;
@@ -30,13 +25,11 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .room-edit-header h2 {
         margin: 0;
         color: #252a35;
         font-weight: 800;
     }
-
     .room-edit-back {
         display: inline-flex;
         align-items: center;
@@ -50,12 +43,10 @@
         font-size: 13px;
         font-weight: 700;
     }
-
         .room-edit-back:hover {
             border-color: #b58a42;
             color: #8e682f;
         }
-
     .room-edit-card {
         overflow: hidden;
         border: 1px solid #e8e9ee;
@@ -63,7 +54,6 @@
         background: #ffffff;
         box-shadow: 0 22px 55px rgba(34, 38, 51, 0.08);
     }
-
     .room-edit-card-header {
         display: flex;
         align-items: center;
@@ -72,7 +62,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.23), transparent 28%), linear-gradient(135deg,#111111,#302515);
         color: #ffffff;
     }
-
     .room-edit-icon {
         width: 54px;
         height: 54px;
@@ -85,23 +74,19 @@
         color: #171008;
         font-size: 24px;
     }
-
     .room-edit-card-header h3 {
         margin: 0 0 4px;
         font-size: 24px;
         font-weight: 800;
     }
-
     .room-edit-card-header p {
         margin: 0;
         color: rgba(255,255,255,.65);
         font-size: 13px;
     }
-
     .room-edit-body {
         padding: 30px;
     }
-
     .room-edit-section-title {
         margin-bottom: 18px;
         color: #8f692f;
@@ -110,14 +95,12 @@
         letter-spacing: 1.2px;
         text-transform: uppercase;
     }
-
     .room-edit-field label {
         margin-bottom: 7px;
         color: #3a404c;
         font-size: 13px;
         font-weight: 700;
     }
-
     .room-edit-field .form-control,
     .room-edit-field .form-select {
         min-height: 50px;
@@ -126,23 +109,19 @@
         background: #fcfcfd;
         box-shadow: none;
     }
-
     .room-edit-field textarea.form-control {
         min-height: 130px;
         resize: vertical;
     }
-
     .room-edit-field .form-control:focus,
     .room-edit-field .form-select:focus {
         border-color: #b58a42;
         background: #ffffff;
         box-shadow: 0 0 0 4px rgba(181,138,66,.12);
     }
-
     .room-edit-input-group {
         position: relative;
     }
-
     .room-edit-input-icon {
         position: absolute;
         z-index: 3;
@@ -152,12 +131,10 @@
         transform: translateY(-50%);
         pointer-events: none;
     }
-
     .room-edit-input-group .form-control,
     .room-edit-input-group .form-select {
         padding-left: 42px;
     }
-
     .room-edit-actions {
         display: flex;
         flex-wrap: wrap;
@@ -166,7 +143,6 @@
         padding-top: 22px;
         border-top: 1px solid #eceef2;
     }
-
     .room-edit-save,
     .room-edit-cancel {
         min-height: 46px;
@@ -179,59 +155,49 @@
         font-size: 13px;
         font-weight: 800;
     }
-
     .room-edit-save {
         border: 1px solid #b58a42;
         background: linear-gradient(145deg,#d7b15e,#a8752d);
         color: #ffffff;
     }
-
         .room-edit-save:hover {
             background: linear-gradient(145deg,#e4c77f,#b98235);
             color: #ffffff;
             transform: translateY(-2px);
         }
-
     .room-edit-cancel {
         border: 1px solid #dfe2e8;
         background: #ffffff;
         color: #555c69;
     }
-
         .room-edit-cancel:hover {
             border-color: #9aa0ab;
             color: #303641;
         }
-
     @@media (max-width: 767.98px) {
         .room-edit-header {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .room-edit-card-header,
         .room-edit-body {
             padding: 22px;
         }
-
         .room-edit-actions {
             flex-direction: column;
         }
-
         .room-edit-save,
         .room-edit-cancel {
             width: 100%;
         }
     }
 </style>
-
 <div class="room-edit-page">
     <div class="room-edit-header">
         <div>
             <span class="room-edit-kicker">Quản lý phòng</span>
             <h2>Chỉnh sửa phòng @Model.RoomNumber</h2>
         </div>
-
         <a asp-controller="Rooms"
            asp-action="Index"
            class="room-edit-back">
@@ -239,37 +205,29 @@
             Quay lại danh sách
         </a>
     </div>
-
     <div class="room-edit-card">
         <div class="room-edit-card-header">
             <span class="room-edit-icon">
                 <i class="bi bi-door-open-fill"></i>
             </span>
-
             <div>
                 <h3>Thông tin phòng</h3>
                 <p>Cập nhật thông tin vận hành và giá phòng.</p>
             </div>
         </div>
-
         <div class="room-edit-body">
             <form asp-controller="Rooms"
                   asp-action="Edit"
                   asp-route-id="@Model.Id"
                   method="post">
-
                 @Html.AntiForgeryToken()
-
                 <input asp-for="Id" type="hidden" />
-
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger">
                 </div>
-
                 <div class="room-edit-section-title">
                     Thông tin cơ bản
                 </div>
-
                 <div class="row g-4">
                     <div class="col-md-6 room-edit-field">
                         <label asp-for="RoomNumber">Số phòng</label>
@@ -282,7 +240,6 @@
                         <span asp-validation-for="RoomNumber"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 room-edit-field">
                         <label asp-for="RoomTypeId">Loại phòng</label>
                         <div class="room-edit-input-group">
@@ -296,7 +253,6 @@
                         <span asp-validation-for="RoomTypeId"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-4 room-edit-field">
                         <label asp-for="Floor">Tầng</label>
                         <div class="room-edit-input-group">
@@ -309,7 +265,6 @@
                         <span asp-validation-for="Floor"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-4 room-edit-field">
                         <label asp-for="Status">Trạng thái</label>
                         <div class="room-edit-input-group">
@@ -322,7 +277,6 @@
                         <span asp-validation-for="Status"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-4 room-edit-field">
                         <label asp-for="MaxOccupancy">Sức chứa tối đa</label>
                         <div class="room-edit-input-group">
@@ -336,11 +290,9 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="room-edit-section-title mt-5">
                     Giá và diện tích
                 </div>
-
                 <div class="row g-4">
                     <div class="col-md-4 room-edit-field">
                         <label asp-for="PriceDay">Giá theo ngày</label>
@@ -355,7 +307,6 @@
                         <span asp-validation-for="PriceDay"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-4 room-edit-field">
                         <label asp-for="PriceWeek">Giá theo tuần</label>
                         <div class="input-group">
@@ -369,7 +320,6 @@
                         <span asp-validation-for="PriceWeek"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-4 room-edit-field">
                         <label asp-for="RoomSize">Diện tích</label>
                         <div class="input-group">
@@ -383,7 +333,6 @@
                         <span asp-validation-for="RoomSize"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-12 room-edit-field">
                         <label asp-for="Description">Mô tả</label>
                         <textarea asp-for="Description"
@@ -393,14 +342,12 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="room-edit-actions">
                     <button type="submit"
                             class="room-edit-save">
                         <i class="bi bi-check-circle"></i>
                         Lưu thay đổi
                     </button>
-
                     <a asp-controller="Rooms"
                        asp-action="Index"
                        class="room-edit-cancel">
@@ -412,7 +359,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

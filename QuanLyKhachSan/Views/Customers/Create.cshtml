@@ -1,85 +1,457 @@
 @model QuanLyKhachSan.Models.Customer
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm khách hàng";
 }
-
-<h1>Create</h1>
-
-<h4>Customer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="AccountId" class="control-label"></label>
-                <select asp-for="AccountId"
-                        class="form-control"
-                        asp-items="ViewBag.AccountId">
-                    <option value="">-- Chọn tài khoản --</option>
-                </select>
-                <span asp-validation-for="AccountId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-
-            <select asp-for="Gender" class="form-control">
-                <option value="">-- Chọn giới tính --</option>
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-                <option value="Khác">Khác</option>
-            </select>
-
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CitizenId" class="control-label"></label>
-                <input asp-for="CitizenId" class="form-control" />
-                <span asp-validation-for="CitizenId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input type="file" name="avatarFile" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="customer-create-page">
+    <!-- Tiêu đề trang -->
+    <div class="d-flex flex-column flex-md-row
+        justify-content-between align-items-md-center
+        gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-person-plus-fill text-primary me-2"></i>
+                Thêm khách hàng mới
+            </h2>
+            <p class="text-muted mb-0">
+                Nhập thông tin cá nhân để tạo hồ sơ khách hàng trong hệ thống.
+            </p>
+        </div>
+        <a asp-action="Index"
+           class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="bi bi-arrow-left me-1"></i>
+            Quay lại danh sách
+        </a>
     </div>
+    <form asp-controller="Customers"
+          asp-action="Create"
+          method="post"
+          enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="row g-4">
+            <!-- Nội dung form -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card border-0 shadow-sm customer-form-card">
+                    <div class="card-header bg-white border-0 px-4 pt-4 pb-0">
+                        <h5 class="fw-bold mb-1">
+                            Thông tin khách hàng
+                        </h5>
+                        <p class="text-muted small mb-0">
+                            Vui lòng kiểm tra kỹ thông tin trước khi lưu.
+                        </p>
+                    </div>
+                    <div class="card-body p-4">
+                        <div asp-validation-summary="All"
+                             class="alert alert-danger"
+                             role="alert">
+                        </div>
+                        <div class="row g-3">
+                            <!-- Tài khoản -->
+                            <div class="col-12">
+                                <label asp-for="AccountId"
+                                       class="form-label fw-semibold">
+                                    Tài khoản liên kết
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person-lock"></i>
+                                    </span>
+                                    <select asp-for="AccountId"
+                                            class="form-select"
+                                            asp-items="ViewBag.AccountId">
+                                        <option value="">
+                                            -- Chọn tài khoản khách hàng --
+                                        </option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="AccountId"
+                                      class="text-danger small">
+                                </span>
+                                <div class="form-text">
+                                    Chỉ chọn tài khoản chưa được liên kết với hồ sơ khách hàng.
+                                </div>
+                            </div>
+                            <!-- Họ tên -->
+                            <div class="col-md-8">
+                                <label asp-for="FullName"
+                                       class="form-label fw-semibold">
+                                    Họ và tên
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person-vcard"></i>
+                                    </span>
+                                    <input asp-for="FullName"
+                                           class="form-control"
+                                           placeholder="Ví dụ: Nguyễn Văn An"
+                                           autocomplete="off" />
+                                </div>
+                                <span asp-validation-for="FullName"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                            <!-- Giới tính -->
+                            <div class="col-md-4">
+                                <label asp-for="Gender"
+                                       class="form-label fw-semibold">
+                                    Giới tính
+                                </label>
+                                <select asp-for="Gender"
+                                        class="form-select">
+                                    <option value="">
+                                        -- Chọn giới tính --
+                                    </option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                                <span asp-validation-for="Gender"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                            <!-- Ngày sinh -->
+                            <div class="col-md-6">
+                                <label asp-for="DateOfBirth"
+                                       class="form-label fw-semibold">
+                                    Ngày sinh
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-calendar3"></i>
+                                    </span>
+                                    <input asp-for="DateOfBirth"
+                                           type="date"
+                                           max="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                           class="form-control" />
+                                </div>
+                                <span asp-validation-for="DateOfBirth"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                            <!-- CCCD -->
+                            <div class="col-md-6">
+                                <label asp-for="CitizenId"
+                                       class="form-label fw-semibold">
+                                    Căn cước công dân
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-credit-card-2-front"></i>
+                                    </span>
+                                    <input asp-for="CitizenId"
+                                           class="form-control"
+                                           inputmode="numeric"
+                                           maxlength="12"
+                                           placeholder="Nhập 12 số căn cước công dân"
+                                           autocomplete="off" />
+                                </div>
+                                <span asp-validation-for="CitizenId"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                            <!-- Điện thoại -->
+                            <div class="col-md-6">
+                                <label asp-for="Phone"
+                                       class="form-label fw-semibold">
+                                    Số điện thoại
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-telephone"></i>
+                                    </span>
+                                    <input asp-for="Phone"
+                                           type="tel"
+                                           class="form-control"
+                                           maxlength="15"
+                                           placeholder="Ví dụ: 0987654321"
+                                           autocomplete="tel" />
+                                </div>
+                                <span asp-validation-for="Phone"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label asp-for="Email"
+                                       class="form-label fw-semibold">
+                                    Địa chỉ email
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control"
+                                           placeholder="Ví dụ: khachhang@gmail.com"
+                                           autocomplete="email" />
+                                </div>
+                                <span asp-validation-for="Email"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                            <!-- Địa chỉ -->
+                            <div class="col-12">
+                                <label asp-for="Address"
+                                       class="form-label fw-semibold">
+                                    Địa chỉ
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text align-items-start pt-3">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </span>
+                                    <textarea asp-for="Address"
+                                              class="form-control"
+                                              rows="3"
+                                              placeholder="Nhập địa chỉ hiện tại của khách hàng"></textarea>
+                                </div>
+                                <span asp-validation-for="Address"
+                                      class="text-danger small">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Ảnh đại diện và hướng dẫn -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card border-0 shadow-sm customer-form-card mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">
+                            Ảnh đại diện
+                        </h5>
+                        <div class="avatar-preview-wrapper mb-3">
+                            <img id="avatarPreview"
+                                 src="/images/default-avatar.png"
+                                 alt="Ảnh đại diện khách hàng"
+                                 class="avatar-preview"
+                                 onerror="this.style.display='none'; document.getElementById('avatarPlaceholder').style.display='flex';" />
+                            <div id="avatarPlaceholder"
+                                 class="avatar-placeholder">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <label for="avatarFile"
+                               class="form-label fw-semibold">
+                            Chọn ảnh từ máy tính
+                        </label>
+                        <input id="avatarFile"
+                               name="avatarFile"
+                               type="file"
+                               class="form-control"
+                               accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" />
+                        <span asp-validation-for="Avatar"
+                              class="text-danger small">
+                        </span>
+                        <div class="form-text mt-2">
+                            Chấp nhận ảnh JPG, JPEG, PNG hoặc WEBP.
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm customer-form-card">
+                    <div class="card-body p-4">
+                        <div class="guide-icon mb-3">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5 class="fw-bold">
+                            Lưu ý khi nhập dữ liệu
+                        </h5>
+                        <div class="guide-item">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>
+                                Email và số điện thoại phải đúng định dạng.
+                            </span>
+                        </div>
+                        <div class="guide-item">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>
+                                Căn cước công dân không được trùng với khách hàng khác.
+                            </span>
+                        </div>
+                        <div class="guide-item">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>
+                                Tài khoản chỉ được liên kết với một khách hàng.
+                            </span>
+                        </div>
+                        <div class="guide-item">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>
+                                Thông tin khách hàng có thể được cập nhật sau khi tạo.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Các nút thao tác -->
+        <div class="card border-0 shadow-sm customer-action-card mt-4">
+            <div class="card-body">
+                <div class="d-flex flex-column flex-sm-row
+                    justify-content-between align-items-sm-center
+                    gap-3">
+                    <p class="text-muted small mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Kiểm tra thông tin trước khi nhấn lưu khách hàng.
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row gap-2">
+                        <a asp-action="Index"
+                           class="btn btn-light border px-4">
+                            <i class="bi bi-x-circle me-1"></i>
+                            Hủy bỏ
+                        </a>
+                        <button type="reset"
+                                class="btn btn-outline-secondary px-4"
+                                id="resetButton">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i>
+                            Nhập lại
+                        </button>
+                        <button type="submit"
+                                class="btn btn-primary px-4">
+                            <i class="bi bi-person-check-fill me-1"></i>
+                            Thêm khách hàng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .customer-create-page {
+        padding-bottom: 30px;
+    }
+    .customer-form-card,
+    .customer-action-card {
+        border-radius: 18px;
+    }
+        .customer-form-card .form-control,
+        .customer-form-card .form-select,
+        .customer-form-card .input-group-text {
+            min-height: 46px;
+        }
+        .customer-form-card textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .customer-form-card .form-control:focus,
+        .customer-form-card .form-select:focus {
+            border-color: rgba(13, 110, 253, 0.55);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+        }
+    .avatar-preview-wrapper {
+        width: 170px;
+        height: 170px;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden;
+        border: 4px solid #ffffff;
+        border-radius: 50%;
+        background-color: #f1f3f5;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+    .avatar-preview {
+        width: 100%;
+        height: 100%;
+        display: none;
+        object-fit: cover;
+    }
+    .avatar-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #adb5bd;
+        font-size: 75px;
+    }
+    .guide-icon {
+        width: 54px;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        color: #0d6efd;
+        background-color: #e7f1ff;
+        font-size: 25px;
+    }
+    .guide-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 11px 0;
+        font-size: 14px;
+        border-bottom: 1px dashed #dee2e6;
+    }
+        .guide-item:last-child {
+            border-bottom: 0;
+        }
+    @@media (max-width: 767.98px) {
+        .customer-form-card .card-body {
+            padding: 20px !important;
+        }
+        .avatar-preview-wrapper {
+            width: 140px;
+            height: 140px;
+        }
+    }
+</style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const avatarInput = document.getElementById("avatarFile");
+            const avatarPreview = document.getElementById("avatarPreview");
+            const avatarPlaceholder = document.getElementById("avatarPlaceholder");
+            const resetButton = document.getElementById("resetButton");
+            avatarInput.addEventListener("change", function () {
+                const file = this.files && this.files.length > 0
+                    ? this.files[0]
+                    : null;
+                if (!file) {
+                    resetAvatarPreview();
+                    return;
+                }
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp"
+                ];
+                if (!allowedTypes.includes(file.type)) {
+                    alert("Vui lòng chọn ảnh JPG, JPEG, PNG hoặc WEBP.");
+                    this.value = "";
+                    resetAvatarPreview();
+                    return;
+                }
+                const maximumSize = 5 * 1024 * 1024;
+                if (file.size > maximumSize) {
+                    alert("Dung lượng ảnh không được vượt quá 5 MB.");
+                    this.value = "";
+                    resetAvatarPreview();
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    avatarPreview.src = event.target.result;
+                    avatarPreview.style.display = "block";
+                    avatarPlaceholder.style.display = "none";
+                };
+                reader.readAsDataURL(file);
+            });
+            resetButton.addEventListener("click", function () {
+                setTimeout(resetAvatarPreview, 0);
+            });
+            function resetAvatarPreview() {
+                avatarPreview.removeAttribute("src");
+                avatarPreview.style.display = "none";
+                avatarPlaceholder.style.display = "flex";
+            }
+        });
+    </script>
+}

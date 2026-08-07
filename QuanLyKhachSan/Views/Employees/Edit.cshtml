@@ -1,16 +1,13 @@
 @model QuanLyKhachSan.Models.Employee
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Chỉnh sửa nhân viên";
 }
-
 <style>
     .employee-edit-page {
         max-width: 1080px;
         margin: 0 auto;
     }
-
     .employee-edit-heading {
         display: flex;
         align-items: center;
@@ -18,7 +15,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .employee-edit-kicker {
         display: block;
         margin-bottom: 6px;
@@ -28,14 +24,12 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .employee-edit-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .employee-edit-back {
         min-height: 42px;
         display: inline-flex;
@@ -50,7 +44,6 @@
         font-size: 13px;
         font-weight: 700;
     }
-
     .employee-edit-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -58,7 +51,6 @@
         background: #ffffff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .employee-edit-card-header {
         display: flex;
         align-items: center;
@@ -67,7 +59,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111111,#332717);
         color: #ffffff;
     }
-
     .employee-edit-icon {
         width: 56px;
         height: 56px;
@@ -80,29 +71,24 @@
         color: #171008;
         font-size: 25px;
     }
-
     .employee-edit-card-header h3 {
         margin: 0 0 4px;
         font-size: 24px;
         font-weight: 800;
     }
-
     .employee-edit-card-header p {
         margin: 0;
         color: rgba(255,255,255,.65);
     }
-
     .employee-edit-body {
         padding: 30px;
     }
-
     .employee-edit-field label {
         margin-bottom: 7px;
         color: #3c424d;
         font-size: 13px;
         font-weight: 700;
     }
-
     .employee-edit-field .form-control,
     .employee-edit-field .form-select {
         min-height: 50px;
@@ -111,14 +97,12 @@
         background: #fcfcfd;
         box-shadow: none;
     }
-
         .employee-edit-field .form-control:focus,
         .employee-edit-field .form-select:focus {
             border-color: #b58a42;
             background: #ffffff;
             box-shadow: 0 0 0 4px rgba(181,138,66,.12);
         }
-
     .employee-edit-status {
         min-height: 50px;
         display: flex;
@@ -128,7 +112,6 @@
         border-radius: 11px;
         background: #fcfcfd;
     }
-
     .employee-edit-actions {
         display: flex;
         flex-wrap: wrap;
@@ -137,7 +120,6 @@
         padding-top: 22px;
         border-top: 1px solid #eceef2;
     }
-
     .employee-edit-save,
     .employee-edit-cancel {
         min-height: 46px;
@@ -150,48 +132,40 @@
         font-size: 13px;
         font-weight: 800;
     }
-
     .employee-edit-save {
         border: 1px solid #b58a42;
         background: linear-gradient(145deg,#d8b25e,#a8752d);
         color: #ffffff;
     }
-
     .employee-edit-cancel {
         border: 1px solid #dfe2e8;
         background: #ffffff;
         color: #555c69;
     }
-
     @@media (max-width: 767.98px) {
         .employee-edit-heading {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .employee-edit-card-header,
         .employee-edit-body {
             padding: 22px;
         }
-
         .employee-edit-actions {
             flex-direction: column;
         }
-
         .employee-edit-save,
         .employee-edit-cancel {
             width: 100%;
         }
     }
 </style>
-
 <div class="employee-edit-page">
     <div class="employee-edit-heading">
         <div>
             <span class="employee-edit-kicker">Quản lý nhân viên</span>
             <h2>Chỉnh sửa nhân viên</h2>
         </div>
-
         <a asp-controller="Employees"
            asp-action="Index"
            class="employee-edit-back">
@@ -199,31 +173,25 @@
             Quay lại danh sách
         </a>
     </div>
-
     <div class="employee-edit-card">
         <div class="employee-edit-card-header">
             <span class="employee-edit-icon">
                 <i class="bi bi-person-gear"></i>
             </span>
-
             <div>
                 <h3>@Model.FullName</h3>
                 <p>Cập nhật hồ sơ, chức vụ và trạng thái làm việc.</p>
             </div>
         </div>
-
         <div class="employee-edit-body">
             <form asp-controller="Employees"
                   asp-action="Edit"
                   asp-route-id="@Model.Id"
                   method="post">
-
                 @Html.AntiForgeryToken()
                 <input asp-for="Id" type="hidden" />
-
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger"></div>
-
                 <div class="row g-4">
                     <div class="col-md-6 employee-edit-field">
                         <label>Tài khoản đăng nhập</label>
@@ -232,7 +200,6 @@
                                class="form-control"
                                readonly />
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="FullName">Họ và tên</label>
                         <input asp-for="FullName"
@@ -241,7 +208,6 @@
                         <span asp-validation-for="FullName"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Gender">Giới tính</label>
                         <select asp-for="Gender"
@@ -254,7 +220,6 @@
                         <span asp-validation-for="Gender"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="DateOfBirth">Ngày sinh</label>
                         <input asp-for="DateOfBirth"
@@ -263,7 +228,6 @@
                         <span asp-validation-for="DateOfBirth"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Phone">Số điện thoại</label>
                         <input asp-for="Phone"
@@ -271,7 +235,6 @@
                         <span asp-validation-for="Phone"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Email">Email</label>
                         <input asp-for="Email"
@@ -280,7 +243,6 @@
                         <span asp-validation-for="Email"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Position">Chức vụ</label>
                         <input asp-for="Position"
@@ -288,7 +250,6 @@
                         <span asp-validation-for="Position"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Salary">Lương</label>
                         <div class="input-group">
@@ -302,7 +263,6 @@
                         <span asp-validation-for="Salary"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="HireDate">Ngày vào làm</label>
                         <input asp-for="HireDate"
@@ -311,7 +271,6 @@
                         <span asp-validation-for="HireDate"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Status">Trạng thái</label>
                         <div class="employee-edit-status">
@@ -325,7 +284,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6 employee-edit-field">
                         <label asp-for="Avatar">Đường dẫn ảnh đại diện</label>
                         <input asp-for="Avatar"
@@ -334,7 +292,6 @@
                         <span asp-validation-for="Avatar"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-12 employee-edit-field">
                         <label asp-for="Address">Địa chỉ</label>
                         <input asp-for="Address"
@@ -343,14 +300,12 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="employee-edit-actions">
                     <button type="submit"
                             class="employee-edit-save">
                         <i class="bi bi-check-circle"></i>
                         Lưu thay đổi
                     </button>
-
                     <a asp-controller="Employees"
                        asp-action="Details"
                        asp-route-id="@Model.Id"
@@ -363,7 +318,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

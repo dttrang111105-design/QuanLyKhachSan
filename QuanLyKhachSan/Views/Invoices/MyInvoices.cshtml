@@ -49,8 +49,9 @@
                     <th>Ngày lập</th>
                     <th class="text-end">Tổng hóa đơn</th>
                     <th class="text-end">Tiền cọc</th>
+                    <th class="text-end">Đã thanh toán</th>
                     <th class="text-end">Còn lại</th>
-                    <th>Thanh toán</th>
+                    <th>Trạng thái</th>
                     <th style="min-width: 190px;">Thao tác</th>
                 </tr>
             </thead>
@@ -58,30 +59,40 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    decimal amountAfterDeposit = item.TotalAmount - (item.Booking?.Deposit ?? 0);
+                    decimal amountAfterDeposit =
+                        item.TotalAmount - (item.Booking?.Deposit ?? 0);
+
                     if (amountAfterDeposit < 0)
                     {
                         amountAfterDeposit = 0;
                     }
 
-                    decimal paidAmount = item.Payments
-                        .Where(p => p.PaymentStatus == PaymentStatus.Paid)
-                        .Sum(p => p.Amount);
+                    decimal paidAmount = item.Payments?
+                        .Where(p =>
+                            !p.IsDeleted &&
+                            p.PaymentStatus == PaymentStatus.Paid)
+                        .Sum(p => p.Amount) ?? 0;
 
                     decimal remainingAmount = amountAfterDeposit - paidAmount;
+
                     if (remainingAmount < 0)
                     {
                         remainingAmount = 0;
                     }
 
-                    bool isPaid = amountAfterDeposit == 0 || remainingAmount == 0;
+                    bool isPaid =
+                        amountAfterDeposit == 0 ||
+                        remainingAmount == 0;
 
-                    string rooms = item.Booking?.BookingDetails != null &&
-                                   item.Booking.BookingDetails.Any()
-                        ? string.Join(", ", item.Booking.BookingDetails
-                            .Where(d => d.Room != null)
-                            .Select(d => d.Room!.RoomNumber))
-                        : "Không xác định";
+                    string rooms =
+                        item.Booking?.BookingDetails != null &&
+                        item.Booking.BookingDetails.Any()
+                            ? string.Join(
+                                ", ",
+                                item.Booking.BookingDetails
+                                    .Where(d => !d.IsDeleted && d.Room != null)
+                                    .Select(d => d.Room!.RoomNumber))
+                            : "Không xác định";
 
                     <tr>
                         <td>
@@ -92,7 +103,9 @@
 
                         <td>@rooms</td>
 
-                        <td>@item.InvoiceDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            @item.InvoiceDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
 
                         <td class="text-end fw-semibold">
                             @item.TotalAmount.ToString("N0") VNĐ
@@ -102,6 +115,10 @@
                             @((item.Booking?.Deposit ?? 0).ToString("N0")) VNĐ
                         </td>
 
+                        <td class="text-end text-success fw-semibold">
+                            @paidAmount.ToString("N0") VNĐ
+                        </td>
+
                         <td class="text-end fw-bold @(remainingAmount > 0 ? "text-danger" : "text-success")">
                             @remainingAmount.ToString("N0") VNĐ
                         </td>
@@ -109,25 +126,36 @@
                         <td>
                             @if (isPaid)
                             {
-                                <span class="badge bg-success">Đã thanh toán</span>
+                                <span class="badge bg-success">
+                                    Đã thanh toán
+                                </span>
                             }
                             else
                             {
-                                var latestPayment = item.Payments
+                                var latestPayment = item.Payments?
+                                    .Where(p => !p.IsDeleted)
                                     .OrderByDescending(p => p.PaymentDate)
                                     .FirstOrDefault();
 
-                                if (latestPayment?.PaymentStatus == PaymentStatus.Pending)
+                                if (latestPayment?.PaymentStatus ==
+                                    PaymentStatus.Pending)
                                 {
-                                    <span class="badge bg-info text-dark">Đang xử lý</span>
+                                    <span class="badge bg-info text-dark">
+                                        Đang xử lý
+                                    </span>
                                 }
-                                else if (latestPayment?.PaymentStatus == PaymentStatus.Failed)
+                                else if (latestPayment?.PaymentStatus ==
+                                         PaymentStatus.Failed)
                                 {
-                                    <span class="badge bg-danger">Thất bại</span>
+                                    <span class="badge bg-danger">
+                                        Thất bại
+                                    </span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-warning text-dark">Chưa thanh toán</span>
+                                    <span class="badge bg-warning text-dark">
+                                        Chưa thanh toán
+                                    </span>
                                 }
                             }
                         </td>

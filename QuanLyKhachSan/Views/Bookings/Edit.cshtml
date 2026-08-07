@@ -1,11 +1,8 @@
 @model QuanLyKhachSan.Models.Booking
-
 @using QuanLyKhachSan.Enums
-
 @{
     bool isAdmin = User.IsInRole("Admin");
     bool isReceptionist = User.IsInRole("Receptionist");
-
     if (isAdmin)
     {
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -18,10 +15,8 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
-
     ViewData["Title"] = "Chỉnh sửa Booking";
 }
-
 <div class="container py-4">
     <div class="mb-4">
         <a asp-controller="Bookings"
@@ -31,7 +26,6 @@
             Quay lại danh sách
         </a>
     </div>
-
     <div class="card border-0 shadow-lg overflow-hidden">
         <div class="card-header border-0 text-white p-4"
              style="background:linear-gradient(135deg,#121212,#3b2d18);">
@@ -40,7 +34,6 @@
                       style="width:52px;height:52px;background:#c8a96a;color:#111;">
                     <i class="bi bi-pencil-square fs-4"></i>
                 </span>
-
                 <div>
                     <h3 class="mb-1">Chỉnh sửa Booking</h3>
                     <p class="mb-0 text-white-50">
@@ -49,21 +42,16 @@
                 </div>
             </div>
         </div>
-
         <div class="card-body p-4 p-lg-5">
             <form asp-controller="Bookings"
                   asp-action="Edit"
                   asp-route-id="@Model.Id"
                   method="post">
-
                 @Html.AntiForgeryToken()
-
                 <input asp-for="Id" type="hidden" />
-
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger">
                 </div>
-
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">
@@ -73,7 +61,6 @@
                                class="form-control form-control-lg"
                                disabled />
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="Status"
                                class="form-label fw-semibold">
@@ -86,7 +73,6 @@
                         <span asp-validation-for="Status"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="CheckInDate"
                                class="form-label fw-semibold">
@@ -98,7 +84,6 @@
                         <span asp-validation-for="CheckInDate"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="CheckOutDate"
                                class="form-label fw-semibold">
@@ -110,7 +95,6 @@
                         <span asp-validation-for="CheckOutDate"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="Adult"
                                class="form-label fw-semibold">
@@ -123,7 +107,6 @@
                         <span asp-validation-for="Adult"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="Children"
                                class="form-label fw-semibold">
@@ -136,7 +119,6 @@
                         <span asp-validation-for="Children"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label asp-for="Deposit"
                                class="form-label fw-semibold">
@@ -153,7 +135,6 @@
                         <span asp-validation-for="Deposit"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">
                             Tổng tiền hiện tại
@@ -162,7 +143,6 @@
                             @Model.TotalAmount.ToString("N0") VNĐ
                         </div>
                     </div>
-
                     <div class="col-12">
                         <label asp-for="Note"
                                class="form-label fw-semibold">
@@ -176,14 +156,12 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="d-flex flex-wrap gap-2 mt-4">
                     <button type="submit"
                             class="btn btn-warning px-4 py-2 fw-semibold">
                         <i class="bi bi-check-circle me-2"></i>
                         Lưu thay đổi
                     </button>
-
                     <a asp-controller="Bookings"
                        asp-action="Index"
                        class="btn btn-secondary px-4 py-2">
@@ -194,7 +172,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

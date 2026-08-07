@@ -1,10 +1,8 @@
 @model QuanLyKhachSan.Models.Review
-
 @{
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Xóa đánh giá";
 }
-
 <div class="row justify-content-center">
     <div class="col-lg-7">
         <div class="card border-danger shadow-sm">
@@ -14,34 +12,28 @@
                     Phòng @Model.Room?.RoomNumber - @Model.Room?.RoomType?.Name
                 </p>
             </div>
-
             <div class="card-body p-4">
                 <div class="alert alert-warning">
                     Bạn có chắc chắn muốn xóa đánh giá này không?
                 </div>
-
                 <div class="mb-3">
                     @for (int star = 1; star <= 5; star++)
                     {
                         <span class="@(star <= Model.Rating ? "text-warning" : "text-secondary") fs-4">★</span>
                     }
                 </div>
-
                 @if (!string.IsNullOrWhiteSpace(Model.Comment))
                 {
                     <p style="white-space: pre-line;">@Model.Comment</p>
                 }
-
                 <form asp-action="Delete"
                       asp-route-id="@Model.Id"
                       method="post"
                       class="d-flex flex-wrap gap-2 mt-4">
                     @Html.AntiForgeryToken()
-
                     <button type="submit" class="btn btn-danger">
                         Xác nhận xóa
                     </button>
-
                     <a asp-action="Index" class="btn btn-outline-secondary">
                         Không xóa
                     </a>

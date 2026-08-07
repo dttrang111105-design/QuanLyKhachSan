@@ -1,19 +1,15 @@
 ﻿@model QuanLyKhachSan.ViewModels.Rooms.RoomSearchViewModel
-
 @{
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Tìm phòng trống";
 }
-
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
         <h2 class="mb-1">Tìm phòng trống</h2>
-
         <p class="text-muted mb-0">
             Chọn ngày lưu trú và số khách để kiểm tra phòng còn trống.
         </p>
     </div>
-
     <a asp-controller="Home"
        asp-action="Index"
        asp-fragment="rooms"
@@ -22,214 +18,168 @@
         Quay trở lại
     </a>
 </div>
-
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-danger">
         @TempData["Error"]
     </div>
 }
-
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-body p-4">
-
         <form asp-controller="Rooms"
               asp-action="Search"
               method="get">
-
             <div asp-validation-summary="ModelOnly"
                  class="alert alert-danger">
             </div>
-
             <div class="row g-3">
-
                 <!-- Ngày nhận phòng -->
                 <div class="col-lg-3 col-md-6">
                     <label asp-for="CheckInDate"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="CheckInDate"
                            type="date"
                            min="@DateTime.Today.ToString("yyyy-MM-dd")"
                            class="form-control" />
-
                     <span asp-validation-for="CheckInDate"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Ngày trả phòng -->
                 <div class="col-lg-3 col-md-6">
                     <label asp-for="CheckOutDate"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="CheckOutDate"
                            type="date"
                            min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
                            class="form-control" />
-
                     <span asp-validation-for="CheckOutDate"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Người lớn -->
                 <div class="col-lg-2 col-md-6">
                     <label asp-for="Adult"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="Adult"
                            type="number"
                            min="1"
                            max="20"
                            class="form-control" />
-
                     <span asp-validation-for="Adult"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Trẻ em -->
                 <div class="col-lg-2 col-md-6">
                     <label asp-for="Children"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="Children"
                            type="number"
                            min="0"
                            max="20"
                            class="form-control" />
-
                     <span asp-validation-for="Children"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Loại phòng -->
                 <div class="col-lg-2 col-md-6">
                     <label asp-for="RoomTypeId"
                            class="form-label fw-semibold">
                     </label>
-
                     <select asp-for="RoomTypeId"
                             class="form-select">
-
                         <option value="">Tất cả</option>
-
                         @foreach (var roomType in Model.RoomTypes)
                         {
                             <option value="@roomType.Id">
                                 @roomType.Name
                             </option>
                         }
-
                     </select>
                 </div>
-
                 <!-- Giá tối thiểu -->
                 <div class="col-lg-3 col-md-6">
                     <label asp-for="MinPrice"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="MinPrice"
                            type="number"
                            min="0"
                            step="10000"
                            class="form-control"
                            placeholder="Ví dụ: 500000" />
-
                     <span asp-validation-for="MinPrice"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Giá tối đa -->
                 <div class="col-lg-3 col-md-6">
                     <label asp-for="MaxPrice"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="MaxPrice"
                            type="number"
                            min="0"
                            step="10000"
                            class="form-control"
                            placeholder="Ví dụ: 3000000" />
-
                     <span asp-validation-for="MaxPrice"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Từ khóa -->
                 <div class="col-lg-4 col-md-8">
                     <label asp-for="Keyword"
                            class="form-label fw-semibold">
                     </label>
-
                     <input asp-for="Keyword"
                            class="form-control"
                            placeholder="Số phòng, loại phòng hoặc mô tả" />
-
                     <span asp-validation-for="Keyword"
                           class="text-danger">
                     </span>
                 </div>
-
                 <!-- Nút tìm -->
                 <div class="col-lg-2 col-md-4 d-flex align-items-end">
                     <button type="submit"
                             class="btn btn-warning w-100 fw-semibold">
-
                         <i class="bi bi-search me-1"></i>
                         Tìm phòng
                     </button>
                 </div>
-
             </div>
-
         </form>
-
     </div>
 </div>
-
 @if (Model.HasSearched && ViewData.ModelState.IsValid)
 {
     <div class="d-flex justify-content-between align-items-center mb-3">
-
         <h4 class="mb-0">
             Kết quả tìm kiếm
         </h4>
-
         <span class="badge bg-primary fs-6">
             @Model.Rooms.Count phòng phù hợp
         </span>
-
     </div>
-
     @if (Model.Rooms.Any())
     {
         <div class="row g-4">
-
             @foreach (var room in Model.Rooms)
             {
                 var mainImage =
                 room.RoomImages.FirstOrDefault(x => x.IsMain)?.ImageUrl
                 ?? room.RoomImages.FirstOrDefault()?.ImageUrl;
-
                 var averageRating = room.Reviews.Any()
                 ? room.Reviews.Average(x => x.Rating)
                 : 0;
-
                 <div class="col-lg-4 col-md-6">
-
                     <div class="card h-100 shadow-sm border-0 overflow-hidden">
-
                         @if (!string.IsNullOrWhiteSpace(mainImage))
                         {
                             <img src="@mainImage"
@@ -241,40 +191,29 @@
                         {
                             <div class="bg-light d-flex align-items-center justify-content-center text-muted"
                                  style="height: 220px;">
-
                                 <i class="bi bi-image fs-1"></i>
-
                             </div>
                         }
-
                         <div class="card-body d-flex flex-column">
-
                             <div class="d-flex justify-content-between align-items-start">
-
                                 <div>
                                     <h5 class="card-title mb-1">
                                         Phòng @room.RoomNumber
                                     </h5>
-
                                     <p class="text-muted mb-2">
                                         @room.RoomType?.Name
                                     </p>
                                 </div>
-
                                 <span class="badge bg-success">
                                     Còn trống
                                 </span>
-
                             </div>
-
                             <div class="small mb-3">
-
                                 @if (room.Reviews.Any())
                                 {
                                     <span class="text-warning fw-semibold">
                                         ★ @averageRating.ToString("0.0")
                                     </span>
-
                                     <span class="text-muted">
                                         (@room.Reviews.Count đánh giá)
                                     </span>
@@ -285,40 +224,30 @@
                                         Chưa có đánh giá
                                     </span>
                                 }
-
                             </div>
-
                             <p class="mb-2">
                                 <i class="bi bi-people me-2"></i>
                                 Tối đa @room.MaxOccupancy người
                             </p>
-
                             <p class="mb-2">
                                 <i class="bi bi-arrows-angle-expand me-2"></i>
                                 @room.RoomSize m²
                             </p>
-
                             <p class="mb-3">
                                 <i class="bi bi-building me-2"></i>
                                 Tầng @room.Floor
                             </p>
-
                             <div class="mt-auto">
-
                                 <div class="text-danger fw-bold fs-5 mb-3">
                                     @room.PriceDay.ToString("N0") VNĐ/đêm
                                 </div>
-
                                 <div class="d-grid gap-2 d-sm-flex">
-
                                     <a asp-controller="Rooms"
                                        asp-action="Details"
                                        asp-route-id="@room.Id"
                                        class="btn btn-outline-secondary flex-fill">
-
                                         Chi tiết
                                     </a>
-
                                     <a asp-controller="Bookings"
                                        asp-action="Create"
                                        asp-route-roomId="@room.Id"
@@ -327,36 +256,25 @@
                                        asp-route-adult="@Model.Adult"
                                        asp-route-children="@Model.Children"
                                        class="btn btn-success flex-fill">
-
                                         Đặt phòng
                                     </a>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
             }
-
         </div>
     }
     else
     {
         <div class="alert alert-info text-center py-4">
-
             <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-
             Không tìm thấy phòng phù hợp. Hãy thay đổi ngày,
             số khách hoặc khoảng giá.
-
         </div>
     }
 }
-
 @section Scripts
 {
     @{

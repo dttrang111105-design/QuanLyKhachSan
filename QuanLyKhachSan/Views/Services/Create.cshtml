@@ -1,178 +1,113 @@
 @model QuanLyKhachSan.Models.Service
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-
     ViewData["Title"] = "Thêm dịch vụ";
 }
-
 <div class="container mt-4">
-
     <div class="card shadow border-0 rounded-4">
-
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">
                 <i class="fas fa-concierge-bell me-2"></i>
                 Thêm dịch vụ mới
             </h3>
         </div>
-
         <div class="card-body">
-
             <form asp-action="Create">
-
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
                 <div class="row">
-
                     <!-- Tên dịch vụ -->
-
                     <div class="col-md-6 mb-3">
-
                         <label asp-for="ServiceName" class="form-label fw-bold">
                             Tên dịch vụ
                         </label>
-
                         <input asp-for="ServiceName"
                                class="form-control"
                                placeholder="Nhập tên dịch vụ..." />
-
                         <span asp-validation-for="ServiceName"
                               class="text-danger"></span>
-
                     </div>
-
                     <!-- Giá -->
-
                     <div class="col-md-6 mb-3">
-
                         <label asp-for="Price" class="form-label fw-bold">
                             Giá dịch vụ (VNĐ)
                         </label>
-
                         <input asp-for="Price"
                                type="number"
                                class="form-control"
                                placeholder="Ví dụ: 150000" />
-
                         <span asp-validation-for="Price"
                               class="text-danger"></span>
-
                     </div>
-
                     <!-- Danh mục -->
-
                     <div class="col-md-6 mb-3">
-
                         <label asp-for="Category" class="form-label fw-bold">
                             Danh mục
                         </label>
-
                         <select asp-for="Category" class="form-select">
-
                             <option value="">-- Chọn danh mục --</option>
-
                             <option value="Ăn uống">
                                 🍽 Ăn uống
                             </option>
-
                             <option value="Chăm sóc">
                                 💆 Chăm sóc
                             </option>
-
                             <option value="Giải trí">
                                 🎮 Giải trí
                             </option>
-
                             <option value="Tiện ích">
                                 🚗 Tiện ích
                             </option>
-
                             <option value="Trang trí">
                                 🎉 Trang trí
                             </option>
-
                         </select>
-
                         <span asp-validation-for="Category"
                               class="text-danger"></span>
-
                     </div>
-
                     <!-- Link ảnh -->
-
                     <div class="col-md-6 mb-3">
-
                         <label asp-for="ImageUrl" class="form-label fw-bold">
                             Link hình ảnh
                         </label>
-
                         <input asp-for="ImageUrl"
                                class="form-control"
                                placeholder="/images/services/spa.jpg" />
-
                         <span asp-validation-for="ImageUrl"
                               class="text-danger"></span>
-
                     </div>
-
                     <!-- Mô tả -->
-
                     <div class="col-12 mb-3">
-
                         <label asp-for="Description"
                                class="form-label fw-bold">
-
                             Mô tả dịch vụ
-
                         </label>
-
                         <textarea asp-for="Description"
                                   rows="5"
                                   class="form-control"
                                   placeholder="Nhập mô tả dịch vụ..."></textarea>
-
                         <span asp-validation-for="Description"
                               class="text-danger"></span>
-
                     </div>
-
                 </div>
-
                 <hr />
-
                 <div class="d-flex justify-content-between">
-
                     <a asp-action="Index"
                        class="btn btn-secondary">
-
                         <i class="fas fa-arrow-left"></i>
-
                         Quay lại
-
                     </a>
-
                     <button type="submit"
                             class="btn btn-success">
-
                         <i class="fas fa-save"></i>
-
                         Lưu dịch vụ
-
                     </button>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
-
 </div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

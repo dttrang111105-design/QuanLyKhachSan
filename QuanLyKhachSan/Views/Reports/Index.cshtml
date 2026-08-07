@@ -1,0 +1,784 @@
+﻿@using System.Globalization
+@model QuanLyKhachSan.ViewModels.ReportViewModel
+
+@{
+    ViewData["Title"] = "Báo cáo & thống kê";
+    Layout = "_AdminLayout";
+
+    decimal maxRevenue = Model.RevenueRows.Any()
+        ? Model.RevenueRows.Max(x => x.Revenue) : 0;
+
+    decimal maxInvoiceCategory = Model.InvoiceCategories.Any()
+        ? Model.InvoiceCategories.Max(x => x.Amount) : 0;
+
+    int maxBookingStatus = Model.BookingStatuses.Any()
+        ? Model.BookingStatuses.Max(x => x.Count) : 0;
+
+    string Percent(decimal value, decimal max)
+    {
+        if (max <= 0 || value <= 0)
+        {
+            return "0";
+        }
+
+        decimal percent = value / max * 100m;
+        return percent.ToString("0.##", CultureInfo.InvariantCulture);
+    }
+}
+
+@section Styles
+{
+    <style>
+        .report-page {
+            padding: 26px;
+        }
+
+        .report-hero {
+            padding: 28px 30px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #103f56, #176f8f);
+            color: #fff;
+            box-shadow: 0 18px 45px rgba(15, 68, 92, .18);
+            margin-bottom: 22px;
+        }
+
+        .report-hero h2 {
+            margin: 0 0 7px;
+            font-weight: 800;
+        }
+
+        .report-hero p {
+            margin: 0;
+            opacity: .86;
+        }
+
+        .report-panel,
+        .report-card {
+            background: #fff;
+            border: 1px solid #e6eef2;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(23, 71, 94, .07);
+        }
+
+        .report-filter {
+            padding: 20px;
+            margin-bottom: 22px;
+        }
+
+        .report-filter label {
+            display: block;
+            margin-bottom: 7px;
+            color: #526a76;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .preset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border: 1px solid #dce7ec;
+            border-radius: 10px;
+            color: #315d70;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            background: #fff;
+        }
+
+        .preset-link:hover {
+            background: #edf7fb;
+            color: #174d67;
+        }
+
+        .report-card {
+            padding: 19px 20px;
+            height: 100%;
+        }
+
+        .report-card small {
+            color: #708590;
+            font-weight: 700;
+        }
+
+        .report-card strong {
+            display: block;
+            margin-top: 7px;
+            color: #133f54;
+            font-size: 25px;
+            line-height: 1.15;
+        }
+
+        .report-card .hint {
+            margin-top: 8px;
+            color: #91a1a9;
+            font-size: 12px;
+        }
+
+        .report-panel {
+            margin-top: 22px;
+            overflow: hidden;
+        }
+
+        .report-panel-header {
+            padding: 18px 21px;
+            border-bottom: 1px solid #edf2f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .report-panel-header h5 {
+            margin: 0;
+            color: #173f53;
+            font-weight: 800;
+        }
+
+        .report-panel-header small {
+            color: #81939c;
+        }
+
+        .report-panel-body {
+            padding: 20px;
+        }
+
+        .report-table {
+            margin: 0;
+        }
+
+        .report-table thead th {
+            background: #f4f8fa;
+            color: #5f7681;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+            white-space: nowrap;
+        }
+
+        .report-table td {
+            vertical-align: middle;
+            color: #38515d;
+        }
+
+        .bar-row {
+            margin-bottom: 16px;
+        }
+
+        .bar-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .bar-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .bar-meta strong {
+            color: #274f61;
+        }
+
+        .bar-track {
+            height: 10px;
+            border-radius: 999px;
+            background: #edf3f6;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            min-width: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #17698a, #2da0be);
+        }
+
+        .booking-bar .bar-fill {
+            background: linear-gradient(90deg, #4c6488, #768cb0);
+        }
+
+        .invoice-bar .bar-fill {
+            background: linear-gradient(90deg, #bf7b2c, #e3ad52);
+        }
+
+        .occupancy-box {
+            padding: 22px;
+            border-radius: 16px;
+            background: #f5fafc;
+            border: 1px solid #e2edf1;
+        }
+
+        .occupancy-value {
+            font-size: 36px;
+            line-height: 1;
+            font-weight: 800;
+            color: #17698a;
+        }
+
+        .occupancy-progress {
+            height: 13px;
+            border-radius: 999px;
+            background: #e2ecef;
+            overflow: hidden;
+            margin-top: 14px;
+        }
+
+        .occupancy-progress > div {
+            height: 100%;
+            background: linear-gradient(90deg, #187697, #34a6bf);
+        }
+
+        .empty-report {
+            padding: 35px 15px;
+            text-align: center;
+            color: #82939b;
+        }
+
+        .money {
+            white-space: nowrap;
+            font-weight: 700;
+            color: #164e67;
+        }
+
+        @@media (max-width: 768px) {
+            .report-page {
+                padding: 14px;
+            }
+
+            .report-hero {
+                padding: 22px;
+            }
+        }
+    </style>
+}
+
+<div class="report-page">
+    <div class="report-hero d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h2>Báo cáo & thống kê tổng hợp</h2>
+            <p>
+                Doanh thu thực thu, Booking, hóa đơn, phòng, dịch vụ và thanh toán.
+                Kỳ báo cáo: <strong>@Model.PeriodText</strong>
+            </p>
+        </div>
+
+        <a asp-action="ExportExcel"
+           asp-route-fromDate="@Model.FromDate.ToString("yyyy-MM-dd")"
+           asp-route-toDate="@Model.ToDate.ToString("yyyy-MM-dd")"
+           asp-route-groupBy="@Model.GroupBy"
+           class="btn btn-light fw-bold">
+            <i class="bi bi-file-earmark-excel me-1"></i>
+            Xuất báo cáo Excel
+        </a>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="report-panel report-filter">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            <a asp-action="Index"
+               asp-route-preset="today"
+               asp-route-groupBy="day"
+               class="preset-link">
+                <i class="bi bi-calendar-day"></i> Hôm nay
+            </a>
+            <a asp-action="Index"
+               asp-route-preset="7days"
+               asp-route-groupBy="day"
+               class="preset-link">
+                <i class="bi bi-calendar-week"></i> 7 ngày
+            </a>
+            <a asp-action="Index"
+               asp-route-preset="month"
+               asp-route-groupBy="day"
+               class="preset-link">
+                <i class="bi bi-calendar3"></i> Tháng này
+            </a>
+            <a asp-action="Index"
+               asp-route-preset="year"
+               asp-route-groupBy="month"
+               class="preset-link">
+                <i class="bi bi-calendar2-range"></i> Năm nay
+            </a>
+        </div>
+
+        <form method="get" asp-action="Index">
+            <div class="row g-3 align-items-end">
+                <div class="col-xl-3 col-md-6">
+                    <label for="fromDate">Từ ngày</label>
+                    <input id="fromDate"
+                           name="fromDate"
+                           type="date"
+                           value="@Model.FromDate.ToString("yyyy-MM-dd")"
+                           class="form-control" />
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <label for="toDate">Đến ngày</label>
+                    <input id="toDate"
+                           name="toDate"
+                           type="date"
+                           value="@Model.ToDate.ToString("yyyy-MM-dd")"
+                           class="form-control" />
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <label for="groupBy">Nhóm doanh thu</label>
+                    <select id="groupBy" name="groupBy" class="form-select">
+                        @if (Model.GroupBy == "day")
+                        {
+                            <option value="day" selected>Theo ngày</option>
+                        }
+                        else
+                        {
+                            <option value="day">Theo ngày</option>
+                        }
+
+                        @if (Model.GroupBy == "month")
+                        {
+                            <option value="month" selected>Theo tháng</option>
+                        }
+                        else
+                        {
+                            <option value="month">Theo tháng</option>
+                        }
+
+                        @if (Model.GroupBy == "year")
+                        {
+                            <option value="year" selected>Theo năm</option>
+                        }
+                        else
+                        {
+                            <option value="year">Theo năm</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-xl-3 col-md-6 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        <i class="bi bi-funnel me-1"></i>
+                        Lọc báo cáo
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Doanh thu đã thu</small>
+                <strong>@Model.TotalRevenue.ToString("N0") VNĐ</strong>
+                <div class="hint">Chỉ tính giao dịch Payment = Paid</div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Giao dịch Paid</small>
+                <strong>@Model.PaidTransactionCount</strong>
+                <div class="hint">Số giao dịch thành công trong kỳ</div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Booking tạo trong kỳ</small>
+                <strong>@Model.BookingCount</strong>
+                <div class="hint">
+                    @Model.CheckedOutBookingCount trả phòng · @Model.CancelledBookingCount hủy
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Giá trị hóa đơn</small>
+                <strong>@Model.InvoiceValue.ToString("N0") VNĐ</strong>
+                <div class="hint">@Model.InvoiceCount hóa đơn · chưa đồng nghĩa đã thu</div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Tiền cọc ghi nhận</small>
+                <strong>@Model.TotalDeposit.ToString("N0") VNĐ</strong>
+                <div class="hint">Từ Booking được tạo trong kỳ</div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Phòng hiện đang sử dụng</small>
+                <strong>@Model.OccupiedRooms / @Model.TotalRooms</strong>
+                <div class="hint">@Model.AvailableRooms trống · @Model.MaintenanceRooms bảo trì</div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Đêm phòng trong kỳ</small>
+                <strong>@Model.OccupiedRoomNights</strong>
+                <div class="hint">Từ Booking CheckedIn / CheckedOut</div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="report-card">
+                <small>Tỷ lệ sử dụng phòng</small>
+                <strong>@Model.OccupancyRate.ToString("0.##")%</strong>
+                <div class="hint">Theo số đêm phòng trong kỳ báo cáo</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-panel">
+        <div class="report-panel-header">
+            <div>
+                <h5>Doanh thu theo thời gian</h5>
+                <small>Doanh thu thực thu từ giao dịch Paid</small>
+            </div>
+        </div>
+        <div class="report-panel-body">
+            @if (!Model.RevenueRows.Any())
+            {
+                <div class="empty-report">Chưa có giao dịch Paid trong khoảng thời gian này.</div>
+            }
+            else
+            {
+                @foreach (var item in Model.RevenueRows)
+                {
+                    <div class="bar-row">
+                        <div class="bar-meta">
+                            <strong>@item.Label</strong>
+                            <span>
+                                @item.TransactionCount giao dịch ·
+                                <span class="money">@item.Revenue.ToString("N0") VNĐ</span>
+                            </span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width:@Percent(item.Revenue, maxRevenue)%"></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="table-responsive">
+            <table class="table report-table">
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th class="text-center">Số giao dịch</th>
+                        <th class="text-end">Doanh thu</th>
+                        <th class="text-end">Lũy kế</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RevenueRows)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Label</td>
+                            <td class="text-center">@item.TransactionCount</td>
+                            <td class="text-end money">@item.Revenue.ToString("N0") VNĐ</td>
+                            <td class="text-end money">@item.CumulativeRevenue.ToString("N0") VNĐ</td>
+                        </tr>
+                    }
+                    <tr class="table-light fw-bold">
+                        <td>TỔNG</td>
+                        <td class="text-center">@Model.PaidTransactionCount</td>
+                        <td class="text-end money">@Model.TotalRevenue.ToString("N0") VNĐ</td>
+                        <td class="text-end money">@Model.TotalRevenue.ToString("N0") VNĐ</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-xl-6">
+            <div class="report-panel h-100">
+                <div class="report-panel-header">
+                    <div>
+                        <h5>Cơ cấu giá trị hóa đơn</h5>
+                        <small>Phòng, dịch vụ, minibar và bồi thường</small>
+                    </div>
+                </div>
+                <div class="report-panel-body">
+                    @foreach (var item in Model.InvoiceCategories)
+                    {
+                        <div class="bar-row invoice-bar">
+                            <div class="bar-meta">
+                                <strong>@item.Label</strong>
+                                <span class="money">@item.Amount.ToString("N0") VNĐ</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width:@Percent(item.Amount, maxInvoiceCategory)%"></div>
+                            </div>
+                        </div>
+                    }
+                    <div class="alert alert-light border mt-3 mb-0 small">
+                        Đây là <strong>giá trị phát sinh trên hóa đơn</strong>, không phải doanh thu đã thu.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="report-panel h-100">
+                <div class="report-panel-header">
+                    <div>
+                        <h5>Trạng thái Booking</h5>
+                        <small>Các Booking được tạo trong kỳ báo cáo</small>
+                    </div>
+                </div>
+                <div class="report-panel-body">
+                    @foreach (var item in Model.BookingStatuses)
+                    {
+                        <div class="bar-row booking-bar">
+                            <div class="bar-meta">
+                                <strong>@item.Label</strong>
+                                <span>@item.Count booking</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width:@Percent(item.Count, maxBookingStatus)%"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-panel">
+        <div class="report-panel-header">
+            <div>
+                <h5>Sử dụng phòng</h5>
+                <small>Chỉ tính Booking đã/đang thực sự lưu trú</small>
+            </div>
+        </div>
+        <div class="report-panel-body">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-4">
+                    <div class="occupancy-box">
+                        <small class="text-muted fw-bold">TỶ LỆ SỬ DỤNG PHÒNG</small>
+                        <div class="occupancy-value mt-2">@Model.OccupancyRate.ToString("0.##")%</div>
+                        <div class="occupancy-progress">
+                            <div style="width:@Model.OccupancyRate.ToString("0.##", CultureInfo.InvariantCulture)%"></div>
+                        </div>
+                        <div class="small text-muted mt-2">
+                            @Model.OccupiedRoomNights đêm phòng trong @((Model.ToDate - Model.FromDate).Days + 1) ngày báo cáo.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row g-3">
+                        <div class="col-sm-3">
+                            <div class="border rounded-3 p-3 text-center">
+                                <div class="text-muted small">Tổng phòng</div>
+                                <strong class="fs-4">@Model.TotalRooms</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="border rounded-3 p-3 text-center">
+                                <div class="text-muted small">Trống</div>
+                                <strong class="fs-4">@Model.AvailableRooms</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="border rounded-3 p-3 text-center">
+                                <div class="text-muted small">Đang dùng</div>
+                                <strong class="fs-4">@Model.OccupiedRooms</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="border rounded-3 p-3 text-center">
+                                <div class="text-muted small">Bảo trì</div>
+                                <strong class="fs-4">@Model.MaintenanceRooms</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table report-table">
+                <thead>
+                    <tr>
+                        <th>Phòng</th>
+                        <th>Loại phòng</th>
+                        <th class="text-center">Số lượt ở</th>
+                        <th class="text-center">Số đêm</th>
+                        <th class="text-end">Giá trị tiền phòng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.RoomRows.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="empty-report">Chưa có dữ liệu lưu trú trong kỳ.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.RoomRows.Take(10))
+                        {
+                            <tr>
+                                <td class="fw-bold">@item.RoomNumber</td>
+                                <td>@item.RoomTypeName</td>
+                                <td class="text-center">@item.StayCount</td>
+                                <td class="text-center">@item.OccupiedNights</td>
+                                <td class="text-end money">@item.RoomValue.ToString("N0") VNĐ</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-xl-7">
+            <div class="report-panel h-100">
+                <div class="report-panel-header">
+                    <div>
+                        <h5>Top dịch vụ</h5>
+                        <small>Sắp xếp theo số lượng sử dụng</small>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table report-table">
+                        <thead>
+                            <tr>
+                                <th>Dịch vụ</th>
+                                <th>Danh mục</th>
+                                <th class="text-center">Lượt</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-end">Giá trị</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!Model.ServiceRows.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="empty-report">Chưa có dịch vụ phát sinh trong kỳ.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model.ServiceRows.Take(10))
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@item.ServiceName</td>
+                                        <td>@item.Category</td>
+                                        <td class="text-center">@item.UsageCount</td>
+                                        <td class="text-center">@item.Quantity</td>
+                                        <td class="text-end money">@item.Amount.ToString("N0") VNĐ</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-5">
+            <div class="report-panel h-100">
+                <div class="report-panel-header">
+                    <div>
+                        <h5>Phương thức thanh toán</h5>
+                        <small>Chỉ giao dịch Paid</small>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table report-table">
+                        <thead>
+                            <tr>
+                                <th>Phương thức</th>
+                                <th class="text-center">GD</th>
+                                <th class="text-end">Doanh thu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!Model.PaymentMethods.Any())
+                            {
+                                <tr>
+                                    <td colspan="3" class="empty-report">Chưa có thanh toán.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model.PaymentMethods)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@item.Label</td>
+                                        <td class="text-center">@item.TransactionCount</td>
+                                        <td class="text-end money">@item.Amount.ToString("N0") VNĐ</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-panel">
+        <div class="report-panel-header">
+            <div>
+                <h5>Hoạt động Booking theo ngày</h5>
+                <small>
+                    Cột Hủy dùng BookingDate vì hệ thống hiện chưa lưu riêng thời điểm hủy.
+                </small>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table report-table">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th class="text-center">Booking mới</th>
+                        <th class="text-center">Check In</th>
+                        <th class="text-center">Check Out</th>
+                        <th class="text-center">Hủy*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.BookingDailyRows.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="empty-report">Chưa có hoạt động Booking trong kỳ.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.BookingDailyRows.OrderByDescending(x => x.Date))
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.Date.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@item.NewBookings</td>
+                                <td class="text-center">@item.CheckIns</td>
+                                <td class="text-center">@item.CheckOuts</td>
+                                <td class="text-center">@item.CancelledBookings</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

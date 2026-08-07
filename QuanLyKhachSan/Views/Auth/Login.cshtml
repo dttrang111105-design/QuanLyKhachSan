@@ -7,9 +7,7 @@
     <div class="auth-shell auth-shell-login">
         <aside class="auth-visual" aria-label="Giới thiệu Luxury Hotel">
             <div class="auth-overlay"></div>
-            <a class="auth-brand"
-               asp-controller="Home"
-               asp-action="Index"
+            <a class="auth-brand" asp-controller="Home" asp-action="Index"
                aria-label="Về trang chủ Luxury Hotel">
                 <span class="auth-brand-icon" aria-hidden="true">
                     <i class="bi bi-building-fill"></i>
@@ -70,17 +68,9 @@
                         @TempData["AuthSuccess"]
                     </div>
                 }
-                <form asp-controller="Auth"
-                      asp-action="Login"
-                      method="post"
-                      novalidate>
-                    @Html.AntiForgeryToken()
-                    <input type="hidden"
-                           name="returnUrl"
-                           value="@ViewData["ReturnUrl"]" />
-                    <div asp-validation-summary="ModelOnly"
-                         class="auth-validation-summary"
-                         role="alert">
+                <form asp-controller="Auth" asp-action="Login" method="post" novalidate>
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    <div asp-validation-summary="ModelOnly" class="auth-validation-summary" role="alert">
                     </div>
                     <div class="auth-field">
                         <label asp-for="Username">Tên đăng nhập</label>
@@ -88,13 +78,9 @@
                             <span class="auth-input-icon" aria-hidden="true">
                                 <i class="bi bi-person"></i>
                             </span>
-                            <input asp-for="Username"
-                                   class="auth-input"
-                                   placeholder="Nhập tên đăng nhập"
-                                   autocomplete="username" />
+                            <input asp-for="Username" class="auth-input" placeholder="Nhập tên đăng nhập" autocomplete="username" />
                         </div>
-                        <span asp-validation-for="Username"
-                              class="auth-error"></span>
+                        <span asp-validation-for="Username" class="auth-error"></span>
                     </div>
                     <div class="auth-field">
                         <label asp-for="Password">Mật khẩu</label>
@@ -102,41 +88,30 @@
                             <span class="auth-input-icon" aria-hidden="true">
                                 <i class="bi bi-lock"></i>
                             </span>
-                            <input asp-for="Password"
-                                   type="password"
-                                   id="loginPassword"
-                                   class="auth-input auth-password-input"
-                                   placeholder="Nhập mật khẩu"
-                                   autocomplete="current-password" />
-                            <button type="button"
-                                    class="auth-password-toggle"
-                                    data-target="loginPassword"
-                                    aria-label="Hiện hoặc ẩn mật khẩu">
+                            <input asp-for="Password" type="password" id="loginPassword"
+                                   class="auth-input auth-password-input" placeholder="Nhập mật khẩu" autocomplete="current-password" />
+                            <button type="button" class="auth-password-toggle"
+                                    data-target="loginPassword" aria-label="Hiện hoặc ẩn mật khẩu">
                                 <i class="bi bi-eye" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <span asp-validation-for="Password"
-                              class="auth-error"></span>
+                        <span asp-validation-for="Password" class="auth-error"></span>
                     </div>
-                    <button type="submit"
-                            class="auth-primary-button">
+                    <button type="submit" class="auth-primary-button">
                         <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
                         Đăng nhập
                     </button>
                     <div class="auth-divider">
                         <span>hoặc tiếp tục với</span>
                     </div>
-                    <a asp-controller="Auth"
-                       asp-action="GoogleLogin"
-                       asp-route-returnUrl="@ViewData["ReturnUrl"]"
+                    <a asp-controller="Auth" asp-action="GoogleLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]"
                        class="auth-google-button">
                         <i class="bi bi-google" aria-hidden="true"></i>
                         Đăng nhập bằng Google
                     </a>
                     <p class="auth-switch">
                         Chưa có tài khoản?
-                        <a asp-controller="Auth"
-                           asp-action="Register">
+                        <a asp-controller="Auth" asp-action="Register">
                             Đăng ký ngay
                         </a>
                     </p>
@@ -162,9 +137,7 @@
                 input.type = isPassword ? "text" : "password";
                 const icon = button.querySelector("i");
                 if (icon) {
-                    icon.className = isPassword
-                        ? "bi bi-eye-slash"
-                        : "bi bi-eye";
+                    icon.className = isPassword ? "bi bi-eye-slash" : "bi bi-eye";
                 }
             });
         });

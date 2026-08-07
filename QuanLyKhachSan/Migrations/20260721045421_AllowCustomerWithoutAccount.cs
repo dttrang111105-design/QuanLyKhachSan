@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-
 #nullable disable
-
 namespace QuanLyKhachSan.Migrations
 {
     /// <inheritdoc />
@@ -13,43 +11,33 @@ namespace QuanLyKhachSan.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_BookingDetails_Rooms_RoomId",
                 table: "BookingDetails");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Bookings_Customers_CustomerId",
                 table: "Bookings");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Customers_Accounts_AccountId",
                 table: "Customers");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Accounts_AccountId",
                 table: "Employees");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Invoices_Bookings_BookingId",
                 table: "Invoices");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_Customers_CustomerId",
                 table: "Reviews");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_Rooms_RoomId",
                 table: "Reviews");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Rooms_RoomTypes_RoomTypeId",
                 table: "Rooms");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_ServiceBookings_Services_ServiceId",
                 table: "ServiceBookings");
-
             migrationBuilder.DropIndex(
                 name: "IX_Customers_AccountId",
                 table: "Customers");
-
             migrationBuilder.AlterColumn<int>(
                 name: "AccountId",
                 table: "Customers",
@@ -57,32 +45,27 @@ namespace QuanLyKhachSan.Migrations
                 nullable: true,
                 oldClrType: typeof(int),
                 oldType: "int");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_InvoiceCode",
                 table: "Invoices",
                 column: "InvoiceCode",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_AccountId",
                 table: "Customers",
                 column: "AccountId",
                 unique: true,
                 filter: "[AccountId] IS NOT NULL");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_BookingCode",
                 table: "Bookings",
                 column: "BookingCode",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_Username",
                 table: "Accounts",
                 column: "Username",
                 unique: true);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_BookingDetails_Rooms_RoomId",
                 table: "BookingDetails",
@@ -90,7 +73,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Rooms",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Bookings_Customers_CustomerId",
                 table: "Bookings",
@@ -98,7 +80,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Customers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Customers_Accounts_AccountId",
                 table: "Customers",
@@ -106,7 +87,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Accounts",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.SetNull);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Employees_Accounts_AccountId",
                 table: "Employees",
@@ -114,7 +94,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Accounts",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Invoices_Bookings_BookingId",
                 table: "Invoices",
@@ -122,7 +101,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Bookings",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_Customers_CustomerId",
                 table: "Reviews",
@@ -130,7 +108,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Customers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_Rooms_RoomId",
                 table: "Reviews",
@@ -138,7 +115,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Rooms",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Rooms_RoomTypes_RoomTypeId",
                 table: "Rooms",
@@ -146,7 +122,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "RoomTypes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_ServiceBookings_Services_ServiceId",
                 table: "ServiceBookings",
@@ -155,62 +130,48 @@ namespace QuanLyKhachSan.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
-
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookingDetails_Rooms_RoomId",
                 table: "BookingDetails");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Bookings_Customers_CustomerId",
                 table: "Bookings");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Customers_Accounts_AccountId",
                 table: "Customers");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Accounts_AccountId",
                 table: "Employees");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Invoices_Bookings_BookingId",
                 table: "Invoices");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_Customers_CustomerId",
                 table: "Reviews");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_Rooms_RoomId",
                 table: "Reviews");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Rooms_RoomTypes_RoomTypeId",
                 table: "Rooms");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_ServiceBookings_Services_ServiceId",
                 table: "ServiceBookings");
-
             migrationBuilder.DropIndex(
                 name: "IX_Invoices_InvoiceCode",
                 table: "Invoices");
-
             migrationBuilder.DropIndex(
                 name: "IX_Customers_AccountId",
                 table: "Customers");
-
             migrationBuilder.DropIndex(
                 name: "IX_Bookings_BookingCode",
                 table: "Bookings");
-
             migrationBuilder.DropIndex(
                 name: "IX_Accounts_Username",
                 table: "Accounts");
-
             migrationBuilder.AlterColumn<int>(
                 name: "AccountId",
                 table: "Customers",
@@ -220,13 +181,11 @@ namespace QuanLyKhachSan.Migrations
                 oldClrType: typeof(int),
                 oldType: "int",
                 oldNullable: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_AccountId",
                 table: "Customers",
                 column: "AccountId",
                 unique: true);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_BookingDetails_Rooms_RoomId",
                 table: "BookingDetails",
@@ -234,7 +193,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Rooms",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Bookings_Customers_CustomerId",
                 table: "Bookings",
@@ -242,7 +200,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Customers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Customers_Accounts_AccountId",
                 table: "Customers",
@@ -250,7 +207,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Accounts",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Employees_Accounts_AccountId",
                 table: "Employees",
@@ -258,7 +214,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Accounts",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Invoices_Bookings_BookingId",
                 table: "Invoices",
@@ -266,7 +221,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Bookings",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_Customers_CustomerId",
                 table: "Reviews",
@@ -274,7 +228,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Customers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_Rooms_RoomId",
                 table: "Reviews",
@@ -282,7 +235,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "Rooms",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Rooms_RoomTypes_RoomTypeId",
                 table: "Rooms",
@@ -290,7 +242,6 @@ namespace QuanLyKhachSan.Migrations
                 principalTable: "RoomTypes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_ServiceBookings_Services_ServiceId",
                 table: "ServiceBookings",

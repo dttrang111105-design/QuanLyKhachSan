@@ -1,0 +1,259 @@
+﻿@model QuanLyKhachSan.Models.RoomChargeItem
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Cập nhật bảng giá";
+    bool isMiniBar = Model.Category == "MiniBar";
+}
+<style>
+    .charge-edit-page {
+        max-width: 820px;
+        margin: 0 auto;
+    }
+    .charge-edit-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .charge-edit-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #b58a42;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+    }
+    .charge-edit-heading h2 {
+        margin: 0;
+        color: #252a35;
+        font-size: 30px;
+        font-weight: 800;
+    }
+    .charge-edit-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 42px;
+        padding: 9px 15px;
+        border: 1px solid #dfe2e8;
+        border-radius: 10px;
+        background: #fff;
+        color: #555c69;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    .charge-edit-card {
+        overflow: hidden;
+        border: 1px solid #e7e9ee;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 20px 50px rgba(34,38,51,.08);
+    }
+    .charge-edit-header {
+        padding: 24px 28px;
+        background: linear-gradient(135deg,#151515,#3a2c19);
+        color: #fff;
+    }
+    .charge-edit-header h3 {
+        margin: 0 0 5px;
+        font-size: 23px;
+        font-weight: 800;
+    }
+    .charge-edit-header p {
+        margin: 0;
+        color: rgba(255,255,255,.66);
+        font-size: 13px;
+    }
+    .charge-edit-body {
+        padding: 28px;
+    }
+    .charge-info {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+    .charge-info-item {
+        padding: 14px 16px;
+        border: 1px solid #eceef2;
+        border-radius: 11px;
+        background: #fafbfc;
+    }
+    .charge-info-item span {
+        display: block;
+        margin-bottom: 4px;
+        color: #8a909b;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+    .charge-info-item strong {
+        color: #343943;
+        font-size: 15px;
+    }
+    .charge-field label {
+        margin-bottom: 7px;
+        color: #3c424d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+    .charge-field .form-control {
+        min-height: 50px;
+        border: 1px solid #dfe2e8;
+        border-radius: 10px;
+        background: #fcfcfd;
+        box-shadow: none;
+    }
+    .charge-field .form-control:focus {
+        border-color: #b58a42;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(181,138,66,.12);
+    }
+    .charge-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 26px;
+        padding-top: 20px;
+        border-top: 1px solid #eceef2;
+    }
+    .charge-save,
+    .charge-cancel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 45px;
+        padding: 9px 19px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+    .charge-save {
+        border: 1px solid #b58a42;
+        background: linear-gradient(145deg,#d8b25e,#a8752d);
+        color: #fff;
+    }
+    .charge-cancel {
+        border: 1px solid #dfe2e8;
+        background: #fff;
+        color: #555c69;
+    }
+    @@media (max-width: 767.98px) {
+        .charge-edit-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+        .charge-info {
+            grid-template-columns: 1fr;
+        }
+        .charge-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+<div class="charge-edit-page">
+    <div class="charge-edit-heading">
+        <div>
+            <span class="charge-edit-kicker">Checkout</span>
+            <h2>Cập nhật bảng giá</h2>
+        </div>
+        <a asp-controller="RoomChargeItems"
+           asp-action="Index"
+           class="charge-edit-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại
+        </a>
+    </div>
+    <div class="charge-edit-card">
+        <div class="charge-edit-header">
+            <h3>@Model.Name</h3>
+            <p>Cập nhật giá được sử dụng khi nhân viên kiểm tra phòng trước Checkout.</p>
+        </div>
+        <div class="charge-edit-body">
+            <div class="charge-info">
+                <div class="charge-info-item">
+                    <span>Tên</span>
+                    <strong>@Model.Name</strong>
+                </div>
+                <div class="charge-info-item">
+                    <span>Loại</span>
+                    <strong>@(isMiniBar ? "MiniBar" : "Tài sản phòng")</strong>
+                </div>
+            </div>
+            <form asp-controller="RoomChargeItems"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+                @Html.AntiForgeryToken()
+                <input asp-for="Id" type="hidden" />
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+                @if (isMiniBar)
+                {
+                    <div class="charge-field">
+                        <label asp-for="UsedPrice">Giá sử dụng</label>
+                        <div class="input-group">
+                            <input asp-for="UsedPrice"
+                                   type="number"
+                                   min="0"
+                                   step="1000"
+                                   class="form-control" />
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                        <span asp-validation-for="UsedPrice"
+                              class="text-danger small"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="row g-4">
+                        <div class="col-md-6 charge-field">
+                            <label asp-for="DamagedPrice">Đền bù khi hỏng</label>
+                            <div class="input-group">
+                                <input asp-for="DamagedPrice"
+                                       type="number"
+                                       min="0"
+                                       step="1000"
+                                       class="form-control" />
+                                <span class="input-group-text">VNĐ</span>
+                            </div>
+                            <span asp-validation-for="DamagedPrice"
+                                  class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 charge-field">
+                            <label asp-for="LostPrice">Đền bù khi mất</label>
+                            <div class="input-group">
+                                <input asp-for="LostPrice"
+                                       type="number"
+                                       min="0"
+                                       step="1000"
+                                       class="form-control" />
+                                <span class="input-group-text">VNĐ</span>
+                            </div>
+                            <span asp-validation-for="LostPrice"
+                                  class="text-danger small"></span>
+                        </div>
+                    </div>
+                }
+                <div class="charge-actions">
+                    <button type="submit" class="charge-save">
+                        <i class="bi bi-check-lg"></i>
+                        Lưu bảng giá
+                    </button>
+                    <a asp-controller="RoomChargeItems"
+                       asp-action="Index"
+                       class="charge-cancel">
+                        Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

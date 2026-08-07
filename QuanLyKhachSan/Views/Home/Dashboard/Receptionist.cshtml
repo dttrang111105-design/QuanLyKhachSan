@@ -1,25 +1,19 @@
 ﻿@model QuanLyKhachSan.ViewModels.Dashboard.DashboardViewModel
-
 @using QuanLyKhachSan.Enums
 @using QuanLyKhachSan.Models
-
 @{
     Layout = "~/Views/Shared/_ReceptionistLayout.cshtml";
-
     ViewData["Title"] = "Tổng quan lễ tân";
-
     string receptionistName =
         Model.FullName
         ?? User.FindFirst("FullName")?.Value
         ?? User.Identity?.Name
         ?? "Lễ tân";
-
     double occupancyRate =
         Model.TotalRooms > 0
             ? (double)Model.OccupiedRooms /
               Model.TotalRooms * 100
             : 0;
-
     string Initial(string? value)
     {
         return string.IsNullOrWhiteSpace(value)
@@ -28,53 +22,40 @@
                 .Substring(0, 1)
                 .ToUpper();
     }
-
     string StatusText(BookingStatus status)
     {
         return status switch
         {
             BookingStatus.Pending =>
                 "Chờ xác nhận",
-
             BookingStatus.Confirmed =>
                 "Đã xác nhận",
-
             BookingStatus.CheckedIn =>
                 "Đang lưu trú",
-
             BookingStatus.CheckedOut =>
                 "Đã trả phòng",
-
             BookingStatus.Cancelled =>
                 "Đã hủy",
-
             _ => status.ToString()
         };
     }
-
     string StatusClass(BookingStatus status)
     {
         return status switch
         {
             BookingStatus.Pending =>
                 "reception-status-pending",
-
             BookingStatus.Confirmed =>
                 "reception-status-confirmed",
-
             BookingStatus.CheckedIn =>
                 "reception-status-checkedin",
-
             BookingStatus.CheckedOut =>
                 "reception-status-checkedout",
-
             BookingStatus.Cancelled =>
                 "reception-status-cancelled",
-
             _ => string.Empty
         };
     }
-
     string RoomNumbers(Booking booking)
     {
         if (booking.BookingDetails == null ||
@@ -82,7 +63,6 @@
         {
             return "Chưa xếp phòng";
         }
-
         List<string> roomNumbers =
             booking.BookingDetails
                 .Where(detail =>
@@ -92,673 +72,441 @@
                     detail.Room!.RoomNumber)
                 .Distinct()
                 .ToList();
-
         return roomNumbers.Any()
             ? string.Join(", ", roomNumbers)
             : "Chưa xếp phòng";
     }
 }
-
-<!-- =====================================================
-     TIÊU ĐỀ
-     ===================================================== -->
+<!-- TIÊU ĐỀ -->
 <section class="reception-dashboard-heading">
-
     <div>
-
         <span class="reception-dashboard-kicker">
             Bảng điều khiển
         </span>
-
         <h2>
             Chào mừng trở lại, @receptionistName
         </h2>
-
         <p>
             Theo dõi Booking, tình trạng phòng,
             khách nhận phòng và trả phòng trong ngày.
         </p>
-
     </div>
-
     <div class="reception-dashboard-actions">
-
         <a asp-controller="Bookings"
            asp-action="Index"
            class="reception-outline-action">
-
             <i class="bi bi-calendar2-check"></i>
             Quản lý Booking
-
         </a>
-
         <a asp-controller="Rooms"
            asp-action="Index"
            asp-route-status="Available"
            class="reception-primary-action">
-
             <i class="bi bi-door-open"></i>
             Phòng trống
-
         </a>
-
     </div>
-
 </section>
-
-<!-- =====================================================
-     THẺ THỐNG KÊ
-     ===================================================== -->
+<!-- THẺ THỐNG KÊ -->
 <section class="row g-4 mb-4">
-
     <!-- Tổng Booking -->
     <div class="col-xl-3 col-md-6">
-
         <a asp-controller="Bookings"
            asp-action="Index"
            class="reception-stat-card reception-stat-booking">
-
             <div class="reception-stat-top">
-
                 <span class="reception-stat-icon">
                     <i class="bi bi-calendar2-week-fill"></i>
                 </span>
-
                 <span class="reception-stat-tag">
                     @Model.PendingBookings chờ xử lý
                 </span>
-
             </div>
-
             <span class="reception-stat-label">
                 Tổng Booking
             </span>
-
             <strong class="reception-stat-value">
                 @Model.TotalBookings
             </strong>
-
             <div class="reception-stat-footer">
-
                 <span>
                     Đã xác nhận:
                     <b>@Model.ConfirmedBookings</b>
                 </span>
-
                 <i class="bi bi-arrow-up-right"></i>
-
             </div>
-
         </a>
-
     </div>
-
     <!-- Phòng trống -->
     <div class="col-xl-3 col-md-6">
-
         <a asp-controller="Rooms"
            asp-action="Index"
            asp-route-status="Available"
            class="reception-stat-card reception-stat-available">
-
             <div class="reception-stat-top">
-
                 <span class="reception-stat-icon">
                     <i class="bi bi-door-open-fill"></i>
                 </span>
-
                 <span class="reception-stat-tag success">
                     Sẵn sàng
                 </span>
-
             </div>
-
             <span class="reception-stat-label">
                 Phòng còn trống
             </span>
-
             <strong class="reception-stat-value">
                 @Model.AvailableRooms
             </strong>
-
             <div class="reception-stat-footer">
-
                 <span>
                     Tổng cộng:
                     <b>@Model.TotalRooms phòng</b>
                 </span>
-
                 <i class="bi bi-arrow-up-right"></i>
-
             </div>
-
         </a>
-
     </div>
-
     <!-- Đang có khách -->
     <div class="col-xl-3 col-md-6">
-
         <a asp-controller="Rooms"
            asp-action="Index"
            asp-route-status="Occupied"
            class="reception-stat-card reception-stat-occupied">
-
             <div class="reception-stat-top">
-
                 <span class="reception-stat-icon">
                     <i class="bi bi-person-check-fill"></i>
                 </span>
-
                 <span class="reception-stat-tag">
                     @occupancyRate.ToString("0.0")% sử dụng
                 </span>
-
             </div>
-
             <span class="reception-stat-label">
                 Phòng đang có khách
             </span>
-
             <strong class="reception-stat-value">
                 @Model.OccupiedRooms
             </strong>
-
             <div class="reception-stat-footer">
-
                 <span>
                     Đang được sử dụng
                 </span>
-
                 <i class="bi bi-arrow-up-right"></i>
-
             </div>
-
         </a>
-
     </div>
-
     <!-- Bảo trì -->
     <div class="col-xl-3 col-md-6">
-
         <a asp-controller="Rooms"
            asp-action="Index"
            asp-route-status="Maintenance"
            class="reception-stat-card reception-stat-maintenance">
-
             <div class="reception-stat-top">
-
                 <span class="reception-stat-icon">
                     <i class="bi bi-tools"></i>
                 </span>
-
                 <span class="reception-stat-tag danger">
                     Cần theo dõi
                 </span>
-
             </div>
-
             <span class="reception-stat-label">
                 Phòng đang bảo trì
             </span>
-
             <strong class="reception-stat-value">
                 @Model.MaintenanceRooms
             </strong>
-
             <div class="reception-stat-footer">
-
                 <span>
                     Chưa thể sử dụng
                 </span>
-
                 <i class="bi bi-arrow-up-right"></i>
-
             </div>
-
         </a>
-
     </div>
-
 </section>
-
-<!-- =====================================================
-     HOẠT ĐỘNG HÔM NAY
-     ===================================================== -->
+<!-- HOẠT ĐỘNG HÔM NAY -->
 <section class="reception-today-strip mb-4">
-
     <div class="reception-today-heading">
-
         <span class="reception-today-main-icon">
             <i class="bi bi-sun-fill"></i>
         </span>
-
         <div>
-
             <strong>
                 Hoạt động hôm nay
             </strong>
-
             <small>
                 Cập nhật theo dữ liệu hiện có
             </small>
-
         </div>
-
     </div>
-
     <div class="reception-today-list">
-
         <a asp-controller="Bookings"
            asp-action="Index"
            asp-route-filter="checkinToday"
            class="reception-today-item">
-
             <span class="today-icon today-checkin">
                 <i class="bi bi-box-arrow-in-right"></i>
             </span>
-
             <div>
-
                 <strong>
                     @Model.CheckInsToday
                 </strong>
-
                 <small>
                     Nhận phòng hôm nay
                 </small>
-
             </div>
-
         </a>
-
         <a asp-controller="Bookings"
            asp-action="Index"
            asp-route-filter="checkoutToday"
            class="reception-today-item">
-
             <span class="today-icon today-checkout">
                 <i class="bi bi-box-arrow-right"></i>
             </span>
-
             <div>
-
                 <strong>
                     @Model.CheckOutsToday
                 </strong>
-
                 <small>
                     Trả phòng hôm nay
                 </small>
-
             </div>
-
         </a>
-
         <a asp-controller="Bookings"
            asp-action="Index"
            asp-route-filter="pending"
            class="reception-today-item">
-
             <span class="today-icon today-pending">
                 <i class="bi bi-hourglass-split"></i>
             </span>
-
             <div>
-
                 <strong>
                     @Model.PendingBookings
                 </strong>
-
                 <small>
                     Booking chờ xử lý
                 </small>
-
             </div>
-
         </a>
-
         <a asp-controller="Rooms"
            asp-action="Index"
            asp-route-status="Available"
            class="reception-today-item">
-
             <span class="today-icon today-room">
                 <i class="bi bi-door-open-fill"></i>
             </span>
-
             <div>
-
                 <strong>
                     @Model.AvailableRooms
                 </strong>
-
                 <small>
                     Phòng sẵn sàng
                 </small>
-
             </div>
-
         </a>
-
     </div>
-
 </section>
-
-<!-- =====================================================
-     PHÒNG TRỐNG
-     ===================================================== -->
+<!-- PHÒNG TRỐNG -->
 <section class="reception-panel mb-4">
-
     <div class="reception-panel-header">
-
         <div>
-
             <span>
                 Tình trạng phòng
             </span>
-
             <h3>
                 Phòng trống hiện tại
             </h3>
-
         </div>
-
         <a asp-controller="Rooms"
            asp-action="Index"
            asp-route-status="Available"
            class="reception-panel-link">
-
             Xem tất cả
             <i class="bi bi-arrow-right"></i>
-
         </a>
-
     </div>
-
     @if (Model.AvailableRoomList != null &&
         Model.AvailableRoomList.Any())
     {
         <div class="reception-room-grid">
-
             @foreach (Room room in Model.AvailableRoomList)
             {
                 <a asp-controller="Rooms"
                    asp-action="Details"
                    asp-route-id="@room.Id"
                    class="reception-room-card">
-
                     <div class="reception-room-card-top">
-
                         <span class="reception-room-number">
                             @room.RoomNumber
                         </span>
-
                         <span class="reception-room-status">
                             <i class="bi bi-check-circle-fill"></i>
                             Còn trống
                         </span>
-
                     </div>
-
                     <div class="reception-room-type">
-
                         <i class="bi bi-house-door"></i>
-
                         @(room.RoomType?.Name
                                         ?? "Chưa xác định")
-
                     </div>
-
                     <div class="reception-room-info">
-
                         <span>
-
                             <i class="bi bi-building"></i>
                             Tầng @room.Floor
-
                         </span>
-
                         <span>
-
                             <i class="bi bi-people"></i>
                             @room.MaxOccupancy người
-
                         </span>
-
                     </div>
-
                     <div class="reception-room-footer">
-
                         <strong>
                             @room.PriceDay.ToString("N0")
                             <small>VNĐ/ngày</small>
                         </strong>
-
                         <i class="bi bi-arrow-up-right"></i>
-
                     </div>
-
                 </a>
             }
-
         </div>
     }
     else
     {
         <div class="reception-empty-state">
-
             <i class="bi bi-door-closed"></i>
-
             <strong>
                 Không còn phòng trống
             </strong>
-
             <span>
                 Hiện tại tất cả phòng đang được sử dụng
                 hoặc đang bảo trì.
             </span>
-
         </div>
     }
-
 </section>
-
-<!-- =====================================================
-     THAO TÁC NHANH VÀ BOOKING GẦN ĐÂY
-     ===================================================== -->
+<!-- THAO TÁC NHANH VÀ BOOKING GẦN ĐÂY -->
 <section class="row g-4">
-
     <div class="col-xl-4">
-
         <article class="reception-panel h-100">
-
             <div class="reception-panel-header">
-
                 <div>
-
                     <span>
                         Truy cập nhanh
                     </span>
-
                     <h3>
                         Thao tác lễ tân
                     </h3>
-
                 </div>
-
             </div>
-
             <div class="reception-quick-list">
-
                 <a asp-controller="Bookings"
                    asp-action="Index"
                    class="reception-quick-item">
-
                     <span class="quick-icon booking">
                         <i class="bi bi-calendar-plus"></i>
                     </span>
-
                     <div>
-
                         <strong>
                             Quản lý Booking
                         </strong>
-
                         <small>
                             Xác nhận, Check In, Check Out
                         </small>
-
                     </div>
-
                     <i class="bi bi-chevron-right"></i>
-
                 </a>
-
                 <a asp-controller="Rooms"
                    asp-action="Index"
                    class="reception-quick-item">
-
                     <span class="quick-icon room">
                         <i class="bi bi-door-open"></i>
                     </span>
-
                     <div>
-
                         <strong>
                             Tình trạng phòng
                         </strong>
-
                         <small>
                             Xem phòng trống và phòng có khách
                         </small>
-
                     </div>
-
                     <i class="bi bi-chevron-right"></i>
-
                 </a>
-
                 <a asp-controller="ServiceBookings"
                    asp-action="Index"
                    class="reception-quick-item">
-
                     <span class="quick-icon service">
                         <i class="bi bi-bag-check"></i>
                     </span>
-
                     <div>
-
                         <strong>
                             Dịch vụ đã đặt
                         </strong>
-
                         <small>
                             Xử lý yêu cầu dịch vụ của khách
                         </small>
-
                     </div>
-
                     <i class="bi bi-chevron-right"></i>
-
                 </a>
-
                 <a asp-controller="Invoices"
                    asp-action="Index"
                    class="reception-quick-item">
-
                     <span class="quick-icon invoice">
                         <i class="bi bi-receipt"></i>
                     </span>
-
                     <div>
-
                         <strong>
                             Hóa đơn và thanh toán
                         </strong>
-
                         <small>
                             Kiểm tra và xử lý thanh toán
                         </small>
-
                     </div>
-
                     <i class="bi bi-chevron-right"></i>
-
                 </a>
-
             </div>
-
         </article>
-
     </div>
-
     <div class="col-xl-8">
-
         <article class="reception-panel h-100">
-
             <div class="reception-panel-header">
-
                 <div>
-
                     <span>
                         Hoạt động mới nhất
                     </span>
-
                     <h3>
                         Booking gần đây
                     </h3>
-
                 </div>
-
                 <a asp-controller="Bookings"
                    asp-action="Index"
                    class="reception-panel-link">
-
                     Xem tất cả
                     <i class="bi bi-arrow-right"></i>
-
                 </a>
-
             </div>
-
             <div class="table-responsive">
-
                 <table class="table reception-booking-table
                     align-middle mb-0">
-
                     <thead>
-
                         <tr>
-
                             <th class="ps-4">
                                 Mã Booking
                             </th>
-
                             <th>
                                 Khách hàng
                             </th>
-
                             <th>
                                 Phòng
                             </th>
-
                             <th>
                                 Nhận phòng
                             </th>
-
                             <th>
                                 Trạng thái
                             </th>
-
                             <th class="pe-4"></th>
-
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         @if (Model.RecentBookings != null &&
                                                 Model.RecentBookings.Any())
                         {
@@ -768,129 +516,83 @@
                                 string customerName =
                                 booking.Customer?.FullName
                                 ?? "Không xác định";
-
                                 <tr>
-
                                     <td class="ps-4">
-
                                         <strong class="reception-booking-code">
                                             @booking.BookingCode
                                         </strong>
-
                                         <small class="d-block text-muted">
                                             @booking.BookingDate
                                             .ToString("dd/MM/yyyy HH:mm")
                                         </small>
-
                                     </td>
-
                                     <td>
-
                                         <div class="reception-customer-cell">
-
                                             <span>
                                                 @Initial(customerName)
                                             </span>
-
                                             <div>
-
                                                 <strong>
                                                     @customerName
                                                 </strong>
-
                                                 <small>
                                                     @(booking.Customer?.Phone
                                                                                                 ?? "Chưa có SĐT")
                                                 </small>
-
                                             </div>
-
                                         </div>
-
                                     </td>
-
                                     <td>
-
                                         <span class="reception-room-badge">
                                             @RoomNumbers(booking)
                                         </span>
-
                                     </td>
-
                                     <td>
-
                                         @booking.CheckInDate
                                         .ToString("dd/MM/yyyy")
-
                                     </td>
-
                                     <td>
-
                                         <span class="reception-booking-status
                                                     @StatusClass(
                                               booking.Status)">
-
                                     @StatusText(booking.Status)
-
                                 </span>
-
                             </td>
-
                             <td class="text-end pe-4">
-
                                 <a asp-controller="Bookings"
                                    asp-action="Details"
                                    asp-route-id="@booking.Id"
                                    class="reception-table-button"
                                    title="Xem chi tiết">
-
                                     <i class="bi bi-arrow-up-right"></i>
-
                                 </a>
-
                             </td>
-
                         </tr>
                                                 }
                         }
                         else
                         {
                             <tr>
-
                                 <td colspan="6"
                                     class="text-center py-5">
-
                                     <div class="reception-empty-state">
-
                                         <i class="bi bi-calendar-x"></i>
-
                                         <strong>
                                             Chưa có Booking
                                         </strong>
-
                                         <span>
                                             Booking mới sẽ xuất hiện tại đây.
                                         </span>
-
                                     </div>
-
                                 </td>
-
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </article>
-
     </div>
-
 </section>
-
 @section Styles
 {
     <style>
@@ -901,7 +603,6 @@
             gap: 24px;
             margin-bottom: 28px;
         }
-
         .reception-dashboard-kicker {
             color: #b58a42;
             font-size: 11px;
@@ -909,7 +610,6 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-
         .reception-dashboard-heading h2 {
             margin: 8px 0;
             color: #242834;
@@ -917,19 +617,16 @@
             font-size: clamp(28px, 3vw, 38px);
             font-weight: 700;
         }
-
         .reception-dashboard-heading p {
             max-width: 730px;
             margin: 0;
             color: #838897;
             line-height: 1.7;
         }
-
         .reception-dashboard-actions {
             display: flex;
             gap: 10px;
         }
-
         .reception-outline-action,
         .reception-primary-action {
             min-height: 45px;
@@ -942,24 +639,20 @@
             font-size: 13px;
             font-weight: 700;
         }
-
         .reception-outline-action {
             border: 1px solid #e8e9ee;
             background: #ffffff;
             color: #555b69;
         }
-
         .reception-primary-action {
             border: 1px solid #b58a42;
             background: linear-gradient( 135deg, #c49a51, #8f692f );
             color: #ffffff;
             box-shadow: 0 10px 23px rgba(181, 138, 66, 0.2);
         }
-
             .reception-primary-action:hover {
                 color: #ffffff;
             }
-
         .reception-stat-card {
             position: relative;
             min-height: 205px;
@@ -974,12 +667,10 @@
             box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
             transition: 0.3s ease;
         }
-
             .reception-stat-card:hover {
                 color: #242834;
                 transform: translateY(-5px);
             }
-
         .reception-stat-top {
             display: flex;
             align-items: center;
@@ -987,7 +678,6 @@
             gap: 10px;
             margin-bottom: 20px;
         }
-
         .reception-stat-icon {
             width: 49px;
             height: 49px;
@@ -997,27 +687,22 @@
             border-radius: 14px;
             font-size: 21px;
         }
-
         .reception-stat-booking .reception-stat-icon {
             background: #eaf0ff;
             color: #4f6fd8;
         }
-
         .reception-stat-available .reception-stat-icon {
             background: #e4f7ef;
             color: #27875e;
         }
-
         .reception-stat-occupied .reception-stat-icon {
             background: #f0ebff;
             color: #8567d4;
         }
-
         .reception-stat-maintenance .reception-stat-icon {
             background: #fde9eb;
             color: #cf535d;
         }
-
         .reception-stat-tag {
             padding: 6px 9px;
             border-radius: 20px;
@@ -1026,30 +711,25 @@
             font-size: 10px;
             font-weight: 700;
         }
-
             .reception-stat-tag.success {
                 background: #e7f7ef;
                 color: #25885e;
             }
-
             .reception-stat-tag.danger {
                 background: #fde9eb;
                 color: #c34c55;
             }
-
         .reception-stat-label {
             color: #838897;
             font-size: 12px;
             font-weight: 600;
         }
-
         .reception-stat-value {
             margin: 5px 0 18px;
             color: #242833;
             font-size: 36px;
             font-weight: 800;
         }
-
         .reception-stat-footer {
             display: flex;
             align-items: center;
@@ -1060,7 +740,6 @@
             color: #838897;
             font-size: 11px;
         }
-
         .reception-today-strip {
             display: flex;
             gap: 20px;
@@ -1070,7 +749,6 @@
             background: #ffffff;
             box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
-
         .reception-today-heading {
             min-width: 220px;
             display: flex;
@@ -1079,7 +757,6 @@
             padding-right: 20px;
             border-right: 1px solid #e8e9ee;
         }
-
         .reception-today-main-icon {
             width: 46px;
             height: 46px;
@@ -1091,26 +768,22 @@
             color: #d29522;
             font-size: 20px;
         }
-
         .reception-today-heading div,
         .reception-today-item div {
             display: flex;
             flex-direction: column;
         }
-
         .reception-today-heading small,
         .reception-today-item small {
             color: #838897;
             font-size: 10px;
         }
-
         .reception-today-list {
             flex: 1;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
         }
-
         .reception-today-item {
             display: flex;
             align-items: center;
@@ -1119,12 +792,10 @@
             border-radius: 12px;
             color: #242834;
         }
-
             .reception-today-item:hover {
                 background: #f8f8fa;
                 color: #242834;
             }
-
         .today-icon {
             width: 42px;
             height: 42px;
@@ -1133,31 +804,25 @@
             justify-content: center;
             border-radius: 12px;
         }
-
         .today-checkin {
             background: #e5f6ef;
             color: #29895f;
         }
-
         .today-checkout {
             background: #eaf0ff;
             color: #4f6fd8;
         }
-
         .today-pending {
             background: #fff3df;
             color: #d38d20;
         }
-
         .today-room {
             background: #f0ebff;
             color: #8567d4;
         }
-
         .reception-today-item strong {
             font-size: 20px;
         }
-
         .reception-panel {
             overflow: hidden;
             border: 1px solid #e8e9ee;
@@ -1165,7 +830,6 @@
             background: #ffffff;
             box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
-
         .reception-panel-header {
             min-height: 82px;
             display: flex;
@@ -1175,12 +839,10 @@
             padding: 20px 22px;
             border-bottom: 1px solid #e8e9ee;
         }
-
             .reception-panel-header > div {
                 display: flex;
                 flex-direction: column;
             }
-
             .reception-panel-header span {
                 color: #b58a42;
                 font-size: 9px;
@@ -1188,13 +850,11 @@
                 letter-spacing: 1.5px;
                 text-transform: uppercase;
             }
-
             .reception-panel-header h3 {
                 margin: 4px 0 0;
                 font-family: "Playfair Display", serif;
                 font-size: 20px;
             }
-
         .reception-panel-link {
             display: inline-flex;
             align-items: center;
@@ -1203,14 +863,12 @@
             font-size: 12px;
             font-weight: 700;
         }
-
         .reception-room-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             padding: 20px;
         }
-
         .reception-room-card {
             padding: 17px;
             border: 1px solid #e8e9ee;
@@ -1219,14 +877,12 @@
             color: #242834;
             transition: 0.25s ease;
         }
-
             .reception-room-card:hover {
                 border-color: #d6bd88;
                 color: #242834;
                 transform: translateY(-4px);
                 box-shadow: 0 14px 32px rgba(34, 38, 51, 0.09);
             }
-
         .reception-room-card-top {
             display: flex;
             align-items: center;
@@ -1234,14 +890,12 @@
             gap: 10px;
             margin-bottom: 14px;
         }
-
         .reception-room-number {
             color: #242834;
             font-family: "Playfair Display", serif;
             font-size: 25px;
             font-weight: 700;
         }
-
         .reception-room-status {
             display: inline-flex;
             align-items: center;
@@ -1253,7 +907,6 @@
             font-size: 9px;
             font-weight: 700;
         }
-
         .reception-room-type {
             display: flex;
             align-items: center;
@@ -1262,11 +915,9 @@
             color: #555b68;
             font-weight: 600;
         }
-
             .reception-room-type i {
                 color: #b58a42;
             }
-
         .reception-room-info {
             display: flex;
             flex-wrap: wrap;
@@ -1274,13 +925,11 @@
             color: #838897;
             font-size: 10px;
         }
-
             .reception-room-info span {
                 display: inline-flex;
                 align-items: center;
                 gap: 5px;
             }
-
         .reception-room-footer {
             display: flex;
             align-items: center;
@@ -1289,21 +938,17 @@
             padding-top: 14px;
             border-top: 1px solid #eeeef2;
         }
-
             .reception-room-footer strong {
                 color: #c34e59;
                 font-size: 13px;
             }
-
             .reception-room-footer small {
                 color: #838897;
                 font-size: 8px;
             }
-
         .reception-quick-list {
             padding: 10px 17px 17px;
         }
-
         .reception-quick-item {
             display: flex;
             align-items: center;
@@ -1312,31 +957,25 @@
             border-bottom: 1px solid #eeeef2;
             color: #242834;
         }
-
             .reception-quick-item:last-child {
                 border-bottom: 0;
             }
-
             .reception-quick-item > div {
                 min-width: 0;
                 flex: 1;
                 display: flex;
                 flex-direction: column;
             }
-
             .reception-quick-item strong {
                 font-size: 13px;
             }
-
             .reception-quick-item small {
                 color: #838897;
                 font-size: 10px;
             }
-
             .reception-quick-item > i {
                 color: #b3b7c0;
             }
-
         .quick-icon {
             width: 44px;
             height: 44px;
@@ -1346,27 +985,22 @@
             border-radius: 13px;
             font-size: 18px;
         }
-
             .quick-icon.booking {
                 background: #eaf0ff;
                 color: #4f6fd8;
             }
-
             .quick-icon.room {
                 background: #e4f7ef;
                 color: #27875e;
             }
-
             .quick-icon.service {
                 background: #f0ebff;
                 color: #8567d4;
             }
-
             .quick-icon.invoice {
                 background: #f4ead7;
                 color: #8f692f;
             }
-
         .reception-booking-table thead th {
             background: #fafafb;
             color: #818795;
@@ -1374,23 +1008,19 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
-
         .reception-booking-table tbody td {
             padding-top: 15px;
             padding-bottom: 15px;
             font-size: 11px;
         }
-
         .reception-booking-code {
             color: #252a35;
         }
-
         .reception-customer-cell {
             display: flex;
             align-items: center;
             gap: 9px;
         }
-
             .reception-customer-cell > span {
                 width: 35px;
                 height: 35px;
@@ -1402,17 +1032,14 @@
                 color: #8f692f;
                 font-weight: 800;
             }
-
             .reception-customer-cell div {
                 display: flex;
                 flex-direction: column;
             }
-
             .reception-customer-cell small {
                 color: #838897;
                 font-size: 9px;
             }
-
         .reception-room-badge {
             display: inline-flex;
             padding: 6px 9px;
@@ -1420,7 +1047,6 @@
             background: #f3f4f7;
             font-weight: 700;
         }
-
         .reception-booking-status {
             display: inline-flex;
             padding: 6px 9px;
@@ -1428,32 +1054,26 @@
             font-size: 9px;
             font-weight: 700;
         }
-
         .reception-status-pending {
             background: #fff1d9;
             color: #b87610;
         }
-
         .reception-status-confirmed {
             background: #e7eeff;
             color: #4565c4;
         }
-
         .reception-status-checkedin {
             background: #e1f6ec;
             color: #238156;
         }
-
         .reception-status-checkedout {
             background: #e8ebf1;
             color: #626978;
         }
-
         .reception-status-cancelled {
             background: #fde7e9;
             color: #c34c55;
         }
-
         .reception-table-button {
             width: 34px;
             height: 34px;
@@ -1464,13 +1084,11 @@
             border-radius: 10px;
             color: #687080;
         }
-
             .reception-table-button:hover {
                 border-color: #b58a42;
                 background: #f4ead7;
                 color: #8f692f;
             }
-
         .reception-empty-state {
             display: flex;
             flex-direction: column;
@@ -1479,26 +1097,21 @@
             color: #838897;
             text-align: center;
         }
-
             .reception-empty-state i {
                 margin-bottom: 8px;
                 color: #c4c7ce;
                 font-size: 30px;
             }
-
             .reception-empty-state strong {
                 color: #555b68;
             }
-
         @@media (max-width: 1199.98px) {
             .reception-room-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .reception-today-strip {
                 flex-direction: column;
             }
-
             .reception-today-heading {
                 min-width: 0;
                 padding-right: 0;
@@ -1507,31 +1120,25 @@
                 border-bottom: 1px solid #e8e9ee;
             }
         }
-
         @@media (max-width: 991.98px) {
             .reception-dashboard-heading {
                 align-items: flex-start;
                 flex-direction: column;
             }
-
             .reception-dashboard-actions {
                 width: 100%;
             }
-
                 .reception-dashboard-actions a {
                     flex: 1;
                 }
-
             .reception-today-list {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
         @@media (max-width: 575.98px) {
             .reception-dashboard-actions {
                 flex-direction: column;
             }
-
             .reception-room-grid,
             .reception-today-list {
                 grid-template-columns: 1fr;

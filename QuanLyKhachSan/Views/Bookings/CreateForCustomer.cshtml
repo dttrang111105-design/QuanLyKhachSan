@@ -1,11 +1,9 @@
 ﻿@model QuanLyKhachSan.ViewModels.BookingCreateViewModel
-
 @{
     bool isAdmin = User.IsInRole("Admin");
     Layout = isAdmin ? "~/Views/Shared/_AdminLayout.cshtml" : "~/Views/Shared/_ReceptionistLayout.cshtml";
     ViewData["Title"] = "Đặt phòng cho khách";
 }
-
 <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
     <div>
         <span class="text-uppercase text-warning fw-bold small">Nghiệp vụ đặt phòng</span>
@@ -16,7 +14,6 @@
         <i class="bi bi-arrow-left me-1"></i>Quay lại
     </a>
 </div>
-
 <form asp-controller="Bookings" asp-action="CreateForCustomer" method="post">
     @Html.AntiForgeryToken()
     <input asp-for="RoomId" type="hidden" />
@@ -24,12 +21,10 @@
     <input asp-for="RoomTypeName" type="hidden" />
     <input asp-for="PricePerNight" type="hidden" />
     <input asp-for="MaxOccupancy" type="hidden" />
-
     @if (!ViewData.ModelState.IsValid)
     {
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
     }
-
     <div class="row g-4">
         <div class="col-xl-4">
             <div class="card border-0 shadow-sm h-100">
@@ -57,14 +52,12 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white p-4">
                     <h4 class="fw-bold mb-1">Thông tin khách hàng</h4>
                     <p class="text-muted mb-0">Khách đã có hồ sơ hoặc khách mới đến trực tiếp tại quầy.</p>
                 </div>
-
                 <div class="card-body p-4">
                     <div class="form-check form-switch mb-4">
                         <input asp-for="CreateNewCustomer" class="form-check-input" />
@@ -72,7 +65,6 @@
                             Khách trực tiếp đến quầy, chưa có hồ sơ
                         </label>
                     </div>
-
                     <div id="existingCustomerSection">
                         <label asp-for="CustomerId" class="form-label fw-semibold"></label>
                         <select asp-for="CustomerId" asp-items="ViewBag.Customers" class="form-select">
@@ -80,38 +72,32 @@
                         </select>
                         <span asp-validation-for="CustomerId" class="text-danger"></span>
                     </div>
-
                     <div id="newCustomerSection" class="d-none">
                         <div class="border rounded-4 bg-light p-4">
                             <h5 class="fw-bold mb-3">
                                 <i class="bi bi-person-plus me-1"></i>Thông tin khách mới
                             </h5>
-
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label asp-for="GuestFullName" class="form-label fw-semibold"></label>
                                     <input asp-for="GuestFullName" class="form-control" placeholder="Nguyễn Văn A" />
                                     <span asp-validation-for="GuestFullName" class="text-danger"></span>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label asp-for="GuestPhone" class="form-label fw-semibold"></label>
                                     <input asp-for="GuestPhone" class="form-control" placeholder="09xxxxxxxx" />
                                     <span asp-validation-for="GuestPhone" class="text-danger"></span>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label asp-for="GuestCitizenId" class="form-label fw-semibold"></label>
                                     <input asp-for="GuestCitizenId" class="form-control" placeholder="Nhập CCCD nếu có" />
                                     <span asp-validation-for="GuestCitizenId" class="text-danger"></span>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label asp-for="GuestEmail" class="form-label fw-semibold"></label>
                                     <input asp-for="GuestEmail" class="form-control" placeholder="Email nếu có" />
                                     <span asp-validation-for="GuestEmail" class="text-danger"></span>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label asp-for="GuestGender" class="form-label fw-semibold"></label>
                                     <select asp-for="GuestGender" class="form-select">
@@ -122,13 +108,11 @@
                                     </select>
                                     <span asp-validation-for="GuestGender" class="text-danger"></span>
                                 </div>
-
                                 <div class="col-md-6">
                                     <label asp-for="GuestDateOfBirth" class="form-label fw-semibold"></label>
                                     <input asp-for="GuestDateOfBirth" class="form-control" />
                                     <span asp-validation-for="GuestDateOfBirth" class="text-danger"></span>
                                 </div>
-
                                 <div class="col-12">
                                     <label asp-for="GuestAddress" class="form-label fw-semibold"></label>
                                     <input asp-for="GuestAddress" class="form-control" placeholder="Địa chỉ khách hàng" />
@@ -137,42 +121,34 @@
                             </div>
                         </div>
                     </div>
-
                     <hr class="my-4" />
-
                     <h5 class="fw-bold mb-3">Thông tin lưu trú</h5>
-
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label asp-for="CheckInDate" class="form-label fw-semibold"></label>
                             <input asp-for="CheckInDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             <span asp-validation-for="CheckInDate" class="text-danger"></span>
                         </div>
-
                         <div class="col-md-6">
                             <label asp-for="CheckOutDate" class="form-label fw-semibold"></label>
                             <input asp-for="CheckOutDate" class="form-control" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
                             <span asp-validation-for="CheckOutDate" class="text-danger"></span>
                         </div>
-
                         <div class="col-md-4">
                             <label asp-for="Adult" class="form-label fw-semibold"></label>
                             <input asp-for="Adult" class="form-control" min="1" max="@Model.MaxOccupancy" />
                             <span asp-validation-for="Adult" class="text-danger"></span>
                         </div>
-
                         <div class="col-md-4">
                             <label asp-for="Children" class="form-label fw-semibold"></label>
                             <input asp-for="Children" class="form-control" min="0" max="@Model.MaxOccupancy" />
                             <span asp-validation-for="Children" class="text-danger"></span>
                         </div>
-
                         <div class="col-md-4">
                             <label asp-for="Deposit" class="form-label fw-semibold"></label>
                             <input asp-for="Deposit" class="form-control" min="0" step="1000" />
                             <span asp-validation-for="Deposit" class="text-danger"></span>
                         </div>
-
                         <div class="col-12">
                             <label asp-for="Note" class="form-label fw-semibold"></label>
                             <textarea asp-for="Note" class="form-control" rows="3" maxlength="500" placeholder="Yêu cầu đặc biệt, giờ dự kiến đến..."></textarea>
@@ -180,7 +156,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card-footer bg-white p-4 d-flex justify-content-end gap-2">
                     <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-outline-secondary">Hủy</a>
                     <button type="submit" class="btn btn-primary">
@@ -191,7 +166,6 @@
         </div>
     </div>
 </form>
-
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
@@ -206,14 +180,12 @@
             const nightsElement = document.getElementById("numberOfNights");
             const totalElement = document.getElementById("estimatedTotal");
             const price = @Model.PricePerNight.ToString(System.Globalization.CultureInfo.InvariantCulture);
-
             function updateCustomerMode() {
                 const isNew = createNewCustomer.checked;
                 existingSection.classList.toggle("d-none", isNew);
                 newSection.classList.toggle("d-none", !isNew);
                 if (isNew && customerSelect) customerSelect.value = "";
             }
-
             function updateTotal() {
                 if (!checkIn.value || !checkOut.value) return;
                 const start = new Date(checkIn.value + "T00:00:00");
@@ -221,7 +193,6 @@
                 const nights = Math.max(0, Math.round((end - start) / 86400000));
                 nightsElement.textContent = nights;
                 totalElement.textContent = new Intl.NumberFormat("vi-VN").format(nights * price) + " VNĐ";
-
                 if (checkIn.value) {
                     const minimum = new Date(checkIn.value + "T00:00:00");
                     minimum.setDate(minimum.getDate() + 1);
@@ -230,7 +201,6 @@
                         String(minimum.getDate()).padStart(2, "0");
                 }
             }
-
             createNewCustomer.addEventListener("change", updateCustomerMode);
             checkIn.addEventListener("change", updateTotal);
             checkOut.addEventListener("change", updateTotal);

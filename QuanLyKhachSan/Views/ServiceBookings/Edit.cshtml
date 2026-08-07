@@ -1,14 +1,11 @@
 @model QuanLyKhachSan.Models.ServiceBooking
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
     ViewData["Title"] = "Edit";
 }
-
 <h1>Edit</h1>
-
 <h4>ServiceBooking</h4>
 <hr />
 <div class="row">
@@ -72,11 +69,9 @@
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

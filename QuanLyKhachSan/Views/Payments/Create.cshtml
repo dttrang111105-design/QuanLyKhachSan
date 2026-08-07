@@ -1,85 +1,54 @@
 @model QuanLyKhachSan.ViewModels.Payment.PaymentViewModel
 @using QuanLyKhachSan.Enums
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
     ViewData["Title"] = "Thêm thanh toán";
 }
-
 <h2>Thanh toán hóa đơn</h2>
-
 <hr />
-
 <form asp-action="Create" method="post">
-
     <input asp-for="InvoiceId" type="hidden" />
-
     <div class="mb-3">
-
         <label asp-for="Amount" class="form-label"></label>
-
         <input asp-for="Amount"
                class="form-control"
                readonly />
-
     </div>
-
     <div class="mb-3">
-
         <label asp-for="PaymentMethod" class="form-label"></label>
-
         <select asp-for="PaymentMethod"
                 class="form-select">
-
             <option value="">-- Chọn phương thức --</option>
-
             @foreach (PaymentMethod item in Enum.GetValues(typeof(PaymentMethod)))
             {
                 <option value="@((int)item)">
                     @item
                 </option>
             }
-
         </select>
-
         <span asp-validation-for="PaymentMethod"
               class="text-danger"></span>
-
     </div>
-
     <div class="mb-3">
-
         <label asp-for="Note"></label>
-
         <textarea asp-for="Note"
                   class="form-control"
                   rows="3"></textarea>
-
     </div>
-
     <button class="btn btn-success">
-
         Xác nhận thanh toán
-
     </button>
-
     <a asp-controller="Invoices"
        asp-action="Details"
        asp-route-id="@Model.InvoiceId"
        class="btn btn-secondary">
-
         Quay lại
-
     </a>
-
 </form>
-
 @section Scripts {
-
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
 }

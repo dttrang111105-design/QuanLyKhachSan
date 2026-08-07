@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-
 #nullable disable
-
 namespace QuanLyKhachSan.Migrations
 {
     /// <inheritdoc />
@@ -17,7 +15,6 @@ namespace QuanLyKhachSan.Migrations
                 type: "datetime2",
                 nullable: true);
         }
-
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {

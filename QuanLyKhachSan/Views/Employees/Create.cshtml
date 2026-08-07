@@ -1,63 +1,47 @@
 @model QuanLyKhachSan.Models.Employee
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Thêm nhân viên";
 }
-
 <h2 class="mb-4">Thêm nhân viên</h2>
-
 <div class="card shadow-sm">
     <div class="card-body">
-
         <form asp-controller="Employees"
               asp-action="Create"
               method="post">
-
             @Html.AntiForgeryToken()
-
             <div asp-validation-summary="ModelOnly"
                  class="alert alert-danger">
             </div>
-
             <div class="mb-3">
                 <label asp-for="AccountId" class="form-label">
                     Tài khoản đăng nhập
                 </label>
-
                 <select asp-for="AccountId"
                         asp-items="ViewBag.AccountId"
                         class="form-select">
-
                     <option value="">
                         -- Chọn tài khoản nhân viên --
                     </option>
-
                 </select>
-
                 <span asp-validation-for="AccountId"
                       class="text-danger">
                 </span>
             </div>
-
             <div class="mb-3">
                 <label asp-for="FullName" class="form-label">
                     Họ và tên
                 </label>
-
                 <input asp-for="FullName"
                        class="form-control" />
-
                 <span asp-validation-for="FullName"
                       class="text-danger">
                 </span>
             </div>
-
             <div class="mb-3">
                 <label asp-for="Gender" class="form-label">
                     Giới tính
                 </label>
-
                 <select asp-for="Gender" class="form-select">
                     <option value="">-- Chọn giới tính --</option>
                     <option value="Nam">Nam</option>
@@ -65,112 +49,88 @@
                     <option value="Khác">Khác</option>
                 </select>
             </div>
-
             <div class="mb-3">
                 <label asp-for="DateOfBirth" class="form-label">
                     Ngày sinh
                 </label>
-
                 <input asp-for="DateOfBirth"
                        type="date"
                        class="form-control" />
             </div>
-
             <div class="mb-3">
                 <label asp-for="Phone" class="form-label">
                     Số điện thoại
                 </label>
-
                 <input asp-for="Phone"
                        class="form-control" />
-
                 <span asp-validation-for="Phone"
                       class="text-danger">
                 </span>
             </div>
-
             <div class="mb-3">
                 <label asp-for="Email" class="form-label">
                     Email
                 </label>
-
                 <input asp-for="Email"
                        type="email"
                        class="form-control" />
-
                 <span asp-validation-for="Email"
                       class="text-danger">
                 </span>
             </div>
-
             <div class="mb-3">
                 <label asp-for="Address" class="form-label">
                     Địa chỉ
                 </label>
-
                 <input asp-for="Address"
                        class="form-control" />
             </div>
-
             <div class="mb-3">
                 <label asp-for="Position" class="form-label">
                     Chức vụ
                 </label>
-
                 <input asp-for="Position"
                        class="form-control"
                        placeholder="Ví dụ: Lễ tân" />
             </div>
-
             <div class="mb-3">
                 <label asp-for="Salary" class="form-label">
                     Lương
                 </label>
-
                 <input asp-for="Salary"
                        type="number"
                        min="0"
                        class="form-control" />
-
                 <span asp-validation-for="Salary"
                       class="text-danger">
                 </span>
             </div>
-
             <div class="mb-3">
                 <label asp-for="HireDate" class="form-label">
                     Ngày vào làm
                 </label>
-
                 <input asp-for="HireDate"
                        type="date"
                        class="form-control" />
             </div>
-
             <div class="form-check mb-4">
                 <input asp-for="Status"
                        class="form-check-input" />
-
                 <label asp-for="Status"
                        class="form-check-label">
                     Đang làm việc
                 </label>
             </div>
-
             <button type="submit" class="btn btn-primary">
                 Lưu nhân viên
             </button>
-
             <a asp-action="Index"
                class="btn btn-secondary">
                 Quay lại
             </a>
-
         </form>
-
     </div>
 </div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

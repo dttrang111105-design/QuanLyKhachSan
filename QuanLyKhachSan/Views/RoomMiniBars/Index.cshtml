@@ -1,0 +1,132 @@
+﻿@model IEnumerable<QuanLyKhachSan.Models.Room>
+
+@{
+    ViewData["Title"] = "Quản lý minibar";
+    Layout = User.IsInRole("Admin") ? "_AdminLayout" : "_ReceptionistLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Quản lý Minibar</h2>
+            <p class="text-muted mb-0">Theo dõi số lượng minibar theo từng phòng.</p>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Chưa có phòng nào trong hệ thống.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var room in Model)
+            {
+                var minibarItems = room.RoomMiniBarItems
+                    .Where(item => !item.IsDeleted && item.RoomChargeItem != null)
+                    .OrderBy(item => item.RoomChargeItem!.Name)
+                    .ToList();
+
+                var totalStandard = minibarItems.Sum(item => item.StandardQuantity);
+                var totalCurrent = minibarItems.Sum(item => item.CurrentQuantity);
+
+                <div class="col-xl-4 col-lg-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">Phòng @room.RoomNumber</h5>
+                                <small class="text-muted">
+                                    @(room.RoomType?.Name ?? "Chưa xác định")
+                                </small>
+                            </div>
+                            <span class="badge bg-secondary">
+                                Tầng @room.Floor
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            @if (!minibarItems.Any())
+                            {
+                                <div class="text-muted mb-3">
+                                    Phòng chưa thiết lập minibar.
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle mb-3">
+                                        <thead>
+                                            <tr>
+                                                <th>Mặt hàng</th>
+                                                <th class="text-center">Chuẩn</th>
+                                                <th class="text-center">Hiện có</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in minibarItems)
+                                            {
+                                                <tr>
+                                                    <td>@item.RoomChargeItem!.Name</td>
+                                                    <td class="text-center">@item.StandardQuantity</td>
+                                                    <td class="text-center">
+                                                        @if (item.CurrentQuantity < item.StandardQuantity)
+                                                        {
+                                                            <span class="badge bg-warning text-dark">
+                                                                @item.CurrentQuantity
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-success">
+                                                                @item.CurrentQuantity
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="small text-muted mb-3">
+                                    Tổng hiện có: <strong>@totalCurrent</strong> / @totalStandard sản phẩm
+                                </div>
+                            }
+
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a asp-action="Manage"
+                                   asp-route-id="@room.Id"
+                                   class="btn btn-primary">
+                                    Quản lý minibar
+                                </a>
+
+                                @if (minibarItems.Any())
+                                {
+                                    <form asp-action="Refill"
+                                          asp-route-id="@room.Id"
+                                          method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit"
+                                                class="btn btn-outline-success"
+                                                onclick="return confirm('Bổ sung tất cả minibar của phòng @room.RoomNumber về số lượng chuẩn?');">
+                                            Bổ sung đầy
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

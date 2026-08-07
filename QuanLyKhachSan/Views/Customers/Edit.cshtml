@@ -1,16 +1,13 @@
 @model QuanLyKhachSan.Models.Customer
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Chỉnh sửa khách hàng";
 }
-
 <style>
     .customer-edit-page {
         max-width: 1080px;
         margin: 0 auto;
     }
-
     .customer-edit-heading {
         display: flex;
         align-items: center;
@@ -18,7 +15,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .customer-edit-kicker {
         display: block;
         margin-bottom: 6px;
@@ -28,14 +24,12 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .customer-edit-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .customer-edit-back {
         min-height: 42px;
         display: inline-flex;
@@ -50,7 +44,6 @@
         font-size: 13px;
         font-weight: 700;
     }
-
     .customer-edit-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -58,7 +51,6 @@
         background: #fff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .customer-edit-card-header {
         display: flex;
         align-items: center;
@@ -67,7 +59,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111,#332717);
         color: #fff;
     }
-
     .customer-edit-icon {
         width: 56px;
         height: 56px;
@@ -80,29 +71,24 @@
         color: #171008;
         font-size: 25px;
     }
-
     .customer-edit-card-header h3 {
         margin: 0 0 4px;
         font-size: 24px;
         font-weight: 800;
     }
-
     .customer-edit-card-header p {
         margin: 0;
         color: rgba(255,255,255,.65);
     }
-
     .customer-edit-body {
         padding: 30px;
     }
-
     .customer-edit-field label {
         margin-bottom: 7px;
         color: #3c424d;
         font-size: 13px;
         font-weight: 700;
     }
-
     .customer-edit-field .form-control,
     .customer-edit-field .form-select {
         min-height: 50px;
@@ -111,14 +97,12 @@
         background: #fcfcfd;
         box-shadow: none;
     }
-
         .customer-edit-field .form-control:focus,
         .customer-edit-field .form-select:focus {
             border-color: #b58a42;
             background: #fff;
             box-shadow: 0 0 0 4px rgba(181,138,66,.12);
         }
-
     .customer-edit-actions {
         display: flex;
         flex-wrap: wrap;
@@ -127,7 +111,6 @@
         padding-top: 22px;
         border-top: 1px solid #eceef2;
     }
-
     .customer-edit-save,
     .customer-edit-cancel {
         min-height: 46px;
@@ -140,48 +123,40 @@
         font-size: 13px;
         font-weight: 800;
     }
-
     .customer-edit-save {
         border: 1px solid #b58a42;
         background: linear-gradient(145deg,#d8b25e,#a8752d);
         color: #fff;
     }
-
     .customer-edit-cancel {
         border: 1px solid #dfe2e8;
         background: #fff;
         color: #555c69;
     }
-
     @@media (max-width: 767.98px) {
         .customer-edit-heading {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .customer-edit-card-header,
         .customer-edit-body {
             padding: 22px;
         }
-
         .customer-edit-actions {
             flex-direction: column;
         }
-
         .customer-edit-save,
         .customer-edit-cancel {
             width: 100%;
         }
     }
 </style>
-
 <div class="customer-edit-page">
     <div class="customer-edit-heading">
         <div>
             <span class="customer-edit-kicker">Quản lý khách hàng</span>
             <h2>Chỉnh sửa khách hàng</h2>
         </div>
-
         <a asp-controller="Customers"
            asp-action="Index"
            class="customer-edit-back">
@@ -189,31 +164,25 @@
             Quay lại danh sách
         </a>
     </div>
-
     <div class="customer-edit-card">
         <div class="customer-edit-card-header">
             <span class="customer-edit-icon">
                 <i class="bi bi-person-lines-fill"></i>
             </span>
-
             <div>
                 <h3>@Model.FullName</h3>
                 <p>Cập nhật thông tin liên hệ và hồ sơ khách hàng.</p>
             </div>
         </div>
-
         <div class="customer-edit-body">
             <form asp-controller="Customers"
                   asp-action="Edit"
                   asp-route-id="@Model.Id"
                   method="post">
-
                 @Html.AntiForgeryToken()
                 <input asp-for="Id" type="hidden" />
-
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger"></div>
-
                 <div class="row g-4">
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="AccountId">Tài khoản liên kết</label>
@@ -225,7 +194,6 @@
                         <span asp-validation-for="AccountId"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="FullName">Họ và tên</label>
                         <input asp-for="FullName"
@@ -234,7 +202,6 @@
                         <span asp-validation-for="FullName"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="Gender">Giới tính</label>
                         <select asp-for="Gender"
@@ -247,7 +214,6 @@
                         <span asp-validation-for="Gender"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="DateOfBirth">Ngày sinh</label>
                         <input asp-for="DateOfBirth"
@@ -256,7 +222,6 @@
                         <span asp-validation-for="DateOfBirth"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="Phone">Số điện thoại</label>
                         <input asp-for="Phone"
@@ -265,7 +230,6 @@
                         <span asp-validation-for="Phone"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="Email">Email</label>
                         <input asp-for="Email"
@@ -275,7 +239,6 @@
                         <span asp-validation-for="Email"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="CitizenId">CCCD/CMND</label>
                         <input asp-for="CitizenId"
@@ -284,7 +247,6 @@
                         <span asp-validation-for="CitizenId"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 customer-edit-field">
                         <label asp-for="Avatar">Đường dẫn ảnh đại diện</label>
                         <input asp-for="Avatar"
@@ -293,7 +255,6 @@
                         <span asp-validation-for="Avatar"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-12 customer-edit-field">
                         <label asp-for="Address">Địa chỉ</label>
                         <input asp-for="Address"
@@ -303,14 +264,12 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="customer-edit-actions">
                     <button type="submit"
                             class="customer-edit-save">
                         <i class="bi bi-check-circle"></i>
                         Lưu thay đổi
                     </button>
-
                     <a asp-controller="Customers"
                        asp-action="Details"
                        asp-route-id="@Model.Id"
@@ -323,7 +282,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

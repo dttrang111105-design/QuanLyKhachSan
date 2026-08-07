@@ -1,10 +1,8 @@
 @model QuanLyKhachSan.Models.Review
-
 @{
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Chi tiết đánh giá";
 }
-
 <div class="row justify-content-center">
     <div class="col-lg-7">
         <div class="card border-0 shadow-sm">
@@ -16,7 +14,6 @@
                             @(Model.Room?.RoomType?.Name ?? "Chưa xác định loại phòng")
                         </p>
                     </div>
-
                     <div class="text-nowrap">
                         @for (int star = 1; star <= 5; star++)
                         {
@@ -24,7 +21,6 @@
                         }
                     </div>
                 </div>
-
                 <div class="mb-4">
                     <h6 class="fw-bold">Nhận xét</h6>
                     @if (!string.IsNullOrWhiteSpace(Model.Comment))
@@ -36,25 +32,21 @@
                         <p class="text-muted fst-italic">Không có nội dung nhận xét.</p>
                     }
                 </div>
-
                 <dl class="row mb-4">
                     <dt class="col-sm-4">Ngày gửi</dt>
                     <dd class="col-sm-8">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
-
                     @if (Model.UpdatedAt.HasValue)
                     {
                         <dt class="col-sm-4">Cập nhật lần cuối</dt>
                         <dd class="col-sm-8">@Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm")</dd>
                     }
                 </dl>
-
                 <div class="d-flex flex-wrap gap-2">
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-warning">
                         Sửa đánh giá
                     </a>
-
                     <a asp-action="Index"
                        class="btn btn-outline-secondary">
                         Quay lại danh sách

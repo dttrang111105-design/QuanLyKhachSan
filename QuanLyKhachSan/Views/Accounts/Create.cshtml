@@ -1,11 +1,9 @@
 @model QuanLyKhachSan.Models.Account
 @using QuanLyKhachSan.Enums
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Thêm tài khoản";
 }
-
 <section class="account-form-heading">
     <div>
         <span>Quản trị hệ thống</span>
@@ -16,7 +14,6 @@
         <i class="bi bi-arrow-left me-1"></i>Quay lại
     </a>
 </section>
-
 <div class="row justify-content-center">
     <div class="col-xl-8">
         <div class="card account-form-card">
@@ -29,13 +26,10 @@
                     <p>Nhập thông tin đăng nhập và vai trò của tài khoản.</p>
                 </div>
             </div>
-
             <form asp-controller="Accounts" asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
-
                 <div class="card-body p-4">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label asp-for="Username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
@@ -45,7 +39,6 @@
                             </div>
                             <span asp-validation-for="Username" class="text-danger small"></span>
                         </div>
-
                         <div class="col-md-6">
                             <label asp-for="PasswordHash" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
                             <div class="account-input-group">
@@ -57,7 +50,6 @@
                             </div>
                             <span asp-validation-for="PasswordHash" class="text-danger small"></span>
                         </div>
-
                         <div class="col-md-6">
                             <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
                             <div class="account-input-group">
@@ -66,7 +58,6 @@
                             </div>
                             <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
-
                         <div class="col-md-6">
                             <label asp-for="PhoneNumber" class="form-label">Số điện thoại</label>
                             <div class="account-input-group">
@@ -75,7 +66,6 @@
                             </div>
                             <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
                         </div>
-
                         <div class="col-12">
                             <label asp-for="Role" class="form-label">Vai trò <span class="text-danger">*</span></label>
                             <div class="account-input-group">
@@ -85,7 +75,6 @@
                                 </select>
                             </div>
                             <span asp-validation-for="Role" class="text-danger small"></span>
-
                             <div class="role-help mt-3">
                                 <div><i class="bi bi-shield-lock-fill"></i><strong>Admin:</strong> Toàn quyền quản trị hệ thống.</div>
                                 <div><i class="bi bi-person-badge-fill"></i><strong>Receptionist:</strong> Quản lý Booking, phòng, dịch vụ và hóa đơn.</div>
@@ -94,7 +83,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card-footer">
                     <a asp-action="Index" class="btn btn-outline-secondary">Hủy</a>
                     <button type="submit" class="btn btn-primary">
@@ -105,7 +93,6 @@
         </div>
     </div>
 </div>
-
 @section Styles {
     <style>
         .account-form-heading {
@@ -115,7 +102,6 @@
             gap: 20px;
             margin-bottom: 26px;
         }
-
         .account-form-heading > div > span {
             color: #b58a42;
             font-size: 11px;
@@ -123,25 +109,21 @@
             letter-spacing: 1.7px;
             text-transform: uppercase;
         }
-
         .account-form-heading h2 {
             margin: 6px 0;
             font-weight: 700;
         }
-
         .account-form-heading p,
         .account-form-card .card-header p {
             margin: 0;
             color: #838897;
         }
-
         .account-form-card {
             overflow: hidden;
             border: 1px solid #e8e9ee;
             border-radius: 18px;
             box-shadow: 0 18px 45px rgba(34, 38, 51, 0.07);
         }
-
         .account-form-card .card-header {
             display: flex;
             align-items: center;
@@ -150,12 +132,10 @@
             border-bottom: 1px solid #e8e9ee;
             background: #fff;
         }
-
         .account-form-card .card-header h4 {
             margin: 0 0 4px;
             font-weight: 700;
         }
-
         .account-form-icon {
             width: 48px;
             height: 48px;
@@ -167,17 +147,14 @@
             color: #8f692f;
             font-size: 20px;
         }
-
         .account-form-card .form-label {
             color: #4d5360;
             font-size: 13px;
             font-weight: 700;
         }
-
         .account-input-group {
             position: relative;
         }
-
         .account-input-group > i {
             position: absolute;
             top: 50%;
@@ -186,7 +163,6 @@
             color: #9a9fab;
             transform: translateY(-50%);
         }
-
         .account-input-group .form-control,
         .account-input-group .form-select {
             min-height: 46px;
@@ -194,11 +170,9 @@
             border-color: #e1e3e9;
             border-radius: 11px;
         }
-
         .account-input-group .password-input {
             padding-right: 45px;
         }
-
         .password-toggle {
             position: absolute;
             top: 50%;
@@ -212,12 +186,10 @@
             color: #858b97;
             transform: translateY(-50%);
         }
-
         .password-toggle:hover {
             background: #f4ead7;
             color: #8f692f;
         }
-
         .role-help {
             display: grid;
             gap: 8px;
@@ -227,17 +199,14 @@
             color: #6f7582;
             font-size: 11px;
         }
-
         .role-help div {
             display: flex;
             align-items: center;
             gap: 7px;
         }
-
         .role-help i {
             color: #b58a42;
         }
-
         .account-form-card .card-footer {
             display: flex;
             justify-content: flex-end;
@@ -246,7 +215,6 @@
             border-top: 1px solid #e8e9ee;
             background: #fff;
         }
-
         @@media (max-width: 767.98px) {
             .account-form-heading {
                 align-items: flex-start;
@@ -255,7 +223,6 @@
         }
     </style>
 }
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
@@ -265,7 +232,6 @@
                     const input = button.parentElement.querySelector(".password-input");
                     const icon = button.querySelector("i");
                     const showPassword = input.type === "password";
-
                     input.type = showPassword ? "text" : "password";
                     icon.className = showPassword ? "bi bi-eye-slash" : "bi bi-eye";
                     button.setAttribute("aria-label", showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu");

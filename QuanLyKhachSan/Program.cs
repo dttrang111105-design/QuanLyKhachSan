@@ -8,73 +8,51 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("Connect"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Connect"));
 });
 
 builder.Services.AddScoped<InvoicePdfService>();
+builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ReceptionistActivityService>();
 
-builder.Services
-    .AddAuthentication(options =>
-    {
-        options.DefaultScheme =
-            CookieAuthenticationDefaults.AuthenticationScheme;
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
-        options.DefaultAuthenticateScheme =
-            CookieAuthenticationDefaults.AuthenticationScheme;
-
-        options.DefaultSignInScheme =
-            CookieAuthenticationDefaults.AuthenticationScheme;
-
-        options.DefaultChallengeScheme =
-            GoogleDefaults.AuthenticationScheme;
-    })
+    // Người chưa đăng nhập sẽ về trang Login,
+    // không tự động chuyển sang Google.
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
     .AddCookie(
-        CookieAuthenticationDefaults.AuthenticationScheme,
-        options =>
+        CookieAuthenticationDefaults.AuthenticationScheme, options =>
         {
             options.LoginPath = "/Auth/Login";
             options.AccessDeniedPath = "/Auth/Login";
-
             options.ExpireTimeSpan = TimeSpan.FromDays(7);
             options.SlidingExpiration = true;
-
             options.Cookie.Name = "QuanLyKhachSan.Auth";
             options.Cookie.HttpOnly = true;
             options.Cookie.SameSite = SameSiteMode.Lax;
-            options.Cookie.SecurePolicy =
-                CookieSecurePolicy.Always;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         })
-    .AddCookie(
-        "External",
-        options =>
-        {
-            options.Cookie.Name =
-                "QuanLyKhachSan.External";
-
-            options.ExpireTimeSpan =
-                TimeSpan.FromMinutes(10);
-
-            options.Cookie.HttpOnly = true;
-            options.Cookie.SameSite =
-                SameSiteMode.Lax;
-
-            options.Cookie.SecurePolicy =
-                CookieSecurePolicy.Always;
-        })
+    .AddCookie("External", options =>
+    {
+        options.Cookie.Name = "QuanLyKhachSan.External";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    })
     .AddGoogle(
-        GoogleDefaults.AuthenticationScheme,
-        options =>
+        GoogleDefaults.AuthenticationScheme, options =>
         {
-            options.ClientId =
-                builder.Configuration["Google:ClientId"]
-                ?? throw new InvalidOperationException(
-                    "Chưa cấu hình Google:ClientId");
+            options.ClientId = builder.Configuration["Google:ClientId"]
+                ?? throw new InvalidOperationException("Chưa cấu hình Google:ClientId");
 
-            options.ClientSecret =
-                builder.Configuration["Google:ClientSecret"]
-                ?? throw new InvalidOperationException(
-                    "Chưa cấu hình Google:ClientSecret");
+            options.ClientSecret = builder.Configuration["Google:ClientSecret"]
+                ?? throw new InvalidOperationException("Chưa cấu hình Google:ClientSecret");
 
             options.SignInScheme = "External";
             options.SaveTokens = true;
@@ -84,18 +62,18 @@ builder.Services
             options.Scope.Add("profile");
             options.Scope.Add("email");
 
-            options.CallbackPath =
-                "/signin-google";
+            options.CallbackPath = "/signin-google";
 
             options.Events.OnRemoteFailure = context =>
             {
-                string errorMessage =
-                    Uri.EscapeDataString(
-                        "Đăng nhập Google thất bại hoặc đã bị hủy.");
+                string errorMessage = Uri.EscapeDataString(
+                    "Đăng nhập Google thất bại hoặc đã bị hủy.");
+
                 context.Response.Redirect(
-                                    $"/Auth/Login?googleError={errorMessage}");
+                    $"/Auth/Login?googleError={errorMessage}");
 
                 context.HandleResponse();
+
                 return Task.CompletedTask;
             };
         });
@@ -113,6 +91,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthentication();

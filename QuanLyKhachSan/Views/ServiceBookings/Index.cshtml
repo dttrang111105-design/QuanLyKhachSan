@@ -1,58 +1,310 @@
 @model IEnumerable<QuanLyKhachSan.Models.ServiceBooking>
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Quản lý dịch vụ sử dụng";
+    var serviceBookings = Model?.ToList()
+        ?? new List<QuanLyKhachSan.Models.ServiceBooking>();
+    var totalAmount = serviceBookings.Sum(item => item.TotalPrice);
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mã đặt phòng</th>
-            <th>Dịch vụ</th>
-            <th>Số lượng</th>
-            <th>Đơn giá</th>
-            <th>Thành tiền</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="service-booking-page">
+    <!-- Tiêu đề trang -->
+    <div class="d-flex flex-column flex-md-row
+        justify-content-between align-items-md-center
+        gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-bag-check-fill text-primary me-2"></i>
+                Quản lý dịch vụ sử dụng
+            </h2>
+            <p class="text-muted mb-0">
+                Theo dõi và quản lý các dịch vụ khách hàng đã sử dụng.
+            </p>
+        </div>
+        <a asp-action="Create"
+           class="btn btn-primary rounded-pill px-4 shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i>
+            Thêm dịch vụ sử dụng
+        </a>
+    </div>
+    <!-- Thẻ thống kê -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100 summary-card">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="summary-icon bg-primary-subtle text-primary">
+                        <i class="bi bi-list-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-muted mb-1">
+                            Tổng lượt sử dụng dịch vụ
+                        </p>
+                        <h3 class="fw-bold mb-0">
+                            @serviceBookings.Count
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100 summary-card">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="summary-icon bg-success-subtle text-success">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                    <div>
+                        <p class="text-muted mb-1">
+                            Tổng tiền dịch vụ
+                        </p>
+                        <h3 class="fw-bold text-success mb-0">
+                            @totalAmount.ToString("N0") VNĐ
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Danh sách dịch vụ -->
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white border-0 px-4 py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">
+                    Danh sách dịch vụ đã sử dụng
+                </h5>
+                <span class="badge text-bg-light border px-3 py-2">
+                    @serviceBookings.Count bản ghi
+                </span>
+            </div>
+        </div>
+        @if (serviceBookings.Any())
         {
-            <tr>
-                <td>
-                    @item.Booking?.BookingCode
-                </td>
-
-                <td>
-                    @item.Service?.ServiceName
-                </td>
-
-                <td>
-                    @item.Quantity
-                </td>
-
-                <td>
-                    @item.UnitPrice
-                </td>
-
-                <td>
-                    @item.TotalPrice
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">STT</th>
+                            <th>Mã đặt phòng</th>
+                            <th>Dịch vụ</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-end">Đơn giá</th>
+                            <th class="text-end">Thành tiền</th>
+                            <th class="text-center pe-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 1;
+                        }
+                        @foreach (var item in serviceBookings)
+                        {
+                            <tr>
+                                <!-- STT -->
+                                <td class="ps-4">
+                                    <span class="text-muted fw-semibold">
+                                        @index
+                                    </span>
+                                </td>
+                                <!-- Mã đặt phòng -->
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(
+                                        item.Booking?.BookingCode))
+                                    {
+                                        <span class="badge booking-code-badge">
+                                            <i class="bi bi-calendar-check me-1"></i>
+                                            @item.Booking.BookingCode
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            Chưa xác định
+                                        </span>
+                                    }
+                                </td>
+                                <!-- Tên dịch vụ -->
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="service-icon">
+                                            <i class="bi bi-bell-fill"></i>
+                                        </div>
+                                        <span class="fw-semibold">
+                                            @(item.Service?.ServiceName
+                                                ?? "Dịch vụ không tồn tại")
+                                        </span>
+                                    </div>
+                                </td>
+                                <!-- Số lượng -->
+                                <td class="text-center">
+                                    <span class="badge rounded-pill text-bg-light border">
+                                        @item.Quantity
+                                    </span>
+                                </td>
+                                <!-- Đơn giá -->
+                                <td class="text-end text-nowrap">
+                                    @item.UnitPrice.ToString("N0") VNĐ
+                                </td>
+                                <!-- Thành tiền -->
+                                <td class="text-end text-nowrap">
+                                    <span class="fw-bold text-danger">
+                                        @item.TotalPrice.ToString("N0") VNĐ
+                                    </span>
+                                </td>
+                                <!-- Các nút thao tác -->
+                                <td class="text-center pe-4">
+                                    <div class="d-inline-flex gap-1">
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-info
+                                            action-button"
+                                           title="Xem chi tiết">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-warning
+                                            action-button"
+                                           title="Chỉnh sửa">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-danger
+                                            action-button"
+                                           title="Xóa">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                    <!-- Tổng cộng -->
+                    <tfoot>
+                        <tr class="table-light">
+                            <td colspan="5"
+                                class="text-end fw-bold py-3">
+                                Tổng cộng:
+                            </td>
+                            <td class="text-end fw-bold text-danger py-3">
+                                @totalAmount.ToString("N0") VNĐ
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <!-- Không có dữ liệu -->
+            <div class="empty-state text-center px-3 py-5">
+                <div class="empty-icon mx-auto mb-3">
+                    <i class="bi bi-bag-x"></i>
+                </div>
+                <h5 class="fw-bold">
+                    Chưa có dịch vụ nào được sử dụng
+                </h5>
+                <p class="text-muted mb-4">
+                    Hiện tại chưa có dữ liệu dịch vụ sử dụng của khách hàng.
+                </p>
+                <a asp-action="Create"
+                   class="btn btn-primary rounded-pill px-4">
+                    <i class="bi bi-plus-circle me-1"></i>
+                    Thêm dịch vụ sử dụng
+                </a>
+            </div>
+        }
+    </div>
+</div>
+<style>
+    .service-booking-page {
+        padding-bottom: 30px;
+    }
+    .summary-card {
+        border-radius: 16px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+        .summary-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08) !important;
+        }
+    .summary-icon {
+        width: 58px;
+        height: 58px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        font-size: 25px;
+    }
+    .card {
+        border-radius: 16px;
+    }
+    .table thead th {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        color: #495057;
+        font-size: 14px;
+        font-weight: 700;
+        white-space: nowrap;
+        border-bottom-width: 1px;
+    }
+    .table tbody td {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        vertical-align: middle;
+    }
+    .table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+    .booking-code-badge {
+        background-color: #e7f1ff;
+        color: #0d6efd;
+        border: 1px solid #cfe2ff;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    .service-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d6efd;
+        background-color: #e7f1ff;
+        border-radius: 10px;
+    }
+    .action-button {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+    }
+    .empty-icon {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        background-color: #f1f3f5;
+        border-radius: 50%;
+        font-size: 34px;
+    }
+    @@media (max-width: 767.98px) {
+        .service-booking-page h2 {
+            font-size: 24px;
+        }
+        .table tbody td,
+        .table thead th {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+    }
+</style>

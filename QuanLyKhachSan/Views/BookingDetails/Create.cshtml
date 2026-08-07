@@ -1,39 +1,32 @@
 @model QuanLyKhachSan.Models.BookingDetail
-
 @{
     ViewData["Title"] = "Create";
 }
-
 <h1>Create</h1>
-
 <h4>BookingDetail</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="All" class="text-danger"></div>
-
             <div class="form-group">
                 <label asp-for="BookingId" class="control-label"></label>
                 <select asp-for="BookingId" class="form-control" asp-items="ViewBag.BookingId">
                 </select>
                 <span asp-validation-for="BookingId" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="RoomId" class="control-label"></label>
                 <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId">
                 </select>
                 <span asp-validation-for="RoomId" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

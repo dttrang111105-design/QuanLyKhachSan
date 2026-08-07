@@ -1,13 +1,11 @@
 ﻿/* =========================================================
    DANH SÁCH PHÒNG CŨ
 ========================================================= */
-
 .room-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
 }
-
 .room-card {
     overflow: hidden;
     border: 1px solid #dddddd;
@@ -15,7 +13,6 @@
     background: #ffffff;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
-
 .room-image {
     height: 220px;
     display: flex;
@@ -26,29 +23,22 @@
     font-size: 20px;
     font-weight: 700;
 }
-
 .room-body {
     padding: 20px;
 }
-
     .room-body h3 {
         margin-bottom: 15px;
     }
-
     .room-body p {
         margin-bottom: 10px;
     }
-
-
 /* =========================================================
    4 LOẠI PHÒNG NỔI BẬT
 ========================================================= */
-
 .featured-room-types {
     padding: 70px 0 80px;
     background: #f7f4ee;
 }
-
     .featured-room-types .row {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -57,7 +47,6 @@
         margin-right: 0;
         margin-left: 0;
     }
-
         .featured-room-types .row > div {
             width: 100%;
             max-width: 100%;
@@ -65,12 +54,9 @@
             padding-right: 0;
             padding-left: 0;
         }
-
-
 /* =========================================================
    CARD PHÒNG
 ========================================================= */
-
 .featured-room-type-card {
     width: 100%;
     height: 100%;
@@ -83,18 +69,14 @@
     box-shadow: 0 14px 34px rgba(36, 27, 14, 0.11);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-
     .featured-room-type-card:hover {
         transform: translateY(-6px);
         border-color: #d4a64a;
         box-shadow: 0 22px 46px rgba(25, 19, 10, 0.16), 0 0 20px rgba(212, 166, 74, 0.12);
     }
-
-
 /* =========================================================
    PHẦN ĐẦU CARD
 ========================================================= */
-
 .featured-room-type-visual {
     position: relative;
     min-height: 145px;
@@ -106,7 +88,6 @@
     overflow: hidden;
     background: radial-gradient( circle at center, rgba(220, 174, 77, 0.16), transparent 44% ), linear-gradient( 145deg, #080808 0%, #17140e 58%, #281e0f 100% );
 }
-
 .featured-room-type-glow {
     position: absolute;
     width: 125px;
@@ -115,7 +96,6 @@
     background: rgba(222, 178, 82, 0.16);
     filter: blur(32px);
 }
-
 .featured-room-type-icon {
     position: relative;
     z-index: 2;
@@ -131,7 +111,6 @@
     font-size: 23px;
     box-shadow: 0 9px 22px rgba(216, 168, 70, 0.3);
 }
-
 .featured-room-type-brand {
     position: relative;
     z-index: 2;
@@ -142,7 +121,6 @@
     letter-spacing: 1.4px;
     text-transform: uppercase;
 }
-
 .featured-room-type-badge {
     position: absolute;
     z-index: 3;
@@ -158,12 +136,9 @@
     letter-spacing: 0.8px;
     text-transform: uppercase;
 }
-
-
 /* =========================================================
    NỘI DUNG CARD
 ========================================================= */
-
 .featured-room-type-content {
     min-height: 500px;
     display: grid;
@@ -171,12 +146,9 @@
     grid-template-rows: 82px 125px 112px 82px;
     padding: 24px 28px 22px;
 }
-
-
 /* =========================================================
    TIÊU ĐỀ VÀ GIÁ
 ========================================================= */
-
 .featured-room-type-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 112px;
@@ -184,11 +156,9 @@
     gap: 10px;
     margin: 0;
 }
-
     .featured-room-type-header > div:first-child {
         min-width: 0;
     }
-
 .featured-room-type-kicker {
     display: block;
     margin-bottom: 7px;
@@ -198,7 +168,6 @@
     letter-spacing: 1.3px;
     text-transform: uppercase;
 }
-
 .featured-room-type-header h3 {
     margin: 0;
     color: #211c15;
@@ -210,7 +179,6 @@
     text-transform: uppercase;
     white-space: nowrap;
 }
-
 .featured-room-type-price {
     width: 112px;
     min-width: 112px;
@@ -221,26 +189,21 @@
     text-align: center;
     box-shadow: 0 7px 16px rgba(190, 139, 43, 0.2);
 }
-
     .featured-room-type-price strong {
         display: block;
         font-size: 18px;
         line-height: 1.1;
         white-space: nowrap;
     }
-
     .featured-room-type-price span {
         display: block;
         margin-top: 4px;
         font-size: 8px;
         font-weight: 800;
     }
-
-
 /* =========================================================
    MÔ TẢ
 ========================================================= */
-
 .featured-room-type-description {
     height: 125px;
     margin: 0;
@@ -252,12 +215,9 @@
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
 }
-
-
 /* =========================================================
    THÔNG TIN PHÒNG
 ========================================================= */
-
 .featured-room-type-information {
     height: 112px;
     display: grid;
@@ -269,7 +229,6 @@
     border-top: 1px solid #eee7da;
     border-bottom: 1px solid #eee7da;
 }
-
     .featured-room-type-information span {
         min-width: 0;
         display: flex;
@@ -280,19 +239,15 @@
         font-weight: 700;
         white-space: nowrap;
     }
-
     .featured-room-type-information i {
         width: 15px;
         flex-shrink: 0;
         color: #bb8730;
         text-align: center;
     }
-
-
 /* =========================================================
    CHÂN CARD
 ========================================================= */
-
 .featured-room-type-footer {
     height: 82px;
     display: grid;
@@ -302,7 +257,6 @@
     margin: 0;
     padding-top: 15px;
 }
-
 .featured-room-available,
 .featured-room-unavailable {
     min-width: 0;
@@ -313,20 +267,16 @@
     font-weight: 800;
     line-height: 1.3;
 }
-
 .featured-room-available {
     color: #198754;
 }
-
 .featured-room-unavailable {
     color: #bd4a4a;
 }
-
     .featured-room-available i,
     .featured-room-unavailable i {
         flex-shrink: 0;
     }
-
 .featured-room-type-button {
     width: 116px;
     min-height: 52px;
@@ -344,7 +294,6 @@
     text-decoration: none;
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
-
     .featured-room-type-button:hover {
         background: linear-gradient( 145deg, #e7c66e, #b57d27 );
         color: #171008;
@@ -353,34 +302,29 @@
 /* =========================================================
    ÉP 4 CARD THẲNG HÀNG HOÀN TOÀN
 ========================================================= */
-
 .featured-room-types .row {
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     align-items: stretch !important;
     gap: 18px !important;
 }
-
     .featured-room-types .row > div {
         display: flex !important;
         width: 100% !important;
         max-width: 100% !important;
     }
-
 .featured-room-type-card {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     height: 100% !important;
 }
-
 .featured-room-type-content {
     display: grid !important;
     grid-template-rows: 86px 132px 112px 88px !important;
     min-height: 470px !important;
     padding: 24px 26px 22px !important;
 }
-
 /* Tiêu đề và giá */
 .featured-room-type-header {
     display: grid !important;
@@ -389,11 +333,9 @@
     align-items: start !important;
     margin: 0 !important;
 }
-
     .featured-room-type-header > div:first-child {
         min-width: 0 !important;
     }
-
     .featured-room-type-header h3 {
         margin: 0 !important;
         font-size: 22px !important;
@@ -403,34 +345,28 @@
         overflow: visible !important;
         text-overflow: clip !important;
     }
-
     /* Ép VIP Suite thành 1 dòng */
     .featured-room-type-header h3 {
         transform: scaleX(0.92);
         transform-origin: left center;
     }
-
 .featured-room-type-kicker {
     margin-bottom: 7px !important;
     font-size: 9px !important;
 }
-
 /* Giá */
 .featured-room-type-price {
     width: 108px !important;
     min-width: 108px !important;
     padding: 10px 6px !important;
 }
-
     .featured-room-type-price strong {
         font-size: 17px !important;
         white-space: nowrap !important;
     }
-
     .featured-room-type-price span {
         font-size: 8px !important;
     }
-
 /* Mô tả */
 .featured-room-type-description {
     height: 132px !important;
@@ -441,7 +377,6 @@
     line-height: 1.65 !important;
     overflow: hidden !important;
 }
-
 /* Thông tin */
 .featured-room-type-information {
     height: 112px !important;
@@ -453,12 +388,10 @@
     align-content: center !important;
     gap: 14px 10px !important;
 }
-
     .featured-room-type-information span {
         font-size: 10px !important;
         white-space: nowrap !important;
     }
-
 /* Chân card */
 .featured-room-type-footer {
     height: 88px !important;
@@ -470,24 +403,20 @@
     margin: 0 !important;
     padding-top: 16px !important;
 }
-
 .featured-room-available,
 .featured-room-unavailable {
     font-size: 10px !important;
     line-height: 1.3 !important;
 }
-
 .featured-room-type-button {
     width: 112px !important;
     min-height: 54px !important;
     padding: 10px 14px !important;
     font-size: 10px !important;
 }
-
 /* ======================================================
    HERO BANNER
 ====================================================== */
-
 .hero-banner-image {
     width: 100%;
     height: 600px;
@@ -495,21 +424,17 @@
     border-radius: 24px;
     transition: transform .6s ease;
 }
-
 #hotelBanner {
     position: relative;
 }
-
     #hotelBanner .carousel-inner {
         border-radius: 24px;
         overflow: hidden;
         box-shadow: 0 25px 60px rgba(0,0,0,.35);
     }
-
     #hotelBanner:hover .hero-banner-image {
         transform: scale(1.03);
     }
-
     #hotelBanner::after {
         content: "";
         position: absolute;

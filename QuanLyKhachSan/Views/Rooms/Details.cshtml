@@ -8,7 +8,16 @@
             : User.IsInRole("Customer")
                 ? "~/Views/Shared/_CustomerLayout.cshtml"
                 : "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Chi tiết phòng";
+    ViewData["Title"] = $"Phòng {Model.RoomNumber}";
+    var roomImages = Model.RoomImages?
+        .Where(image => !image.IsDeleted && !string.IsNullOrWhiteSpace(image.ImageUrl))
+        .OrderByDescending(image => image.IsMain)
+        .ThenBy(image => image.Id)
+        .ToList()
+        ?? new List<QuanLyKhachSan.Models.RoomImage>();
+    // Hiển thị tối đa 7 ảnh ngay trong khu vực nổi bật: 1 ảnh chính và 6 ảnh phụ.
+    var previewImages = roomImages.Skip(1).Take(6).ToList();
+    var additionalImages = roomImages.Skip(7).ToList();
     var activeReviews = Model.Reviews?
         .Where(review => !review.IsDeleted)
         .OrderByDescending(review => review.CreatedAt)
@@ -17,169 +26,616 @@
     double averageRating = activeReviews.Any()
         ? activeReviews.Average(review => review.Rating)
         : 0;
+    int fiveStarCount = activeReviews.Count(review => review.Rating == 5);
+    int fourStarCount = activeReviews.Count(review => review.Rating == 4);
+    int threeStarCount = activeReviews.Count(review => review.Rating == 3);
+    int twoStarCount = activeReviews.Count(review => review.Rating == 2);
+    int oneStarCount = activeReviews.Count(review => review.Rating == 1);
+    double RatingPercentage(int count) => activeReviews.Any()
+        ? count * 100.0 / activeReviews.Count
+        : 0;
+    string statusText = Model.Status switch
+    {
+        RoomStatus.Available => "Phòng đang trống",
+        RoomStatus.Occupied => "Phòng đang có khách",
+        RoomStatus.Maintenance => "Phòng đang bảo trì",
+        _ => "Chưa xác định"
+    };
+    string statusClass = Model.Status switch
+    {
+        RoomStatus.Available => "is-available",
+        RoomStatus.Occupied => "is-occupied",
+        RoomStatus.Maintenance => "is-maintenance",
+        _ => "is-unknown"
+    };
+    string roomDescription = !string.IsNullOrWhiteSpace(Model.Description)
+        ? Model.Description
+        : Model.RoomType?.Description ?? "Thông tin mô tả phòng đang được cập nhật.";
 }
-<div class="container py-5">
-    <div class="mb-4">
-        <button type="button" class="btn btn-light border shadow-sm rounded-pill px-4 py-2 fw-semibold" onclick="goBackToPreviousPage()">
-            <i class="bi bi-arrow-left me-2"></i>Quay trở lại
-        </button>
-    </div>
-    <div class="row g-4">
-        <div class="col-lg-6">
-            @if (Model.RoomImages != null && Model.RoomImages.Any())
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/room-details.css"
+          asp-append-version="true" />
+}
+<div class="room-detail-page">
+    <div class="container room-detail-container">
+        <nav class="room-breadcrumb" aria-label="Điều hướng trang">
+            <button type="button"
+                    class="room-back-button"
+                    onclick="goBackToPreviousPage()">
+                <i class="bi bi-arrow-left"></i>
+                <span>Quay trở lại</span>
+            </button>
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a asp-controller="Rooms" asp-action="Search">Phòng</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    Phòng @Model.RoomNumber
+                </li>
+            </ol>
+        </nav>
+        <section class="room-gallery-section" aria-label="Thư viện ảnh phòng">
+            @if (roomImages.Any())
             {
-                var mainImage = Model.RoomImages.FirstOrDefault(image => image.IsMain)
-                ?? Model.RoomImages.First();
-                <img src="@mainImage.ImageUrl"
-                     alt="Phòng @Model.RoomNumber"
-                     class="img-fluid rounded shadow-sm w-100"
-                     style="max-height: 450px; object-fit: cover;" />
-            }
-            else
-            {
-                <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted"
-                     style="min-height: 400px;">
-                    Chưa có ảnh phòng
-                </div>
-            }
-        </div>
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                        <div>
-                            <h1 class="mb-1">Phòng @Model.RoomNumber</h1>
-                            <h5 class="text-muted">@Model.RoomType?.Name</h5>
-                        </div>
-                        @if (activeReviews.Any())
-                        {
-                            <span class="badge bg-warning text-dark fs-6">
-                                ★ @averageRating.ToString("0.0")/5
-                            </span>
-                        }
+                <div class="room-gallery-toolbar">
+                    <div>
+                        <span class="room-gallery-eyebrow">Khám phá không gian</span>
+                        <h2>Hình ảnh phòng @Model.RoomNumber</h2>
                     </div>
-                    <p>
-                        <strong>Giá:</strong>
-                        <span class="text-danger fw-bold">
-                            @Model.PriceDay.ToString("N0") VNĐ/đêm
+                    <button type="button"
+                            class="room-gallery-view-all"
+                            data-bs-toggle="modal"
+                            data-bs-target="#roomGalleryModal"
+                            data-slide-index="0">
+                        <i class="bi bi-images"></i>
+                        <span>Xem toàn bộ @roomImages.Count ảnh</span>
+                    </button>
+                </div>
+                <div class="room-gallery-grid @(roomImages.Count == 1 ? "room-gallery-grid-single" : string.Empty)">
+                    <button type="button"
+                            class="room-gallery-item room-gallery-main"
+                            data-bs-toggle="modal"
+                            data-bs-target="#roomGalleryModal"
+                            data-slide-index="0"
+                            aria-label="Xem ảnh chính của phòng @Model.RoomNumber">
+                        <img src="@roomImages[0].ImageUrl"
+                             alt="@(roomImages[0].Caption ?? $"Ảnh chính phòng {Model.RoomNumber}")" />
+                        <span class="room-gallery-shade"></span>
+                        <span class="room-gallery-main-label">
+                            <i class="bi bi-stars"></i>
+                            Không gian nghỉ dưỡng
                         </span>
-                    </p>
-                    <p><strong>Sức chứa:</strong> @Model.MaxOccupancy người</p>
-                    <p><strong>Loại giường:</strong> @Model.RoomType?.BedType</p>
-                    <p><strong>Diện tích:</strong> @Model.RoomSize m²</p>
-                    <p><strong>Tầng:</strong> @Model.Floor</p>
-                    <p>
-                        <strong>Mô tả:</strong><br />
-                        @(string.IsNullOrWhiteSpace(Model.Description)
-                                                ? Model.RoomType?.Description
-                                                : Model.Description)
-                    </p>
-                    @if (Model.Status == RoomStatus.Available)
+                        <span class="room-gallery-main-counter">
+                            <i class="bi bi-camera"></i>
+                            @roomImages.Count ảnh
+                        </span>
+                    </button>
+                    @if (previewImages.Any())
                     {
-                        if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
-                        {
-                            <a asp-controller="Bookings" asp-action="CreateForCustomer" asp-route-roomId="@Model.Id" class="btn btn-success fw-semibold">
-                                <i class="bi bi-person-plus me-1"></i>Đặt phòng cho khách
-                            </a>
-                        }
-                        else if (User.IsInRole("Customer"))
-                        {
-                            <a asp-controller="Bookings" asp-action="Create" asp-route-roomId="@Model.Id" class="btn btn-success fw-semibold">
-                                <i class="bi bi-calendar-plus me-1"></i>Đặt phòng
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-controller="Auth" asp-action="Login" class="btn btn-success fw-semibold">
-                                <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập để đặt phòng
-                            </a>
-                        }
-                    }
-                    else if (Model.Status == RoomStatus.Occupied)
-                    {
-                        <button type="button" class="btn btn-danger" disabled>
-                            <i class="bi bi-person-fill me-1"></i>Phòng đang có khách
-                        </button>
-                    }
-                    else
-                    {
-                        <button type="button" class="btn btn-secondary" disabled>
-                            <i class="bi bi-tools me-1"></i>Phòng đang bảo trì
-                        </button>
+                        <div class="room-gallery-side @(previewImages.Count == 1 ? "room-gallery-side-single" : string.Empty)">
+                            @for (int index = 0; index < previewImages.Count; index++)
+                            {
+                                var image = previewImages[index];
+                                int slideIndex = index + 1;
+                                bool showMoreOverlay = index == previewImages.Count - 1 && additionalImages.Any();
+                                <button type="button"
+                                        class="room-gallery-item room-gallery-thumb"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#roomGalleryModal"
+                                        data-slide-index="@slideIndex"
+                                        aria-label="Xem ảnh @(slideIndex + 1) của phòng @Model.RoomNumber">
+                                    <img src="@image.ImageUrl"
+                                         alt="@(image.Caption ?? $"Ảnh phòng {Model.RoomNumber} số {slideIndex + 1}")" />
+                                    <span class="room-gallery-thumb-number">@(slideIndex + 1)</span>
+                                    @if (showMoreOverlay)
+                                    {
+                                        <span class="room-gallery-more">
+                                            <i class="bi bi-grid-3x3-gap-fill"></i>
+                                            <strong>Còn @additionalImages.Count ảnh</strong>
+                                            <small>Nhấn để xem tất cả</small>
+                                        </span>
+                                    }
+                                </button>
+                            }
+                        </div>
                     }
                 </div>
-            </div>
-        </div>
-    </div>
-    <section class="mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h3 class="mb-1">Đánh giá của khách hàng</h3>
-                <p class="text-muted mb-0">
-                    @activeReviews.Count đánh giá
-                    @if (activeReviews.Any())
-                    {
-                        <span> · Trung bình @averageRating.ToString("0.0")/5 sao</span>
-                    }
-                </p>
-            </div>
-        </div>
-        @if (activeReviews.Any())
-        {
-            <div class="row g-4">
-                @foreach (var review in activeReviews)
+                @if (additionalImages.Any())
                 {
-                    <div class="col-lg-6">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                                    <div>
-                                        <h6 class="mb-1">
-                                            @(review.Customer?.FullName ?? "Khách hàng")
-                                        </h6>
-                                        <small class="text-muted">
-                                            @review.CreatedAt.ToString("dd/MM/yyyy")
-                                        </small>
-                                    </div>
-                                    <div class="text-nowrap">
-                                        @for (int star = 1; star <= 5; star++)
-                                        {
-                                            <span class="@(star <= review.Rating ? "text-warning" : "text-secondary")">★</span>
-                                        }
-                                    </div>
-                                </div>
-                                @if (!string.IsNullOrWhiteSpace(review.Comment))
-                                {
-                                    <p class="mb-0" style="white-space: pre-line;">
-                                        @review.Comment
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p class="text-muted fst-italic mb-0">
-                                        Khách hàng không để lại nhận xét.
-                                    </p>
-                                }
+                    <div class="room-gallery-additional">
+                        <div class="room-gallery-additional-heading">
+                            <div>
+                                <span>Thêm hình ảnh</span>
+                                <strong>@additionalImages.Count góc nhìn khác</strong>
                             </div>
+                            <small>Kéo ngang để xem thêm</small>
+                        </div>
+                        <div class="room-gallery-filmstrip" role="list" aria-label="Các ảnh phòng bổ sung">
+                            @for (int index = 0; index < additionalImages.Count; index++)
+                            {
+                                var image = additionalImages[index];
+                                int slideIndex = index + 7;
+                                <button type="button"
+                                        class="room-gallery-filmstrip-item"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#roomGalleryModal"
+                                        data-slide-index="@slideIndex"
+                                        role="listitem"
+                                        aria-label="Xem ảnh @(slideIndex + 1) của phòng @Model.RoomNumber">
+                                    <img src="@image.ImageUrl"
+                                         alt="@(image.Caption ?? $"Ảnh phòng {Model.RoomNumber} số {slideIndex + 1}")" />
+                                    <span>
+                                        <i class="bi bi-arrows-fullscreen"></i>
+                                        Ảnh @(slideIndex + 1)
+                                    </span>
+                                </button>
+                            }
                         </div>
                     </div>
                 }
+            }
+            else
+            {
+                <div class="room-gallery-empty">
+                    <span class="room-gallery-empty-icon">
+                        <i class="bi bi-image"></i>
+                    </span>
+                    <h2>Hình ảnh đang được cập nhật</h2>
+                    <p>Khách sạn sẽ bổ sung hình ảnh thực tế của phòng trong thời gian sớm nhất.</p>
+                </div>
+            }
+        </section>
+        <header class="room-heading">
+            <div class="room-heading-copy">
+                <div class="room-heading-kicker">
+                    <span class="room-type-label">@Model.RoomType?.Name</span>
+                    <span class="room-status @statusClass">
+                        <span class="room-status-dot"></span>
+                        @statusText
+                    </span>
+                </div>
+                <h1>Phòng @Model.RoomNumber</h1>
+                <div class="room-heading-meta">
+                    <span>
+                        <i class="bi bi-building"></i>
+                        Tầng @Model.Floor
+                    </span>
+                    <span>
+                        <i class="bi bi-arrows-fullscreen"></i>
+                        @Model.RoomSize.ToString("0.#") m²
+                    </span>
+                    <span>
+                        <i class="bi bi-people"></i>
+                        Tối đa @Model.MaxOccupancy khách
+                    </span>
+                </div>
             </div>
-        }
-        else
-        {
-            <div class="alert alert-info">
-                Phòng này chưa có đánh giá nào.
+            <div class="room-rating-badge @(activeReviews.Any() ? string.Empty : "room-rating-empty")">
+                <div class="room-rating-score">
+                    @(activeReviews.Any() ? averageRating.ToString("0.0") : "–")
+                </div>
+                <div>
+                    <div class="room-rating-stars" aria-label="Điểm đánh giá">
+                        @for (int star = 1; star <= 5; star++)
+                        {
+                            <i class="bi @(star <= Math.Round(averageRating) ? "bi-star-fill" : "bi-star")"></i>
+                        }
+                    </div>
+                    <strong>@(activeReviews.Any() ? "Được khách hàng yêu thích" : "Chưa có đánh giá")</strong>
+                    <span>@activeReviews.Count đánh giá</span>
+                </div>
             </div>
-        }
-    </section>
+        </header>
+        <div class="room-content-grid">
+            <main class="room-content-main">
+                <section class="room-section-card room-overview-card">
+                    <div class="room-section-heading">
+                        <span class="room-section-icon">
+                            <i class="bi bi-door-open"></i>
+                        </span>
+                        <div>
+                            <span class="room-section-eyebrow">Tổng quan</span>
+                            <h2>Không gian phòng</h2>
+                        </div>
+                    </div>
+                    <p class="room-description">@roomDescription</p>
+                    <div class="room-feature-grid">
+                        <article class="room-feature-item">
+                            <span><i class="bi bi-people-fill"></i></span>
+                            <div>
+                                <small>Sức chứa</small>
+                                <strong>@Model.MaxOccupancy người</strong>
+                            </div>
+                        </article>
+                        <article class="room-feature-item">
+                            <span><i class="bi bi-moon-stars-fill"></i></span>
+                            <div>
+                                <small>Loại giường</small>
+                                <strong>@(Model.RoomType?.BedType ?? "Đang cập nhật")</strong>
+                            </div>
+                        </article>
+                        <article class="room-feature-item">
+                            <span><i class="bi bi-rulers"></i></span>
+                            <div>
+                                <small>Diện tích</small>
+                                <strong>@Model.RoomSize.ToString("0.#") m²</strong>
+                            </div>
+                        </article>
+                        <article class="room-feature-item">
+                            <span><i class="bi bi-building-fill-up"></i></span>
+                            <div>
+                                <small>Vị trí</small>
+                                <strong>Tầng @Model.Floor</strong>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                <section class="room-section-card room-experience-card">
+                    <div class="room-section-heading">
+                        <span class="room-section-icon">
+                            <i class="bi bi-gem"></i>
+                        </span>
+                        <div>
+                            <span class="room-section-eyebrow">Trải nghiệm lưu trú</span>
+                            <h2>Thông tin nổi bật</h2>
+                        </div>
+                    </div>
+                    <div class="room-experience-list">
+                        <div class="room-experience-item">
+                            <i class="bi bi-check2-circle"></i>
+                            <div>
+                                <strong>Thông tin minh bạch</strong>
+                                <span>Giá phòng, sức chứa và trạng thái được cập nhật trực tiếp từ hệ thống.</span>
+                            </div>
+                        </div>
+                        <div class="room-experience-item">
+                            <i class="bi bi-calendar2-check"></i>
+                            <div>
+                                <strong>Quy trình đặt phòng thuận tiện</strong>
+                                <span>Khách hàng có thể lựa chọn phòng và tạo phiếu đặt phòng ngay trên website.</span>
+                            </div>
+                        </div>
+                        <div class="room-experience-item">
+                            <i class="bi bi-shield-check"></i>
+                            <div>
+                                <strong>Quản lý trạng thái chính xác</strong>
+                                <span>Hệ thống kiểm soát trạng thái phòng nhằm hạn chế đặt trùng hoặc sai phòng.</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="room-section-card room-review-section" id="roomReviews">
+                    <div class="room-review-header">
+                        <div class="room-section-heading mb-0">
+                            <span class="room-section-icon">
+                                <i class="bi bi-chat-heart"></i>
+                            </span>
+                            <div>
+                                <span class="room-section-eyebrow">Cảm nhận thực tế</span>
+                                <h2>Đánh giá của khách hàng</h2>
+                            </div>
+                        </div>
+                        <span class="room-review-count">@activeReviews.Count đánh giá</span>
+                    </div>
+                    @if (activeReviews.Any())
+                    {
+                        <div class="room-review-summary">
+                            <div class="room-review-score-panel">
+                                <strong>@averageRating.ToString("0.0")</strong>
+                                <div class="room-review-summary-stars">
+                                    @for (int star = 1; star <= 5; star++)
+                                    {
+                                        <i class="bi @(star <= Math.Round(averageRating) ? "bi-star-fill" : "bi-star")"></i>
+                                    }
+                                </div>
+                                <span>Dựa trên @activeReviews.Count đánh giá</span>
+                            </div>
+                            <div class="room-rating-breakdown">
+                                @foreach (var ratingData in new[]
+                                {
+                                    new { Star = 5, Count = fiveStarCount },
+                                    new { Star = 4, Count = fourStarCount },
+                                    new { Star = 3, Count = threeStarCount },
+                                    new { Star = 2, Count = twoStarCount },
+                                    new { Star = 1, Count = oneStarCount }
+                                })
+                                {
+                                    <div class="room-rating-row">
+                                        <span>@ratingData.Star <i class="bi bi-star-fill"></i></span>
+                                        <div class="progress" role="progressbar"
+                                             aria-label="@ratingData.Star sao"
+                                             aria-valuenow="@RatingPercentage(ratingData.Count).ToString("0")"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100">
+                                            <div class="progress-bar"
+                                                 style="width: @RatingPercentage(ratingData.Count).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                                        </div>
+                                        <small>@ratingData.Count</small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="room-review-grid">
+                            @foreach (var review in activeReviews)
+                            {
+                                var reviewerName = string.IsNullOrWhiteSpace(review.Customer?.FullName)
+                                    ? "Khách hàng"
+                                    : review.Customer.FullName.Trim();
+                                var reviewerInitial = reviewerName.Substring(0, 1).ToUpper();
+                                <article class="room-review-card">
+                                    <div class="room-review-card-top">
+                                        <div class="room-review-author">
+                                            <span class="room-review-avatar">
+                                                @reviewerInitial
+                                            </span>
+                                            <div>
+                                                <strong>@reviewerName</strong>
+                                                <span>@review.CreatedAt.ToString("dd/MM/yyyy")</span>
+                                            </div>
+                                        </div>
+                                        <div class="room-review-stars" aria-label="@review.Rating trên 5 sao">
+                                            @for (int star = 1; star <= 5; star++)
+                                            {
+                                                <i class="bi @(star <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (!string.IsNullOrWhiteSpace(review.Comment))
+                                    {
+                                        <p>@review.Comment</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="room-review-no-comment">Khách hàng không để lại nhận xét.</p>
+                                    }
+                                </article>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="room-review-empty-state">
+                            <span><i class="bi bi-chat-square-heart"></i></span>
+                            <div>
+                                <h3>Chưa có đánh giá cho phòng này</h3>
+                                <p>Những đánh giá đầu tiên sẽ được hiển thị sau khi khách hàng hoàn tất kỳ lưu trú.</p>
+                            </div>
+                        </div>
+                    }
+                </section>
+            </main>
+            <aside class="room-booking-column">
+                <div class="room-booking-card">
+                    <div class="room-booking-price">
+                        <span>Giá mỗi đêm</span>
+                        <div>
+                            <strong>@Model.PriceDay.ToString("N0")</strong>
+                            <small>VNĐ</small>
+                        </div>
+                    </div>
+                    @if (Model.PriceWeek > 0)
+                    {
+                        <div class="room-weekly-price">
+                            <i class="bi bi-calendar-week"></i>
+                            <span>
+                                Giá theo tuần
+                                <strong>@Model.PriceWeek.ToString("N0") VNĐ</strong>
+                            </span>
+                        </div>
+                    }
+                    <div class="room-booking-divider"></div>
+                    <div class="room-booking-facts">
+                        <div>
+                            <i class="bi bi-door-closed"></i>
+                            <span>
+                                <small>Phòng</small>
+                                <strong>@Model.RoomNumber</strong>
+                            </span>
+                        </div>
+                        <div>
+                            <i class="bi bi-person-check"></i>
+                            <span>
+                                <small>Sức chứa</small>
+                                <strong>@Model.MaxOccupancy khách</strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="room-booking-status @statusClass">
+                        <i class="bi @(Model.Status == RoomStatus.Available ? "bi-check-circle-fill" : Model.Status == RoomStatus.Occupied ? "bi-person-fill-lock" : "bi-tools")"></i>
+                        <span>@statusText</span>
+                    </div>
+                    <div class="room-booking-action">
+                        @if (Model.Status == RoomStatus.Available)
+                        {
+                            if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+                            {
+                                <a asp-controller="Bookings"
+                                   asp-action="CreateForCustomer"
+                                   asp-route-roomId="@Model.Id"
+                                   class="room-primary-action">
+                                    <i class="bi bi-person-plus"></i>
+                                    <span>Đặt phòng cho khách</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            }
+                            else if (User.IsInRole("Customer"))
+                            {
+                                <a asp-controller="Bookings"
+                                   asp-action="Create"
+                                   asp-route-roomId="@Model.Id"
+                                   class="room-primary-action">
+                                    <i class="bi bi-calendar2-plus"></i>
+                                    <span>Đặt phòng ngay</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Auth"
+                                   asp-action="Login"
+                                   class="room-primary-action">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    <span>Đăng nhập để đặt phòng</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <button type="button" class="room-primary-action room-primary-action-disabled" disabled>
+                                <i class="bi @(Model.Status == RoomStatus.Occupied ? "bi-person-fill-lock" : "bi-tools")"></i>
+                                <span>@(Model.Status == RoomStatus.Occupied ? "Phòng đang có khách" : "Phòng đang bảo trì")</span>
+                            </button>
+                        }
+                    </div>
+                    <p class="room-booking-note">
+                        <i class="bi bi-info-circle"></i>
+                        Giá cuối cùng được xác định theo thời gian lưu trú và các dịch vụ phát sinh.
+                    </p>
+                </div>
+                <div class="room-support-card">
+                    <span class="room-support-icon"><i class="bi bi-headset"></i></span>
+                    <div>
+                        <strong>Cần hỗ trợ đặt phòng?</strong>
+                        <p>Liên hệ lễ tân để được tư vấn thông tin phòng phù hợp.</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
 </div>
-<script>
-    function goBackToPreviousPage() {
-        if (document.referrer && window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = '@Url.Action("Index", "Rooms")';
+@if (roomImages.Any())
+{
+    <div class="modal fade room-gallery-modal"
+         id="roomGalleryModal"
+         tabindex="-1"
+         aria-labelledby="roomGalleryModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <span class="room-gallery-modal-kicker">Thư viện hình ảnh</span>
+                        <h2 class="modal-title" id="roomGalleryModalLabel">Phòng @Model.RoomNumber</h2>
+                    </div>
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"
+                            aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="roomGalleryCarousel"
+                         class="carousel slide"
+                         data-bs-interval="false">
+                        <div class="carousel-inner">
+                            @for (int index = 0; index < roomImages.Count; index++)
+                            {
+                                var image = roomImages[index];
+                                <div class="carousel-item @(index == 0 ? "active" : string.Empty)">
+                                    <div class="room-gallery-modal-image-wrap">
+                                        <img src="@image.ImageUrl"
+                                             alt="@(image.Caption ?? $"Ảnh phòng {Model.RoomNumber} số {index + 1}")" />
+                                    </div>
+                                    <div class="room-gallery-modal-caption">
+                                        <strong>@(image.Caption ?? $"Không gian phòng {Model.RoomNumber}")</strong>
+                                        <span>@(index + 1) / @roomImages.Count</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (roomImages.Count > 1)
+                        {
+                            <button class="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#roomGalleryCarousel"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Ảnh trước</span>
+                            </button>
+                            <button class="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#roomGalleryCarousel"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Ảnh tiếp theo</span>
+                            </button>
+                            <div class="room-gallery-modal-thumbnails" aria-label="Chọn ảnh phòng">
+                                @for (int index = 0; index < roomImages.Count; index++)
+                                {
+                                    var thumbnail = roomImages[index];
+                                    <button type="button"
+                                            class="room-gallery-modal-thumbnail @(index == 0 ? "is-active" : string.Empty)"
+                                            data-gallery-thumb-index="@index"
+                                            aria-label="Chuyển đến ảnh @(index + 1)">
+                                        <img src="@thumbnail.ImageUrl"
+                                             alt="Ảnh thu nhỏ @(index + 1)" />
+                                        <span>@(index + 1)</span>
+                                    </button>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script>
+        function goBackToPreviousPage() {
+            if (document.referrer && window.history.length > 1) {
+                window.history.back();
+                return;
+            }
+            window.location.href = '@Url.Action("Search", "Rooms")';
         }
-    }
-</script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const galleryModal = document.getElementById('roomGalleryModal');
+            const galleryCarouselElement = document.getElementById('roomGalleryCarousel');
+            if (!galleryModal || !galleryCarouselElement || typeof bootstrap === 'undefined') {
+                return;
+            }
+            const galleryCarousel = bootstrap.Carousel.getOrCreateInstance(galleryCarouselElement, {
+                interval: false,
+                ride: false,
+                touch: true,
+                wrap: true
+            });
+            const galleryThumbnails = Array.from(
+                galleryModal.querySelectorAll('[data-gallery-thumb-index]')
+            );
+            function setActiveGalleryThumbnail(index) {
+                galleryThumbnails.forEach(function (thumbnail, thumbnailIndex) {
+                    const isActive = thumbnailIndex === index;
+                    thumbnail.classList.toggle('is-active', isActive);
+                    thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
+                });
+                galleryThumbnails[index]?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+            galleryThumbnails.forEach(function (thumbnail) {
+                thumbnail.addEventListener('click', function () {
+                    const index = Number.parseInt(thumbnail.getAttribute('data-gallery-thumb-index') ?? '0', 10);
+                    galleryCarousel.to(Number.isNaN(index) ? 0 : index);
+                });
+            });
+            galleryModal.addEventListener('show.bs.modal', function (event) {
+                const trigger = event.relatedTarget;
+                const slideIndex = Number.parseInt(trigger?.getAttribute('data-slide-index') ?? '0', 10);
+                const safeSlideIndex = Number.isNaN(slideIndex) ? 0 : slideIndex;
+                galleryCarousel.to(safeSlideIndex);
+                setActiveGalleryThumbnail(safeSlideIndex);
+            });
+            galleryCarouselElement.addEventListener('slid.bs.carousel', function (event) {
+                setActiveGalleryThumbnail(event.to ?? 0);
+            });
+        });
+    </script>
+}

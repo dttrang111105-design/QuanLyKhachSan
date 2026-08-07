@@ -1,209 +1,109 @@
 ﻿@using System.Globalization
-
 @{
     string currentController =
         ViewContext.RouteData.Values["controller"]?.ToString()
         ?? string.Empty;
-
     string currentAction =
         ViewContext.RouteData.Values["action"]?.ToString()
         ?? string.Empty;
-
     string Active(string controller, string? action = null)
     {
-        bool controllerMatched =
-            string.Equals(
-                currentController,
-                controller,
+        bool controllerMatched = string.Equals(
+                currentController, controller,
                 StringComparison.OrdinalIgnoreCase);
-
-        bool actionMatched =
-            string.IsNullOrWhiteSpace(action) ||
-            string.Equals(
-                currentAction,
-                action,
-                StringComparison.OrdinalIgnoreCase);
-
+        bool actionMatched = string.IsNullOrWhiteSpace(action) ||
+            string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
         return controllerMatched && actionMatched
-            ? "active"
-            : string.Empty;
+            ? "active" : string.Empty;
     }
-
-    string receptionistName =
-        User.FindFirst("FullName")?.Value
-        ?? User.Identity?.Name
-        ?? "Lễ tân";
-
-    string receptionistInitial =
-        string.IsNullOrWhiteSpace(receptionistName)
-            ? "L"
-            : receptionistName
-                .Trim()
-                .Substring(0, 1)
-                .ToUpper();
-
-    string pageTitle =
-        ViewData["Title"]?.ToString()
-        ?? "Bảng điều khiển lễ tân";
-
-    string currentDate =
-        DateTime.Now.ToString(
-            "dddd, dd/MM/yyyy",
-            new CultureInfo("vi-VN"));
+    string receptionistName = User.FindFirst("FullName")?.Value
+        ?? User.Identity?.Name ?? "Lễ tân";
+    string receptionistInitial = string.IsNullOrWhiteSpace(receptionistName)
+            ? "L" : receptionistName.Trim().Substring(0, 1).ToUpper();
+    string pageTitle = ViewData["Title"]?.ToString() ?? "Bảng điều khiển lễ tân";
+    string currentDate = DateTime.Now.ToString("dddd, dd/MM/yyyy",new CultureInfo("vi-VN"));
 }
-
 <!DOCTYPE html>
-
 <html lang="vi">
-
 <head>
-
     <meta charset="utf-8" />
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
-
-    <meta name="description"
-          content="Luxury Hotel - Hệ thống nghiệp vụ lễ tân" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Luxury Hotel - Hệ thống nghiệp vụ lễ tân" />
     <title>@pageTitle - Luxury Reception</title>
-
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com" />
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin />
-
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-          rel="stylesheet" />
-
-    <link rel="stylesheet"
-          href="~/css/receptionist.css"
-          asp-append-version="true" />
-
-    @await RenderSectionAsync(
-        "Styles",
-        required: false)
-
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/receptionist.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
-
 <body class="reception-body">
-
     <div class="reception-shell">
-
-        <aside class="reception-sidebar"
-               id="receptionSidebar">
-
+        <aside class="reception-sidebar" id="receptionSidebar">
             <!-- Logo -->
             <div class="reception-brand">
-
-                <a asp-controller="Home"
-                   asp-action="Dashboard"
-                   class="reception-brand-link">
-
+                <a asp-controller="Home" asp-action="Dashboard" class="reception-brand-link">
                     <span class="reception-brand-icon">
-
                         <i class="bi bi-buildings-fill"></i>
-
                     </span>
-
                     <span class="reception-brand-text">
-
                         <strong>LUXURY</strong>
-
                         <small>HOTEL RECEPTION</small>
-
                     </span>
-
                 </a>
-
-                <button type="button"
-                        id="receptionSidebarClose"
+                <button type="button" id="receptionSidebarClose"
                         class="reception-sidebar-close d-lg-none"
                         aria-label="Đóng menu">
-
                     <i class="bi bi-x-lg"></i>
-
                 </button>
-
             </div>
-
             <!-- Người dùng -->
             <div class="reception-profile">
-
                 <span class="reception-profile-avatar">
                     @receptionistInitial
                 </span>
-
                 <div class="reception-profile-info">
-
                     <span>Đang đăng nhập</span>
-
                     <strong title="@receptionistName">
                         @receptionistName
                     </strong>
-
                     <small>
-
                         <i class="bi bi-person-badge-fill"></i>
                         Nhân viên lễ tân
-
                     </small>
-
                 </div>
-
             </div>
-
             <!-- Menu -->
             <nav class="reception-navigation">
-
                 <!-- Tổng quan -->
                 <div class="reception-nav-group">
-
                     <div class="reception-nav-label">
                         Tổng quan
                     </div>
-
                     <a asp-controller="Home"
                        asp-action="Dashboard"
                        class="reception-nav-link
                         @Active("Home", "Dashboard")">
-
                         <i class="bi bi-grid-1x2-fill"></i>
-
                         <span>
                             Bảng điều khiển
                         </span>
-
                     </a>
-
                 </div>
-
                 <!-- Nghiệp vụ -->
                 <div class="reception-nav-group">
-
                     <div class="reception-nav-label">
                         Nghiệp vụ lễ tân
                     </div>
-
                     <a asp-controller="Bookings"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("Bookings")">
-
                         <i class="bi bi-calendar2-check-fill"></i>
-
                         <span>
                             Quản lý Booking
                         </span>
-
                         @if (ViewBag.PendingBookingCount is int pendingCount &&
                              pendingCount > 0)
                         {
@@ -211,227 +111,160 @@
                                 @pendingCount
                             </span>
                         }
-
                     </a>
-
                     <a asp-controller="Rooms"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("Rooms")">
-
                         <i class="bi bi-door-open-fill"></i>
-
                         <span>
                             Tình trạng phòng
                         </span>
-
                     </a>
-
                     <a asp-controller="RoomTypes"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("RoomTypes")">
-
                         <i class="bi bi-house-gear-fill"></i>
-
                         <span>
                             Loại phòng
                         </span>
-
                     </a>
-
+                    <a asp-controller="RoomMiniBars"
+                       asp-action="Index"
+                       class="reception-nav-link @Active("RoomMiniBars")">
+                        <i class="bi bi-cup-straw"></i>
+                        <span>Quản lý Minibar</span>
+                    </a>
                 </div>
-
                 <!-- Dịch vụ -->
                 <div class="reception-nav-group">
-
                     <div class="reception-nav-label">
                         Dịch vụ khách lưu trú
                     </div>
-
                     <a asp-controller="Services"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("Services")">
-
                         <i class="bi bi-bell-fill"></i>
-
                         <span>
                             Dịch vụ khách sạn
                         </span>
-
                     </a>
-
                     <a asp-controller="ServiceBookings"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("ServiceBookings")">
-
                         <i class="bi bi-bag-check-fill"></i>
-
                         <span>
                             Dịch vụ đã đặt
                         </span>
-
                     </a>
-
                 </div>
-
                 <!-- Tài chính -->
                 <div class="reception-nav-group">
-
                     <div class="reception-nav-label">
                         Hóa đơn và thanh toán
                     </div>
-
                     <a asp-controller="Invoices"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("Invoices")">
-
                         <i class="bi bi-receipt-cutoff"></i>
-
                         <span>
                             Quản lý hóa đơn
                         </span>
-
                     </a>
-
                     <a asp-controller="Payments"
                        asp-action="Index"
                        class="reception-nav-link
                         @Active("Payments")">
-
                         <i class="bi bi-credit-card-2-front-fill"></i>
-
                         <span>
                             Thanh toán
                         </span>
-
                     </a>
-
                 </div>
-
             </nav>
-
         </aside>
-
         <div class="reception-sidebar-overlay"
              id="receptionSidebarOverlay">
         </div>
-
         <div class="reception-main">
-
             <!-- Topbar -->
             <header class="reception-topbar">
-
                 <div class="reception-topbar-left">
-
                     <button type="button"
                             id="receptionSidebarToggle"
                             class="reception-sidebar-toggle"
                             aria-label="Mở menu">
-
                         <i class="bi bi-list"></i>
-
                     </button>
-
                     <div class="reception-page-heading">
-
                         <span>
                             Luxury Hotel Reception
                         </span>
-
                         <h1>
                             @pageTitle
                         </h1>
-
                     </div>
-
                 </div>
-
                 <div class="reception-topbar-right">
-
                     <div class="reception-current-date
                         d-none d-md-flex">
-
                         <i class="bi bi-calendar3"></i>
-
                         <span>
                             @currentDate
                         </span>
-
                     </div>
-
                     <div class="dropdown">
-
                         <button type="button"
                                 class="reception-account-button
                             dropdown-toggle"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
-
                             <span class="reception-account-avatar">
                                 @receptionistInitial
                             </span>
-
                             <span class="reception-account-text
                                 d-none d-sm-flex">
-
                                 <small>
                                     Nhân viên lễ tân
                                 </small>
-
                                 <strong>
                                     @receptionistName
                                 </strong>
-
                             </span>
-
                         </button>
-
                         <ul class="dropdown-menu dropdown-menu-end
                             reception-account-menu">
-
                             <li class="reception-account-header">
-
                                 <span class="reception-account-avatar">
                                     @receptionistInitial
                                 </span>
-
                                 <div>
-
                                     <strong>
                                         @receptionistName
                                     </strong>
-
                                     <small>
                                         @User.Identity?.Name
                                     </small>
-
                                 </div>
-
                             </li>
-
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
-
                             <li>
-
                                 <a asp-controller="Profile"
                                    asp-action="Index"
                                    class="dropdown-item">
-
                                     <i class="bi bi-person-vcard"></i>
                                     Trang cá nhân
                                 </a>
                             </li>
-
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
-
                             <li>
                                 <a asp-controller="Auth"
                                    asp-action="Logout"
@@ -439,118 +272,87 @@
                                     <i class="bi bi-box-arrow-right"></i>
                                     Đăng xuất
                                 </a>
-
                             </li>
-
                         </ul>
-
                     </div>
-
                 </div>
-
             </header>
-
             <!-- Nội dung -->
             <main class="reception-content">
-
                 @if (TempData["Success"] != null)
                 {
                     <div class="alert alert-success
                         alert-dismissible fade show
                         reception-alert"
                          role="alert">
-
                         <i class="bi bi-check-circle-fill"></i>
-
                         <span>
                             @TempData["Success"]
                         </span>
-
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="alert"
                                 aria-label="Đóng">
                         </button>
-
                     </div>
                 }
-
                 @if (TempData["Error"] != null)
                 {
                     <div class="alert alert-danger
                         alert-dismissible fade show
                         reception-alert"
                          role="alert">
-
                         <i class="bi bi-exclamation-triangle-fill"></i>
-
                         <span>
                             @TempData["Error"]
                         </span>
-
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="alert"
                                 aria-label="Đóng">
                         </button>
-
                     </div>
                 }
-
                 @RenderBody()
-
             </main>
-
         </div>
-
     </div>
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js">
     </script>
-
     <!-- JavaScript điều khiển sidebar -->
     <script>
             document.addEventListener(
                 "DOMContentLoaded",
                 function () {
-
                     const body =
                         document.body;
-
                     const toggleButton =
                         document.getElementById(
                             "receptionSidebarToggle"
                         );
-
                     const closeButton =
                         document.getElementById(
                             "receptionSidebarClose"
                         );
-
                     const overlay =
                         document.getElementById(
                             "receptionSidebarOverlay"
                         );
-
                     const sidebar =
                         document.getElementById(
                             "receptionSidebar"
                         );
-
                     function isDesktop() {
                         return window.innerWidth >= 992;
                     }
-
                     function closeMobileSidebar() {
                         body.classList.remove(
                             "reception-sidebar-open"
                         );
                     }
-
                     toggleButton?.addEventListener(
                         "click",
                         function () {
-
                             if (isDesktop()) {
                                 body.classList.toggle(
                                     "reception-sidebar-collapsed"
@@ -561,43 +363,33 @@
                                     "reception-sidebar-open"
                                 );
                             }
-
                         }
                     );
-
                     closeButton?.addEventListener(
                         "click",
                         closeMobileSidebar
                     );
-
                     overlay?.addEventListener(
                         "click",
                         closeMobileSidebar
                     );
-
                     sidebar
                         ?.querySelectorAll(
                             ".reception-nav-link"
                         )
                         .forEach(function (link) {
-
                             link.addEventListener(
                                 "click",
                                 function () {
-
                                     if (!isDesktop()) {
                                         closeMobileSidebar();
                                     }
-
                                 }
                             );
-
                         });
-
                     window.addEventListener(
                         "resize",
                         function () {
-
                             if (isDesktop()) {
                                 closeMobileSidebar();
                             }
@@ -606,18 +398,13 @@
                                     "reception-sidebar-collapsed"
                                 );
                             }
-
                         }
                     );
-
                 }
             );
     </script>
-
     @await RenderSectionAsync(
         "Scripts",
         required: false)
-
 </body>
-
 </html>

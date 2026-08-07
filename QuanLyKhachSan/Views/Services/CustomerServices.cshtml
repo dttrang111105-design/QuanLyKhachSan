@@ -1,26 +1,21 @@
 ﻿@model IEnumerable<QuanLyKhachSan.Models.Service>
-
 @{
     ViewData["Title"] = "Dịch vụ khách sạn";
     Layout = "_CustomerLayout";
-
     var services = Model?.ToList()
         ?? new List<QuanLyKhachSan.Models.Service>();
 }
-
 <style>
     .customer-services-page {
         min-height: 75vh;
         padding: 70px 0 90px;
         background: radial-gradient( circle at top right, rgba(197, 151, 67, 0.16), transparent 32% ), radial-gradient( circle at bottom left, rgba(197, 151, 67, 0.10), transparent 28% ), #f7f5f0;
     }
-
     .services-heading {
         max-width: 760px;
         margin: 0 auto 48px;
         text-align: center;
     }
-
     .services-heading-label {
         display: inline-flex;
         align-items: center;
@@ -36,7 +31,6 @@
         letter-spacing: 2px;
         text-transform: uppercase;
     }
-
     .services-heading h1 {
         margin-bottom: 15px;
         color: #202020;
@@ -44,14 +38,12 @@
         font-size: 42px;
         font-weight: 700;
     }
-
     .services-heading p {
         margin: 0;
         color: #777;
         font-size: 16px;
         line-height: 1.8;
     }
-
     .service-card {
         position: relative;
         height: 100%;
@@ -62,13 +54,11 @@
         box-shadow: 0 15px 40px rgba(30, 25, 18, 0.08);
         transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-
         .service-card:hover {
             border-color: rgba(187, 139, 52, 0.65);
             box-shadow: 0 25px 55px rgba(30, 25, 18, 0.16);
             transform: translateY(-8px);
         }
-
     .service-card-top {
         position: relative;
         min-height: 175px;
@@ -78,7 +68,6 @@
         overflow: hidden;
         background: radial-gradient( circle at 80% 20%, rgba(225, 187, 104, 0.32), transparent 35% ), linear-gradient(145deg, #0b0b0b, #282015);
     }
-
         .service-card-top::before {
             content: "";
             position: absolute;
@@ -87,7 +76,6 @@
             border: 1px solid rgba(214, 175, 91, 0.25);
             border-radius: 50%;
         }
-
         .service-card-top::after {
             content: "";
             position: absolute;
@@ -96,7 +84,6 @@
             border: 1px solid rgba(214, 175, 91, 0.18);
             border-radius: 50%;
         }
-
     .service-icon {
         position: relative;
         z-index: 2;
@@ -114,11 +101,9 @@
         transform: rotate(-3deg);
         transition: transform 0.3s ease;
     }
-
     .service-card:hover .service-icon {
         transform: rotate(0deg) scale(1.08);
     }
-
     .service-category {
         position: absolute;
         top: 17px;
@@ -135,14 +120,12 @@
         text-transform: uppercase;
         backdrop-filter: blur(5px);
     }
-
     .service-card-body {
         display: flex;
         min-height: 310px;
         flex-direction: column;
         padding: 27px;
     }
-
     .service-card-title {
         min-height: 60px;
         margin-bottom: 10px;
@@ -151,7 +134,6 @@
         font-weight: 750;
         line-height: 1.35;
     }
-
     .service-card-description {
         min-height: 72px;
         margin-bottom: 22px;
@@ -159,7 +141,6 @@
         font-size: 14px;
         line-height: 1.7;
     }
-
     .service-card-information {
         display: flex;
         align-items: end;
@@ -169,7 +150,6 @@
         padding-top: 20px;
         border-top: 1px solid #ede8df;
     }
-
     .service-price-label {
         display: block;
         margin-bottom: 3px;
@@ -179,14 +159,12 @@
         letter-spacing: 1px;
         text-transform: uppercase;
     }
-
     .service-price {
         color: #a66f1d;
         font-size: 23px;
         font-weight: 800;
         white-space: nowrap;
     }
-
     .service-status {
         display: inline-flex;
         align-items: center;
@@ -195,7 +173,6 @@
         font-size: 12px;
         font-weight: 700;
     }
-
         .service-status::before {
             content: "";
             width: 8px;
@@ -204,7 +181,6 @@
             background: #2ebd6c;
             box-shadow: 0 0 0 4px rgba(46, 189, 108, 0.13);
         }
-
     .service-book-button {
         width: 100%;
         min-height: 51px;
@@ -222,14 +198,12 @@
         text-decoration: none;
         transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
-
         .service-book-button:hover {
             background: linear-gradient(145deg, #efd583, #c88e32);
             color: #181108;
             box-shadow: 0 11px 22px rgba(175, 119, 32, 0.28);
             transform: translateY(-2px);
         }
-
     .services-information-box {
         display: flex;
         align-items: center;
@@ -240,7 +214,6 @@
         border-radius: 17px;
         background: linear-gradient( 135deg, rgba(255, 251, 240, 0.96), rgba(242, 228, 195, 0.8) );
     }
-
     .services-information-icon {
         width: 52px;
         height: 52px;
@@ -253,21 +226,18 @@
         color: #d8ad56;
         font-size: 22px;
     }
-
     .services-information-box h4 {
         margin-bottom: 4px;
         color: #2f2a21;
         font-size: 16px;
         font-weight: 750;
     }
-
     .services-information-box p {
         margin: 0;
         color: #716958;
         font-size: 13px;
         line-height: 1.6;
     }
-
     .services-empty {
         max-width: 650px;
         margin: 0 auto;
@@ -277,7 +247,6 @@
         background: #fff;
         text-align: center;
     }
-
     .services-empty-icon {
         width: 80px;
         height: 80px;
@@ -290,19 +259,16 @@
         color: #aa761f;
         font-size: 34px;
     }
-
     .services-empty h3 {
         margin-bottom: 9px;
         color: #2c2923;
         font-size: 22px;
         font-weight: 750;
     }
-
     .services-empty p {
         margin-bottom: 23px;
         color: #777;
     }
-
     .services-back-button {
         display: inline-flex;
         align-items: center;
@@ -313,72 +279,55 @@
         color: #fff;
         text-decoration: none;
     }
-
         .services-back-button:hover {
             background: #b8822d;
             color: #fff;
         }
-
     @@media (max-width: 991.98px) {
         .services-heading h1 {
             font-size: 36px;
         }
-
         .service-card-title,
         .service-card-description {
             min-height: auto;
         }
     }
-
     @@media (max-width: 767.98px) {
         .customer-services-page {
             padding: 45px 0 70px;
         }
-
         .services-heading {
             margin-bottom: 35px;
         }
-
             .services-heading h1 {
                 font-size: 30px;
             }
-
             .services-heading p {
                 font-size: 14px;
             }
-
         .service-card-body {
             min-height: auto;
             padding: 23px;
         }
-
         .services-information-box {
             align-items: flex-start;
             padding: 20px;
         }
     }
 </style>
-
 <section class="customer-services-page">
-
     <div class="container">
-
         <div class="services-heading">
-
             <span class="services-heading-label">
                 <i class="bi bi-stars"></i>
                 Luxury Hotel Services
             </span>
-
             <h1>Dịch vụ khách sạn</h1>
-
             <p>
                 Lựa chọn những dịch vụ tiện ích cao cấp để kỳ nghỉ của bạn
                 trở nên thoải mái, thuận tiện và đáng nhớ hơn.
             </p>
-
         </div>
-
         @if (TempData["Error"] != null)
         {
             <div class="alert alert-danger mb-4">
@@ -386,7 +335,6 @@
                 @TempData["Error"]
             </div>
         }
-
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success mb-4">
@@ -394,19 +342,15 @@
                 @TempData["Success"]
             </div>
         }
-
         @if (services.Any())
         {
             <div class="row g-4">
-
                 @foreach (var service in services)
                 {
                     var text =
                     $"{service.ServiceName} {service.Category}"
                     .ToLower();
-
                     var iconClass = "bi-stars";
-
                     if (text.Contains("giặt") ||
                     text.Contains("laundry"))
                     {
@@ -440,124 +384,85 @@
                     {
                         iconClass = "bi-balloon-heart-fill";
                     }
-
                     <div class="col-xl-4 col-lg-4 col-md-6">
-
                         <article class="service-card">
-
                             <div class="service-card-top">
-
                                 <span class="service-category">
                                     @(string.IsNullOrWhiteSpace(service.Category)
                                                                 ? "Luxury Service"
                                                                 : service.Category)
                                 </span>
-
                                 <span class="service-icon">
                                     <i class="bi @iconClass"></i>
                                 </span>
-
                             </div>
-
                             <div class="service-card-body">
-
                                 <h2 class="service-card-title">
                                     @service.ServiceName
                                 </h2>
-
                                 <p class="service-card-description">
                                     @(string.IsNullOrWhiteSpace(service.Description)
                                                                 ? "Dịch vụ tiện ích chất lượng cao được cung cấp trong thời gian khách hàng lưu trú."
                                                                 : service.Description)
                                 </p>
-
                                 <div class="service-card-information">
-
                                     <div>
-
                                         <span class="service-price-label">
                                             Giá dịch vụ
                                         </span>
-
                                         <strong class="service-price">
                                             @service.Price.ToString("N0") VNĐ
                                         </strong>
-
                                     </div>
-
                                     <span class="service-status">
                                         Đang phục vụ
                                     </span>
-
                                 </div>
-
                                 <a asp-controller="Services"
                                    asp-action="BookService"
                                    asp-route-id="@service.Id"
                                    class="service-book-button">
-
                                     <i class="bi bi-bag-plus-fill"></i>
                                     Đặt dịch vụ ngay
                                     <i class="bi bi-arrow-right"></i>
-
                                 </a>
-
                             </div>
-
                         </article>
-
                     </div>
                 }
-
             </div>
-
             <div class="services-information-box">
-
                 <span class="services-information-icon">
                     <i class="bi bi-info-circle-fill"></i>
                 </span>
-
                 <div>
-
                     <h4>Điều kiện đặt dịch vụ</h4>
-
                     <p>
                         Bạn cần có Booking đang ở trạng thái đã nhận phòng
                         để sử dụng dịch vụ. Chi phí dịch vụ sẽ được cộng vào
                         hóa đơn của Booking tương ứng.
                     </p>
-
                 </div>
-
             </div>
         }
         else
         {
             <div class="services-empty">
-
                 <span class="services-empty-icon">
                     <i class="bi bi-bag-x"></i>
                 </span>
-
                 <h3>Chưa có dịch vụ để hiển thị</h3>
-
                 <p>
                     Hiện tại khách sạn chưa thêm dịch vụ hoặc các dịch vụ
                     đang tạm ngừng hoạt động.
                 </p>
-
                 <a asp-controller="Home"
                    asp-action="Index"
                    class="services-back-button">
-
                     <i class="bi bi-arrow-left"></i>
                     Quay lại trang chủ
-
                 </a>
-
             </div>
         }
-
     </div>
-
 </section>

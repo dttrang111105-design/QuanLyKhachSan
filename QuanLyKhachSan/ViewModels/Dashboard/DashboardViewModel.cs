@@ -28,7 +28,11 @@ namespace QuanLyKhachSan.ViewModels.Dashboard
 
         public decimal RevenueToday { get; set; }
 
+        public decimal RevenueThisWeek { get; set; }
+
         public decimal RevenueThisMonth { get; set; }
+
+        public decimal RevenueThisQuarter { get; set; }
 
         public decimal ServiceRevenueThisMonth { get; set; }
 
@@ -38,12 +42,26 @@ namespace QuanLyKhachSan.ViewModels.Dashboard
 
         public string? Role { get; set; }
 
-        public List<string> RevenueLabels { get; set; } = new();
+        public List<string> RevenueWeekLabels { get; set; } = new();
 
-        public List<decimal> RevenueValues { get; set; } = new();
+        public List<decimal> RevenueWeekValues { get; set; } = new();
+
+        public List<string> RevenueMonthLabels { get; set; } = new();
+
+        public List<decimal> RevenueMonthValues { get; set; } = new();
+
+        public List<string> RevenueQuarterLabels { get; set; } = new();
+
+        public List<decimal> RevenueQuarterValues { get; set; } = new();
 
         public List<Booking> RecentBookings { get; set; } = new();
 
         public List<Room> AvailableRoomList { get; set; } = new();
+        public int WeekOffset { get; set; }
+        public DateTime SelectedWeekStart { get; set; }
+        public DateTime SelectedWeekEnd { get; set; }
+        public string SelectedWeekRange => $"{SelectedWeekStart:dd/MM} - " + $"{SelectedWeekEnd.AddDays(-1):dd/MM/yyyy}";
+
+        public bool CanGoToNextWeek => WeekOffset < 0;
     }
 }

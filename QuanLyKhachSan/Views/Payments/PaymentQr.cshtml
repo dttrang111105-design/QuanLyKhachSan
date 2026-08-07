@@ -1,6 +1,5 @@
 ﻿@model QuanLyKhachSan.ViewModels.Payment.PaymentQrViewModel
 @using QuanLyKhachSan.Enums
-
 @{
     if (User.IsInRole("Admin"))
     {
@@ -14,16 +13,13 @@
     {
         Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     }
-
     ViewData["Title"] = "Thanh toán hóa đơn";
 }
-
 <style>
     .payment-page {
         max-width: 980px;
         margin: 0 auto;
     }
-
     .payment-card {
         overflow: hidden;
         border: 1px solid #e5e7eb;
@@ -31,49 +27,41 @@
         background: #fff;
         box-shadow: 0 18px 48px rgba(20, 26, 38, .08);
     }
-
     .payment-header {
         padding: 24px 28px;
         background: linear-gradient(135deg, #1c8b58, #146c43);
         color: #fff;
     }
-
         .payment-header h2 {
             margin: 0 0 5px;
             font-size: 25px;
             font-weight: 800;
         }
-
         .payment-header p {
             margin: 0;
             color: rgba(255, 255, 255, .82);
             font-size: 13px;
         }
-
     .payment-body {
         padding: 28px;
     }
-
     .payment-section-title {
         margin-bottom: 14px;
         color: #252a35;
         font-size: 15px;
         font-weight: 800;
     }
-
     .payment-method-grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 12px;
         margin-bottom: 25px;
     }
-
     .payment-method-input {
         position: absolute;
         opacity: 0;
         pointer-events: none;
     }
-
     .payment-method-card {
         min-height: 112px;
         display: flex;
@@ -90,34 +78,28 @@
         cursor: pointer;
         transition: .2s ease;
     }
-
         .payment-method-card i {
             font-size: 27px;
         }
-
         .payment-method-card strong {
             color: #343944;
             font-size: 13px;
         }
-
         .payment-method-card small {
             color: #969ba7;
             font-size: 10px;
         }
-
         .payment-method-card:hover {
             border-color: #57a77c;
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(31, 139, 88, .12);
         }
-
     .payment-method-input:checked + .payment-method-card {
         border-color: #1c8b58;
         background: #eef9f3;
         color: #1c8b58;
         box-shadow: 0 0 0 4px rgba(28, 139, 88, .1);
     }
-
     .payment-content {
         display: none;
         padding: 22px;
@@ -125,11 +107,9 @@
         border-radius: 16px;
         background: #fafbfc;
     }
-
         .payment-content.active {
             display: block;
         }
-
     .payment-message {
         display: flex;
         align-items: center;
@@ -138,7 +118,6 @@
         border-radius: 14px;
         background: #fff;
     }
-
     .payment-message-icon {
         width: 60px;
         height: 60px;
@@ -151,24 +130,20 @@
         color: #1c8b58;
         font-size: 28px;
     }
-
     .payment-message h4 {
         margin: 0 0 5px;
         color: #2f3540;
         font-size: 18px;
         font-weight: 800;
     }
-
     .payment-message p {
         margin: 0;
         color: #7f8591;
         font-size: 12px;
     }
-
     .qr-wrap {
         text-align: center;
     }
-
     .qr-image {
         width: 300px;
         max-width: 100%;
@@ -177,29 +152,24 @@
         border-radius: 12px;
         background: #fff;
     }
-
     .payment-info-table {
         margin-bottom: 0;
         background: #fff;
     }
-
         .payment-info-table th {
             width: 190px;
             color: #343944;
             font-size: 12px;
         }
-
         .payment-info-table td {
             color: #626977;
             font-size: 12px;
         }
-
     .payment-total {
         color: #dc3545 !important;
         font-size: 21px !important;
         font-weight: 800;
     }
-
     .payment-actions {
         display: flex;
         align-items: center;
@@ -208,7 +178,6 @@
         gap: 10px;
         margin-top: 22px;
     }
-
     .payment-confirm-button,
     .payment-back-button {
         min-height: 46px;
@@ -221,44 +190,36 @@
         font-size: 13px;
         font-weight: 800;
     }
-
     .payment-confirm-button {
         border: 1px solid #1c8b58;
         background: #1c8b58;
         color: #fff;
     }
-
         .payment-confirm-button:hover {
             background: #146c43;
             color: #fff;
         }
-
     .payment-back-button {
         border: 1px solid #cfd3d9;
         background: #fff;
         color: #626977;
     }
-
         .payment-back-button:hover {
             border-color: #8d939e;
             color: #343944;
         }
-
     @@media (max-width: 767.98px) {
         .payment-method-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
-
         .payment-body {
             padding: 18px;
         }
-
         .payment-message {
             align-items: flex-start;
         }
     }
 </style>
-
 <div class="container py-4">
     <div class="payment-page">
         <div class="payment-card">
@@ -266,7 +227,6 @@
                 <h2>Thanh toán hóa đơn</h2>
                 <p>Chọn một trong bốn phương thức thanh toán bên dưới.</p>
             </div>
-
             <div class="payment-body">
                 <form asp-controller="Payments"
                       asp-action="ConfirmPayment"
@@ -274,9 +234,7 @@
                       method="post"
                       id="paymentForm">
                     @Html.AntiForgeryToken()
-
                     <div class="payment-section-title">Phương thức thanh toán</div>
-
                     <div class="payment-method-grid">
                         <div>
                             <input class="payment-method-input"
@@ -291,7 +249,6 @@
                                 <small>Thanh toán tại quầy</small>
                             </label>
                         </div>
-
                         <div>
                             <input class="payment-method-input"
                                    type="radio"
@@ -306,7 +263,6 @@
                                 <small>Quét mã VietQR</small>
                             </label>
                         </div>
-
                         <div>
                             <input class="payment-method-input"
                                    type="radio"
@@ -320,7 +276,6 @@
                                 <small>Cổng thanh toán VNPay</small>
                             </label>
                         </div>
-
                         <div>
                             <input class="payment-method-input"
                                    type="radio"
@@ -335,7 +290,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div id="cashPanel" class="payment-content">
                         <div class="payment-message">
                             <span class="payment-message-icon">
@@ -347,18 +301,15 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="bankPanel" class="payment-content active">
                         <div class="qr-wrap">
                             <p class="text-muted mb-1">
                                 Quét mã QR bằng ứng dụng ngân hàng và giữ nguyên nội dung chuyển khoản.
                             </p>
-
                             <img src="@Model.QrUrl"
                                  class="qr-image"
                                  alt="Mã QR thanh toán hóa đơn @Model.InvoiceCode" />
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-bordered align-middle payment-info-table">
                                 <tr>
@@ -384,19 +335,16 @@
                             </table>
                         </div>
                     </div>
-
                     <div id="vnpayPanel" class="payment-content">
                         <div class="qr-wrap">
                             <h4 class="mb-2 fw-bold">Thanh toán bằng VNPay</h4>
                             <p class="text-muted mb-1">
                                 Mở ứng dụng VNPay hoặc ứng dụng ngân hàng hỗ trợ VNPay để quét mã QR.
                             </p>
-
                             <img src="@Model.QrUrl"
                                  class="qr-image"
                                  alt="Mã QR VNPay thanh toán hóa đơn @Model.InvoiceCode" />
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-bordered align-middle payment-info-table">
                                 <tr>
@@ -414,19 +362,16 @@
                             </table>
                         </div>
                     </div>
-
                     <div id="momoPanel" class="payment-content">
                         <div class="qr-wrap">
                             <h4 class="mb-2 fw-bold">Thanh toán bằng MoMo</h4>
                             <p class="text-muted mb-1">
                                 Mở ứng dụng MoMo, chọn quét mã và giữ nguyên nội dung thanh toán.
                             </p>
-
                             <img src="@Model.QrUrl"
                                  class="qr-image"
                                  alt="Mã QR MoMo thanh toán hóa đơn @Model.InvoiceCode" />
                         </div>
-
                         <div class="table-responsive">
                             <table class="table table-bordered align-middle payment-info-table">
                                 <tr>
@@ -444,7 +389,6 @@
                             </table>
                         </div>
                     </div>
-
                     <div class="payment-actions">
                         <button type="submit"
                                 id="confirmPaymentButton"
@@ -453,7 +397,6 @@
                             <i class="bi bi-check-circle"></i>
                             <span id="confirmButtonText">Đã nhận tiền chuyển khoản</span>
                         </button>
-
                         @if (User.IsInRole("Customer"))
                         {
                             <a asp-controller="Invoices"
@@ -480,58 +423,46 @@
         </div>
     </div>
 </div>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const methodInputs = document.querySelectorAll(".payment-method-input");
         const panels = document.querySelectorAll(".payment-content");
         const buttonText = document.getElementById("confirmButtonText");
-
         const labels = {
             Cash: "Đã thu tiền mặt",
             BankTransfer: "Đã nhận tiền chuyển khoản",
             VNPay: "Đã thanh toán VNPay",
             Momo: "Đã thanh toán MoMo"
         };
-
         function updatePaymentContent() {
             const selected = document.querySelector(".payment-method-input:checked");
-
             if (!selected) {
                 return;
             }
-
             panels.forEach(function (panel) {
                 panel.classList.toggle("active", panel.id === selected.dataset.panel);
             });
-
             if (buttonText) {
                 buttonText.textContent = labels[selected.value] || "Xác nhận thanh toán";
             }
         }
-
         methodInputs.forEach(function (input) {
             input.addEventListener("change", updatePaymentContent);
         });
-
         updatePaymentContent();
     });
-
     function confirmPaymentMethod() {
         const selected = document.querySelector(".payment-method-input:checked");
-
         if (!selected) {
             alert("Vui lòng chọn phương thức thanh toán.");
             return false;
         }
-
         const names = {
             Cash: "tiền mặt",
             BankTransfer: "chuyển khoản ngân hàng",
             VNPay: "VNPay",
             Momo: "MoMo"
         };
-
         return confirm("Xác nhận đã nhận đủ tiền bằng " + names[selected.value] + "?");
     }
 </script>

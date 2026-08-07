@@ -4,17 +4,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKhachSan.Data;
 using QuanLyKhachSan.Models;
-
 [Authorize(Roles = "Admin")]
 public class CustomersController : Controller
 {
     private readonly ApplicationDbContext _context;
-
     public CustomersController(ApplicationDbContext context)
     {
         _context = context;
     }
-
     public async Task<IActionResult> Index()
     {
         var customers = await _context.Customers
@@ -31,17 +28,14 @@ public class CustomersController : Controller
             .OrderByDescending(customer =>
                 customer.CreatedAt)
             .ToListAsync();
-
         return View(customers);
     }
-
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
         {
             return NotFound();
         }
-
         var customer = await _context.Customers
             .AsNoTracking()
             .Include(x => x.Account)
@@ -50,22 +44,18 @@ public class CustomersController : Controller
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
-
         if (customer == null)
         {
             return NotFound();
         }
-
         return View(customer);
     }
-
     [HttpGet]
     public async Task<IActionResult> Create()
     {
         await LoadAccountsAsync();
         return View(new Customer());
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
@@ -76,26 +66,20 @@ public class CustomersController : Controller
     {
         NormalizeCustomer(model);
         ValidateCustomer(model);
-
         if (!ModelState.IsValid)
         {
             await LoadAccountsAsync(model.AccountId);
             return View(model);
         }
-
         model.CreatedAt = DateTime.Now;
         model.UpdatedAt = DateTime.Now;
         model.IsDeleted = false;
-
         _context.Customers.Add(model);
         await _context.SaveChangesAsync();
-
         TempData["Success"] =
             $"Thêm khách hàng {model.FullName} thành công.";
-
         return RedirectToAction(nameof(Index));
     }
-
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
@@ -103,23 +87,18 @@ public class CustomersController : Controller
         {
             return NotFound();
         }
-
         var customer = await _context.Customers
             .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
-
         if (customer == null)
         {
             return NotFound();
         }
-
         await LoadAccountsAsync(customer.AccountId);
-
         return View(customer);
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
@@ -133,26 +112,21 @@ public class CustomersController : Controller
         {
             return NotFound();
         }
-
         NormalizeCustomer(model);
         ValidateCustomer(model);
-
         var customer = await _context.Customers
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
-
         if (customer == null)
         {
             return NotFound();
         }
-
         if (!ModelState.IsValid)
         {
             await LoadAccountsAsync(model.AccountId);
             return View(model);
         }
-
         customer.AccountId = model.AccountId;
         customer.FullName = model.FullName;
         customer.Gender = model.Gender;
@@ -163,15 +137,11 @@ public class CustomersController : Controller
         customer.CitizenId = model.CitizenId;
         customer.Avatar = model.Avatar;
         customer.UpdatedAt = DateTime.Now;
-
         await _context.SaveChangesAsync();
-
         TempData["Success"] =
             $"Cập nhật khách hàng {customer.FullName} thành công.";
-
         return RedirectToAction(nameof(Details), new { id = customer.Id });
     }
-
     [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
@@ -179,21 +149,17 @@ public class CustomersController : Controller
         {
             return NotFound();
         }
-
         var customer = await _context.Customers
             .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
-
         if (customer == null)
         {
             return NotFound();
         }
-
         return View(customer);
     }
-
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
@@ -202,37 +168,29 @@ public class CustomersController : Controller
             .FirstOrDefaultAsync(x =>
                 x.Id == id &&
                 !x.IsDeleted);
-
         if (customer == null)
         {
             return NotFound();
         }
-
         customer.IsDeleted = true;
         customer.UpdatedAt = DateTime.Now;
-
         await _context.SaveChangesAsync();
-
         TempData["Success"] =
             $"Xóa khách hàng {customer.FullName} thành công.";
-
         return RedirectToAction(nameof(Index));
     }
-
     private async Task LoadAccountsAsync(int? selectedId = null)
     {
         var accounts = await _context.Accounts
             .AsNoTracking()
             .OrderBy(x => x.Username)
             .ToListAsync();
-
         ViewData["AccountId"] = new SelectList(
             accounts,
             "Id",
             "Username",
             selectedId);
     }
-
     private static void NormalizeCustomer(Customer model)
     {
         model.FullName = model.FullName?.Trim() ?? string.Empty;
@@ -243,7 +201,6 @@ public class CustomersController : Controller
         model.CitizenId = model.CitizenId?.Trim();
         model.Avatar = model.Avatar?.Trim();
     }
-
     private void ValidateCustomer(Customer model)
     {
         if (string.IsNullOrWhiteSpace(model.FullName))
@@ -252,7 +209,6 @@ public class CustomersController : Controller
                 nameof(Customer.FullName),
                 "Vui lòng nhập họ tên khách hàng.");
         }
-
         if (model.DateOfBirth.HasValue &&
             model.DateOfBirth.Value.Date > DateTime.Today)
         {
@@ -261,7 +217,6 @@ public class CustomersController : Controller
                 "Ngày sinh không được lớn hơn ngày hiện tại.");
         }
     }
-
     private bool CustomerExists(int id)
     {
         return _context.Customers.Any(x =>

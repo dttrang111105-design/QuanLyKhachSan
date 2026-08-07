@@ -1,21 +1,16 @@
 @model QuanLyKhachSan.Models.Payment
-
 @using QuanLyKhachSan.Enums
-
 @{
     Layout = User.IsInRole("Admin")
         ? "~/Views/Shared/_AdminLayout.cshtml"
         : "~/Views/Shared/_ReceptionistLayout.cshtml";
-
     ViewData["Title"] = "Chỉnh sửa thanh toán";
 }
-
 <style>
     .payment-edit-page {
         max-width: 1080px;
         margin: 0 auto;
     }
-
     .payment-edit-heading {
         display: flex;
         align-items: center;
@@ -23,7 +18,6 @@
         gap: 18px;
         margin-bottom: 24px;
     }
-
     .payment-edit-kicker {
         display: block;
         margin-bottom: 6px;
@@ -33,14 +27,12 @@
         letter-spacing: 1.7px;
         text-transform: uppercase;
     }
-
     .payment-edit-heading h2 {
         margin: 0;
         color: #252a35;
         font-size: 30px;
         font-weight: 800;
     }
-
     .payment-edit-back {
         min-height: 42px;
         display: inline-flex;
@@ -55,12 +47,10 @@
         font-size: 13px;
         font-weight: 700;
     }
-
         .payment-edit-back:hover {
             border-color: #b58a42;
             color: #8f692f;
         }
-
     .payment-edit-card {
         overflow: hidden;
         border: 1px solid #e7e9ee;
@@ -68,7 +58,6 @@
         background: #ffffff;
         box-shadow: 0 22px 55px rgba(34,38,51,.08);
     }
-
     .payment-edit-card-header {
         display: flex;
         align-items: center;
@@ -77,7 +66,6 @@
         background: radial-gradient(circle at 90% 10%, rgba(200,169,106,.25), transparent 28%), linear-gradient(135deg,#111111,#332717);
         color: #ffffff;
     }
-
     .payment-edit-icon {
         width: 56px;
         height: 56px;
@@ -90,37 +78,31 @@
         color: #171008;
         font-size: 25px;
     }
-
     .payment-edit-card-header h3 {
         margin: 0 0 4px;
         font-size: 24px;
         font-weight: 800;
     }
-
     .payment-edit-card-header p {
         margin: 0;
         color: rgba(255,255,255,.65);
         font-size: 13px;
     }
-
     .payment-edit-body {
         padding: 30px;
     }
-
     .payment-edit-summary {
         display: grid;
         grid-template-columns: repeat(3,minmax(0,1fr));
         gap: 14px;
         margin-bottom: 28px;
     }
-
     .payment-edit-summary-item {
         padding: 17px;
         border: 1px solid #e8e9ee;
         border-radius: 14px;
         background: #fcfcfd;
     }
-
         .payment-edit-summary-item span {
             display: block;
             margin-bottom: 5px;
@@ -129,19 +111,16 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .payment-edit-summary-item strong {
             color: #303641;
             font-size: 14px;
         }
-
     .payment-edit-field label {
         margin-bottom: 7px;
         color: #3c424d;
         font-size: 13px;
         font-weight: 700;
     }
-
     .payment-edit-field .form-control,
     .payment-edit-field .form-select {
         min-height: 50px;
@@ -150,19 +129,16 @@
         background: #fcfcfd;
         box-shadow: none;
     }
-
     .payment-edit-field textarea.form-control {
         min-height: 125px;
         resize: vertical;
     }
-
     .payment-edit-field .form-control:focus,
     .payment-edit-field .form-select:focus {
         border-color: #b58a42;
         background: #ffffff;
         box-shadow: 0 0 0 4px rgba(181,138,66,.12);
     }
-
     .payment-edit-actions {
         display: flex;
         flex-wrap: wrap;
@@ -171,7 +147,6 @@
         padding-top: 22px;
         border-top: 1px solid #eceef2;
     }
-
     .payment-edit-save,
     .payment-edit-cancel {
         min-height: 46px;
@@ -184,57 +159,47 @@
         font-size: 13px;
         font-weight: 800;
     }
-
     .payment-edit-save {
         border: 1px solid #b58a42;
         background: linear-gradient(145deg,#d8b25e,#a8752d);
         color: #ffffff;
     }
-
         .payment-edit-save:hover {
             background: linear-gradient(145deg,#e5c87f,#b98235);
             color: #ffffff;
         }
-
     .payment-edit-cancel {
         border: 1px solid #dfe2e8;
         background: #ffffff;
         color: #555c69;
     }
-
     @@media (max-width: 767.98px) {
         .payment-edit-heading {
             align-items: flex-start;
             flex-direction: column;
         }
-
         .payment-edit-summary {
             grid-template-columns: 1fr;
         }
-
         .payment-edit-card-header,
         .payment-edit-body {
             padding: 22px;
         }
-
         .payment-edit-actions {
             flex-direction: column;
         }
-
         .payment-edit-save,
         .payment-edit-cancel {
             width: 100%;
         }
     }
 </style>
-
 <div class="payment-edit-page">
     <div class="payment-edit-heading">
         <div>
             <span class="payment-edit-kicker">Quản lý thanh toán</span>
             <h2>Chỉnh sửa giao dịch</h2>
         </div>
-
         <a asp-controller="Payments"
            asp-action="Index"
            class="payment-edit-back">
@@ -242,48 +207,39 @@
             Quay lại danh sách
         </a>
     </div>
-
     <div class="payment-edit-card">
         <div class="payment-edit-card-header">
             <span class="payment-edit-icon">
                 <i class="bi bi-credit-card-2-front-fill"></i>
             </span>
-
             <div>
                 <h3>@Model.TransactionCode</h3>
                 <p>Cập nhật phương thức, trạng thái và thông tin giao dịch.</p>
             </div>
         </div>
-
         <div class="payment-edit-body">
             <div class="payment-edit-summary">
                 <div class="payment-edit-summary-item">
                     <span>Mã hóa đơn</span>
                     <strong>@(Model.Invoice?.InvoiceCode ?? $"#{Model.InvoiceId}")</strong>
                 </div>
-
                 <div class="payment-edit-summary-item">
                     <span>Mã Booking</span>
                     <strong>@(Model.Invoice?.Booking?.BookingCode ?? "Chưa có")</strong>
                 </div>
-
                 <div class="payment-edit-summary-item">
                     <span>Ngày tạo giao dịch</span>
                     <strong>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</strong>
                 </div>
             </div>
-
             <form asp-controller="Payments"
                   asp-action="Edit"
                   asp-route-id="@Model.Id"
                   method="post">
-
                 @Html.AntiForgeryToken()
                 <input asp-for="Id" type="hidden" />
-
                 <div asp-validation-summary="ModelOnly"
                      class="alert alert-danger"></div>
-
                 <div class="row g-4">
                     <div class="col-md-6 payment-edit-field">
                         <label asp-for="PaymentMethod">Phương thức thanh toán</label>
@@ -294,7 +250,6 @@
                         <span asp-validation-for="PaymentMethod"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 payment-edit-field">
                         <label asp-for="PaymentStatus">Trạng thái thanh toán</label>
                         <select asp-for="PaymentStatus"
@@ -304,7 +259,6 @@
                         <span asp-validation-for="PaymentStatus"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 payment-edit-field">
                         <label asp-for="Amount">Số tiền</label>
                         <div class="input-group">
@@ -318,7 +272,6 @@
                         <span asp-validation-for="Amount"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 payment-edit-field">
                         <label asp-for="TransactionCode">Mã giao dịch</label>
                         <input asp-for="TransactionCode"
@@ -327,7 +280,6 @@
                         <span asp-validation-for="TransactionCode"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-md-6 payment-edit-field">
                         <label asp-for="PaymentDate">Ngày thanh toán</label>
                         <input asp-for="PaymentDate"
@@ -336,7 +288,6 @@
                         <span asp-validation-for="PaymentDate"
                               class="text-danger small"></span>
                     </div>
-
                     <div class="col-12 payment-edit-field">
                         <label asp-for="Note">Ghi chú</label>
                         <textarea asp-for="Note"
@@ -346,14 +297,12 @@
                               class="text-danger small"></span>
                     </div>
                 </div>
-
                 <div class="payment-edit-actions">
                     <button type="submit"
                             class="payment-edit-save">
                         <i class="bi bi-check-circle"></i>
                         Lưu thay đổi
                     </button>
-
                     <a asp-controller="Payments"
                        asp-action="Details"
                        asp-route-id="@Model.Id"
@@ -366,7 +315,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

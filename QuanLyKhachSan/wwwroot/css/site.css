@@ -1,6 +1,5 @@
 @import url("./customer.css");
 @import url("./booking-flow.css");
-
 :root {
     --layout-gold: #c8a96a;
     --layout-gold-dark: #a9803f;
@@ -9,15 +8,12 @@
     --layout-muted: #777777;
     --layout-border: #e9e4dc;
 }
-
 * {
     box-sizing: border-box;
 }
-
 html {
     scroll-behavior: smooth;
 }
-
 body {
     min-height: 100vh;
     margin: 0;
@@ -26,56 +22,46 @@ body {
     color: var(--layout-text);
     font-family: "Poppins", sans-serif;
 }
-
 img {
     max-width: 100%;
 }
-
 a {
     text-decoration: none;
 }
-
 button,
 input,
 select,
 textarea {
     font: inherit;
 }
-
 /* =========================
    NAVBAR CỦA _LAYOUT
    ========================= */
-
 .public-navbar {
     width: 100%;
     padding: 18px 0;
     z-index: 1050;
     transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
-
 .public-navbar-home {
     background: transparent;
 }
-
     .public-navbar-home.navbar-scrolled {
         padding: 10px 0;
         background: rgba(14, 14, 14, 0.96);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(12px);
     }
-
 .public-navbar-solid {
     padding: 10px 0;
     background: #ffffff;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.09);
 }
-
 .public-brand {
     display: inline-flex;
     align-items: center;
     gap: 11px;
 }
-
 .public-brand-icon {
     width: 42px;
     height: 42px;
@@ -87,39 +73,32 @@ textarea {
     color: #ffffff;
     font-size: 21px;
 }
-
 .public-brand-text {
     display: flex;
     flex-direction: column;
     line-height: 1;
 }
-
     .public-brand-text strong {
         color: #ffffff;
         font-family: "Cinzel", serif;
         font-size: 23px;
         letter-spacing: 2px;
     }
-
     .public-brand-text small {
         margin-top: 5px;
         color: rgba(255, 255, 255, 0.68);
         font-size: 8px;
         letter-spacing: 3px;
     }
-
 .public-navbar-solid .public-brand-text strong {
     color: #1c1c1c;
 }
-
 .public-navbar-solid .public-brand-text small {
     color: #777777;
 }
-
 .public-nav-list {
     gap: 6px;
 }
-
     .public-nav-list .nav-link {
         position: relative;
         padding: 10px 13px !important;
@@ -129,11 +108,9 @@ textarea {
         letter-spacing: 0.4px;
         text-transform: uppercase;
     }
-
 .public-navbar-solid .public-nav-list .nav-link {
     color: #333333 !important;
 }
-
 .public-nav-list .nav-link::after {
     content: "";
     position: absolute;
@@ -145,23 +122,19 @@ textarea {
     transform: scaleX(0);
     transition: transform 0.25s ease;
 }
-
 .public-nav-list .nav-link:hover,
 .public-nav-list .nav-link.active {
     color: #d8b873 !important;
 }
-
     .public-nav-list .nav-link:hover::after,
     .public-nav-list .nav-link.active::after {
         transform: scaleX(1);
     }
-
 .public-navbar-actions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-
 .public-login-button,
 .public-register-button {
     min-height: 42px;
@@ -174,40 +147,33 @@ textarea {
     font-size: 13px;
     font-weight: 600;
 }
-
 .public-login-button {
     border: 1px solid rgba(255, 255, 255, 0.65);
     color: #ffffff;
 }
-
     .public-login-button:hover {
         border-color: #ffffff;
         background: #ffffff;
         color: #171717;
     }
-
 .public-navbar-solid .public-login-button {
     border-color: var(--layout-gold);
     color: var(--layout-gold-dark);
 }
-
     .public-navbar-solid .public-login-button:hover {
         background: var(--layout-gold);
         color: #ffffff;
     }
-
 .public-register-button {
     border: 1px solid var(--layout-gold);
     background: var(--layout-gold);
     color: #ffffff;
 }
-
     .public-register-button:hover {
         border-color: var(--layout-gold-dark);
         background: var(--layout-gold-dark);
         color: #ffffff;
     }
-
 .public-account-button {
     min-height: 48px;
     display: flex;
@@ -219,13 +185,11 @@ textarea {
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
 }
-
 .public-navbar-solid .public-account-button {
     border-color: #e4ded5;
     background: #ffffff;
     color: #2d2d2d;
 }
-
 .public-account-button:hover,
 .public-account-button:focus,
 .public-account-button.show {
@@ -233,13 +197,11 @@ textarea {
     background: rgba(200, 169, 106, 0.14);
     color: #ffffff;
 }
-
 .public-navbar-solid .public-account-button:hover,
 .public-navbar-solid .public-account-button:focus,
 .public-navbar-solid .public-account-button.show {
     color: #222222;
 }
-
 .public-account-avatar,
 .public-account-menu-avatar {
     display: inline-flex;
@@ -250,12 +212,10 @@ textarea {
     background: var(--layout-gold);
     color: #ffffff;
 }
-
 .public-account-avatar {
     width: 36px;
     height: 36px;
 }
-
 .public-account-copy {
     max-width: 145px;
     display: flex;
@@ -264,16 +224,13 @@ textarea {
     line-height: 1.2;
     text-align: left;
 }
-
     .public-account-copy small {
         color: rgba(255, 255, 255, 0.64);
         font-size: 10px;
     }
-
 .public-navbar-solid .public-account-copy small {
     color: #888888;
 }
-
 .public-account-copy strong {
     width: 100%;
     overflow: hidden;
@@ -281,7 +238,6 @@ textarea {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 .public-account-menu {
     width: 280px;
     margin-top: 10px !important;
@@ -290,42 +246,35 @@ textarea {
     border-radius: 15px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
 }
-
 .public-account-menu-header {
     display: flex;
     align-items: center;
     gap: 11px;
     padding: 10px;
 }
-
 .public-account-menu-avatar {
     width: 43px;
     height: 43px;
 }
-
 .public-account-menu-header div {
     min-width: 0;
     display: flex;
     flex-direction: column;
 }
-
 .public-account-menu-header strong,
 .public-account-menu-header small {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 .public-account-menu-header strong {
     color: #222222;
     font-size: 14px;
 }
-
 .public-account-menu-header small {
     color: #8a8a8a;
     font-size: 11px;
 }
-
 .public-account-menu .dropdown-item {
     display: flex;
     align-items: center;
@@ -335,50 +284,40 @@ textarea {
     color: #444444;
     font-size: 13px;
 }
-
     .public-account-menu .dropdown-item i {
         width: 19px;
         color: #a67d3d;
         font-size: 16px;
     }
-
     .public-account-menu .dropdown-item:hover {
         background: #f6f1e9;
         color: #8c682f;
     }
-
 .public-account-menu .public-logout-item,
 .public-account-menu .public-logout-item i {
     color: #c33d3d;
 }
-
 .public-navbar-toggler {
     border-color: rgba(255, 255, 255, 0.35);
 }
-
 .public-navbar-solid .public-navbar-toggler {
     border-color: #d9d1c6;
 }
-
 .public-navbar-solid .navbar-toggler-icon {
     filter: invert(1);
 }
-
 .public-inner-main {
     min-height: 68vh;
     padding-top: 105px;
 }
-
 /* =========================
    FEATURE BAR
    ========================= */
-
 .public-feature-bar {
     padding: 45px 0;
     border-top: 1px solid #ebe4d9;
     background: linear-gradient(180deg, #faf7f2 0%, #f4ede3 100%);
 }
-
 .public-feature-item {
     height: 100%;
     display: flex;
@@ -391,14 +330,12 @@ textarea {
     transition: all .35s ease;
     cursor: pointer;
 }
-
     .public-feature-item i {
         font-size: 28px;
         color: #c89c4b;
         transition: .35s;
         margin-bottom: 8px;
     }
-
     .public-feature-item span {
         font-size: 16px;
         font-weight: 700;
@@ -406,42 +343,34 @@ textarea {
         text-align: center;
         line-height: 1.5;
     }
-
     .public-feature-item:hover {
         background: #fff;
         transform: translateY(-8px);
         box-shadow: 0 15px 35px rgba(0,0,0,.12);
     }
-
         .public-feature-item:hover i {
             transform: scale(1.15) rotate(8deg);
             color: #b8862f;
         }
-
 @media (max-width:768px) {
     .public-feature-item {
         padding: 18px 10px;
     }
-
         .public-feature-item i {
             font-size: 34px;
         }
-
         .public-feature-item span {
             font-size: 14px;
         }
 }
-
 /* =========================
    FOOTER
    ========================= */
-
 .public-footer {
     padding: 72px 0 23px;
     background: #111111;
     color: rgba(255, 255, 255, 0.67);
 }
-
 .public-footer-brand {
     display: inline-block;
     margin-bottom: 19px;
@@ -450,31 +379,26 @@ textarea {
     font-size: 31px;
     font-weight: 700;
 }
-
     .public-footer-brand:hover {
         color: #ffffff;
     }
-
 .public-footer-description {
     max-width: 390px;
     margin: 0;
     color: rgba(255, 255, 255, 0.63);
     line-height: 1.8;
 }
-
 .public-footer h5 {
     margin-bottom: 20px;
     color: #ffffff;
     font-family: "Cinzel", serif;
     font-size: 17px;
 }
-
 .public-footer-social {
     display: flex;
     gap: 10px;
     margin-top: 22px;
 }
-
     .public-footer-social a {
         width: 40px;
         height: 40px;
@@ -486,56 +410,46 @@ textarea {
         color: #ffffff;
         transition: 0.25s ease;
     }
-
         .public-footer-social a:hover {
             border-color: var(--layout-gold);
             background: var(--layout-gold);
             transform: translateY(-3px);
         }
-
 .public-footer-links,
 .public-contact-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-
     .public-footer-links li {
         margin-bottom: 10px;
         color: rgba(255, 255, 255, 0.62);
     }
-
     .public-footer-links a {
         color: rgba(255, 255, 255, 0.62);
         transition: 0.22s ease;
     }
-
         .public-footer-links a:hover {
             padding-left: 5px;
             color: #d4b16a;
         }
-
 .public-contact-list {
     display: grid;
     gap: 13px;
 }
-
     .public-contact-list li {
         display: flex;
         align-items: flex-start;
         gap: 10px;
     }
-
     .public-contact-list i {
         margin-top: 3px;
         color: #caa865;
     }
-
 .public-footer-divider {
     margin: 42px 0 20px;
     border-color: rgba(255, 255, 255, 0.14);
 }
-
 .public-footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -543,25 +457,20 @@ textarea {
     color: rgba(255, 255, 255, 0.48);
     font-size: 12px;
 }
-
     .public-footer-bottom a {
         color: rgba(255, 255, 255, 0.58);
     }
-
         .public-footer-bottom a:hover {
             color: #d4b16a;
         }
-
 .public-footer a {
     color: inherit;
     text-decoration: none;
     transition: .2s;
 }
-
     .public-footer a:hover {
         color: #d4af37;
     }
-
 .scroll-top {
     position: fixed;
     right: 23px;
@@ -582,28 +491,23 @@ textarea {
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
     z-index: 1040;
 }
-
     .scroll-top.show {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
     }
-
     .scroll-top:hover {
         background: var(--layout-gold-dark);
     }
-
 @media (max-width: 991.98px) {
     .public-navbar,
     .public-navbar-home {
         padding: 11px 0;
         background: rgba(15, 15, 15, 0.97);
     }
-
     .public-navbar-solid {
         background: #ffffff;
     }
-
     .public-navbar .navbar-collapse {
         margin-top: 12px;
         padding: 17px;
@@ -611,81 +515,65 @@ textarea {
         background: #171717;
         box-shadow: 0 18px 45px rgba(0, 0, 0, 0.23);
     }
-
     .public-navbar-solid .navbar-collapse {
         background: #ffffff;
     }
-
     .public-nav-list .nav-link::after {
         display: none;
     }
-
     .public-navbar-actions {
         align-items: stretch;
         flex-direction: column;
         margin-top: 13px;
     }
-
     .public-login-button,
     .public-register-button,
     .public-account-button {
         width: 100%;
     }
-
     .public-account-copy {
         max-width: none;
         flex: 1;
     }
-
     .public-account-menu {
         width: 100%;
     }
 }
-
 @media (max-width: 575.98px) {
     .public-brand-icon {
         width: 38px;
         height: 38px;
     }
-
     .public-brand-text strong {
         font-size: 20px;
     }
-
     .public-feature-bar {
         padding: 23px 0;
     }
-
     .public-feature-item i {
         font-size: 24px;
     }
-
     .public-footer {
         padding-top: 53px;
     }
-
     .public-footer-bottom {
         align-items: center;
         flex-direction: column;
         text-align: center;
     }
-
     .scroll-top {
         right: 15px;
         bottom: 15px;
     }
 }
-
 .public-footer ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
 }
-
     .public-footer ul li {
         margin-bottom: 12px;
     }
-
         .public-footer ul li a {
             display: inline-flex;
             align-items: center;
@@ -694,11 +582,9 @@ textarea {
             text-decoration: none;
             transition: all .25s ease;
         }
-
             .public-footer ul li a i {
                 color: #ffffff;
             }
-
             .public-footer ul li a:hover {
                 color: #ffffff;
                 text-decoration: underline;
