@@ -7,7 +7,7 @@ using QuanLyKhachSan.ViewModels;
 
 namespace QuanLyKhachSan.Controllers
 {
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public class RoomMiniBarsController : Controller
     {
         private readonly ApplicationDbContext _context;

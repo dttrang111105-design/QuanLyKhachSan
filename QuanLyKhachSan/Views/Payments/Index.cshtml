@@ -1,15 +1,17 @@
 @model IEnumerable<QuanLyKhachSan.Models.Payment>
 @using QuanLyKhachSan.Enums
 @using QuanLyKhachSan.Models
+
 @{
-    bool isAdmin = User.IsInRole("Admin");
     bool isReceptionist = User.IsInRole("Receptionist");
-    Layout = isAdmin
-        ? "~/Views/Shared/_AdminLayout.cshtml"
-        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+
+    Layout = isReceptionist
+        ? "~/Views/Shared/_ReceptionistLayout.cshtml"
+        : "~/Views/Shared/_AdminLayout.cshtml";
+
     ViewData["Title"] = "Quản lý thanh toán";
-    List<Payment> payments =
-        Model?.ToList() ?? new List<Payment>();
+
+    List<Payment> payments = Model?.ToList() ?? new List<Payment>();
     int totalPayments = payments.Count;
     int paidPayments = payments.Count(payment =>
         payment.PaymentStatus == PaymentStatus.Paid);
@@ -435,7 +437,7 @@
                                    title="Chỉnh sửa">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                @if (isAdmin)
+                                @if (isReceptionist)
                                 {
                                     <a asp-controller="Payments"
                                        asp-action="Delete"

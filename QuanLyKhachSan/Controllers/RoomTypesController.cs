@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKhachSan.Data;
 using QuanLyKhachSan.Models;
-[Authorize(Roles = "Admin,Receptionist")]
+[Authorize(Roles = "Admin")]
 public class RoomTypesController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -11,7 +11,7 @@ public class RoomTypesController : Controller
     {
         _context = context;
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+
     public async Task<IActionResult> Index()
     {
         var roomTypes = await _context.RoomTypes
@@ -44,7 +44,7 @@ public class RoomTypesController : Controller
         }
         return View(roomType);
     }
-    [Authorize(Roles = "Admin")]
+
     [HttpGet]
     public IActionResult Create()
     {
@@ -54,7 +54,7 @@ public class RoomTypesController : Controller
             Area = 1
         });
     }
-    [Authorize(Roles = "Admin")]
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(

@@ -1,14 +1,18 @@
 @model IEnumerable<QuanLyKhachSan.Models.Invoice>
 @using QuanLyKhachSan.Enums
 @using QuanLyKhachSan.Models
+
 @{
-    bool isAdmin = User.IsInRole("Admin");
-    Layout = isAdmin
-        ? "~/Views/Shared/_AdminLayout.cshtml"
-        : "~/Views/Shared/_ReceptionistLayout.cshtml";
+    bool isReceptionist = User.IsInRole("Receptionist");
+
+    Layout = isReceptionist
+        ? "~/Views/Shared/_ReceptionistLayout.cshtml"
+        : "~/Views/Shared/_AdminLayout.cshtml";
+
     ViewData["Title"] = "Quản lý hóa đơn";
-    List<Invoice> invoices =
-        Model?.ToList() ?? new List<Invoice>();
+
+    List<Invoice> invoices = Model?.ToList() ?? new List<Invoice>();
+
     decimal PaidAmount(Invoice invoice)
     {
         return invoice.Payments?
@@ -436,13 +440,12 @@
                                         <i class="bi bi-credit-card"></i>
                                     </a>
                                 }
-                                @if (isAdmin)
+                                @if (isReceptionist)
                                 {
                                     <a asp-controller="Invoices"
                                        asp-action="Delete"
                                        asp-route-id="@invoice.Id"
-                                       class="invoice-action-button
-                                        invoice-action-delete"
+                                       class="invoice-action-button invoice-action-delete"
                                        title="Xóa hóa đơn">
                                         <i class="bi bi-trash"></i>
                                     </a>

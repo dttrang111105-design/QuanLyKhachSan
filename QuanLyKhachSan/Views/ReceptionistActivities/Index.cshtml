@@ -368,11 +368,11 @@
                                     else { <span class="text-muted">—</span> }
                                 </td>
                                 <td>
-                                    @if (item.InvoiceId.HasValue && !string.IsNullOrWhiteSpace(item.InvoiceCode))
+                                    @if (item.InvoiceId.HasValue &&
+                                        !string.IsNullOrWhiteSpace(item.InvoiceCode))
                                     {
-                                        <a asp-controller="Invoices" asp-action="Details" asp-route-id="@item.InvoiceId">@item.InvoiceCode</a>
+                                        <span>@item.InvoiceCode</span>
                                     }
-                                    else { <span class="text-muted">—</span> }
                                 </td>
                                 <td>@(string.IsNullOrWhiteSpace(item.Description) ? "—" : item.Description)</td>
                             </tr>

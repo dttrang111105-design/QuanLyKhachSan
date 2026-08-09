@@ -18,7 +18,7 @@ public class InvoicesController : Controller
         _context = context;
         _pdf = pdf;
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Index()
     {
         var invoices = await _context.Invoices
@@ -31,7 +31,7 @@ public class InvoicesController : Controller
             .ToListAsync();
         return View(invoices);
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Details(int id)
     {
         var invoice = await GetInvoiceDetailsQuery()
@@ -51,7 +51,7 @@ public class InvoicesController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Create(
         [Bind("BookingId,DiscountPercent,TaxPercent")]
         Invoice invoice)
@@ -108,7 +108,7 @@ public class InvoicesController : Controller
         TempData["Success"] = "Tạo hóa đơn thành công.";
         return RedirectToAction(nameof(Details), new { id = invoice.Id });
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Edit(int id)
     {
         var invoice = await _context.Invoices
@@ -123,7 +123,7 @@ public class InvoicesController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Edit(
         int id,
         [Bind("Id,DiscountPercent,TaxPercent")]
@@ -207,7 +207,7 @@ public class InvoicesController : Controller
         TempData["Success"] = "Xóa hóa đơn thành công.";
         return RedirectToAction(nameof(Index));
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> ExportPdf(int id)
     {
         var invoice = await GetInvoiceDetailsQuery()

@@ -22,7 +22,7 @@ public class PaymentsController : Controller
         _configuration = configuration;
         _activityService = activityService;
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Index()
     {
         var payments = await _context.Payments
@@ -33,7 +33,7 @@ public class PaymentsController : Controller
             .ToListAsync();
         return View(payments);
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Details(int id)
     {
         var payment = await _context.Payments
@@ -47,7 +47,7 @@ public class PaymentsController : Controller
         }
         return View(payment);
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Create(int invoiceId)
     {
         var invoice = await _context.Invoices
@@ -86,7 +86,7 @@ public class PaymentsController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Create(PaymentViewModel model)
     {
         if (!ModelState.IsValid)
@@ -149,7 +149,7 @@ public class PaymentsController : Controller
             "Invoices",
             new { id = invoice.Id });
     }
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Edit(int id)
     {
         var payment = await _context.Payments
@@ -167,7 +167,7 @@ public class PaymentsController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin,Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Edit(
         int id,
         [Bind(
@@ -225,7 +225,7 @@ public class PaymentsController : Controller
             "Cập nhật thanh toán thành công.";
         return RedirectToAction(nameof(Details), new { id = payment.Id });
     }
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> Delete(int id)
     {
         var payment = await _context.Payments
@@ -239,7 +239,7 @@ public class PaymentsController : Controller
     }
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var payment = await _context.Payments
@@ -254,7 +254,7 @@ public class PaymentsController : Controller
         return RedirectToAction(nameof(Index));
     }
     // Khách hàng chỉ được mở QR của hóa đơn thuộc Booking của mình.
-    [Authorize(Roles = "Customer,Admin,Receptionist")]
+    [Authorize(Roles = "Customer,Receptionist")]
     public async Task<IActionResult> PaymentQr(int invoiceId)
     {
         var invoice = await _context.Invoices
@@ -308,7 +308,7 @@ public class PaymentsController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Customer,Admin,Receptionist")]
+    [Authorize(Roles = "Customer,Receptionist")]
     public async Task<IActionResult> ConfirmPayment(int id, PaymentMethod paymentMethod)
     {
         if (!Enum.IsDefined(typeof(PaymentMethod), paymentMethod))
